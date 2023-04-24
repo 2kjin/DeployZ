@@ -2,15 +2,28 @@ import React from "react";
 
 import styled from "styled-components";
 
+//import images
+import check from "../../assets/img/check.png";
+import x from "../../assets/img/x.png";
+import plusbotton from "../../assets/img/plusbotton.png";
+
 export default function ProjectListItem() {
   return (
     <>
       <SListBox>
         <SListContentDiv>
+          <SImg src={check} />
+          <SImg src={x} />
           <SProjectName>DeployZ</SProjectName>
           <SItemCnt>3</SItemCnt>
           <SBuildSuccess>3days</SBuildSuccess>
           <SBuildFail>3days</SBuildFail>
+          <SButton>상세보기</SButton>
+        </SListContentDiv>
+      </SListBox>
+      <SListBox>
+        <SListContentDiv>
+          <SImg src={plusbotton} />
         </SListContentDiv>
       </SListBox>
     </>
@@ -63,4 +76,20 @@ const SListContentDiv = styled.div`
   margin-top: 3vh;
   margin-bottom: 5vh;
   max-width: 50vw;
+`;
+
+const SImg = styled.img`
+  width: 38px;
+  height: 38px;
+`;
+
+const SButton = styled.button`
+  border: 2px solid #fea51d;
+  border-radius: 50px;
+  background: #fea51d;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  width: 100px;
+  height: 50px;
 `;

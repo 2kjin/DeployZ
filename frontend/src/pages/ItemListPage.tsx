@@ -1,33 +1,50 @@
 import React from "react";
 
 //import components
-import ProjectList from "@components/project/ProjectList";
 import Header from "@components/common/Header";
+import ItemList from "@components/item/ItemList";
 
 //import css
 import styled from "styled-components";
 
-export default function ProjectListPage() {
+//import images
+import mainLogo from "../assets/img/main-logo.png";
+
+export default function ItemListPage() {
   return (
     <>
       <Header />
       <SWrapper>
         <STitleBox>
-          <STitle>프로젝트 목록</STitle>
+          <SEditButton>설정</SEditButton>
+          <SImg src={mainLogo} />
+          <STitle>프로젝트 이름</STitle>
         </STitleBox>
         <SListBox>
           <SListTitleDiv>
-            <SListTitle>프로젝트 명</SListTitle>
-            <SListTitle>아이템 수</SListTitle>
-            <SListTitle>최근 빌드 성공</SListTitle>
-            <SListTitle>최근 빌드 실패</SListTitle>
+            <SListTitle>이름</SListTitle>
+            <SListTitle>상태</SListTitle>
+            <SListTitle>포트</SListTitle>
+            <SListTitle>최근 성공</SListTitle>
+            <SListTitle>최근 실패</SListTitle>
           </SListTitleDiv>
-          <ProjectList />
+          <ItemList />
         </SListBox>
       </SWrapper>
     </>
   );
 }
+
+const SEditButton = styled.button`
+  border: 2px solid #fea51d;
+  border-radius: 50px;
+  background: #fea51d;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  width: 100px;
+  height: 50px;
+`;
 
 const STitleBox = styled.div`
   width: 70vw;
@@ -76,4 +93,9 @@ const SListTitleDiv = styled.div`
 
 const SWrapper = styled.div`
   margin-top: 8vh;
+`;
+
+const SImg = styled.img`
+  width: 150px;
+  height: 47px;
 `;
