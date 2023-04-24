@@ -31,8 +31,9 @@ const Loginbtn = styled.button`
   align-items: center;
   background-color: ${theme.colors.secondary};
   border-radius: 3rem;
-  padding: 1.5rem;
-  margin: 1rem;
+  border: none;
+  padding: 1.5vh;
+  margin: 1vh;
   font-size: 2rem;
   font-weight: bold;
 `;
