@@ -2,7 +2,11 @@ import { theme } from "@/styles/theme";
 import styled from "styled-components";
 
 export default function InputSection2() {
-  return <Container>인풋2</Container>;
+  return (
+    <Container>
+      <h1>Item 정보 입력</h1>
+    </Container>
+  );
 }
 
 const Container = styled.div`

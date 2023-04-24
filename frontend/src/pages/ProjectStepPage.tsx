@@ -2,6 +2,7 @@ import styled from "styled-components";
 import InputSection from "@components/CreateProject/InputSection2";
 import StepSection from "@components/common/StepSection";
 import Header from "@components/common/Header";
+import FooterNav from "@components/common/FooterNav";
 
 export default function ProjectStepPage() {
   return (
@@ -11,6 +12,7 @@ export default function ProjectStepPage() {
         <StepSection />
         <InputSection />
       </Container>
+      <FooterNav />
     </>
   );
 }

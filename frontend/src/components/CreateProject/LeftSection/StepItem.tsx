@@ -20,7 +20,7 @@ export default function StepItem({ item }: { item: IStepItem }) {
           )}
         </Circle>
         <DescSection status={item.status}>
-          <span>Step{item.number}</span>
+          <span>Step {item.number}</span>
           <b>{item.desc}</b>
         </DescSection>
         <StatusSection status={item.status}>
@@ -51,8 +51,8 @@ const Circle = styled.div<{ status: String }>`
     props.status == "before" ? theme.colors.lightgray : theme.colors.secondary};
   color: ${(props) =>
     props.status == "before" ? theme.colors.darkgray : "#fff"};
-  width: 7rem;
-  height: 7rem;
+  width: 6rem;
+  height: 6rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,6 +71,7 @@ const DescSection = styled.div<{ status: String }>`
 
   span {
     margin-bottom: 1rem;
+    font-size: 1.3rem;
   }
 `;
 
