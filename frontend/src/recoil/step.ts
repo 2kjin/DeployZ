@@ -1,5 +1,11 @@
 import { atom } from "recoil";
 
+export const chapterState = atom<number>({
+  key: "chapter",
+
+  default: 1,
+});
+
 export const stepState = atom<IStepItem[]>({
   key: "steps",
 

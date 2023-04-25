@@ -1,14 +1,14 @@
 import { theme } from "@/styles/theme";
-import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
-import { stepState } from "@/recoil/step";
+import { chapterState, stepState } from "@/recoil/step";
 
 export default function FooterNav() {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const nowStep = Number(pathname.split("/").pop());
+  // const navigate = useNavigate();
+  // const { pathname } = useLocation();
+  // const nowStep = Number(pathname.split("/").pop());
   const [stepInfo, setStepInfo] = useRecoilState<IStepItem[]>(stepState);
+  const [currentChapter, setCurrentChapter] = useRecoilState<number>(chapterState);
 
   // stepInfo의 status 변경
   const handleStatusChangeBack = (value: number) => {
@@ -38,29 +38,31 @@ export default function FooterNav() {
   };
 
   const toBack = () => {
-    handleStatusChangeBack(nowStep - 1);
-    navigate(`${nowStep - 1}`);
+    handleStatusChangeBack(currentChapter - 1);
+    // navigate(`${nowStep - 1}`, { replace: true });
+    setCurrentChapter(currentChapter - 1);
   };
 
   const toNext = () => {
-    handleStatusChangeNext(nowStep - 1);
-    navigate(`${nowStep + 1}`);
+    handleStatusChangeNext(currentChapter - 1);
+    // navigate(`${nowStep + 1}`, { replace: true });
+    setCurrentChapter(currentChapter + 1);
   };
   return (
     <Container>
       <Left>
         <NavBtn className="Infra">인프라 가이드 보러가기</NavBtn>
       </Left>
-      <Right chapter={nowStep}>
+      <Right chapter={currentChapter}>
         <NavBtn className="back" onClick={toBack}>
           이전 단계
         </NavBtn>
-        {nowStep != 4 && (
+        {currentChapter != 4 && (
           <NavBtn className="next" onClick={toNext}>
             다음 단계
           </NavBtn>
         )}
-        {nowStep == 4 && (
+        {currentChapter == 4 && (
           <NavBtn className="next">
             <b>프로젝트 생성</b>
           </NavBtn>
