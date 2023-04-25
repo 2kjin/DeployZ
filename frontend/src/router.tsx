@@ -20,3 +20,5 @@ const router = createBrowserRouter([
   { path: "/project", element: <ProjectListPage /> },
   { path: "/item", element: <ItemListPage /> },
 ]);
+
+export default router;

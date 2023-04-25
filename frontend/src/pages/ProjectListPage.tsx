@@ -33,7 +33,7 @@ const STitleBox = styled.div`
   width: 70vw;
   height: 18vh;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 3rem;
   margin: 3vh auto 3vh;
   display: flex;
   justify-content: left;
@@ -51,7 +51,7 @@ const SListBox = styled.div`
   width: 70vw;
   height: 65vh;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 3rem;
   margin: 0px auto 3vh;
   padding-top: 1vh;
   overflow: auto;
@@ -67,11 +67,11 @@ const SListTitle = styled.p`
 const SListTitleDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 4rem;
   margin-left: 15%;
   margin-top: 3vh;
   margin-bottom: 5vh;
-  max-width: 50vw;
+  max-width: 45vw;
 `;
 
 const SWrapper = styled.div`
