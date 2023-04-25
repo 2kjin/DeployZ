@@ -5,7 +5,7 @@ export default function StepSection() {
   return (
     <Container>
       {ItemInfo.map((info: IStepItem) => (
-        <StepItem item={info} />
+        <StepItem key={info.number} item={info} />
       ))}
     </Container>
   );
@@ -24,22 +24,22 @@ const Container = styled.div`
 
 const ItemInfo = [
   {
-    number: "1",
+    number: 1,
     desc: "Project 설정 정보 입력",
     status: "after",
   },
   {
-    number: "2",
+    number: 2,
     desc: "Item 정보 입력",
     status: "now",
   },
   {
-    number: "3",
+    number: 3,
     desc: "Git 정보 입력",
     status: "before",
   },
   {
-    number: "4",
+    number: 4,
     desc: "Nginx 설정 정보 입력",
     status: "before",
   },
