@@ -1,5 +1,5 @@
 interface IStepItem {
-  number: String;
+  number: number;
   desc: String;
   status: String;
 }
