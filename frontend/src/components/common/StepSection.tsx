@@ -24,4 +24,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  overflow: auto;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
