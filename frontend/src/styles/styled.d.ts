@@ -13,6 +13,7 @@ declare module "styled-components" {
       pending: string;
       darkgray: string;
       lightgray: string;
+      textbg: string;
     };
     fontWeight: {
       normal: number;

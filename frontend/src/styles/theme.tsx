@@ -13,6 +13,7 @@ export const theme: DefaultTheme = {
     pending: "#d8effd",
     darkgray: "#a5a5a5",
     lightgray: "#ebebeb",
+    textbg: "#F0E4D1",
   },
   fontWeight: {
     normal: 400,
