@@ -1,23 +1,39 @@
 import { theme } from "@/styles/theme";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const tempChapter = 1;
-
 export default function FooterNav() {
+  const { pathname } = useLocation();
+  const nowStep = Number(pathname.split("/").pop());
+
+  const navigate = useNavigate();
+
+  const toBack = () => {
+    navigate(`${nowStep - 1}`);
+  };
+
+  const toNext = () => {
+    navigate(`${nowStep + 1}`);
+  };
   return (
     <Container>
       <Left>
-        <NavBtn chapter={tempChapter} className="Infra">
-          인프라 가이드 보러가기
-        </NavBtn>
+        <NavBtn className="Infra">인프라 가이드 보러가기</NavBtn>
       </Left>
-      <Right>
-        <NavBtn chapter={tempChapter} className="back">
+      <Right chapter={nowStep}>
+        <NavBtn className="back" onClick={toBack}>
           이전 단계
         </NavBtn>
-        <NavBtn chapter={tempChapter} className="next">
-          다음 단계
-        </NavBtn>
+        {nowStep != 4 && (
+          <NavBtn className="next" onClick={toNext}>
+            다음 단계
+          </NavBtn>
+        )}
+        {nowStep == 4 && (
+          <NavBtn className="next">
+            <b>프로젝트 생성</b>
+          </NavBtn>
+        )}
       </Right>
     </Container>
   );
@@ -41,7 +57,7 @@ const Left = styled.div`
   }
 `;
 
-const Right = styled.div`
+const Right = styled.div<{ chapter: number | undefined }>`
   flex: 4;
   display: flex;
   flex-direction: row;
@@ -51,6 +67,7 @@ const Right = styled.div`
 
   .back {
     background-color: ${theme.colors.error};
+    visibility: ${(props) => (props.chapter == 1 ? "hidden" : "")};
   }
 
   .next {
@@ -58,7 +75,7 @@ const Right = styled.div`
   }
 `;
 
-const NavBtn = styled.div<{ chapter: Number }>`
+const NavBtn = styled.div`
   background-color: ${theme.colors.darkgray};
   border-radius: 10px;
   padding: 1rem;

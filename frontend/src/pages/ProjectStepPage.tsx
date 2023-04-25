@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import InputSection from "@components/CreateProject/InputSection2";
 import StepSection from "@components/common/StepSection";
 import Header from "@components/common/Header";
 import FooterNav from "@components/common/FooterNav";
+import { Outlet } from "react-router-dom";
 
 export default function ProjectStepPage() {
   return (
@@ -10,7 +10,7 @@ export default function ProjectStepPage() {
       <Header />
       <Container>
         <StepSection />
-        <InputSection />
+        <Outlet />
       </Container>
       <FooterNav />
     </>
