@@ -1,18 +1,49 @@
 import { theme } from "@/styles/theme";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { stepState } from "@/recoil/step";
 
 export default function FooterNav() {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const nowStep = Number(pathname.split("/").pop());
+  const [stepInfo, setStepInfo] = useRecoilState<IStepItem[]>(stepState);
 
-  const navigate = useNavigate();
+  // stepInfo의 status 변경
+  const handleStatusChangeBack = (value: number) => {
+    const updatedStepInfo = stepInfo.map((step, index) => {
+      if (index === value - 1) {
+        return { ...step, status: "now" };
+      } else if (index === value) {
+        return { ...step, status: "after" };
+      } else {
+        return step;
+      }
+    });
+    setStepInfo(updatedStepInfo);
+  };
+
+  const handleStatusChangeNext = (value: number) => {
+    const updatedStepInfo = stepInfo.map((step, index) => {
+      if (index === value) {
+        return { ...step, status: "after" };
+      } else if (index === value + 1) {
+        return { ...step, status: "now" };
+      } else {
+        return step;
+      }
+    });
+    setStepInfo(updatedStepInfo);
+  };
 
   const toBack = () => {
+    handleStatusChangeBack(nowStep - 1);
     navigate(`${nowStep - 1}`);
   };
 
   const toNext = () => {
+    handleStatusChangeNext(nowStep - 1);
     navigate(`${nowStep + 1}`);
   };
   return (
