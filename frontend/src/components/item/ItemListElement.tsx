@@ -19,6 +19,7 @@ export default function ItemListElement() {
           <SItemName>FE</SItemName>
           <SItemStatus>
             <SImg src={check} />
+            <SImg src={x} />
           </SItemStatus>
           <SItemPort>3000, 3001</SItemPort>
           <SItemSuccess>3 days</SItemSuccess>
@@ -39,6 +40,7 @@ const SListBox = styled.div`
   border-radius: 10px;
   margin: 3vh auto 3vh;
   display: flex;
+  overflow: hidden;
 `;
 
 const SImg = styled.img`
