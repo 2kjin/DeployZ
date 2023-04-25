@@ -20,9 +20,11 @@ export default function LandingPage() {
       open={open}
       onClose={handleClose}
       >
-      <InfraGuideModal
-      // handleClose = {handleClose}
-      />
+      <>
+        <InfraGuideModal
+        // handleClose = {handleClose}
+        />
+      </>
       </Modal>
       <Guidebtn>Start Now</Guidebtn>
     </div>
