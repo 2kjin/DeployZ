@@ -52,10 +52,10 @@ public class Project {
 	@OneToMany(mappedBy = "project", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<Item> items = new ArrayList<>();
 	@OneToOne
-	@JoinColumn(name = "gitConfig")
+	@JoinColumn(name = "git_config_idx")
 	private GitConfig gitConfig;
 	@OneToOne
-	@JoinColumn(name = "nginxConfig")
+	@JoinColumn(name = "nginx_config_idx")
 	private NginxConfig nginxConfig;
 
 	@Builder
