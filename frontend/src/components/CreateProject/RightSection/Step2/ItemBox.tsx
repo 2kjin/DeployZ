@@ -91,7 +91,7 @@ export default function ItemBox({ itemName }: { itemName: string }) {
       {/* 첫번째 줄 */}
       <InputContainer>
         <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem" }}>
+          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
             Item Name
           </InputLabel>
           <InputBox
@@ -104,7 +104,7 @@ export default function ItemBox({ itemName }: { itemName: string }) {
           />
         </FormControl>
         <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem" }}>
+          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
             Port Number 1
           </InputLabel>
           <InputBox
@@ -117,7 +117,7 @@ export default function ItemBox({ itemName }: { itemName: string }) {
           />
         </FormControl>
         <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem" }}>
+          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
             Port Number 2
           </InputLabel>
           <InputBox
@@ -133,7 +133,7 @@ export default function ItemBox({ itemName }: { itemName: string }) {
       {/* 2번째 줄 */}
       <InputContainer>
         <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem" }}>
+          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
             Branch Name
           </InputLabel>
           <InputBox
@@ -146,7 +146,7 @@ export default function ItemBox({ itemName }: { itemName: string }) {
           />
         </FormControl>
         <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem" }}>
+          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
             Target Folder
           </InputLabel>
           <InputBox
@@ -166,7 +166,7 @@ export default function ItemBox({ itemName }: { itemName: string }) {
       {/* 3번째 줄 */}
       <InputContainer>
         <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem" }}>
+          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
             Framework
           </InputLabel>
           <Select

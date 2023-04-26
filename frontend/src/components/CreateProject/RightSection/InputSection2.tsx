@@ -1,6 +1,6 @@
 import { theme } from "@/styles/theme";
 import styled from "styled-components";
-import ItemBox from "./Chapter2/ItemBox";
+import ItemBox from "./Step2/ItemBox";
 import { useRecoilValue } from "recoil";
 import { itemListState } from "@/recoil/step";
 
