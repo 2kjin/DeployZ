@@ -5,51 +5,74 @@ import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeli
 import { Filter1Rounded, Filter2Rounded, Filter3Rounded, Filter4Rounded, Filter5Rounded, Filter6Rounded, Filter7Rounded, Filter8Rounded, Filter9Rounded  } from '@mui/icons-material';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { styled as mstyled } from "@mui/material/styles";
-import Guide1 from "@/assets/guide2.png";
-
+import * as THREE from 'three';
+import { useEffect, useRef } from 'react';
 
 type Props = {
   handleClose: () => void;
 }
 
-export default function InfraGuideModal({ handleClose }: Props) {
-  return (
-    <>
-    <ModalContainer>
-    <Icondiv>
-    <CloseIcon sx={{ fontSize: 50 }} onClick={handleClose}/>
-    </Icondiv>
-    <Timlinediv>
-    <VerticalTimeline
-      lineColor = {`${theme.colors.secondary}`}
-      >
-      {timelineData.map((data, index) => (
-        <VerticalTimelineElement
-          intersectionObserverProps={{
-          root: null,
-          rootMargin: '0px',
-          threshold: 1.0
-          }}
-          key={index}
-          iconStyle={{ background: `${theme.colors.primary}`, color: `${theme.colors.white}` }}
-          icon={data.icon}
-          contentStyle = {{
-            borderRadius : '1rem', width : '42%',
-          }}
-          // style={{ width: "80%", margin: '2rem auto' }}
-        >
-          <Title>{data.title}</Title>
-          {data.content}
-        </VerticalTimelineElement>
-      ))}
-    </VerticalTimeline>
-    </Timlinediv>
-    </ModalContainer>
-    </>
-  )
-}
+export default function ThreejsTestModal({ handleClose }: Props) {
+  // 씬 초기화 함수를 선언합니다.
+  const canvasContainerRef = useRef<HTMLDivElement | null>(null);
 
-const ModalContainer = styled.div`
+  useEffect(() => {
+    if (canvasContainerRef.current) {
+      const cleanup = initThreeJS(canvasContainerRef.current);
+      return cleanup;
+    }
+  }, [canvasContainerRef]);
+  
+
+
+  const initThreeJS = (container: HTMLDivElement) => {
+    // 기본 three.js 씬 설정
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    // 지오메트리 및 머터리얼을 사용해 메시를 생성합니다.
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial({ color: `${theme.colors.primary}` });
+    const cube = new THREE.Mesh(geometry, material);
+
+    scene.add(cube);
+    camera.position.z = 5;
+
+    // 애니메이션 루프
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+
+      renderer.render(scene, camera);
+    };
+
+    // animate(); 
+    
+    const cleanup = () => {
+      // 애니메이션 취소
+      // cancelAnimationFrame(animate);
+  
+      // 씬에서 객체 제거
+      scene.remove(cube);
+  
+      // 메모리 해제
+      geometry.dispose();
+      material.dispose();
+  
+      // 컨테이너에서 캔버스 제거
+      container.removeChild(renderer.domElement);
+    };
+  
+    return cleanup;
+  };
+
+  const ModalContainer = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -104,11 +127,10 @@ const Text = styled.div`
   padding : 1rem;
   font-weight: ${theme.fontWeight.semibold};
   line-height: 150%;
-
 `
-const Img = styled.img`
+const CanvasContainer  = styled.div`
   height : 50%;
-  width : 50%;
+  width : 70%;
 `
 const timelineData = [
   {
@@ -117,7 +139,7 @@ const timelineData = [
     content: (
       <Contentdiv>
       <Text>AWS에서 적절한 AMI와 인스턴스 유형을 선택하여 EC2 인스턴스를 생성하고, 보안 그룹 및 SSH 키를 설정합니다.</Text>
-      <Img alt="Guide1" src={Guide1}></Img>
+      <CanvasContainer ref={canvasContainerRef}></CanvasContainer>
       </Contentdiv>
     ),
   },
@@ -181,3 +203,42 @@ const timelineData = [
     ),
   },
 ];
+
+  return (
+    <>
+    <ModalContainer>
+    {/* <Topdiv>
+    </Topdiv> */}
+    <Icondiv>
+    <CloseIcon sx={{ fontSize: 50 }} onClick={handleClose}/>
+    </Icondiv>
+    <Timlinediv>
+    <VerticalTimeline
+      lineColor = {`${theme.colors.secondary}`}
+      >
+      {timelineData.map((data, index) => (
+        <VerticalTimelineElement
+          intersectionObserverProps={{
+          root: null,
+          rootMargin: '0px',
+          threshold: 1.0
+          }}
+          key={index}
+          iconStyle={{ background: `${theme.colors.primary}`, color: `${theme.colors.white}` }}
+          icon={data.icon}
+          contentStyle = {{
+            borderRadius : '1rem', width : '42%',
+          }}
+          // style={{ width: "80%", margin: '2rem auto' }}
+        >
+          <Title>{data.title}</Title>
+          {data.content}
+        </VerticalTimelineElement>
+      ))}
+    </VerticalTimeline>
+    </Timlinediv>
+    </ModalContainer>
+    </>
+  )
+}
+
