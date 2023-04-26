@@ -6,10 +6,38 @@ import { Card, CardContent, Typography } from "@mui/material";
 import check from "../../assets/img/check.png";
 import plusbotton from "../../assets/img/plusbotton.png";
 
+export default function ProjectListItem() {
+  return (
+    <>
+      <StyledCard>
+        <StyledCardContent>
+          <StyledImage src={check} alt="check" />
+          <StyledTypography>DeployZ</StyledTypography>
+          <StyledItemTypography>3</StyledItemTypography>
+          <StyledSuccessTypography>
+            3days
+            <SContainerButton>#fe-develop</SContainerButton>
+          </StyledSuccessTypography>
+          <StyledFailTypography>
+            3days
+            <SContainerButton>#fe-develop</SContainerButton>
+          </StyledFailTypography>
+          <StyledButton>상세보기</StyledButton>
+        </StyledCardContent>
+      </StyledCard>
+      <StyledPlusButtonCard>
+        <StyledPlusButtonCardContent>
+          <StyledPlusButtonImage src={plusbotton} alt="plusbotton" />
+        </StyledPlusButtonCardContent>
+      </StyledPlusButtonCard>
+    </>
+  );
+}
+
 const StyledCard = styled(Card)`
   width: 65vw;
-  height: 12em;
-  margin: 3vh auto 3vh;
+  height: 12vh;
+  margin: 1vh auto;
   align-items: center;
   && {
     border: 2px solid #f3f4f3;
@@ -25,15 +53,17 @@ const StyledCard = styled(Card)`
 
 const StyledCardContent = styled(CardContent)`
   display: flex;
-  align-items: center;
   justify-content: space-between;
   flex-direction: row;
   && {
-    padding-top: 3.5rem;
+    padding-top: 3rem;
+    align-items: center;
     overflow: auto;
     ::-webkit-scrollbar {
       display: none;
     }
+    padding-left: 0;
+    padding-right: 0;
   }
 `;
 
@@ -41,7 +71,6 @@ const StyledTypography = styled(Typography)`
   && {
     font-size: 2.5rem;
     font-weight: 700;
-    margin-left: 5rem;
   }
 `;
 
@@ -55,14 +84,14 @@ const StyledButton = styled.button`
   cursor: pointer;
   width: 9rem;
   height: 5rem;
+  &:hover {
+    background-color: #ffd51d;
+    border-color: #ffd51d;
+  }
 `;
 
 const StyledImage = styled.img`
   flex-basis: 4rem;
-  margin-right: 5rem;
-  && {
-    margin-right: 5rem;
-  }
 `;
 
 const StyledPlusButtonCard = styled(Card)`
@@ -130,31 +159,3 @@ const StyledFailTypography = styled(Typography)`
     margin-left: 5rem;
   }
 `;
-
-export default function ProjectListItem() {
-  return (
-    <>
-      <StyledCard>
-        <StyledCardContent>
-          <StyledImage src={check} alt="check" />
-          <StyledTypography>DeployZ</StyledTypography>
-          <StyledItemTypography>3</StyledItemTypography>
-          <StyledSuccessTypography>
-            3days
-            <SContainerButton>#fe-develop</SContainerButton>
-          </StyledSuccessTypography>
-          <StyledFailTypography>
-            3days
-            <SContainerButton>#fe-develop</SContainerButton>
-          </StyledFailTypography>
-          <StyledButton>상세보기</StyledButton>
-        </StyledCardContent>
-      </StyledCard>
-      <StyledPlusButtonCard>
-        <StyledPlusButtonCardContent>
-          <StyledPlusButtonImage src={plusbotton} alt="plusbotton" />
-        </StyledPlusButtonCardContent>
-      </StyledPlusButtonCard>
-    </>
-  );
-}

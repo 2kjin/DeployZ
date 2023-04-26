@@ -31,7 +31,7 @@ export default function ProjectListPage() {
 
 const STitleBox = styled.div`
   width: 70vw;
-  height: 18vh;
+  height: 15vh;
   background-color: white;
   border-radius: 3rem;
   margin: 3vh auto 3vh;
@@ -53,12 +53,10 @@ const SListBox = styled.div`
   background-color: white;
   border-radius: 3rem;
   margin: 0px auto 3vh;
-  padding-top: 1vh;
   overflow: auto;
 `;
 
 const SListTitle = styled.p`
-  flex: 1;
   text-align: center;
   font-size: 2rem;
   font-weight: 800;
@@ -67,13 +65,9 @@ const SListTitle = styled.p`
 const SListTitleDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 4rem;
-  margin-left: 15%;
-  margin-top: 3vh;
-  margin-bottom: 5vh;
-  max-width: vw;
+  margin-top: 1vh;
+  max-width: 65vw;
+  justify-content: space-evenly;
 `;
 
-const SWrapper = styled.div`
-  margin-top: 8vh;
-`;
+const SWrapper = styled.div``;
