@@ -1,14 +1,16 @@
 import { theme } from "@/styles/theme";
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
-import { chapterState, stepState } from "@/recoil/step";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { chapterState, projectState, stepState } from "@/recoil/step";
 
 export default function FooterNav() {
   // const navigate = useNavigate();
   // const { pathname } = useLocation();
   // const nowStep = Number(pathname.split("/").pop());
+  const project = useRecoilValue<IProject>(projectState);
   const [stepInfo, setStepInfo] = useRecoilState<IStepItem[]>(stepState);
-  const [currentChapter, setCurrentChapter] = useRecoilState<number>(chapterState);
+  const [currentChapter, setCurrentChapter] =
+    useRecoilState<number>(chapterState);
 
   // stepInfo의 status 변경
   const handleStatusChangeBack = (value: number) => {
@@ -41,13 +43,23 @@ export default function FooterNav() {
     handleStatusChangeBack(currentChapter - 1);
     // navigate(`${nowStep - 1}`, { replace: true });
     setCurrentChapter(currentChapter - 1);
+    checkProject();
   };
 
   const toNext = () => {
     handleStatusChangeNext(currentChapter - 1);
     // navigate(`${nowStep + 1}`, { replace: true });
     setCurrentChapter(currentChapter + 1);
+    checkProject();
   };
+
+  const checkProject = () => {
+    console.log("STEP 1 :", project.projectConfig);
+    console.log("STEP 2 :", project.itemList);
+    console.log("STEP 3 :", project.gitConfig);
+    console.log("STEP 4 :", project.nginxConfig);
+  };
+
   return (
     <Container>
       <Left>
@@ -63,7 +75,7 @@ export default function FooterNav() {
           </NavBtn>
         )}
         {currentChapter == 4 && (
-          <NavBtn className="next">
+          <NavBtn className="next" onClick={checkProject}>
             <b>프로젝트 생성</b>
           </NavBtn>
         )}

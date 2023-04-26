@@ -1,13 +1,17 @@
 import { theme } from "@/styles/theme";
 import styled from "styled-components";
 import ItemBox from "./Chapter2/ItemBox";
+import { useRecoilValue } from "recoil";
+import { itemListState } from "@/recoil/step";
 
 export default function InputSection2() {
+  const itemList = useRecoilValue<IItem[]>(itemListState);
   return (
     <Container>
       <p className="subject">Item 정보 입력</p>
-      <ItemBox itemName="Front-end" />
-      <ItemBox itemName="Back-end" />
+      {itemList.map((item: IItem) => (
+        <ItemBox key={item.itemName} itemName={item.itemName} />
+      ))}
     </Container>
   );
 }

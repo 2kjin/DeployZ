@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import StepSection from "@components/common/StepSection";
+import StepSection from "@components/CreateProject/LeftSection/StepSection";
 import Header from "@components/common/Header";
 import FooterNav from "@components/common/FooterNav";
 import { useRecoilValue } from "recoil";

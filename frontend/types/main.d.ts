@@ -5,19 +5,23 @@ interface IStepItem {
 }
 
 interface IProject {
-  itemList: itemList[];
+  projectConfig: IProjectConfig;
+  itemList: IItem[];
   gitConfig: IGitConfig;
   nginxConfig: INginxConfig;
+}
 
+interface IProjectConfig {
   projectName: string;
   description: string;
   imageUrl: string;
 }
 
-interface IItemList {
+interface IItem {
+  [key: string]: string;
   itemName: string;
-  portNumber1: number;
-  portNumber2: number;
+  portNumber1: string;
+  portNumber2: string;
   branchName: string;
   secretToken: string;
   targetFolder: string;
