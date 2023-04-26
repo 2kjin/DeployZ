@@ -44,10 +44,7 @@ export default function InputSection2() {
           >
             Project ID
           </InputLabel>
-          <InputBox
-            placeholder={`해당 레포지토리의 project id를 입력하세요.`}
-            id="itemName"
-          />
+          <InputBox placeholder={`해당 레포지토리의 project id를 입력하세요.`} id="itemName" />
         </FormControl>
       </InputContainer>
 
@@ -55,10 +52,7 @@ export default function InputSection2() {
       <InputContainer>
         <Section>
           <Label>Webhook 연결</Label>
-          <p>
-            자동 배포 기능을 사용하려면 레포지토리에 직접 Branch별로 Webhook을
-            연결해야해요.
-          </p>
+          <p>자동 배포 기능을 사용하려면 레포지토리에 직접 Branch별로 Webhook을 연결해야해요.</p>
           <span>방법을 잘 모르시겠다면,</span>{" "}
           <span>
             <b>버튼!</b>
@@ -96,10 +90,7 @@ export default function InputSection2() {
             >
               Host URL
             </InputLabel>
-            <InputBoxSmall
-              placeholder={`ex) https://lab.ssafy.com/`}
-              id="itemName"
-            />
+            <InputBoxSmall placeholder={`ex) https://lab.ssafy.com/`} id="itemName" />
           </FormControl>
           <FormControl variant="standard" sx={{ marginTop: "2%" }}>
             <InputLabel

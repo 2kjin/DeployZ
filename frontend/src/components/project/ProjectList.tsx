@@ -1,10 +1,22 @@
 import React from "react";
-import ProjectListItem from "./projectListItem";
+import ProjectListItem, { Project } from "./projectListItem";
 
-export default function ProjectList() {
+interface ProjectListProps {
+  projects: Project[];
+}
+
+export default function ProjectList({ projects }: ProjectListProps): JSX.Element {
   return (
     <>
-      <ProjectListItem />
+      {projects.map((project: Project) => (
+        <ProjectListItem
+          key={project.id}
+          name={project.name}
+          itemCount={project.itemCount}
+          lastSuccessTime={project.lastSuccessTime}
+          lastFailureTime={project.lastFailureTime}
+        />
+      ))}
     </>
   );
 }

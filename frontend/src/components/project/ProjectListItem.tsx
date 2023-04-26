@@ -1,161 +1,70 @@
 import React from "react";
 import styled from "styled-components";
-import { Card, CardContent, Typography } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
+import Button from "@mui/material/Button";
 
 //import images
 import check from "../../assets/img/check.png";
 import plusbotton from "../../assets/img/plusbotton.png";
 
-export default function ProjectListItem() {
+export interface Project {
+  id: string;
+  name: string;
+  itemCount: number;
+  lastSuccessTime: string;
+  lastFailureTime: string;
+}
+
+export default function ProjectListItem({
+  name,
+  itemCount,
+  lastSuccessTime,
+  lastFailureTime,
+}: Project) {
   return (
     <>
-      <StyledCard>
-        <StyledCardContent>
-          <StyledImage src={check} alt="check" />
-          <StyledTypography>DeployZ</StyledTypography>
-          <StyledItemTypography>3</StyledItemTypography>
-          <StyledSuccessTypography>
-            3days
-            <SContainerButton>#fe-develop</SContainerButton>
-          </StyledSuccessTypography>
-          <StyledFailTypography>
-            3days
-            <SContainerButton>#fe-develop</SContainerButton>
-          </StyledFailTypography>
-          <StyledButton>상세보기</StyledButton>
-        </StyledCardContent>
-      </StyledCard>
-      <StyledPlusButtonCard>
-        <StyledPlusButtonCardContent>
-          <StyledPlusButtonImage src={plusbotton} alt="plusbotton" />
-        </StyledPlusButtonCardContent>
-      </StyledPlusButtonCard>
+      <SProjectListItem>
+        <Checkbox />
+        <SProjectName>{name}</SProjectName>
+        <SItemCount>{itemCount}</SItemCount>
+        <SLastSuccessTime>{lastSuccessTime}</SLastSuccessTime>
+        <SLastFailureTime>{lastFailureTime}</SLastFailureTime>
+        <SButton variant="contained">상세보기</SButton>
+      </SProjectListItem>
     </>
   );
 }
 
-const StyledCard = styled(Card)`
-  width: 65vw;
-  height: 12vh;
-  margin: 1vh auto;
-  align-items: center;
-  && {
-    border: 2px solid #f3f4f3;
-    background-color: #f3f4f3;
-    box-shadow: none;
-    border-radius: 1.5rem;
-    overflow: auto;
-    ::-webkit-scrollbar {
-      display: none;
-    }
-  }
-`;
-
-const StyledCardContent = styled(CardContent)`
+const SProjectListItem = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-direction: row;
-  && {
-    padding-top: 3rem;
-    align-items: center;
-    overflow: auto;
-    ::-webkit-scrollbar {
-      display: none;
-    }
-    padding-left: 0;
-    padding-right: 0;
-  }
-`;
-
-const StyledTypography = styled(Typography)`
-  && {
-    font-size: 2.5rem;
-    font-weight: 700;
-  }
-`;
-
-const StyledButton = styled.button`
-  border: 2px solid #fea51d;
-  border-radius: 5rem;
-  background: #fea51d;
-  color: white;
-  font-size: 1.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  width: 9rem;
-  height: 5rem;
-  &:hover {
-    background-color: #ffd51d;
-    border-color: #ffd51d;
-  }
-`;
-
-const StyledImage = styled.img`
-  flex-basis: 4rem;
-`;
-
-const StyledPlusButtonCard = styled(Card)`
-  width: 65vw;
-  height: 12em;
-  margin: 3vh auto 3vh;
-  border-radius: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  && {
-    border: 2px solid #f3f4f3;
-    background-color: #f3f4f3;
-    box-shadow: none;
-    border-radius: 1.5rem;
-  }
-`;
-
-const StyledPlusButtonCardContent = styled(CardContent)`
-  display: flex;
-  align-items: center;
   justify-content: space-between;
-  flex-direction: row;
-  && {
-    padding-top: 3.5rem;
-  }
+  align-items: center;
+  width: 100%;
+  height: 5vh;
+  padding: 0 3vw;
 `;
 
-const StyledPlusButtonImage = styled.img`
-  width: 6rem;
-  height: 6rem;
-  cursor: pointer;
+const SProjectName = styled.p`
+  font-size: 1.5rem;
+  width: 20%;
 `;
 
-const SContainerButton = styled.button`
-  border: 2px solid #d1d1d1;
-  border-radius: 0.5rem;
-  background: #d1d1d1;
-  color: #151649;
-  font-size: 1.2rem;
-  font-weight: bold;
-  width: 9rem;
-  height: 2.5rem;
-  margin-left: 1rem;
+const SItemCount = styled.p`
+  font-size: 1.5rem;
+  width: 10%;
 `;
 
-const StyledItemTypography = styled(Typography)`
-  && {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-left: 5rem;
-  }
+const SLastSuccessTime = styled.p`
+  font-size: 1.5rem;
+  width: 30%;
 `;
-const StyledSuccessTypography = styled(Typography)`
-  && {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-left: 5rem;
-  }
+
+const SLastFailureTime = styled.p`
+  font-size: 1.5rem;
+  width: 30%;
 `;
-const StyledFailTypography = styled(Typography)`
-  && {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-left: 5rem;
-  }
+
+const SButton = styled(Button)`
+  height: 3.5vh;
 `;
