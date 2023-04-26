@@ -3,14 +3,20 @@ import { theme } from "@/styles/theme"
 import 'react-vertical-timeline-component/style.min.css';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import { Filter1Rounded, Filter2Rounded, Filter3Rounded, Filter4Rounded, Filter5Rounded, Filter6Rounded, Filter7Rounded, Filter8Rounded, Filter9Rounded  } from '@mui/icons-material';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import { styled as mstyled } from "@mui/material/styles";
 
+type Props = {
+  handleClose: () => void;
+}
 
-export default function InfraGuideModal() {
+export default function InfraGuideModal({ handleClose }: Props) {
   return (
     <>
     <ModalContainer>
     <Topdiv>
     </Topdiv>
+    <CloseIcon sx={{ fontSize: 50 }} onClick={handleClose}/>
     <VerticalTimeline
       lineColor = {`${theme.colors.secondary}`}
       >
@@ -39,10 +45,6 @@ export default function InfraGuideModal() {
   )
 }
 
-const Topdiv = styled.div`
-  padding : 70vh;
-`
-
 const ModalContainer = styled.div`
   position: absolute;
   top: 50%;
@@ -53,7 +55,6 @@ const ModalContainer = styled.div`
   border: none;
   box-shadow: 0 2px 4px, 0px 1px 2px inset;
   border-radius: 4vh;
-  padding : auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,6 +66,19 @@ const ModalContainer = styled.div`
     display: none;
 }
 `
+const Topdiv = styled.div`
+  padding : 70vh;
+`
+const CloseIcon = mstyled(CancelRoundedIcon)({
+  position : 'sticky',
+  display : 'flex',
+  justifyContent : 'flex-end',
+  color : `${theme.colors.primary}`,
+  '&:hover': {
+    color: `${theme.colors.secondary}`,
+    cursor: 'pointer',
+  },
+});
 
 const timelineData = [
   {

@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "./pages/AppPage";
+import LandingPage from "./pages/LandingPage";
 import ProjectStepPage from "./pages/ProjectStepPage";
 import InputSection1 from "@components/CreateProject/RightSection/InputSection1";
 import InputSection2 from "@components/CreateProject/RightSection/InputSection2";
@@ -7,7 +7,7 @@ import InputSection3 from "@components/CreateProject/RightSection/InputSection3"
 import InputSection4 from "@components/CreateProject/RightSection/InputSection4";
 
 const router = createBrowserRouter([
-  { path: "/", element: <App /> },
+  { path: "/", element: <LandingPage /> },
   {
     path: "/step",
     element: <ProjectStepPage />,

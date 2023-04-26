@@ -1,13 +1,19 @@
 import styled from "styled-components";
 import { theme } from "@/styles/theme"
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import { styled as mstyled } from "@mui/material/styles";
 
-export default function InfraGuideModal() {
+
+type Props = {
+  handleClose: () => void;
+}
+
+export default function SSLGuideModal({ handleClose }: Props) {
   return (
     <>
     <ModalContainer>
       <Title>
-        SSL 인증서 발급 가이드 <CancelRoundedIcon sx={{ fontSize: 50 }} />
+        SSL 인증서 발급 가이드 <CloseIcon sx={{ fontSize: 50 }} onClick={handleClose}/>
       </Title><br/><br/>
       <SubTitle>
         https를 적용하기 위해선 SSL 인증서 발급이 필요합니다.<br/>
@@ -95,6 +101,15 @@ const ModalContainer = styled.div`
     display: none;
 }
 `
+const CloseIcon = mstyled(CancelRoundedIcon)({
+  position : 'sticky',
+  color : `${theme.colors.primary}`,
+  '&:hover': {
+    color: `${theme.colors.secondary}`,
+    cursor: 'pointer',
+  },
+});
+
 const Title = styled.div`
   color : ${theme.colors.primary};
   font-weight: ${theme.fontWeight.extrabold};
