@@ -34,8 +34,8 @@ public class Item {
 	private Long portNumber1;
 	@Column(name = "port_number2")
 	private Long portNumber2;
-	@Column(name = "branchName", length = 50)
-	private String branch_name;
+	@Column(name = "branch_name", length = 50)
+	private String branchName;
 	@Column(name = "target_folder_path", length = 100)
 	private String targetFolderPath;
 	@Column(name = "framework_type", length = 100)
@@ -58,7 +58,7 @@ public class Item {
 
 	@Builder
 	public Item(final Long idx, final String name, final Long portNumber1, final Long portNumber2,
-				final String branch_name, final String targetFolderPath,
+				final String branchName, final String targetFolderPath,
 				final String frameworkType, final String buildVersion,
 				final LocalDateTime lastSuccessDate,
 				final LocalDateTime lastFailureDate, final boolean deleteFlag, final Project project,
@@ -68,7 +68,7 @@ public class Item {
 		this.name = name;
 		this.portNumber1 = portNumber1;
 		this.portNumber2 = portNumber2;
-		this.branch_name = branch_name;
+		this.branchName = branchName;
 		this.targetFolderPath = targetFolderPath;
 		this.frameworkType = frameworkType;
 		this.buildVersion = buildVersion;
