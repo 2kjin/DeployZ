@@ -1,14 +1,16 @@
 import { theme } from "@/styles/theme";
-import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
-import { stepState } from "@/recoil/step";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { chapterState, projectState, stepState } from "@/recoil/step";
 
 export default function FooterNav() {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const nowStep = Number(pathname.split("/").pop());
+  // const navigate = useNavigate();
+  // const { pathname } = useLocation();
+  // const nowStep = Number(pathname.split("/").pop());
+  const project = useRecoilValue<IProject>(projectState);
   const [stepInfo, setStepInfo] = useRecoilState<IStepItem[]>(stepState);
+  const [currentChapter, setCurrentChapter] =
+    useRecoilState<number>(chapterState);
 
   // stepInfo의 status 변경
   const handleStatusChangeBack = (value: number) => {
@@ -38,30 +40,42 @@ export default function FooterNav() {
   };
 
   const toBack = () => {
-    handleStatusChangeBack(nowStep - 1);
-    navigate(`${nowStep - 1}`);
+    handleStatusChangeBack(currentChapter - 1);
+    // navigate(`${nowStep - 1}`, { replace: true });
+    setCurrentChapter(currentChapter - 1);
+    checkProject();
   };
 
   const toNext = () => {
-    handleStatusChangeNext(nowStep - 1);
-    navigate(`${nowStep + 1}`);
+    handleStatusChangeNext(currentChapter - 1);
+    // navigate(`${nowStep + 1}`, { replace: true });
+    setCurrentChapter(currentChapter + 1);
+    checkProject();
   };
+
+  const checkProject = () => {
+    console.log("STEP 1 :", project.projectConfig);
+    console.log("STEP 2 :", project.itemList);
+    console.log("STEP 3 :", project.gitConfig);
+    console.log("STEP 4 :", project.nginxConfig);
+  };
+
   return (
     <Container>
       <Left>
         <NavBtn className="Infra">인프라 가이드 보러가기</NavBtn>
       </Left>
-      <Right chapter={nowStep}>
+      <Right chapter={currentChapter}>
         <NavBtn className="back" onClick={toBack}>
           이전 단계
         </NavBtn>
-        {nowStep != 4 && (
+        {currentChapter != 4 && (
           <NavBtn className="next" onClick={toNext}>
             다음 단계
           </NavBtn>
         )}
-        {nowStep == 4 && (
-          <NavBtn className="next">
+        {currentChapter == 4 && (
+          <NavBtn className="next" onClick={checkProject}>
             <b>프로젝트 생성</b>
           </NavBtn>
         )}
