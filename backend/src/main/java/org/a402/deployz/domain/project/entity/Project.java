@@ -45,10 +45,6 @@ public class Project {
 	private LocalDateTime lastSuccessDate;
 	@Column(name = "last_modified_date")
 	private LocalDateTime lastModifiedDate;
-	@Column(name = "domain_url", length = 50)
-	private String domainUrl;
-	@Column(name = "SSL_path", length = 100)
-	private String SSLPath;
 	@Column(name = "description", length = 100)
 	private String description;
 	@Column(name = "image_path", length = 100)
@@ -58,25 +54,22 @@ public class Project {
 	@OneToOne
 	@JoinColumn(name = "gitConfig")
 	private GitConfig gitConfig;
+	@OneToOne
+	@JoinColumn(name = "nginxConfig")
+	private NginxConfig nginxConfig;
 
 	@Builder
-	public Project(final Long idx, final Member member, final boolean deletedFlag, final String projectName,
-		final LocalDateTime lastSuccessDate,
-		final LocalDateTime lastModifiedDate, final String domainUrl, final String SSLPath, final String description,
-		final String imagePath,
-		final List<Item> items, final GitConfig gitConfig) {
+	public Project(Long idx, Member member, boolean deletedFlag, String projectName, LocalDateTime lastSuccessDate, LocalDateTime lastModifiedDate, String description, String imagePath, List<Item> items, GitConfig gitConfig, NginxConfig nginxConfig) {
 		this.idx = idx;
 		this.member = member;
 		this.deletedFlag = deletedFlag;
 		this.projectName = projectName;
 		this.lastSuccessDate = lastSuccessDate;
 		this.lastModifiedDate = lastModifiedDate;
-		this.domainUrl = domainUrl;
-		this.SSLPath = SSLPath;
 		this.description = description;
 		this.imagePath = imagePath;
 		this.items = items;
 		this.gitConfig = gitConfig;
+		this.nginxConfig = nginxConfig;
 	}
-
 }
