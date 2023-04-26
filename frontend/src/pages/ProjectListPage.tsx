@@ -71,7 +71,7 @@ const SListTitleDiv = styled.div`
   margin-left: 15%;
   margin-top: 3vh;
   margin-bottom: 5vh;
-  max-width: 45vw;
+  max-width: vw;
 `;
 
 const SWrapper = styled.div`
