@@ -23,10 +23,6 @@ public class GitConfigRequest {
     private Integer projectId;
 
     @NotNull
-    @Schema(description = "깃 자격증명 아이디")
-    private String credentialId;
-
-    @NotNull
     @Schema(description = "깃 어세스 토큰")
     private String accessToken;
 
