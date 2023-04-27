@@ -1,6 +1,5 @@
 import React from "react";
 
-//import components
 import Header from "@components/common/Header";
 import ItemList from "@components/item/ItemList";
 
@@ -71,7 +70,7 @@ const STitleBox = styled.div`
   justify-content: space-between;
 `;
 
-const STitle = styled.p`
+const STitle = styled.span`
   color: ${theme.colors.primary};
   font-weight: ${theme.fontWeight.extrabold};
   font-size: 5.5rem;
