@@ -1,28 +1,8 @@
 import React from "react";
-import ProjectList, { ProjectListItemProps } from "@components/project/ProjectList";
+import ProjectList from "@components/project/ProjectList";
 import Header from "@components/common/Header";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
-
-const projectData: ProjectListItemProps[] = [
-  {
-    id: 1,
-    name: "DeployZ",
-    itemCount: 3,
-    lastSuccessTime: "3days 11hr",
-    lastFailureTime: "4days 2hr",
-    containerName: "#fe-develop",
-  },
-  {
-    id: 2,
-    name: "Actopus",
-    itemCount: 4,
-    lastSuccessTime: "1days 11hr",
-    lastFailureTime: "2days 5hr",
-    containerName: "#be-develop",
-  },
-  //...
-];
 
 export default function ProjectListPage(): JSX.Element {
   return (
@@ -38,7 +18,7 @@ export default function ProjectListPage(): JSX.Element {
           <SItem>최근 빌드 성공</SItem>
           <SItem>최근 빌드 실패</SItem>
         </SProjectName>
-        <ProjectList projects={projectData} />
+        <ProjectList />
       </SProjectList>
     </>
   );
@@ -51,7 +31,7 @@ const SProjectName = styled.div`
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
-  padding-right: 12rem;
+  padding-right: 10rem;
 `;
 const SItem = styled.span`
   font-size: 2.5rem;
@@ -60,7 +40,7 @@ const SItem = styled.span`
 `;
 
 const STitleBox = styled.div`
-  width: 75vw;
+  width: 80vw;
   height: 15vh;
   background-color: ${theme.colors.white};
   border-radius: 3rem;
@@ -78,7 +58,7 @@ const STitle = styled.span`
 `;
 
 const SProjectList = styled.div`
-  width: 75vw;
+  width: 80vw;
   height: 70vh;
   background-color: ${theme.colors.white};
   border-radius: 3rem;
