@@ -20,7 +20,10 @@ public enum GlobalErrorCode {
 	ACCESS_DENIED(401, "G400", "허용되지 않은 사용자입니다"),
 	TOKEN_EXPIRED(401, "G500", "토큰이 만료되었습니다."),
 	LOGIN_INFO_MISMATCH(401, "G600", "로그인 정보가 일치하지 않습니다."),
-	;
+
+
+	/*프로젝트 관련 에러 코드*/
+	PROJECT_NOT_FOUND(400, "M100", "해당 프로젝트가 존재하지 않습니다. ");
 
 	private final String code;
 	private final String message;

@@ -6,12 +6,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
+import org.a402.deployz.domain.project.service.ProjectService;
 import org.a402.deployz.global.common.BaseResponse;
 import org.a402.deployz.global.error.GlobalErrorCode;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -28,12 +26,23 @@ public class ProjectController {
     //	| orderModify() | 수정만 하는 유형의 controller 메서드 |
     //	| orderRemove() | 삭제만 하는 유형의 controller 메서드 |
 
+    private final ProjectService projectService;
+
     @PostMapping()
     @ApiResponse(responseCode = "200", description = "프로젝트 생성 성공")
     @Operation(description = "프로젝트 생성 API", summary = "프로젝트 생성 API")
     public BaseResponse<Void> projectAdd(@Valid @RequestBody TotalProjectConfigRequest request) {
-//        projectService.addProject(request);
+       //ProjectService.addProject(request);
 
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
     }
+
+    @ApiResponse(responseCode = "200", description = "프로젝트 삭제 성공")
+    @Operation(description = "프로젝트 삭제 API", summary = "프로젝트 삭제 API")
+    @PostMapping("/{projectIdx}")
+    public BaseResponse<Void> deleteProject(@Valid @RequestParam long idx) {
+         projectService.deleteProject(idx);
+        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
+
 }
