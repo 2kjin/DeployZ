@@ -1,75 +1,106 @@
 import React from "react";
 import styled from "styled-components";
-import { Grid } from "@material-ui/core";
+import { theme } from "@/styles/theme";
 
-//import img
-import start from "../../assets/img/start.png";
-import stop from "../../assets/img/stop.png";
-import trash from "../../assets/img/trash.png";
-import check from "../../assets/img/check.png";
-import x from "../../assets/img/x.png";
-import plusbotton from "../../assets/img/plusbotton.png";
+//import mui icons
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import StopIcon from "@mui/icons-material/Stop";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-export default function ItemListElement() {
+import { ItemInfo } from "../../../types/itemlist";
+
+export default function ItemListElement({ item }: { item: ItemInfo }) {
   return (
-    <>
-      <SContainer>
-        <SListTitleDiv>
-          <Grid item xs={2}>
-            <SListTitle>FE</SListTitle>
-          </Grid>
-          <Grid item xs={2}>
-            <SListTitle>
-              <SImg src={check} />
-            </SListTitle>
-          </Grid>
-          <Grid item xs={3}>
-            <SListTitle>3000,3001</SListTitle>
-          </Grid>
-          <Grid item xs={2}>
-            <SListTitle>3days 11hr</SListTitle>
-          </Grid>
-          <Grid item xs={2}>
-            <SListTitle>3days 11hr</SListTitle>
-          </Grid>
-        </SListTitleDiv>
-      </SContainer>
-    </>
+    <SItem>
+      <PlayArrowIcon style={PlayArrowIconStyle} />
+      <StopIcon style={StopIconStyle} />
+      <SProjectName>{item?.itemName}</SProjectName>
+      {item?.isIng ? (
+        <CheckCircleOutlineIcon style={checkStyle} />
+      ) : (
+        <HighlightOffIcon style={HighlightOffIconStyle} />
+      )}
+      <SItemCount>{item?.itemPort.join(", ")}</SItemCount>
+      <SLastSuccessTime>{item?.lastSuccessDate}</SLastSuccessTime>
+      <SLastFailureTime>{item?.lastFailedDate}</SLastFailureTime>
+      <DeleteOutlineIcon style={DeleteOutlineIconStyle} />
+      <SButton>상세보기</SButton>
+    </SItem>
   );
 }
 
-const SImg = styled.img``;
+const PlayArrowIconStyle = {
+  fontSize: "5rem",
+  cursor: "pointer",
+  color: theme.colors.checkgreen,
+};
+const StopIconStyle = {
+  fontSize: "5rem",
+  cursor: "pointer",
+  color: theme.colors.error,
+};
+const DeleteOutlineIconStyle = {
+  fontSize: "5rem",
+  cursor: "pointer",
+  color: theme.colors.error,
+};
 
-const SListTitleDiv = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: 16vh;
-  margin-top: 1vh;
-  margin-bottom: 2vh;
-  max-width: 45vw;
-  justify-content: space-between;
-`;
+const HighlightOffIconStyle = {
+  fontSize: "5rem",
+  color: theme.colors.error,
+};
 
-const SListTitle = styled.p`
+const checkStyle = {
+  fontSize: "5rem",
+  color: theme.colors.checkgreen,
+};
+
+const SButton = styled.button`
+  border: 0.5rem solid ${theme.colors.secondary};
+  border-radius: 5rem;
+  background: ${theme.colors.secondary};
+  color: ${theme.colors.white};
   font-size: 2rem;
-  font-weight: 800;
+  font-weight: ${theme.fontWeight.normal};
+  cursor: pointer;
+  width: 11vh;
+  height: 5vh;
+  margin-right: 1rem;
 `;
 
-const SContainer = styled.div`
+const SItem = styled.div`
   display: flex;
-  justify-content: center;
-  width: 65vw;
-  height: 10vh;
-  margin: 1vh auto;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  && {
-    border: 2px solid #f3f4f3;
-    background-color: blue;
-    box-shadow: none;
-    border-radius: 1.5rem;
-    overflow: auto;
-    ::-webkit-scrollbar {
-      display: none;
-    }
-  }
+  width: 95%;
+  height: 10vh;
+  background: ${theme.colors.lightgray};
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+`;
+
+const SProjectName = styled.span`
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.bold};
+`;
+
+const SItemCount = styled.span`
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.bold};
+`;
+
+const SLastSuccessTime = styled.span`
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.bold};
+`;
+
+const SLastFailureTime = styled.span`
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.bold};
 `;

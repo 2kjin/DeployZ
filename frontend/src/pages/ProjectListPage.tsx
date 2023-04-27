@@ -32,9 +32,11 @@ const SProjectName = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-right: 10rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
 `;
 const SItem = styled.span`
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-weight: ${theme.fontWeight.extrabold};
   color: ${theme.colors.primary};
 `;

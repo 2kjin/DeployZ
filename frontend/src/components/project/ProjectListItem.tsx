@@ -3,60 +3,36 @@ import React from "react";
 //import css
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-import { ProjectListItemProps } from "../../../types/projectlist";
+import { ProjectInfo } from "../../../types/projectlist";
 
 //!project?.name &&
 //project 객체가 존재하지 않거나 name 프로퍼티가 비어있는 경우 true 반환
 //모든 프로퍼티가 비어있다면 isProjectEmpty 변수에 true 할당
 
-export default function ProjectListItem({
-  project,
-}: {
-  project?: ProjectListItemProps;
-}): JSX.Element {
-  const isProjectEmpty =
-    !project?.projectName &&
-    !project?.itemCnt &&
-    !project?.lastSuccessDate &&
-    !project?.lastFailedDate &&
-    !project?.itemName &&
-    !project?.isIng;
-
+export default function ProjectListItem({ project }: { project: ProjectInfo }): JSX.Element {
   return (
-    <>
-      {isProjectEmpty ? (
-        <>
-          <SEmptyDiv>
-            <AddCircleIcon style={styles} />
-          </SEmptyDiv>
-        </>
+    <SProjectListItem>
+      {project?.isIng ? (
+        <CheckCircleOutlineIcon style={checkStyle} />
       ) : (
-        <>
-          <SProjectListItem>
-            {project?.isIng ? (
-              <CheckCircleOutlineIcon style={checkStyle} />
-            ) : (
-              <HighlightOffIcon style={HighlightOffIconStyle} />
-            )}
-            <SProjectName>{project?.projectName}</SProjectName>
-            <SItemCount>{project?.itemCnt}</SItemCount>
-            <SLastSuccessDiv>
-              <SLastSuccessTime>{project?.lastSuccessDate}</SLastSuccessTime>
-              <SContainerButton>{project?.itemName}</SContainerButton>
-            </SLastSuccessDiv>
-            <SLastFailureDiv>
-              <SLastFailureTime>{project?.lastFailedDate}</SLastFailureTime>
-              <SContainerButton>{project?.itemName}</SContainerButton>
-            </SLastFailureDiv>
-            <SButton>상세보기</SButton>
-          </SProjectListItem>
-        </>
+        <HighlightOffIcon style={HighlightOffIconStyle} />
       )}
-    </>
+      <SProjectName>{project?.projectName}</SProjectName>
+      <SItemCount>{project?.itemCnt}</SItemCount>
+      <SLastSuccessDiv>
+        <SLastSuccessTime>{project?.lastSuccessDate}</SLastSuccessTime>
+        <SContainerButton>{project?.itemName}</SContainerButton>
+      </SLastSuccessDiv>
+      <SLastFailureDiv>
+        <SLastFailureTime>{project?.lastFailedDate}</SLastFailureTime>
+        <SContainerButton>{project?.itemName}</SContainerButton>
+      </SLastFailureDiv>
+      <SButton>상세보기</SButton>
+    </SProjectListItem>
   );
 }
 
@@ -69,26 +45,6 @@ const checkStyle = {
   fontSize: "6rem",
   color: theme.colors.checkgreen,
 };
-
-const styles = {
-  fontSize: "6rem",
-  cursor: "pointer",
-  color: theme.colors.primary,
-};
-
-const SEmptyDiv = styled.div`
-  display: flex;
-  justify-content: center; /* 가로 방향 가운데 정렬 */
-  align-items: center; /* 세로 방향 가운데 정렬 */
-  width: 95%;
-  height: 15vh;
-  background: ${theme.colors.lightgray};
-  border-radius: 1rem;
-  margin-bottom: 2rem;
-  margin-top: 2rem;
-  padding-right: 1rem;
-  padding-left: 1rem;
-`;
 
 const SLastSuccessDiv = styled.div`
   display: flex;
