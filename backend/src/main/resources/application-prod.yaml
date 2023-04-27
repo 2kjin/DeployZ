@@ -14,3 +14,9 @@ spring:
         format_sql: true
     open-in-view: false
     generate-ddl: true
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /swagger-ui.html
+  api-docs:
+    path: /post-docs
