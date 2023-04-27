@@ -48,11 +48,9 @@ public class Project {
   private String imagePath;
   @OneToMany(mappedBy = "project", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   private List<Item> items = new ArrayList<>();
-  @OneToOne
-  @JoinColumn(name = "git_config_idx")
+  @OneToOne(mappedBy = "project", fetch = FetchType.LAZY)
   private GitConfig gitConfig;
-  @OneToOne
-  @JoinColumn(name = "nginx_config_idx")
+  @OneToOne(mappedBy = "project", fetch = FetchType.LAZY)
   private NginxConfig nginxConfig;
 
   @Builder
