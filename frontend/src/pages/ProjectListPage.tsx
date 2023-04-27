@@ -1,20 +1,17 @@
 import React from "react";
-
-//import components
-import ProjectList from "@components/project/ProjectList";
+import ProjectList, { ProjectListItemProps } from "@components/project/ProjectList";
 import Header from "@components/common/Header";
-
-//import css
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
-const projectData = [
+const projectData: ProjectListItemProps[] = [
   {
     id: 1,
     name: "DeployZ",
     itemCount: 3,
     lastSuccessTime: "3days 11hr",
     lastFailureTime: "4days 2hr",
+    containerName: "#fe-develop",
   },
   {
     id: 2,
@@ -22,11 +19,12 @@ const projectData = [
     itemCount: 4,
     lastSuccessTime: "1days 11hr",
     lastFailureTime: "2days 5hr",
+    containerName: "#be-develop",
   },
   //...
 ];
 
-export default function ProjectListPage() {
+export default function ProjectListPage(): JSX.Element {
   return (
     <>
       <Header />
@@ -45,17 +43,18 @@ export default function ProjectListPage() {
     </>
   );
 }
+
 const SProjectName = styled.div`
-  width: 60%;
+  width: 66%;
   height: 10%;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
+  padding-right: 12rem;
 `;
-
 const SItem = styled.span`
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: ${theme.fontWeight.extrabold};
   color: ${theme.colors.primary};
 `;
