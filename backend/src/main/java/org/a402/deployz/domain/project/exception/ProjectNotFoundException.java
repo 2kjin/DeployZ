@@ -5,7 +5,7 @@ import org.a402.deployz.global.error.GlobalErrorCode;
 
 public class ProjectNotFoundException extends GlobalBaseException {
 
-    public ProjectNotFoundException(GlobalErrorCode errorCode) {
-        super(GlobalErrorCode.OTHER);
-    }
+  public ProjectNotFoundException(GlobalErrorCode errorCode) {
+    super(GlobalErrorCode.OTHER);
+  }
 }
