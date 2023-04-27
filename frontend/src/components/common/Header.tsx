@@ -25,26 +25,27 @@ const Container = styled.div`
 const Logo = styled.img`
   padding: 0.5rem;
 `
-const Loginbtn = styled.button`
+const Loginbtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   background: none;
-  border-color: ${theme.colors.secondary};
   color: ${theme.colors.secondary};
-  border-radius: 3rem;
+  border: .3rem solid ${theme.colors.secondary};
+  border-radius: 2.5rem;
   padding: 1.5vh;
   margin: 1vh;
   font-size: 1.5rem;
   font-weight: ${theme.fontWeight.extrabold};
-  border-width: 0.3rem;
   :hover {
   background: ${theme.colors.secondary};
   border-color: ${theme.colors.secondary};
   color: ${theme.colors.white};
+  transition: all .4s ease-out;
+  cursor: pointer;
 }
 `
 const Gitlab = styled.img`
-  height: 4vh;
+  height: 3.5vh;
   padding: 0 1rem 0 0;
 `

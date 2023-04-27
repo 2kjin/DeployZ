@@ -5,12 +5,6 @@ import { theme } from "@/styles/theme"
 export default function Page404() {  
   const navigate = useNavigate();
 
-  const Gohome = (() =>{
-    navigate("/")
-  })
-  const GoAboutus = (() =>{
-    navigate("/aboutus")
-  })
   return(
   <>
   <Background>
@@ -37,8 +31,8 @@ export default function Page404() {
   <Bottom>
     <P>Boo, looks like a ghost stole this page!</P>
     <Buttons>
-      <Btn onClick={Gohome}>Home</Btn>
-      <Btn onClick={GoAboutus}>About Us</Btn>
+      <Btn onClick={() => navigate("/")}>Home</Btn>
+      <Btn onClick={() => navigate("/aboutus")}>About Us</Btn>
       {/* <Btn onClick={GoCB}>Cherry Blossoms</Btn> */}
     </Buttons>
   </Bottom>
