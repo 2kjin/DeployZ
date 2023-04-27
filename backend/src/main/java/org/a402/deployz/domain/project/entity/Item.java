@@ -34,18 +34,14 @@ public class Item {
 	private Long portNumber1;
 	@Column(name = "port_number2")
 	private Long portNumber2;
-	@Column(name = "branchName", length = 50)
-	private String branch_name;
+	@Column(name = "branch_name", length = 50)
+	private String branchName;
 	@Column(name = "target_folder_path", length = 100)
 	private String targetFolderPath;
 	@Column(name = "framework_type", length = 100)
 	private String frameworkType;
-	@Column(name = "framework_version", length = 50)
-	private String frameworkVersion;
-	@Column(name = "build_type", length = 20)
-	private String buildType;
-	@Column(name = "proxy_path", length = 50)
-	private String proxyPath;
+	@Column(name = "build_version", length = 50)
+	private String buildVersion;
 	@Column(name = "last_success_date")
 	private LocalDateTime lastSuccessDate;
 	@Column(name = "last_failure_date")
@@ -62,22 +58,20 @@ public class Item {
 
 	@Builder
 	public Item(final Long idx, final String name, final Long portNumber1, final Long portNumber2,
-		final String branch_name, final String targetFolderPath,
-		final String frameworkType, final String frameworkVersion, final String buildType, final String proxyPath,
-		final LocalDateTime lastSuccessDate,
-		final LocalDateTime lastFailureDate, final boolean deleteFlag, final Project project,
-		final List<BuildHistory> itemHistories,
-		final List<ItemState> itemStates) {
+				final String branchName, final String targetFolderPath,
+				final String frameworkType, final String buildVersion,
+				final LocalDateTime lastSuccessDate,
+				final LocalDateTime lastFailureDate, final boolean deleteFlag, final Project project,
+				final List<BuildHistory> itemHistories,
+				final List<ItemState> itemStates) {
 		this.idx = idx;
 		this.name = name;
 		this.portNumber1 = portNumber1;
 		this.portNumber2 = portNumber2;
-		this.branch_name = branch_name;
+		this.branchName = branchName;
 		this.targetFolderPath = targetFolderPath;
 		this.frameworkType = frameworkType;
-		this.frameworkVersion = frameworkVersion;
-		this.buildType = buildType;
-		this.proxyPath = proxyPath;
+		this.buildVersion = buildVersion;
 		this.lastSuccessDate = lastSuccessDate;
 		this.lastFailureDate = lastFailureDate;
 		this.deleteFlag = deleteFlag;
