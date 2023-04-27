@@ -1,5 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
+import App from "./pages/AppPage";
+import ItemListPage from "./pages/ItemListPage";
+import ProjectListPage from "./pages/ProjectListPage";
 import ProjectStepPage from "./pages/ProjectStepPage";
 
 const router = createBrowserRouter([
@@ -14,6 +17,8 @@ const router = createBrowserRouter([
     //   { path: "4", element: <InputSection4 /> },
     // ],
   },
+  { path: "/project", element: <ProjectListPage /> },
+  { path: "/item", element: <ItemListPage /> },
 ]);
 
 export default router;

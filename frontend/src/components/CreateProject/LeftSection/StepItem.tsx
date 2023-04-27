@@ -13,19 +13,13 @@ export default function StepItem({ item }: { item: IStepItem }) {
     <Container>
       <Section>
         <Circle status={item.status}>
-          {item.status == "after" ? (
-            <DoneIcon sx={{ fontSize: 50 }} />
-          ) : (
-            item.number
-          )}
+          {item.status == "after" ? <DoneIcon sx={{ fontSize: 50 }} /> : item.number}
         </Circle>
         <DescSection status={item.status}>
           <span>Step {item.number}</span>
           <b>{item.desc}</b>
         </DescSection>
-        <StatusSection status={item.status}>
-          {handleStatus(item.status)}
-        </StatusSection>
+        <StatusSection status={item.status}>{handleStatus(item.status)}</StatusSection>
       </Section>
     </Container>
   );
@@ -49,8 +43,7 @@ const Circle = styled.div<{ status: String }>`
   border-radius: 50rem;
   background-color: ${(props) =>
     props.status == "before" ? theme.colors.lightgray : theme.colors.secondary};
-  color: ${(props) =>
-    props.status == "before" ? theme.colors.darkgray : "#fff"};
+  color: ${(props) => (props.status == "before" ? theme.colors.darkgray : "#fff")};
   width: 6rem;
   height: 6rem;
   display: flex;
@@ -66,8 +59,7 @@ const DescSection = styled.div<{ status: String }>`
   align-content: space-between;
   padding-left: 5%;
   font-size: 1.5rem;
-  color: ${(props) =>
-    props.status == "now" ? theme.colors.primary : theme.colors.darkgray};
+  color: ${(props) => (props.status == "now" ? theme.colors.primary : theme.colors.darkgray)};
 
   span {
     margin-bottom: 1rem;
