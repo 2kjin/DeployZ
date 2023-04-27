@@ -17,9 +17,7 @@ public class ProjectService {
 
     @Transactional // 예외적 상황을 막기 위함
     public void deleteProject(long idx) {
-        Project project = projectRepository.findByIdx(idx).orElseThrow(() -> new ProjectNotFoundException(GlobalErrorCode.OTHER));
-        System.out.println(project);
-
-        project.updateDeletedFlag();
+            Project project = projectRepository.findByIdx(idx).orElseThrow(() -> new ProjectNotFoundException(GlobalErrorCode.PROJECT_NOT_FOUND));
+            project.updateDeletedFlag();
     }
 }
