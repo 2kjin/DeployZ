@@ -3,45 +3,92 @@ import React from "react";
 //import css
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-//import images
-import check from "../../assets/img/check.png";
-import plusbotton from "../../assets/img/plusbotton.png";
+import { ProjectListItemProps } from "../../../types/projectlist";
 
-export interface ProjectListItemProps {
-  id: number;
-  name: string;
-  itemCount: number;
-  lastSuccessTime: string;
-  lastFailureTime: string;
-  containerName: string;
-}
+//!project?.name &&
+//project 객체가 존재하지 않거나 name 프로퍼티가 비어있는 경우 true 반환
+//모든 프로퍼티가 비어있다면 isProjectEmpty 변수에 true 할당
 
 export default function ProjectListItem({
-  id,
-  name,
-  itemCount,
-  lastSuccessTime,
-  lastFailureTime,
-  containerName,
-}: ProjectListItemProps): JSX.Element {
+  project,
+}: {
+  project?: ProjectListItemProps;
+}): JSX.Element {
+  const isProjectEmpty =
+    !project?.projectName &&
+    !project?.itemCnt &&
+    !project?.lastSuccessDate &&
+    !project?.lastFailedDate &&
+    !project?.itemName &&
+    !project?.isIng;
+
   return (
-    <SProjectListItem>
-      <SImg src={check} />
-      <SProjectName>{name}</SProjectName>
-      <SItemCount>{itemCount}</SItemCount>
-      <SLastSuccessDiv>
-        <SLastSuccessTime>{lastSuccessTime}</SLastSuccessTime>
-        <SContainerButton>{containerName}</SContainerButton>
-      </SLastSuccessDiv>
-      <SLastFailureDiv>
-        <SLastFailureTime>{lastFailureTime}</SLastFailureTime>
-        <SContainerButton>{containerName}</SContainerButton>
-      </SLastFailureDiv>
-      <SButton>상세보기</SButton>
-    </SProjectListItem>
+    <>
+      {isProjectEmpty ? (
+        <>
+          <SEmptyDiv>
+            <AddCircleIcon style={styles} />
+          </SEmptyDiv>
+        </>
+      ) : (
+        <>
+          <SProjectListItem>
+            {project?.isIng ? (
+              <CheckCircleOutlineIcon style={checkStyle} />
+            ) : (
+              <HighlightOffIcon style={HighlightOffIconStyle} />
+            )}
+            <SProjectName>{project?.projectName}</SProjectName>
+            <SItemCount>{project?.itemCnt}</SItemCount>
+            <SLastSuccessDiv>
+              <SLastSuccessTime>{project?.lastSuccessDate}</SLastSuccessTime>
+              <SContainerButton>{project?.itemName}</SContainerButton>
+            </SLastSuccessDiv>
+            <SLastFailureDiv>
+              <SLastFailureTime>{project?.lastFailedDate}</SLastFailureTime>
+              <SContainerButton>{project?.itemName}</SContainerButton>
+            </SLastFailureDiv>
+            <SButton>상세보기</SButton>
+          </SProjectListItem>
+        </>
+      )}
+    </>
   );
 }
+
+const HighlightOffIconStyle = {
+  fontSize: "6rem",
+  color: theme.colors.error,
+};
+
+const checkStyle = {
+  fontSize: "6rem",
+  color: theme.colors.checkgreen,
+};
+
+const styles = {
+  fontSize: "6rem",
+  cursor: "pointer",
+  color: theme.colors.primary,
+};
+
+const SEmptyDiv = styled.div`
+  display: flex;
+  justify-content: center; /* 가로 방향 가운데 정렬 */
+  align-items: center; /* 세로 방향 가운데 정렬 */
+  width: 95%;
+  height: 15vh;
+  background: ${theme.colors.lightgray};
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+`;
 
 const SLastSuccessDiv = styled.div`
   display: flex;
@@ -60,19 +107,13 @@ const SContainerButton = styled.button`
   border-radius: 1rem;
   background: ${theme.colors.darkgray};
   color: ${theme.colors.primary};
-  font-size: 1.5rem;
-  font-weight: ${theme.fontWeight.normal};
-  width: 12vh;
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.bold};
+  width: 6vh;
   height: 4vh;
   margin-left: 1rem;
   white-space: nowrap;
   overflow: hidden;
-`;
-
-const SImg = styled.img`
-  width: 4vh;
-  height: 4vh;
-  margin-left: 1rem;
 `;
 
 const SProjectListItem = styled.div`
@@ -81,11 +122,13 @@ const SProjectListItem = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 95%;
-  height: 10vh;
+  height: 15vh;
   background: ${theme.colors.lightgray};
   border-radius: 1rem;
   margin-bottom: 2rem;
   margin-top: 2rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
 `;
 
 const SProjectName = styled.span`
@@ -97,7 +140,7 @@ const SProjectName = styled.span`
 const SItemCount = styled.span`
   font-size: 3rem;
   font-weight: ${theme.fontWeight.bold};
-  margin-left: 5rem;
+  margin-left: 2rem;
 `;
 
 const SLastSuccessTime = styled.span`
