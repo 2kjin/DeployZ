@@ -20,6 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.member.entity.Member;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -34,6 +35,7 @@ public class Project {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_idx")
   private Member member;
+  @ColumnDefault("false")
   @Column(name = "deleted_flag", nullable = false)
   private boolean deletedFlag;
   @Column(name = "project_name", length = 50)
@@ -52,6 +54,11 @@ public class Project {
   private GitConfig gitConfig;
   @OneToOne(mappedBy = "project", fetch = FetchType.LAZY)
   private NginxConfig nginxConfig;
+
+  //deleted_flag 변경
+  public void updateDeletedFlag() {
+    this.deletedFlag = true;
+  }
 
   @Builder
   public Project(Long idx, Member member, boolean deletedFlag, String projectName,

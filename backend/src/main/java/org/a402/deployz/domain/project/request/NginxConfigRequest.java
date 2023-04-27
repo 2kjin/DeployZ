@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.a402.deployz.domain.project.entity.NginxConfig;
+import org.a402.deployz.domain.project.entity.Project;
 
 @Getter
 @AllArgsConstructor
@@ -27,11 +28,12 @@ public class NginxConfigRequest {
   @Schema(description = "프록시 경로 목록")
   private List<ProxyPathRequest> proxyPathList;
 
-  public NginxConfig toEntity(NginxConfigRequest nginxConfig) {
+  public NginxConfig toEntity(Project project) {
     return NginxConfig.builder()
-        .domain(nginxConfig.getDomainUrl())
-        .sslCertificate(nginxConfig.getSslCertificate())
-        .sslCertificateKey(nginxConfig.getSslCertificateKey())
+        .domain(domainUrl)
+        .sslCertificate(sslCertificate)
+        .sslCertificateKey(sslCertificateKey)
+        .project(project)
         .build();
   }
 
