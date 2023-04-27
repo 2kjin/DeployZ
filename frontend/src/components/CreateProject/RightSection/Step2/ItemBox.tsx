@@ -26,7 +26,7 @@ export default function ItemBox({ itemName }: { itemName: string }) {
   };
 
   // 컴포넌트 state의 change handler
-  const handleItemData = (e: React.SyntheticEvent | SelectChangeEvent) => {
+  const handleItemData = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
     const id = target.id as string;
     const value = target.value as string;

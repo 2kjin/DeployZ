@@ -33,7 +33,6 @@ interface IGitConfig {
   hostUrl: string;
   repositoryUrl: string;
   projectId: string;
-  credentialId: string;
   accessToken: string;
 }
 

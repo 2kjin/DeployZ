@@ -65,7 +65,6 @@ const defaultGitConfig: IGitConfig = {
   hostUrl: "",
   repositoryUrl: "",
   projectId: "",
-  credentialId: "",
   accessToken: "",
 };
 

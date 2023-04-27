@@ -3,15 +3,38 @@ import styled from "styled-components";
 import { alpha, styled as mstyled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { FormControl, InputLabel } from "@mui/material";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { itemListState, projectState } from "@/recoil/step";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { gitState, projectState } from "@/recoil/step";
 import SdCardAlertIcon from "@mui/icons-material/SdCardAlert";
+import MouseIcon from "@mui/icons-material/Mouse";
+import { useState } from "react";
 
 export default function InputSection2() {
   const project = useRecoilValue<IProject>(projectState);
+  const [gitConfig, setGitConfig] = useRecoilState<IGitConfig>(gitState);
+  const [checkStatus, setCheckStatus] = useState<boolean>(false);
+
   const itemName = project.itemList.map((item: IItem) => {
     return [item.itemName, item.secretToken];
   });
+
+  // 연결 확인 버튼
+  const handleValidCheck = () => {
+    setCheckStatus((prev) => !prev);
+  };
+
+  // 컴포넌트 state의 change handler
+  const handleItemData = (e: React.SyntheticEvent) => {
+    const target = e.target as HTMLInputElement;
+    const id = target.id as string;
+    const value = target.value as string;
+
+    setGitConfig((cur) => ({
+      ...cur,
+      [id]: value,
+    }));
+  };
+
   return (
     <Container>
       <p className="subject">Git 정보 입력</p>
@@ -30,7 +53,9 @@ export default function InputSection2() {
           </InputLabel>
           <InputBox
             placeholder={`배포하고자 하는 프로젝트 레포지토리 주소를 입력하세요.`}
-            id="itemName"
+            id="repositoryUrl"
+            value={gitConfig.repositoryUrl}
+            onChange={handleItemData}
           />
         </FormControl>
         <FormControl variant="standard">
@@ -44,7 +69,12 @@ export default function InputSection2() {
           >
             Project ID
           </InputLabel>
-          <InputBox placeholder={`해당 레포지토리의 project id를 입력하세요.`} id="itemName" />
+          <InputBox
+            placeholder={`해당 레포지토리의 project id를 입력하세요.`}
+            id="projectId"
+            value={gitConfig.projectId}
+            onChange={handleItemData}
+          />
         </FormControl>
       </InputContainer>
 
@@ -52,11 +82,18 @@ export default function InputSection2() {
       <InputContainer>
         <Section>
           <Label>Webhook 연결</Label>
-          <p>자동 배포 기능을 사용하려면 레포지토리에 직접 Branch별로 Webhook을 연결해야해요.</p>
-          <span>방법을 잘 모르시겠다면,</span>{" "}
-          <span>
-            <b>버튼!</b>
-          </span>
+          <p>
+            자동 배포 기능을 사용하려면 레포지토리에 직접 Branch별로 Webhook을
+            연결해야해요.
+          </p>
+          <SectionGuide>
+            <p>방법을 잘 모르시겠다면,</p>
+            {"  "}
+            <GuildButton>
+              가이드 보러가기{" "}
+              <MouseIcon sx={{ fontSize: 18, marginLeft: 0.3 }} />
+            </GuildButton>
+          </SectionGuide>
         </Section>
         <Section>
           <Label>Secret Token</Label>
@@ -90,7 +127,12 @@ export default function InputSection2() {
             >
               Host URL
             </InputLabel>
-            <InputBoxSmall placeholder={`ex) https://lab.ssafy.com/`} id="itemName" />
+            <InputBoxSmall
+              placeholder={`ex) https://lab.ssafy.com/`}
+              id="hostUrl"
+              value={gitConfig.hostUrl}
+              onChange={handleItemData}
+            />
           </FormControl>
           <FormControl variant="standard" sx={{ marginTop: "2%" }}>
             <InputLabel
@@ -103,11 +145,26 @@ export default function InputSection2() {
             >
               Gitlab Access Token
             </InputLabel>
-            <InputBoxSmall placeholder={`ex) adyjk1ad6dfd`} id="itemName" />
+            <InputBoxSmall
+              placeholder={`ex) adyjk1ad6dfd`}
+              id="accessToken"
+              value={gitConfig.accessToken}
+              onChange={handleItemData}
+            />
           </FormControl>
         </Section>
         <Section>
           <Label>연결상태확인</Label>
+          <p>
+            모든 정보 입력 후, 레포지토리와 연결이 잘 되었는지 확인해야해요!
+          </p>
+          <SectionCheck>
+            <StatusBox isValid={checkStatus}>
+              {!checkStatus && "확인 필요"}
+              {checkStatus && "확인 완료"}
+            </StatusBox>
+            <CheckButton onClick={handleValidCheck}>연결 상태 확인</CheckButton>
+          </SectionCheck>
         </Section>
       </InputContainer>
     </Container>
@@ -194,6 +251,26 @@ const Label = styled.h4`
   margin: 0;
 `;
 
+const GuildButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 3px ${theme.colors.secondary};
+  color: ${theme.colors.secondary};
+  font-size: 1.5rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 1rem;
+
+  :hover {
+    color: white;
+    background-color: ${theme.colors.secondary};
+    transition: all 0.3s ease-out;
+  }
+`;
+
 const Section = styled.div`
   width: 42rem;
 
@@ -208,6 +285,20 @@ const Section = styled.div`
   span {
     font-size: 1.5rem;
   }
+`;
+
+const SectionGuide = styled.div`
+  display: flex;
+  align-items: center;
+
+  p {
+    margin: 0.3rem 0.1rem;
+  }
+`;
+
+const SectionCheck = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const SecretSection = styled.div`
@@ -227,4 +318,38 @@ const SecretRight = styled.div`
   flex: 2;
   display: flex;
   align-items: center;
+`;
+
+const StatusBox = styled.div<{ isValid: boolean }>`
+  display: flex;
+  flex-direction: column;
+  font-size: 1.4rem;
+  justify-content: center;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  border-radius: 1rem;
+  background-color: ${(props) =>
+    props.isValid ? theme.colors.complete : theme.colors.lightgray};
+  color: ${(props) =>
+    props.isValid ? theme.colors.checkgreen : theme.colors.darkgray};
+
+  span {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+  }
+`;
+
+const CheckButton = styled.div`
+  padding: 1.3rem 2rem;
+  margin-left: 1.5rem;
+  background-color: ${theme.colors.secondary};
+  border-radius: 5px;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  font-weight: bolder;
+
+  :hover {
+    transform: scale(1.03);
+  }
 `;
