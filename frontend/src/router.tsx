@@ -5,6 +5,7 @@ import ProjectListPage from "./pages/ProjectListPage";
 import ProjectStepPage from "./pages/ProjectStepPage";
 import ItemDetail from "@components/item/ItemDetail";
 import ThreejstestPage from "./pages/ThreejstestPage";
+import Page404 from "./pages/Page404";
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -23,6 +24,9 @@ const router = createBrowserRouter([
   { path: "/itemdetail/:idx", element: <ItemDetail /> },
   {
     path: "/test", element: <ThreejstestPage />
+  },
+  {
+    path: "*", element: <Page404 />
   },
 ]);
 
