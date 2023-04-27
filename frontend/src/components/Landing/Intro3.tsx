@@ -5,16 +5,34 @@ export default function Intro3() {
 
   return (
   <Container>
-    <h1>복잡한 절차 간소화</h1>
+    <div className="left-container">
+      <h1>이미지</h1>
+    </div>
+    <div className="right-container">
+      <h1>복잡한 절차 간소화</h1>
+    </div>
   </Container>
   )
 }
 
 const Container = styled.div`
   display : flex;
-  flex-direction: column;
   justify-content: center;
-  height : 97vh;
+  height : 93vh;
   width : 100vw;
   background-color : ${theme.colors.container};
+  .left-container {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .right-container {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `

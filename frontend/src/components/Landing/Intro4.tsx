@@ -1,12 +1,16 @@
 import styled, { keyframes } from "styled-components";
 import { theme } from "@/styles/theme"
+import Footer from "@components/common/Footer";
 
 export default function Intro4() {
   return (
+  <>
   <Container>
     <Title>지금 바로 <b>'경험'</b> 해보세요</Title>
     <Guidebtn>START</Guidebtn>
   </Container>
+  <Footer/>
+  </>
   )
 }
 

@@ -1,12 +1,15 @@
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
+import { useNavigate } from 'react-router-dom';
 import LogoPic from "@/assets/logo.png";
 import GitlabPic from "@/assets/gitlab.png";
 
 export default function Header() {
+  const navigate = useNavigate();
+
   return (
     <Container>
-      <Logo alt="logo" src={LogoPic} />
+      <Logo alt="logo" src={LogoPic} onClick={() => navigate("/")}/>
       <Loginbtn>
         <Gitlab alt="gitlab" src={GitlabPic} />
         LOGIN
@@ -24,6 +27,9 @@ const Container = styled.div`
 `
 const Logo = styled.img`
   padding: 0.5rem;
+  :hover {
+    cursor: pointer;
+  }
 `
 const Loginbtn = styled.div`
   display: flex;
