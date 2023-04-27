@@ -19,7 +19,6 @@ public enum GlobalErrorCode {
   TOKEN_EXPIRED(401, "G500", "토큰이 만료되었습니다."),
   LOGIN_INFO_MISMATCH(401, "G600", "로그인 정보가 일치하지 않습니다."),
 
-
   /*프로젝트 관련 에러 코드*/
   PROJECT_NOT_FOUND(400, "M100", "해당 프로젝트가 존재하지 않습니다. ");
 
