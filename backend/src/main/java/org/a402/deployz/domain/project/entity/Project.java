@@ -56,6 +56,11 @@ public class Project {
 	@OneToOne(mappedBy = "project", fetch = FetchType.LAZY)
 	private NginxConfig nginxConfig;
 
+	//deleted_flag 변경
+	public void updateDeletedFlag(){
+		this.deletedFlag=true;
+	}
+
 
 	@Builder
 	public Project(Long idx, Member member, boolean deletedFlag, String projectName, LocalDateTime lastSuccessDate, LocalDateTime lastModifiedDate, String description, String imagePath, List<Item> items, GitConfig gitConfig, NginxConfig nginxConfig) {
