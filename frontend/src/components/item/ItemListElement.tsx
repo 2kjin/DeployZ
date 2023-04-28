@@ -28,15 +28,16 @@ export default function ItemListElement({ item }: ItemListElementProps) {
       <SItem>
         <PlayArrowIcon style={PlayArrowIconStyle} />
         <StopIcon style={StopIconStyle} />
-        <SProjectName>{item?.itemName}</SProjectName>
-        {item?.isIng ? (
+        <SProjectName>{item.itemName}</SProjectName>
+        {item.itemStates ? (
           <CheckCircleOutlineIcon style={checkStyle} />
         ) : (
           <HighlightOffIcon style={HighlightOffIconStyle} />
         )}
-        <SItemCount>{item?.itemPort.join(", ")}</SItemCount>
-        <SLastSuccessTime>{item?.lastSuccessDate}</SLastSuccessTime>
-        <SLastFailureTime>{item?.lastFailedDate}</SLastFailureTime>
+        <SItemCount>{item.portNumber1}</SItemCount>
+        <SItemCount>{item.portNumber2}</SItemCount>
+        <SLastSuccessTime>{item.lastSuccessDate}</SLastSuccessTime>
+        <SLastFailureTime>{item.lastFailedDate}</SLastFailureTime>
         <DeleteOutlineIcon style={DeleteOutlineIconStyle} />
         <SButton onClick={handleItemClick}>상세보기</SButton>
       </SItem>
@@ -49,6 +50,7 @@ const PlayArrowIconStyle = {
   cursor: "pointer",
   color: theme.colors.checkgreen,
 };
+
 const StopIconStyle = {
   fontSize: "5rem",
   cursor: "pointer",
