@@ -9,7 +9,6 @@ export default function Intro3() {
       <h1>이미지</h1>
     </div>
     <div className="right-container">
-      <h1>복잡한 절차 간소화</h1>
     </div>
   </Container>
   )

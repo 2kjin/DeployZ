@@ -5,93 +5,101 @@ import Intro1 from "@components/Landing/Intro1";
 import Intro2 from "@components/Landing/Intro2";
 import Intro3 from "@components/Landing/Intro3";
 import Intro4 from "@components/Landing/Intro4";
+import Steps from "@components/Landing/Steps";
 
 export default function IntroPage() {
-  const [scrollIdx, setScrollIdx] = useState<number>(1);
-  const mainWrapperRef = useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>;
+  const [scrollIndex, setScrollIndex] = useState<number>(1); // 현재 내 위치
+  const introScrollRef = useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>; // 전체 페이지, 스크롤바를 조작
 
   const wheelHandler = useCallback((e:any):any => {
     e.preventDefault();
 
     const deltaY: number = e.deltaY;
-    const scrollTop: number = mainWrapperRef.current.scrollTop;
-    const pageHeight: number = mainWrapperRef.current.getBoundingClientRect().height;
+    const scrollTop: number = introScrollRef.current.scrollTop; // 스크롤 위쪽 끝부분 위치
+    const pageHeight: number = introScrollRef.current.getBoundingClientRect().height; // 화면 세로길이
     const scrollToTop: number = Math.ceil(pageHeight);
 
     if (deltaY > 0) {
-      if (0 <= scrollTop + 0.1 && scrollTop + 0.1 < pageHeight) {
-        mainWrapperRef.current.scrollTo({
+      // 스크롤 내릴 때
+      if (scrollTop >= 0 && scrollTop < pageHeight) {
+        //현재 1페이지
+        console.log("현재 1페이지, down");
+        introScrollRef.current.scrollTo({
           top: scrollToTop,
           left: 0,
           behavior: "smooth",
         });
-        setScrollIdx(2);
+        setScrollIndex(2);
       }
-      else if (pageHeight <= scrollTop + 0.1  && scrollTop + 0.1 < pageHeight * 2) {
-        console.log(scrollIdx);
-        mainWrapperRef.current.scrollTo({
+      else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
+        //현재 2페이지
+        console.log("현재 2페이지, down");
+        console.log(scrollIndex);
+        introScrollRef.current.scrollTo({
           top: scrollToTop * 2,
           left: 0,
           behavior: "smooth",
         });
-        setScrollIdx(3);
+        setScrollIndex(3);
       }
-      else if (pageHeight * 2 <= scrollTop + 0.1 && scrollTop + 0.1 < pageHeight * 3) {
-        console.log(scrollIdx);
-        mainWrapperRef.current.scrollTo({
+      else if (scrollTop >= pageHeight && scrollTop < pageHeight * 3) {
+        // 현재 3페이지
+        console.log("현재 3페이지, down");
+        console.log(scrollIndex);
+        introScrollRef.current.scrollTo({
           top: scrollToTop * 3,
           left: 0,
           behavior: "smooth",
         });
-        setScrollIdx(4);
+        setScrollIndex(4);
       }
     }
     else if (deltaY < 0) {
-      if ( pageHeight <= scrollTop + 0.1 && scrollTop + 0.1 < pageHeight * 2) {
-        mainWrapperRef.current.scrollTo({
+      // 스크롤 올릴 때
+      if ( scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
+        //현재 2페이지
+        console.log("현재 2페이지, up");
+        introScrollRef.current.scrollTo({
           top: 0,
           left: 0,
           behavior: "smooth",
         });
-        setScrollIdx(1);
+        setScrollIndex(1);
       }
-      else if (pageHeight * 2 <= scrollTop + 0.1 && scrollTop + 0.1 < pageHeight * 3) {
-        mainWrapperRef.current.scrollTo({
+      else if (scrollTop >= pageHeight && scrollTop < pageHeight * 3) {
+        // 현재 3페이지
+        console.log("현재 3페이지, up");
+        introScrollRef.current.scrollTo({
           top: scrollToTop,
           left: 0,
           behavior: "smooth",
         });
-        setScrollIdx(2);
+        setScrollIndex(2);
       } 
-      else if (pageHeight * 3 <= scrollTop + 0.1  && scrollTop + 0.1 < pageHeight * 4) {
-        mainWrapperRef.current.scrollTo({
+      else if (scrollTop >= pageHeight && scrollTop < pageHeight * 4) {
+        // 현재 4페이지
+        console.log("현재 4페이지, up");
+        introScrollRef.current.scrollTo({
           top: scrollToTop * 2,
           left: 0,
           behavior: "smooth",
         });
-        setScrollIdx(3);
-      }
-      else if (pageHeight * 4 <= scrollTop + 0.1  && scrollTop + 0.1 < pageHeight * 5) {
-        mainWrapperRef.current.scrollTo({
-          top: scrollToTop * 3,
-          left: 0,
-          behavior: "smooth",
-        });
-        setScrollIdx(4);
+        setScrollIndex(3);
       }
     }
-  }, [scrollIdx]);
+  }, [scrollIndex]);
 
   useEffect(() => {
-    const wrapperRefCurrent = mainWrapperRef.current;
-    wrapperRefCurrent.addEventListener("wheel", wheelHandler);
-    return () => wrapperRefCurrent.removeEventListener("wheel", wheelHandler);
-  }, [wheelHandler]);
+    const introScrollRefCurrent = introScrollRef.current;
+    introScrollRefCurrent.addEventListener("wheel", wheelHandler);
+    return () => introScrollRefCurrent.removeEventListener("wheel", wheelHandler);
+  }, [wheelHandler]); // 마우스 휠 이벤트
 
   return (
     <>
     <Header/>
-    <Container ref={mainWrapperRef}>
+    <Container ref={introScrollRef}>
+      <Steps scrollIndex={scrollIndex} />
       <Intro1/>
       <Intro2/>
       <Intro3/>

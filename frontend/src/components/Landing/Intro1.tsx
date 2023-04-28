@@ -9,11 +9,6 @@ export default function Intro1() {
       <h1>이미지</h1>
     </div>
     <div className="right-container">
-      <Stepdiv>
-        <Step/><h1>CI/CD 파이프라인 구축</h1>
-        <Step/>
-        <Step/>
-      </Stepdiv>
     </div>
   </Container>
   )
@@ -39,18 +34,4 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
   }
-`
-const Stepdiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10rem;
-`
-const Step = styled.div`
-  height: 6vh;
-  width: 6vh;
-  background-color: ${theme.colors.secondary};
-  border-radius: 50%;
-  margin-bottom: 2rem;
-
 `

@@ -9,7 +9,6 @@ export default function Intro2() {
       <h1>이미지</h1>
     </div>
     <div className="right-container">
-      <h1>무중단 배포</h1>
     </div>
   </Container>
   )
@@ -20,7 +19,7 @@ const Container = styled.div`
   justify-content: center;
   height : 93vh;
   width : 100vw;
-  background-color : ${theme.colors.primary};
+  background-color : ${theme.colors.container};
   .left-container {
     height: 100%;
     width: 50%;
