@@ -340,7 +340,7 @@ const StatusBox = styled.div<{ isValid: boolean }>`
 `;
 
 const CheckButton = styled.div`
-  padding: 1.3rem 2rem;
+  padding: 1.5rem 2rem;
   margin-left: 1.5rem;
   background-color: ${theme.colors.secondary};
   border-radius: 5px;

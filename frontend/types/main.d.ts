@@ -44,6 +44,7 @@ interface INginxConfig {
 }
 
 interface IProxyPath {
+  idx: number;
   pathUrl: stirng;
   pathName: stirng;
 }

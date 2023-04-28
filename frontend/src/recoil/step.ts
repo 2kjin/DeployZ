@@ -69,6 +69,7 @@ const defaultGitConfig: IGitConfig = {
 };
 
 const defaultProxyPath: IProxyPath = {
+  idx: 0,
   pathUrl: "",
   pathName: "",
 };
