@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import java.util.HashMap;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,7 +44,7 @@ public class ProjectController {
 	@Operation(description = "프로젝트 생성 API", summary = "프로젝트 생성 API")
 	@PostMapping()
 	public BaseResponse<Void> projectAdd(@Valid @RequestBody TotalProjectConfigRequest request) {
-		projectService.addProjgitect(request);
+		projectService.addProject(request);
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 
@@ -74,14 +74,13 @@ public class ProjectController {
 		return new BaseResponse<>(buildVersion);
 	}
 
-    @ApiResponse(responseCode = "200", description = "포트 중복검사 조회 성공")
-    @Operation(description = "포드 번호 중복 검사 API", summary = "포드 번호 중복 검사 API")
-    @GetMapping("/container")
-    public BaseResponse<HashMap<String,Boolean>>  portCheckList (@RequestParam Long port1,@RequestParam Long port2 ){
-        HashMap<String,Boolean> portNumCheck = projectService.findPortNumCheckList(port1, port2);
+	@ApiResponse(responseCode = "200", description = "포트 중복검사 조회 성공")
+	@Operation(description = "포드 번호 중복 검사 API", summary = "포드 번호 중복 검사 API")
+	@GetMapping("/container")
+	public BaseResponse<HashMap<String, Boolean>> portCheckList(@RequestParam Long port1, @RequestParam Long port2) {
+		HashMap<String, Boolean> portNumCheck = projectService.findPortNumCheckList(port1, port2);
 
-        return new BaseResponse<>(portNumCheck);
-    }
-
+		return new BaseResponse<>(portNumCheck);
+	}
 
 }
