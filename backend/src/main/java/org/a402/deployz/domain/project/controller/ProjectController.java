@@ -3,7 +3,9 @@ package org.a402.deployz.domain.project.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import javax.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
@@ -27,32 +29,42 @@ import java.util.List;
 @Slf4j
 public class ProjectController {
 
-  private final ProjectService projectService;
+    private final ProjectService projectService;
 
-  @PostMapping()
-  @ApiResponse(responseCode = "200", description = "프로젝트 생성 성공")
-  @Operation(description = "프로젝트 생성 API", summary = "프로젝트 생성 API")
-  public BaseResponse<Void> projectAdd(@Valid @RequestBody TotalProjectConfigRequest request) {
-    projectService.addProject(request);
-    return new BaseResponse<>(GlobalErrorCode.SUCCESS);
-  }
+    @PostMapping()
+    @ApiResponse(responseCode = "200", description = "프로젝트 생성 성공")
+    @Operation(description = "프로젝트 생성 API", summary = "프로젝트 생성 API")
+    public BaseResponse<Void> projectAdd(@Valid @RequestBody TotalProjectConfigRequest request) {
+        projectService.addProject(request);
 
-  @ApiResponse(responseCode = "200", description = "프로젝트 삭제 성공")
-  @Operation(description = "프로젝트 삭제 API", summary = "프로젝트 삭제 API")
-  @PostMapping("/{projectIdx}")
-  public BaseResponse<Void> projectRemove(@Valid @RequestParam long idx) {
-    projectService.deleteProject(idx);
-    return new BaseResponse<>(GlobalErrorCode.SUCCESS);
-  }
+        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
 
-  @ApiResponse(responseCode = "200", description = "프레임워크 타입 조회 성공")
-  @Operation(description = "프레임워크 타입 조회 API", summary = "프레임워크 타입 조회 API")
-  @GetMapping("/frameworkType")
-  public BaseResponse<String> frameworkTypeList(){
-    List<String> frameworkTypes = projectService.findFrameworkTypeList();
-    return new BaseResponse<>(frameworkTypes.toString());
-  }
+    @ApiResponse(responseCode = "200", description = "프로젝트 삭제 성공")
+    @Operation(description = "프로젝트 삭제 API", summary = "프로젝트 삭제 API")
+    @PostMapping("/{projectIdx}")
+    public BaseResponse<Void> projectRemove(@Valid @RequestParam long idx) {
+        projectService.deleteProject(idx);
 
+        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
 
+    @ApiResponse(responseCode = "200", description = "프레임워크 타입 조회 성공")
+    @Operation(description = "프레임워크 타입 조회 API", summary = "프레임워크 타입 조회 API")
+    @GetMapping("/frameworkType")
+    public BaseResponse<String> frameworkTypeList() {
+        List<String> frameworkTypes = projectService.findFrameworkTypeList();
+
+        return new BaseResponse<>(frameworkTypes.toString());
+    }
+
+    @ApiResponse(responseCode = "200", description = "빌드 버전 조회 성공")
+    @Operation(description = "빌드 버전 조회 API", summary = "빌드 버전 조회 API")
+    @GetMapping("/buildVersion/{frameworkType}")
+    public BaseResponse<String> buildVersionList(@PathVariable String frameworkType) {
+        List<String> buildVersion = projectService.findBuildVersionList(frameworkType);
+
+        return new BaseResponse<>(buildVersion.toString());
+    }
 
 }

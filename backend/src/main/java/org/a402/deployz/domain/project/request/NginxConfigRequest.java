@@ -1,8 +1,10 @@
 package org.a402.deployz.domain.project.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.a402.deployz.domain.project.entity.NginxConfig;
@@ -12,29 +14,29 @@ import org.a402.deployz.domain.project.entity.Project;
 @AllArgsConstructor
 public class NginxConfigRequest {
 
-  @NotNull
-  @Schema(description = "도메인 주소")
-  private String domainUrl;
+    @NotNull
+    @Schema(description = "도메인 주소")
+    private String domainUrl;
 
-  @NotNull
-  @Schema(description = "SSL 인증서 경로")
-  private String sslCertificate;
+    @NotNull
+    @Schema(description = "SSL 인증서 경로")
+    private String sslCertificate;
 
-  @NotNull
-  @Schema(description = "SSL 비밀키 경로")
-  private String sslCertificateKey;
+    @NotNull
+    @Schema(description = "SSL 비밀키 경로")
+    private String sslCertificateKey;
 
-  @NotNull
-  @Schema(description = "프록시 경로 목록")
-  private List<ProxyPathRequest> proxyPathList;
+    @NotNull
+    @Schema(description = "프록시 경로 목록")
+    private List<ProxyPathRequest> proxyPathList;
 
-  public NginxConfig toEntity(Project project) {
-    return NginxConfig.builder()
-        .domain(domainUrl)
-        .sslCertificate(sslCertificate)
-        .sslCertificateKey(sslCertificateKey)
-        .project(project)
-        .build();
-  }
+    public NginxConfig toEntity(Project project) {
+        return NginxConfig.builder()
+                .domain(domainUrl)
+                .sslCertificate(sslCertificate)
+                .sslCertificateKey(sslCertificateKey)
+                .project(project)
+                .build();
+    }
 
 }
