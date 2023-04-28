@@ -1,9 +1,5 @@
 package org.a402.deployz.domain.project.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
@@ -12,7 +8,18 @@ import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
 import org.a402.deployz.domain.project.service.ProjectService;
 import org.a402.deployz.global.common.BaseResponse;
 import org.a402.deployz.global.error.GlobalErrorCode;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -29,25 +36,23 @@ import java.util.List;
 @Slf4j
 public class ProjectController {
 
-    private final ProjectService projectService;
+	private final ProjectService projectService;
 
-    @PostMapping()
-    @ApiResponse(responseCode = "200", description = "프로젝트 생성 성공")
-    @Operation(description = "프로젝트 생성 API", summary = "프로젝트 생성 API")
-    public BaseResponse<Void> projectAdd(@Valid @RequestBody TotalProjectConfigRequest request) {
-        projectService.addProject(request);
+	@ApiResponse(responseCode = "200", description = "프로젝트 생성 성공")
+	@Operation(description = "프로젝트 생성 API", summary = "프로젝트 생성 API")
+	@PostMapping()
+	public BaseResponse<Void> projectAdd(@Valid @RequestBody TotalProjectConfigRequest request) {
+		projectService.addProject(request);
+		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+	}
 
-        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
-    }
-
-    @ApiResponse(responseCode = "200", description = "프로젝트 삭제 성공")
-    @Operation(description = "프로젝트 삭제 API", summary = "프로젝트 삭제 API")
-    @PostMapping("/{projectIdx}")
-    public BaseResponse<Void> projectRemove(@Valid @RequestParam long idx) {
-        projectService.deleteProject(idx);
-
-        return new BaseResponse<>(GlobalErrorCode.SUCCESS);
-    }
+	@ApiResponse(responseCode = "200", description = "프로젝트 삭제 성공")
+	@Operation(description = "프로젝트 삭제 API", summary = "프로젝트 삭제 API")
+	@DeleteMapping("/{projectIdx}")
+	public BaseResponse<Void> projectRemove(@Valid @RequestParam long idx) {
+		projectService.removeProject(idx);
+		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+	}
 
     @ApiResponse(responseCode = "200", description = "프레임워크 타입 조회 성공")
     @Operation(description = "프레임워크 타입 조회 API", summary = "프레임워크 타입 조회 API")

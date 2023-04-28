@@ -86,7 +86,7 @@ public class ProjectService {
     }
 
     @Transactional
-    public void deleteProject(long idx) {
+    public void removeProject(long idx) {
         projectRepository.findByIdx(idx)
                 .orElseThrow(() -> new ProjectNotFoundException(GlobalErrorCode.PROJECT_NOT_FOUND))
                 .updateDeletedFlag();
