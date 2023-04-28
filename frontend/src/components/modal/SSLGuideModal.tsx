@@ -106,6 +106,7 @@ const CloseIcon = mstyled(CancelRoundedIcon)({
   color : `${theme.colors.primary}`,
   '&:hover': {
     color: `${theme.colors.secondary}`,
+    transition: 'all .3s ease-out',
     cursor: 'pointer',
   },
 });

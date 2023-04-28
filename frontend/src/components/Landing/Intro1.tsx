@@ -22,14 +22,14 @@ const Container = styled.div`
   background-color : ${theme.colors.container};
   .left-container {
     height: 100%;
-    width: 50%;
+    width: 65%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
   .right-container {
     height: 100%;
-    width: 50%;
+    width: 35%;
     display: flex;
     justify-content: center;
     align-items: center;

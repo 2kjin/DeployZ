@@ -6,7 +6,20 @@ export default function Intro4() {
   return (
   <>
   <Container>
-    <Title>지금 바로 <b>'경험'</b> 해보세요</Title>
+    <div className="title-container">
+      <Title>
+      <span style={{ fontWeight: `${theme.fontWeight.extrabold}` }}>
+      자 동 배 포
+      </span>
+      </Title>
+      <Title>
+      지금 바로 
+      <span style={{ fontWeight: `${theme.fontWeight.extrabold}` }}>
+      &nbsp;'경험'&nbsp;
+      </span>
+       해보세요
+    </Title>
+    </div>
     <Guidebtn>START</Guidebtn>
   </Container>
   <Footer/>
@@ -19,9 +32,15 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height : 63vh;
+  height : 65vh;
   width : 100%;
   background-color : ${theme.colors.primary};
+  .title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
 `
 const Title = styled.div`

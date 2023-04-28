@@ -14,7 +14,13 @@ export default function Landing1() {
 
   return (
   <Container>
-    <Title>그동안 <b>'인프라'</b> 너무 어려우셨나요?</Title>
+    <Title>
+      그동안
+      <span style={{ fontWeight: `${theme.fontWeight.extrabold}`}}>
+      &nbsp;'인프라'&nbsp;
+      </span>
+      너무 어려우셨나요?
+    </Title>
     <div className="btn-container">
     <Guidebtn onClick={handleOpen}>Infra Guide</Guidebtn>
       <Modal

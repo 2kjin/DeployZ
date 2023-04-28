@@ -17,7 +17,7 @@ export default function IntroPage() {
     const deltaY: number = e.deltaY;
     const scrollTop: number = introScrollRef.current.scrollTop; // 스크롤 위쪽 끝부분 위치
     const pageHeight: number = introScrollRef.current.getBoundingClientRect().height; // 화면 세로길이
-    const scrollToTop: number = Math.ceil(pageHeight);
+    const scrollToTop: number = Math.ceil(pageHeight); // 맨 위로 스크롤
 
     if (deltaY > 0) {
       // 스크롤 내릴 때
@@ -97,9 +97,9 @@ export default function IntroPage() {
 
   return (
     <>
-    <Header/>
+    <Header scrollIndex={scrollIndex}/>
     <Container ref={introScrollRef}>
-      <Steps scrollIndex={scrollIndex} />
+      <Steps scrollIndex={scrollIndex}/>
       <Intro1/>
       <Intro2/>
       <Intro3/>
