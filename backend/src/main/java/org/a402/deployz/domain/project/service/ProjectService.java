@@ -84,6 +84,8 @@ public class ProjectService {
         for (int i = 0; i < nginxConfigRequest.getProxyPathList().size(); i++) {
             proxyConfigRepository.save(nginxConfigRequest.getProxyPathList().get(i).toEntity(nginxConfig));
         }
+
+
     }
 
     @Transactional

@@ -44,7 +44,7 @@ public class ProjectController {
 	@Operation(description = "프로젝트 생성 API", summary = "프로젝트 생성 API")
 	@PostMapping()
 	public BaseResponse<Void> projectAdd(@Valid @RequestBody TotalProjectConfigRequest request) {
-		projectService.addProject(request);
+		projectService.addProjgitect(request);
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 
@@ -59,19 +59,19 @@ public class ProjectController {
 	@ApiResponse(responseCode = "200", description = "프레임워크 타입 조회 성공")
 	@Operation(description = "프레임워크 타입 조회 API", summary = "프레임워크 타입 조회 API")
 	@GetMapping("/frameworkType")
-	public BaseResponse<String> frameworkTypeList() {
+	public BaseResponse<List<String>> frameworkTypeList() {
 		List<String> frameworkTypes = projectService.findFrameworkTypeList();
 
-		return new BaseResponse<>(frameworkTypes.toString());
+		return new BaseResponse<>(frameworkTypes);
 	}
 
 	@ApiResponse(responseCode = "200", description = "빌드 버전 조회 성공")
 	@Operation(description = "빌드 버전 조회 API", summary = "빌드 버전 조회 API")
 	@GetMapping("/buildVersion/{frameworkType}")
-	public BaseResponse<String> buildVersionList(@PathVariable String frameworkType) {
+	public BaseResponse<List<String>> buildVersionList(@PathVariable String frameworkType) {
 		List<String> buildVersion = projectService.findBuildVersionList(frameworkType);
 
-		return new BaseResponse<>(buildVersion.toString());
+		return new BaseResponse<>(buildVersion);
 	}
 
     @ApiResponse(responseCode = "200", description = "포트 중복검사 조회 성공")
