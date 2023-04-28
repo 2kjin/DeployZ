@@ -1,10 +1,9 @@
 package org.a402.deployz.domain.project.service;
 
-import static org.a402.deployz.domain.project.entity.enums.FrameworkType.*;
-import static org.a402.deployz.domain.project.entity.enums.ReactVersion.*;
-import static org.a402.deployz.domain.project.entity.enums.SpringBootVersion.*;
-
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
@@ -26,8 +25,13 @@ import org.a402.deployz.global.error.GlobalErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+import java.util.List;
+
+import static org.a402.deployz.domain.project.entity.enums.FrameworkType.*;
+import static org.a402.deployz.domain.project.entity.enums.ReactVersion.getReactVersion;
+import static org.a402.deployz.domain.project.entity.enums.SpringBootVersion.getSpringBootVersion;
+
 
 //  | findOrder() | 조회 유형의 service 메서드 |
 //  | addOrder() | 등록 유형의 service 메서드 |
@@ -107,4 +111,11 @@ public class ProjectService {
 		return names;
 	}
 
+	public HashMap<String, Boolean> findPortNumCheckList(Long port1, Long port2) {
+		HashMap<String, Boolean> portCheck = new HashMap<>();
+		//true: 사용 가능, false: 사용 불가
+		portCheck.put("port1", !itemRepository.existsByPortNumber1(port1));
+		portCheck.put("port2", !itemRepository.existsByPortNumber2(port2));
+		return portCheck;
+	}
 }

@@ -41,8 +41,7 @@ public class ProjectState {
 
 	@Builder
 	public ProjectState(final Long idx, final String status, final LocalDateTime registerTime,
-		final LocalDateTime lastModifiedDate, final String step,
-		final Project projects) {
+		final LocalDateTime lastModifiedDate, final String step, final Project projects) {
 		this.idx = idx;
 		this.status = status;
 		this.registerTime = registerTime;

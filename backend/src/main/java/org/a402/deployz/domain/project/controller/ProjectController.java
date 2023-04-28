@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -57,19 +59,28 @@ public class ProjectController {
 	@ApiResponse(responseCode = "200", description = "프레임워크 타입 조회 성공")
 	@Operation(description = "프레임워크 타입 조회 API", summary = "프레임워크 타입 조회 API")
 	@GetMapping("/frameworkType")
-	public BaseResponse<String> frameworkTypeList() {
+	public BaseResponse<List<String>> frameworkTypeList() {
 		List<String> frameworkTypes = projectService.findFrameworkTypeList();
 
-		return new BaseResponse<>(frameworkTypes.toString());
+		return new BaseResponse<>(frameworkTypes);
 	}
 
 	@ApiResponse(responseCode = "200", description = "빌드 버전 조회 성공")
 	@Operation(description = "빌드 버전 조회 API", summary = "빌드 버전 조회 API")
 	@GetMapping("/buildVersion/{frameworkType}")
-	public BaseResponse<String> buildVersionList(@PathVariable String frameworkType) {
+	public BaseResponse<List<String>> buildVersionList(@PathVariable String frameworkType) {
 		List<String> buildVersion = projectService.findBuildVersionList(frameworkType);
 
-		return new BaseResponse<>(buildVersion.toString());
+		return new BaseResponse<>(buildVersion);
+	}
+
+	@ApiResponse(responseCode = "200", description = "포트 중복검사 조회 성공")
+	@Operation(description = "포드 번호 중복 검사 API", summary = "포드 번호 중복 검사 API")
+	@GetMapping("/container")
+	public BaseResponse<HashMap<String, Boolean>> portCheckList(@RequestParam Long port1, @RequestParam Long port2) {
+		HashMap<String, Boolean> portNumCheck = projectService.findPortNumCheckList(port1, port2);
+
+		return new BaseResponse<>(portNumCheck);
 	}
 
 }

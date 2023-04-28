@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    Optional<Project> findByIdx(long idx);
+	Optional<Project> findByIdx(long idx);
+
 }
