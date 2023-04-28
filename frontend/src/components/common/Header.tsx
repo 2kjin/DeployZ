@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import LogoPic from "@/assets/logo.png";
 import GitlabPic from "@/assets/gitlab.png";
 
-export default function Header({scrollIndex}: {scrollIndex: number}) {
+export default function Header({type}: {type: String}) {
   const navigate = useNavigate();
 
   return (
-    <Container className={scrollIndex === 1 || scrollIndex === 2 || scrollIndex === 3 ? 'active' : ""}>
+    <Container type={type}>
       <Logo alt="logo" src={LogoPic} onClick={() => navigate("/")}/>
       <Loginbtn>
         <Gitlab alt="gitlab" src={GitlabPic} />
@@ -18,14 +18,13 @@ export default function Header({scrollIndex}: {scrollIndex: number}) {
   );
 }
 
-const Container = styled.div`
+const Container = styled.div<{ type: String }>`
   display: flex;
   justify-content: space-between;
   height: 7vh;
   padding: 0 1.5rem;
-  &.active {
-    background-color : ${theme.colors.container};
-  }
+  background-color : ${(props) =>
+    props.type == "intro" ? theme.colors.container : theme.colors.primary};
 `
 const Logo = styled.img`
   padding: 0.5rem;

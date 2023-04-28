@@ -10,9 +10,21 @@ import Steps from "@components/Landing/Steps";
 export default function IntroPage() {
   const [scrollIndex, setScrollIndex] = useState<number>(1); // 현재 내 위치
   const introScrollRef = useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>; // 전체 페이지, 스크롤바를 조작
+  
+  // Header type 설정
+  const [type, setType] = useState<string>("standard");
+  useEffect(() => {
+    if(scrollIndex === 1 || scrollIndex === 2 || scrollIndex === 3) {
+      setType("intro");      
+    }
+    else{
+      setType("standard");      
+    }
+  }, [scrollIndex])
 
-  const wheelHandler = useCallback((e:any):any => {
-    e.preventDefault();
+
+  const wheelHandler = useCallback((e: WheelEvent): void => {
+  e.preventDefault();
 
     const deltaY: number = e.deltaY;
     const scrollTop: number = introScrollRef.current.scrollTop; // 스크롤 위쪽 끝부분 위치
@@ -89,15 +101,16 @@ export default function IntroPage() {
     }
   }, [scrollIndex]);
 
+  // 마우스 휠 이벤트
   useEffect(() => {
     const introScrollRefCurrent = introScrollRef.current;
     introScrollRefCurrent.addEventListener("wheel", wheelHandler);
     return () => introScrollRefCurrent.removeEventListener("wheel", wheelHandler);
-  }, [wheelHandler]); // 마우스 휠 이벤트
+  }, [wheelHandler]); 
 
   return (
     <>
-    <Header scrollIndex={scrollIndex}/>
+    <Header type={type}/>
     <Container ref={introScrollRef}>
       <Steps scrollIndex={scrollIndex}/>
       <Intro1/>
