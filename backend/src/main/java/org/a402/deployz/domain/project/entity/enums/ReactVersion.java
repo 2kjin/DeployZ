@@ -25,6 +25,4 @@ public enum ReactVersion {
                 .map(ReactVersion::getName)
                 .collect(Collectors.toList());
     }
-
-
 }

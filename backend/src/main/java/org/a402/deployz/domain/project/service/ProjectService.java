@@ -51,7 +51,6 @@ public class ProjectService {
 
     @Transactional
     public void addProject(TotalProjectConfigRequest request) {
-
         // Project 저장
         // @FIXME: need token parsing
         Member member = memberRepository.findMemberByEmail("eunjikim8784@gmail.com");
@@ -65,12 +64,14 @@ public class ProjectService {
         for (int i = 0; i < request.getItemList().size(); i++) {
             ItemConfigRequest itemConfigRequest = request.getItemList().get(i);
             itemRepository.save(itemConfigRequest.toEntity(project));
+
             // GitToken 저장
             GitToken gitToken = GitToken.builder()
                     .secretToken(itemConfigRequest.getSecretToken())
                     .branchName(itemConfigRequest.getBranchName())
                     .gitConfig(gitConfig)
                     .build();
+
             gitTokenRepository.save(gitToken);
         }
 
@@ -80,35 +81,31 @@ public class ProjectService {
 
         // ProxyConfig 저장
         for (int i = 0; i < nginxConfigRequest.getProxyPathList().size(); i++) {
-            proxyConfigRepository.save(
-                    nginxConfigRequest.getProxyPathList().get(i).toEntity(nginxConfig));
+            proxyConfigRepository.save(nginxConfigRequest.getProxyPathList().get(i).toEntity(nginxConfig));
         }
-
     }
 
     @Transactional
     public void deleteProject(long idx) {
-        Project project = projectRepository.findByIdx(idx)
-                .orElseThrow(() -> new ProjectNotFoundException(GlobalErrorCode.PROJECT_NOT_FOUND));
-        project.updateDeletedFlag();
+        projectRepository.findByIdx(idx)
+                .orElseThrow(() -> new ProjectNotFoundException(GlobalErrorCode.PROJECT_NOT_FOUND))
+                .updateDeletedFlag();
     }
 
     @Transactional
     public List<String> findFrameworkTypeList() {
-        List<String> names = getFrameworkNames();
-        return names;
+        return getFrameworkNames();
     }
 
+    public List<String> findBuildVersionList(String frameworkType) {
+        List<String> names = null;
 
-    public List<String> findBuildVersionList(String framworkType) {
-        List<String>names = null;
-        System.out.println(framworkType);
-        if (framworkType.equals("React")){
-            names=getReactVersion();
+        if (frameworkType.equals(REACT.getName())) {
+            names = getReactVersion();
+        } else if (frameworkType.equals(SPRINGBOOT.getName())) {
+            names = getSpringBootVersion();
         }
-        else if(framworkType.equals("SpringBoot")){
-            names=getSpringBootVersion();
-        }
+
         return names;
     }
 
