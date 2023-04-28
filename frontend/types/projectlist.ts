@@ -1,5 +1,5 @@
-export interface ProjectListItemProps {
-  id: number;
+export interface ProjectInfo {
+  idx: number;
   projectName: string;
   itemCnt: number;
   lastSuccessDate: string;
