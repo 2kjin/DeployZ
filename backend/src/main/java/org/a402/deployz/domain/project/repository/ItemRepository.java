@@ -8,5 +8,8 @@ import java.util.List;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
-    List<String> findByFrameworkType(String name);
+    boolean existsByPortNumber1 (Long port1);
+
+    boolean existsByPortNumber2 (Long port2);
+
 }

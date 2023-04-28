@@ -25,6 +25,7 @@ import org.a402.deployz.global.error.GlobalErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static org.a402.deployz.domain.project.entity.enums.FrameworkType.*;
@@ -109,4 +110,11 @@ public class ProjectService {
         return names;
     }
 
+    public HashMap<String,Boolean> findPortNumCheckList(Long port1, Long port2) {
+        HashMap<String,Boolean> portCheck = new HashMap<>();
+            //true: 사용 가능, false: 사용 불가
+            portCheck.put("port1", !itemRepository.existsByPortNumber1(port1));
+            portCheck.put("port2", !itemRepository.existsByPortNumber2(port2));
+            return portCheck;
+    }
 }

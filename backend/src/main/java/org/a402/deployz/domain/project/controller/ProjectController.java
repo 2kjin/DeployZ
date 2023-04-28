@@ -14,6 +14,7 @@ import org.a402.deployz.global.common.BaseResponse;
 import org.a402.deployz.global.error.GlobalErrorCode;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 //	| orderList() | 목록 조회 유형의 서비스 |
@@ -66,5 +67,15 @@ public class ProjectController {
 
         return new BaseResponse<>(buildVersion.toString());
     }
+
+    @ApiResponse(responseCode = "200", description = "포트 중복검사 조회 성공")
+    @Operation(description = "포드 번호 중복 검사 API", summary = "포드 번호 중복 검사 API")
+    @GetMapping("/container")
+    public BaseResponse<HashMap<String,Boolean>>  portCheckList (@RequestParam Long port1,@RequestParam Long port2 ){
+        HashMap<String,Boolean> portNumCheck = projectService.findPortNumCheckList(port1, port2);
+
+        return new BaseResponse<>(portNumCheck);
+    }
+
 
 }
