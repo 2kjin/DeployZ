@@ -35,9 +35,12 @@ export default function ItemListPage() {
     return <div>Loading...</div>;
   }
 
+  // Header type 설정
+  const [type, setType] = useState<string>("standard");
+  
   return (
     <>
-      <Header />
+      <Header type={type}  />
       <STitleBox>
         <SEditButton>설정</SEditButton>
         <SDiv>

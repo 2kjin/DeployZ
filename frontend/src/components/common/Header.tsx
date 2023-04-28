@@ -3,6 +3,8 @@ import { theme } from "@/styles/theme";
 import { useNavigate } from 'react-router-dom';
 import LogoPic from "@/assets/logo.png";
 import GitlabPic from "@/assets/gitlab.png";
+import { NavLink } from "react-router-dom";
+
 
 export default function Header({type}: {type: String}) {
   const navigate = useNavigate();
@@ -10,6 +12,8 @@ export default function Header({type}: {type: String}) {
   return (
     <Container type={type}>
       <Logo alt="logo" src={LogoPic} onClick={() => navigate("/")}/>
+      <NavStyle to="/guide" >Project List</NavStyle>
+      <NavStyle to="/guide" >Infra Guide</NavStyle>
       <Loginbtn>
         <Gitlab alt="gitlab" src={GitlabPic} />
         LOGIN
@@ -25,6 +29,29 @@ const Container = styled.div<{ type: String }>`
   padding: 0 1.5rem;
   background-color : ${(props) =>
     props.type == "intro" ? theme.colors.container : theme.colors.primary};
+`
+const NavStyle = styled(NavLink)`
+  display: flex;
+  align-items: end ;
+  justify-content: end;
+  color: white;
+  padding: 2vh;
+  font-size: 2rem;
+  &:link {
+    transition : 0.5s;
+    text-decoration: none;
+  }
+  &:hover {
+    color: lightyellow;
+    filter: drop-shadow(0.6vh 0.6vh 0.3vh rgb(0 0 0 / 0.6));
+  }
+  &.active {
+    filter: drop-shadow(0.6vh 0.6vh 0.3vh rgb(0 0 0 / 0.6));
+    color: #FAE59C;
+    position: relative;
+    top: 1vh;
+    border-bottom: 1vh solid #FAE59C;
+  }
 `
 const Logo = styled.img`
   padding: 0.5rem;

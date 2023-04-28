@@ -8,13 +8,17 @@ import InputSection1 from "@components/CreateProject/RightSection/InputSection1"
 import InputSection2 from "@components/CreateProject/RightSection/InputSection2";
 import InputSection3 from "@components/CreateProject/RightSection/InputSection3";
 import InputSection4 from "@components/CreateProject/RightSection/InputSection4";
+import { useState } from "react";
 
 export default function ProjectStepPage() {
   const currentChapter = useRecoilValue(chapterState);
+  
+  // Header type 설정
+  const [type, setType] = useState<string>("standard");
 
   return (
     <>
-      <Header />
+      <Header type={type} />
       <Container>
         <StepSection />
         {/* <Outlet /> */}
