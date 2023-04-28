@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
@@ -11,23 +12,35 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 import { ItemInfo } from "../../../types/itemlist";
 
-export default function ItemListElement({ item }: { item: ItemInfo }) {
+interface ItemListElementProps {
+  item: ItemInfo;
+}
+
+export default function ItemListElement({ item }: ItemListElementProps) {
+  const navigate = useNavigate();
+
+  const handleItemClick = () => {
+    navigate(`/itemdetail/${item.idx}`);
+  };
+
   return (
-    <SItem>
-      <PlayArrowIcon style={PlayArrowIconStyle} />
-      <StopIcon style={StopIconStyle} />
-      <SProjectName>{item?.itemName}</SProjectName>
-      {item?.isIng ? (
-        <CheckCircleOutlineIcon style={checkStyle} />
-      ) : (
-        <HighlightOffIcon style={HighlightOffIconStyle} />
-      )}
-      <SItemCount>{item?.itemPort.join(", ")}</SItemCount>
-      <SLastSuccessTime>{item?.lastSuccessDate}</SLastSuccessTime>
-      <SLastFailureTime>{item?.lastFailedDate}</SLastFailureTime>
-      <DeleteOutlineIcon style={DeleteOutlineIconStyle} />
-      <SButton>상세보기</SButton>
-    </SItem>
+    <>
+      <SItem>
+        <PlayArrowIcon style={PlayArrowIconStyle} />
+        <StopIcon style={StopIconStyle} />
+        <SProjectName>{item?.itemName}</SProjectName>
+        {item?.isIng ? (
+          <CheckCircleOutlineIcon style={checkStyle} />
+        ) : (
+          <HighlightOffIcon style={HighlightOffIconStyle} />
+        )}
+        <SItemCount>{item?.itemPort.join(", ")}</SItemCount>
+        <SLastSuccessTime>{item?.lastSuccessDate}</SLastSuccessTime>
+        <SLastFailureTime>{item?.lastFailedDate}</SLastFailureTime>
+        <DeleteOutlineIcon style={DeleteOutlineIconStyle} />
+        <SButton onClick={handleItemClick}>상세보기</SButton>
+      </SItem>
+    </>
   );
 }
 

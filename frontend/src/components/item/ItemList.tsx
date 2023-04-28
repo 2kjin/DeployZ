@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
-
+import React from "react";
 import { ItemInfo } from "../../../types/itemlist";
-
-//import components
 import ItemListElement from "./ItemListElement";
 
-const items: ItemInfo[] = [
+const itemList: ItemInfo[] = [
   {
     idx: 1,
     itemName: "FE",
@@ -20,7 +17,7 @@ const items: ItemInfo[] = [
     itemPort: [8000, 8001],
     lastSuccessDate: "3days 2hr",
     lastFailedDate: "3days 5hr",
-    isIng: "",
+    isIng: "false",
   },
   {
     idx: 3,
@@ -28,14 +25,14 @@ const items: ItemInfo[] = [
     itemPort: [9000, 9001],
     lastSuccessDate: "3days 2hr",
     lastFailedDate: "3days 5hr",
-    isIng: "true",
+    isIng: "",
   },
 ];
 
-export default function ItemList(): JSX.Element {
+export default function ItemList() {
   return (
     <>
-      {items.map((item) => (
+      {itemList.map((item) => (
         <ItemListElement key={item.idx} item={item} />
       ))}
     </>

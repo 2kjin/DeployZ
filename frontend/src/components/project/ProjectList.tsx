@@ -8,7 +8,7 @@ import { ProjectInfo } from "../../../types/projectlist";
 import { style } from "@mui/system";
 
 //더미데이터
-const projects: ProjectInfo[] = [
+export const projects: ProjectInfo[] = [
   {
     idx: 1,
     projectName: "DeployZ",
