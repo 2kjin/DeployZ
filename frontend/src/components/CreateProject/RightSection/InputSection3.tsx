@@ -3,14 +3,14 @@ import styled from "styled-components";
 import { alpha, styled as mstyled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { FormControl, InputLabel } from "@mui/material";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { gitState, projectState } from "@/recoil/step";
 import SdCardAlertIcon from "@mui/icons-material/SdCardAlert";
 import MouseIcon from "@mui/icons-material/Mouse";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function InputSection2() {
-  const project = useRecoilValue<IProject>(projectState);
+  const [project, setProject] = useRecoilState<IProject>(projectState);
   const [gitConfig, setGitConfig] = useRecoilState<IGitConfig>(gitState);
   const [checkStatus, setCheckStatus] = useState<boolean>(false);
 
@@ -34,6 +34,13 @@ export default function InputSection2() {
       [id]: value,
     }));
   };
+
+  useEffect(() => {
+    setProject((prev) => ({
+      ...prev,
+      gitConfig: gitConfig,
+    }));
+  }, [gitConfig]);
 
   return (
     <Container>

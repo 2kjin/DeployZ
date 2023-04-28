@@ -3,6 +3,8 @@ import { FormControl } from "@mui/material";
 import { alpha, styled as mstyled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { theme } from "@/styles/theme";
+import { useSetRecoilState } from "recoil";
+import { NginxState } from "@/recoil/step";
 
 export default function Proxypass({
   pathItem,
@@ -11,6 +13,21 @@ export default function Proxypass({
   pathItem: IProxyPath;
   deleteProxy: (index: number) => void;
 }) {
+  const setNginxState = useSetRecoilState(NginxState);
+
+  const handleProxyPathListUpdate = (e: React.SyntheticEvent) => {
+    const target = e.target as HTMLInputElement;
+    const id = target.id as string;
+    const value = target.value as string;
+
+    setNginxState((prevNginxState) => ({
+      ...prevNginxState,
+      proxyPathList: prevNginxState.proxyPathList.map((proxy) =>
+        proxy.idx === pathItem.idx ? { ...proxy, [id]: value } : proxy
+      ),
+    }));
+  };
+
   return (
     <Container>
       <LeftContainer>
@@ -23,7 +40,8 @@ export default function Proxypass({
               spacingSize={3}
               placeholder={`ex) http://localhost:8080`}
               id="pathUrl"
-              value={pathItem.idx}
+              value={pathItem.pathUrl}
+              onChange={handleProxyPathListUpdate}
             />
           </FormControl>
         </InputContainer>
@@ -36,7 +54,8 @@ export default function Proxypass({
               spacingSize={3}
               placeholder={`ex) /api`}
               id="pathName"
-              // value={pathItem.pathName}
+              value={pathItem.pathName}
+              onChange={handleProxyPathListUpdate}
             />
           </FormControl>
         </InputContainer>
