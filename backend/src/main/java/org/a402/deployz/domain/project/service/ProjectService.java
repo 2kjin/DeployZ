@@ -11,7 +11,6 @@ import org.a402.deployz.domain.member.entity.Member;
 import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.NginxConfig;
 import org.a402.deployz.domain.project.entity.Project;
-import org.a402.deployz.domain.project.entity.enums.FrameworkType;
 import org.a402.deployz.domain.project.exception.ProjectNotFoundException;
 import org.a402.deployz.domain.project.repository.GitConfigRepository;
 import org.a402.deployz.domain.project.repository.GitTokenRepository;
@@ -32,6 +31,7 @@ import java.util.List;
 import static org.a402.deployz.domain.project.entity.enums.FrameworkType.*;
 import static org.a402.deployz.domain.project.entity.enums.ReactVersion.getReactVersion;
 import static org.a402.deployz.domain.project.entity.enums.SpringBootVersion.getSpringBootVersion;
+
 
 //  | findOrder() | 조회 유형의 service 메서드 |
 //  | addOrder() | 등록 유형의 service 메서드 |
@@ -60,7 +60,7 @@ public class ProjectService {
 			request.getProjectConfig().toEntity(member));
 
 		// GitConfig 저장
-		GitConfig gitConfig = gitConfigRepository.save(request.getGitConfig().toEntity(project));
+		GitConfig gitConfig = gitConfigRepository.save(request.getProjectConfig().toGEntity(project));
 
 		// Item 저장
 		for (int i = 0; i < request.getItemList().size(); i++) {
@@ -85,7 +85,6 @@ public class ProjectService {
 		for (int i = 0; i < nginxConfigRequest.getProxyPathList().size(); i++) {
 			proxyConfigRepository.save(nginxConfigRequest.getProxyPathList().get(i).toEntity(nginxConfig));
 		}
-
 	}
 
 	@Transactional
