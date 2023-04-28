@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum FrameworkType {
-    SPRINGBOOT("springBoot"),
+    SPRINGBOOT("SpringBoot"),
     REACT("React");
 
     private final String name;
@@ -21,7 +21,7 @@ public enum FrameworkType {
         return this.name;
     }
 
-    public static List<String> getNames() {
+    public static List<String> getFrameworkNames() {
         return Arrays.stream(FrameworkType.values())
                 .map(FrameworkType::getName)
                 .collect(Collectors.toList());

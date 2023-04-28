@@ -3,6 +3,7 @@ package org.a402.deployz.domain.project.service;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
 import org.a402.deployz.domain.member.entity.Member;
@@ -27,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.a402.deployz.domain.project.entity.enums.FrameworkType.*;
+import static org.a402.deployz.domain.project.entity.enums.ReactVersion.getReactVersion;
+import static org.a402.deployz.domain.project.entity.enums.SpringBootVersion.getSpringBootVersion;
 
 //  | findOrder() | 조회 유형의 service 메서드 |
 //  | addOrder() | 등록 유형의 service 메서드 |
@@ -35,6 +38,7 @@ import static org.a402.deployz.domain.project.entity.enums.FrameworkType.*;
 //  | saveOrder() | 등록/수정/삭제 가 동시에 일어나는 유형의 service 메서드 |
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
@@ -82,7 +86,7 @@ public class ProjectService {
 
     }
 
-    @Transactional // 예외적 상황을 막기 위함
+    @Transactional
     public void deleteProject(long idx) {
         Project project = projectRepository.findByIdx(idx)
                 .orElseThrow(() -> new ProjectNotFoundException(GlobalErrorCode.PROJECT_NOT_FOUND));
@@ -91,8 +95,20 @@ public class ProjectService {
 
     @Transactional
     public List<String> findFrameworkTypeList() {
-        List<String> names = getNames();
-        System.out.println("리스트: " + names);
+        List<String> names = getFrameworkNames();
+        return names;
+    }
+
+
+    public List<String> findBuildVersionList(String framworkType) {
+        List<String>names = null;
+        System.out.println(framworkType);
+        if (framworkType.equals("React")){
+            names=getReactVersion();
+        }
+        else if(framworkType.equals("SpringBoot")){
+            names=getSpringBootVersion();
+        }
         return names;
     }
 

@@ -50,7 +50,17 @@ public class ProjectController {
   @GetMapping("/frameworkType")
   public BaseResponse<String> frameworkTypeList(){
     List<String> frameworkTypes = projectService.findFrameworkTypeList();
+
     return new BaseResponse<>(frameworkTypes.toString());
+  }
+
+  @ApiResponse(responseCode = "200", description = "빌드 버전 조회 성공")
+  @Operation(description = "빌드 버전 조회 API", summary = "빌드 버전 조회 API")
+  @GetMapping("/buildVersion/{frameworkType}")
+  public BaseResponse<String> buildVersionList(@PathVariable String frameworkType){
+    List<String> buildVersion = projectService.findBuildVersionList(frameworkType);
+
+    return new  BaseResponse<>(buildVersion.toString());
   }
 
 
