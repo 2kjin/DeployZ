@@ -33,7 +33,6 @@ interface IGitConfig {
   hostUrl: string;
   repositoryUrl: string;
   projectId: string;
-  credentialId: string;
   accessToken: string;
 }
 
@@ -45,6 +44,7 @@ interface INginxConfig {
 }
 
 interface IProxyPath {
+  idx: number;
   pathUrl: stirng;
   pathName: stirng;
 }

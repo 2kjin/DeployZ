@@ -65,11 +65,11 @@ const defaultGitConfig: IGitConfig = {
   hostUrl: "",
   repositoryUrl: "",
   projectId: "",
-  credentialId: "",
   accessToken: "",
 };
 
 const defaultProxyPath: IProxyPath = {
+  idx: 0,
   pathUrl: "",
   pathName: "",
 };
