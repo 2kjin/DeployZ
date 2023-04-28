@@ -1,13 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import App from "./pages/AppPage";
 import ItemListPage from "./pages/ItemListPage";
 import ProjectListPage from "./pages/ProjectListPage";
+import IntroPage from "./pages/IntroPage";
 import ProjectStepPage from "./pages/ProjectStepPage";
 import ItemDetail from "@components/item/ItemDetail";
+import ThreejstestPage from "./pages/ThreejstestPage";
+import Page404 from "./pages/Page404";
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
+  { path: "/intro", element: <IntroPage /> },
   {
     path: "/step",
     element: <ProjectStepPage />,
@@ -21,6 +24,12 @@ const router = createBrowserRouter([
   { path: "/project", element: <ProjectListPage /> },
   { path: "/item", element: <ItemListPage /> },
   { path: "/itemdetail/:idx", element: <ItemDetail /> },
+  {
+    path: "/test", element: <ThreejstestPage />
+  },
+  {
+    path: "*", element: <Page404 />
+  },
 ]);
 
 export default router;

@@ -1,12 +1,15 @@
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
+import { useNavigate } from 'react-router-dom';
 import LogoPic from "@/assets/logo.png";
 import GitlabPic from "@/assets/gitlab.png";
 
-export default function Header() {
+export default function Header({scrollIndex}: {scrollIndex: number}) {
+  const navigate = useNavigate();
+
   return (
-    <Container>
-      <Logo alt="logo" src={LogoPic} />
+    <Container className={scrollIndex === 1 || scrollIndex === 2 || scrollIndex === 3 ? 'active' : ""}>
+      <Logo alt="logo" src={LogoPic} onClick={() => navigate("/")}/>
       <Loginbtn>
         <Gitlab alt="gitlab" src={GitlabPic} />
         LOGIN
@@ -20,31 +23,37 @@ const Container = styled.div`
   justify-content: space-between;
   height: 7vh;
   padding: 0 1.5rem;
-  /* background-color : ${theme.colors.secondary}; */
+  &.active {
+    background-color : ${theme.colors.container};
+  }
 `
 const Logo = styled.img`
   padding: 0.5rem;
+  :hover {
+    cursor: pointer;
+  }
 `
-const Loginbtn = styled.button`
+const Loginbtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   background: none;
-  border-color: ${theme.colors.secondary};
   color: ${theme.colors.secondary};
-  border-radius: 3rem;
+  border: .3rem solid ${theme.colors.secondary};
+  border-radius: 2.5rem;
   padding: 1.5vh;
   margin: 1vh;
   font-size: 1.5rem;
   font-weight: ${theme.fontWeight.extrabold};
-  border-width: 0.3rem;
   :hover {
   background: ${theme.colors.secondary};
   border-color: ${theme.colors.secondary};
   color: ${theme.colors.white};
+  transition: all .4s ease-out;
+  cursor: pointer;
 }
 `
 const Gitlab = styled.img`
-  height: 4vh;
+  height: 3.5vh;
   padding: 0 1rem 0 0;
 `
