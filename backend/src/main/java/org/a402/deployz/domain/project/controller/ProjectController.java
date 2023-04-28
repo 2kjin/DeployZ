@@ -1,14 +1,16 @@
 package org.a402.deployz.domain.project.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
 import org.a402.deployz.domain.project.service.ProjectService;
 import org.a402.deployz.global.common.BaseResponse;
 import org.a402.deployz.global.error.GlobalErrorCode;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +22,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
 
 //	| orderList() | 목록 조회 유형의 서비스 |
 //	| orderDetails() | 단 건 상세 조회 유형의 controller 메서드 |
@@ -54,22 +54,22 @@ public class ProjectController {
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 
-    @ApiResponse(responseCode = "200", description = "프레임워크 타입 조회 성공")
-    @Operation(description = "프레임워크 타입 조회 API", summary = "프레임워크 타입 조회 API")
-    @GetMapping("/frameworkType")
-    public BaseResponse<String> frameworkTypeList() {
-        List<String> frameworkTypes = projectService.findFrameworkTypeList();
+	@ApiResponse(responseCode = "200", description = "프레임워크 타입 조회 성공")
+	@Operation(description = "프레임워크 타입 조회 API", summary = "프레임워크 타입 조회 API")
+	@GetMapping("/frameworkType")
+	public BaseResponse<String> frameworkTypeList() {
+		List<String> frameworkTypes = projectService.findFrameworkTypeList();
 
-        return new BaseResponse<>(frameworkTypes.toString());
-    }
+		return new BaseResponse<>(frameworkTypes.toString());
+	}
 
-    @ApiResponse(responseCode = "200", description = "빌드 버전 조회 성공")
-    @Operation(description = "빌드 버전 조회 API", summary = "빌드 버전 조회 API")
-    @GetMapping("/buildVersion/{frameworkType}")
-    public BaseResponse<String> buildVersionList(@PathVariable String frameworkType) {
-        List<String> buildVersion = projectService.findBuildVersionList(frameworkType);
+	@ApiResponse(responseCode = "200", description = "빌드 버전 조회 성공")
+	@Operation(description = "빌드 버전 조회 API", summary = "빌드 버전 조회 API")
+	@GetMapping("/buildVersion/{frameworkType}")
+	public BaseResponse<String> buildVersionList(@PathVariable String frameworkType) {
+		List<String> buildVersion = projectService.findBuildVersionList(frameworkType);
 
-        return new BaseResponse<>(buildVersion.toString());
-    }
+		return new BaseResponse<>(buildVersion.toString());
+	}
 
 }
