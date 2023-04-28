@@ -12,12 +12,14 @@ export default function Header({type}: {type: String}) {
   return (
     <Container type={type}>
       <Logo alt="logo" src={LogoPic} onClick={() => navigate("/")}/>
-      <NavStyle to="/guide" >Project List</NavStyle>
-      <NavStyle to="/guide" >Infra Guide</NavStyle>
+      <div className="nav-container">
+      <NavStyle to="/project" >Project List</NavStyle>
+      <NavStyle to="/step" >Infra Guide</NavStyle>
       <Loginbtn>
         <Gitlab alt="gitlab" src={GitlabPic} />
         LOGIN
       </Loginbtn>
+      </div>
     </Container>
   );
 }
@@ -29,28 +31,30 @@ const Container = styled.div<{ type: String }>`
   padding: 0 1.5rem;
   background-color : ${(props) =>
     props.type == "intro" ? theme.colors.container : theme.colors.primary};
+  .nav-container{
+  display: flex;
+  }
 `
 const NavStyle = styled(NavLink)`
   display: flex;
-  align-items: end ;
-  justify-content: end;
+  align-items: center ;
   color: white;
-  padding: 2vh;
+  padding: 2rem;
   font-size: 2rem;
   &:link {
     transition : 0.5s;
     text-decoration: none;
   }
   &:hover {
-    color: lightyellow;
+    color: ${theme.colors.secondary};
     filter: drop-shadow(0.6vh 0.6vh 0.3vh rgb(0 0 0 / 0.6));
   }
   &.active {
     filter: drop-shadow(0.6vh 0.6vh 0.3vh rgb(0 0 0 / 0.6));
-    color: #FAE59C;
+    color: ${theme.colors.secondary};
     position: relative;
-    top: 1vh;
-    border-bottom: 1vh solid #FAE59C;
+    bottom: .2rem;
+    border-bottom: .2rem solid ${theme.colors.secondary};
   }
 `
 const Logo = styled.img`
