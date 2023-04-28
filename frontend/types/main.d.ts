@@ -7,11 +7,13 @@ interface IStepItem {
 interface IProject {
   projectConfig: IProjectConfig;
   itemList: IItem[];
-  gitConfig: IGitConfig;
   nginxConfig: INginxConfig;
 }
 
 interface IProjectConfig {
+  hostUrl: string;
+  repositoryUrl: string;
+  projectId: string;
   projectName: string;
   description: string;
   imageUrl: string;
@@ -27,13 +29,6 @@ interface IItem {
   targetFolder: string;
   frameworkType: string;
   buildVersion: string;
-}
-
-interface IGitConfig {
-  hostUrl: string;
-  repositoryUrl: string;
-  projectId: string;
-  accessToken: string;
 }
 
 interface INginxConfig {

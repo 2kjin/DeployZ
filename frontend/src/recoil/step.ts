@@ -33,7 +33,10 @@ export const stepState = atom<IStepItem[]>({
   ],
 });
 
-const defaultProjectConfig = {
+const defaultProjectConfig: IProjectConfig = {
+  hostUrl: "",
+  repositoryUrl: "",
+  projectId: "",
   projectName: "",
   description: "",
   imageUrl: "",
@@ -61,13 +64,6 @@ const defaultItem2: IItem = {
   buildVersion: "",
 };
 
-const defaultGitConfig: IGitConfig = {
-  hostUrl: "",
-  repositoryUrl: "",
-  projectId: "",
-  accessToken: "",
-};
-
 const defaultProxyPath: IProxyPath = {
   idx: 0,
   pathUrl: "",
@@ -84,12 +80,11 @@ const defaultNginxConfig: INginxConfig = {
 const defaultProject: IProject = {
   projectConfig: defaultProjectConfig,
   itemList: [defaultItem1, defaultItem2],
-  gitConfig: defaultGitConfig,
   nginxConfig: defaultNginxConfig,
 };
 
 // 스텝 1 프로젝트 정보
-export const projectConfig = atom<IProjectConfig>({
+export const projectConfigState = atom<IProjectConfig>({
   key: "projectConfig",
   default: defaultProjectConfig,
 });
@@ -100,22 +95,10 @@ export const itemListState = atom<IItem[]>({
   default: defaultProject.itemList,
 });
 
-// 스텝 3 Git 정보
-export const gitState = atom<IGitConfig>({
-  key: "git",
-  default: defaultGitConfig,
-});
-
 // 스텝 4 Nginx 정보
 export const NginxState = atom<INginxConfig>({
   key: "nginx",
   default: defaultNginxConfig,
-});
-
-// proxy state
-export const proxyState = atom<IProxyPath>({
-  key: "proxyPath",
-  default: defaultProxyPath,
 });
 
 // 최종 프로젝트 전체

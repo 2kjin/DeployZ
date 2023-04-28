@@ -4,14 +4,15 @@ import { alpha, styled as mstyled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { FormControl, InputLabel } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { gitState, projectState } from "@/recoil/step";
+import { projectState, projectConfigState } from "@/recoil/step";
 import SdCardAlertIcon from "@mui/icons-material/SdCardAlert";
 import MouseIcon from "@mui/icons-material/Mouse";
 import { useEffect, useState } from "react";
 
 export default function InputSection2() {
   const [project, setProject] = useRecoilState<IProject>(projectState);
-  const [gitConfig, setGitConfig] = useRecoilState<IGitConfig>(gitState);
+  const [gitConfig, setGitConfig] =
+    useRecoilState<IProjectConfig>(projectConfigState);
   const [checkStatus, setCheckStatus] = useState<boolean>(false);
 
   const itemName = project.itemList.map((item: IItem) => {
@@ -155,7 +156,7 @@ export default function InputSection2() {
             <InputBoxSmall
               placeholder={`ex) adyjk1ad6dfd`}
               id="accessToken"
-              value={gitConfig.accessToken}
+              // value={gitConfig.accessToken}
               onChange={handleItemData}
             />
           </FormControl>
