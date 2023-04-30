@@ -5,9 +5,9 @@ import ThreejsTest from "@/components/Landing/ThreejsTest";
 export default function ThreejstestPage() {
   return (
     <>
-      <Header/>
+      <Header />
       <Container>
-        <ThreejsTest/>
+        <ThreejsTest />
       </Container>
     </>
   );
@@ -15,8 +15,8 @@ export default function ThreejstestPage() {
 
 const Container = styled.div`
   height: 93vh;
-  overflow : auto ;
+  overflow: auto;
   ::-webkit-scrollbar {
     display: none;
-}
+  }
 `;
