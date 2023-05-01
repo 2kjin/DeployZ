@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 	public static final String SPLIT_REGEX = " ";
-	private String secretKey = "gotcha";
+	private String key = "deployz";
 	public static final String BEARER = "Bearer ";
 
 	private final MemberDetailService memberDetailService;
@@ -38,7 +38,7 @@ public class JwtTokenProvider {
 
 	@PostConstruct
 	private void init() {
-		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+		key = Base64.getEncoder().encodeToString(key.getBytes());
 	}
 
 	// Jwt 토큰 생성
@@ -55,7 +55,7 @@ public class JwtTokenProvider {
 			.setClaims(claims) // 데이터
 			.setIssuedAt(now)  // 토큰 발행 일자
 			.setExpiration(new Date(now.getTime() + accessTokenValidSecond)) // 토큰 만료시간 설정.
-			.signWith(SignatureAlgorithm.HS256, secretKey) // 사용할 암호화 알고리즘, secret key값 설정
+			.signWith(SignatureAlgorithm.HS256, key) // 사용할 암호화 알고리즘, secret key값 설정
 			.compact();
 	}
 
@@ -68,7 +68,7 @@ public class JwtTokenProvider {
 			.setSubject(email)
 			.setIssuedAt(now)  // 토큰 발행 일자
 			.setExpiration(new Date(now.getTime() + refreshTokenValidSecond)) // 토큰 만료시간 설정.
-			.signWith(SignatureAlgorithm.HS256, secretKey) // 사용할 암호화 알고리즘, secret key값 설정
+			.signWith(SignatureAlgorithm.HS256, key) // 사용할 암호화 알고리즘, secret key값 설정
 			.compact();
 
 		redisRefreshTokenRepository.save(accessToken, refreshToken);
@@ -97,7 +97,7 @@ public class JwtTokenProvider {
 	// Jwt 토큰에서 회원 구별 정보 추출(email).
 	public String getUserEmail(final String token) {
 		return Jwts.parser()
-			.setSigningKey(secretKey)
+			.setSigningKey(key)
 			.parseClaimsJws(token)
 			.getBody()
 			.getSubject();
@@ -109,7 +109,7 @@ public class JwtTokenProvider {
 
 		try {
 			// 토큰에서 Claims 추출.
-			claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+			claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token);
 
 			return !claims.getBody().getExpiration().before(new Date());
 		} catch (final ExpiredJwtException expiredJwtException) {
