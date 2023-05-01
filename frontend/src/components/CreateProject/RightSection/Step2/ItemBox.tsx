@@ -10,11 +10,10 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { itemListState, projectState } from "@/recoil/step";
+import { useRecoilState } from "recoil";
+import { itemListState } from "@/recoil/step";
 
 export default function ItemBox({ itemName }: { itemName: string }) {
-  const setProject = useSetRecoilState(projectState);
   const [itemList, setItemList] = useRecoilState<IItem[]>(itemListState);
   const [item, setItem] = useState<IItem>(defaultItem);
 
@@ -74,14 +73,6 @@ export default function ItemBox({ itemName }: { itemName: string }) {
     });
   }, []);
 
-  // itemList가 변화하면 자동으로 recoil의 프로젝트를 set
-  useEffect(() => {
-    setProject((prev) => ({
-      ...prev,
-      itemList: itemList,
-    }));
-  }, [itemList]);
-
   return (
     <Container>
       <InputContainer>
@@ -100,7 +91,7 @@ export default function ItemBox({ itemName }: { itemName: string }) {
             )}`}
             id="itemName"
             value={item.itemName}
-            onChange={handleItemData}
+            // onChange={handleItemData}
           />
         </FormControl>
         <FormControl variant="standard">
@@ -113,7 +104,7 @@ export default function ItemBox({ itemName }: { itemName: string }) {
             )}`}
             id="portNumber1"
             value={item.portNumber1}
-            onChange={handleItemData}
+            // onChange={handleItemData}
           />
         </FormControl>
         <FormControl variant="standard">

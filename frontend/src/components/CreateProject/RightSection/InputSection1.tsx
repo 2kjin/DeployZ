@@ -176,7 +176,6 @@ export default function InputSection2() {
       </InputContainer>
       {repoInfo.name !== "none" && (
         <ProjectContainer>
-          {repoInfo.name}
           <p>
             <b>프로젝트명</b> :{repoInfo.name}
           </p>

@@ -5,12 +5,10 @@ import InputBase from "@mui/material/InputBase";
 import styled from "styled-components";
 import MouseIcon from "@mui/icons-material/Mouse";
 import Proxypass from "./Step4/Porxypass";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { NginxState, projectState } from "@/recoil/step";
-import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { NginxState } from "@/recoil/step";
 
 export default function InputSection2() {
-  const setProject = useSetRecoilState(projectState);
   const [nginxConfig, setNginxConfig] =
     useRecoilState<INginxConfig>(NginxState);
 
@@ -51,13 +49,6 @@ export default function InputSection2() {
       };
     });
   };
-
-  useEffect(() => {
-    setProject((prev) => ({
-      ...prev,
-      nginxConfig: nginxConfig,
-    }));
-  }, [nginxConfig]);
 
   return (
     <Container>

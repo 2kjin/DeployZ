@@ -1,25 +1,16 @@
 import { theme } from "@/styles/theme";
 import styled from "styled-components";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { projectState, projectConfigState } from "@/recoil/step";
+import { useRecoilValue } from "recoil";
+import { itemListState } from "@/recoil/step";
 import SdCardAlertIcon from "@mui/icons-material/SdCardAlert";
 import MouseIcon from "@mui/icons-material/Mouse";
-import { useEffect } from "react";
 
 export default function InputSection2() {
-  const [project, setProject] = useRecoilState<IProject>(projectState);
-  const gitConfig = useRecoilValue<IProjectConfig>(projectConfigState);
+  const itemList = useRecoilValue<IItem[]>(itemListState);
 
-  const itemName = project.itemList.map((item: IItem) => {
+  const itemName = itemList.map((item: IItem) => {
     return [item.itemName, item.secretToken];
   });
-
-  useEffect(() => {
-    setProject((prev) => ({
-      ...prev,
-      gitConfig: gitConfig,
-    }));
-  }, [gitConfig]);
 
   return (
     <Container>

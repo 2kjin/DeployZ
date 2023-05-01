@@ -100,9 +100,3 @@ export const NginxState = atom<INginxConfig>({
   key: "nginx",
   default: defaultNginxConfig,
 });
-
-// 최종 프로젝트 전체
-export const projectState = atom<IProject>({
-  key: "project",
-  default: defaultProject,
-});

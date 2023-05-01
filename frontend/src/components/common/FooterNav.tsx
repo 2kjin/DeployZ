@@ -1,13 +1,19 @@
 import { theme } from "@/styles/theme";
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { chapterState, projectState, stepState } from "@/recoil/step";
+import {
+  NginxState,
+  chapterState,
+  itemListState,
+  projectConfigState,
+  stepState,
+} from "@/recoil/step";
 
 export default function FooterNav() {
-  // const navigate = useNavigate();
-  // const { pathname } = useLocation();
-  // const nowStep = Number(pathname.split("/").pop());
-  const project = useRecoilValue<IProject>(projectState);
+  const projectConfig = useRecoilValue<IProjectConfig>(projectConfigState);
+  const itemList = useRecoilValue<IItem[]>(itemListState);
+  const nginxConfig = useRecoilValue<INginxConfig>(NginxState);
+
   const [stepInfo, setStepInfo] = useRecoilState<IStepItem[]>(stepState);
   const [currentChapter, setCurrentChapter] =
     useRecoilState<number>(chapterState);
@@ -54,10 +60,9 @@ export default function FooterNav() {
   };
 
   const checkProject = () => {
-    console.log("STEP 1 :", project.projectConfig);
-    console.log("STEP 2 :", project.itemList);
-    console.log("STEP 3 :", project.gitConfig);
-    console.log("STEP 4 :", project.nginxConfig);
+    console.log("STEP 1 :", projectConfig);
+    console.log("STEP 2 :", itemList);
+    console.log("STEP 4 :", nginxConfig);
   };
 
   return (
