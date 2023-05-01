@@ -24,11 +24,11 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/member")
 @RequiredArgsConstructor
-@Tag(name = "Project", description = "프로젝트 관련 API")
+@Tag(name = "Member", description = "회원 관련 API")
 public class MemberController {
 	private final MemberService memberService;
 
-	@Operation(description = "(출제자용)유저 정보 조회하기 API", summary = "(출제자용)유저 정보 조회하기 API")
+	@Operation(description = "유저 정보 조회하기 API", summary = "유저 정보 조회하기 API")
 	@ApiResponse(responseCode = "200", description = "유저정보 불러오기 성공")
 	@ApiResponse(responseCode = "400", description = "유저정보 찾을 수 없음")
 	@GetMapping
