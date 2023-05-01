@@ -1,4 +1,25 @@
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          gitlab:
+            redirect-uri: ${GITLAB_REDIRECT_RUI}
+            client-id: ${GITLAB_ID}
+            client-name: ${GITLAB_NAME}
+            client-authentication-method: POST
+            client-secret: ${GITLAB_SECRET}
+            authorization-grant-type: authorization_code
+            scope:
+              - read_user
+              - profile
+              - email
+        provider:
+          gitlab:
+            authorization-uri: https://lab.ssafy.com/oauth/authorize
+            token-uri: https://lab.ssafy.com/oauth/token
+            user-info-uri: https://lab.ssafy.com/api/v4/user
+            user-name-attribute: username
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${DATASOURCE_URL}
