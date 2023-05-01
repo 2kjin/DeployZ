@@ -41,6 +41,8 @@ public class Member implements UserDetails {
 	private String registrationId;
 	@Column(name = "email", length = 100)
 	private String email;
+	@Column(name = "profile_image", length = 100)
+	private String profileImage;
 	@OneToMany(mappedBy = "member", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<Project> projects = new ArrayList<>();
 
@@ -52,13 +54,13 @@ public class Member implements UserDetails {
 	}
 
 	@Builder
-	public Member(final Long idx, final boolean deletedFlag, final String registrationId,
-		final String email,
-		final List<Project> projects) {
+	public Member(final Long idx, final boolean deletedFlag, final String registrationId, final String email,
+		final String profileImage, final List<Project> projects) {
 		this.idx = idx;
 		this.deletedFlag = deletedFlag;
 		this.registrationId = registrationId;
 		this.email = email;
+		this.profileImage = profileImage;
 		this.projects = projects;
 	}
 
