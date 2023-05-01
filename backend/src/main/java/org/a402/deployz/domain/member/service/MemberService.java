@@ -3,11 +3,12 @@ package org.a402.deployz.domain.member.service;
 import static org.a402.deployz.global.security.jwt.JwtAuthenticationFilter.*;
 
 import org.a402.deployz.domain.member.entity.Member;
+import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.member.repository.MemberRepository;
+import org.a402.deployz.domain.member.request.MemberUpdateRequest;
 import org.a402.deployz.domain.member.request.ReCreateTokenRequest;
 import org.a402.deployz.domain.member.response.MemberInformationResponse;
-import org.a402.deployz.domain.member.exception.MemberNotFoundException;
-
+import org.a402.deployz.domain.member.response.MemberUpdateResponse;
 import org.a402.deployz.global.security.jwt.JwtTokenProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,4 +38,12 @@ public class MemberService {
 		return BEARER + jwtTokenProvider.reCreateAccessToken(refreshToken, member);
 	}
 
+	@Transactional
+	public MemberUpdateResponse updateMember(final MemberUpdateRequest memberUpdateRequest) {
+		final Member member = memberRepository.findById(memberUpdateRequest.getIdx())
+			.orElseThrow(MemberNotFoundException::new);
+		member.updatePersonalAccessToken(memberUpdateRequest.getPersonalAccessToken());
+
+		return new MemberUpdateResponse(member);
+	}
 }
