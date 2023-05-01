@@ -130,6 +130,13 @@ public class JwtTokenProvider {
 		return originToken;
 	}
 
+	public String reCreateAccessToken(final String refreshToken, final Member member) {
+		final String newAccessToken = createAccessToken(member);
+		redisRefreshTokenRepository.save(newAccessToken, refreshToken);
+
+		return newAccessToken;
+	}
+
 	public String splitBearer(final String bearerToken) {
 		return bearerToken.split(SPLIT_REGEX)[1];
 	}
