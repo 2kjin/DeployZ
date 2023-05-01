@@ -172,38 +172,42 @@ export default function InputSection2() {
           />
         </FormControl>
       </InputContainer>
-      {projectConfig.projectId == "" && (
+      {projectConfig.projectId == "" ? (
         <ProjectContainer className="none">
           레포지토리의 Host URL과 Project ID를 입력하세요.
         </ProjectContainer>
-      )}
-      {repoInfo.name !== "none" && (
-        <ProjectContainer>
-          <p>
-            <b>프로젝트명</b> :{repoInfo.name}
-          </p>
-          <p>
-            <b>프로젝트 소개</b> : {repoInfo.description}
-          </p>
-          <p>
-            <b>프로젝트 경로</b> : {repoInfo.path}
-          </p>
-          <p>
-            <b>기본 브랜치</b> : {repoInfo.deafultBranch}
-          </p>
-          <p>
-            <b>생성 일자</b> : {timeTransfrom(repoInfo.createdAt)}
-          </p>
-          <p>
-            <b>마지막 활동 일자</b> : {timeTransfrom(repoInfo.lastActivityAt)}
-          </p>
-        </ProjectContainer>
-      )}
-      {repoInfo.name === "none" && (
-        <ProjectContainer className="none">
-          <p>😥</p>
-          존재하지않거나, 접근 권한이 없는 레포지토리입니다.
-        </ProjectContainer>
+      ) : (
+        <>
+          {repoInfo.name !== "none" && (
+            <ProjectContainer>
+              <p>
+                <b>프로젝트명</b> :{repoInfo.name}
+              </p>
+              <p>
+                <b>프로젝트 소개</b> : {repoInfo.description}
+              </p>
+              <p>
+                <b>프로젝트 경로</b> : {repoInfo.path}
+              </p>
+              <p>
+                <b>기본 브랜치</b> : {repoInfo.deafultBranch}
+              </p>
+              <p>
+                <b>생성 일자</b> : {timeTransfrom(repoInfo.createdAt)}
+              </p>
+              <p>
+                <b>마지막 활동 일자</b> :{" "}
+                {timeTransfrom(repoInfo.lastActivityAt)}
+              </p>
+            </ProjectContainer>
+          )}
+          {repoInfo.name === "none" && (
+            <ProjectContainer className="none">
+              <p>😥</p>
+              존재하지않거나, 접근 권한이 없는 레포지토리입니다.
+            </ProjectContainer>
+          )}
+        </>
       )}
     </Container>
   );
