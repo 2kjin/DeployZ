@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 //import api
@@ -16,7 +16,7 @@ import Header from "@components/common/Header";
 import ItemBuildList from "./ItemBuildList";
 
 //import type
-import { itemDetailInfo } from "types/item";
+import { itemDetailInfo } from "@/types/item";
 
 export default function ItemDetail() {
   const [selectedMessage, setSelectedMessage] = useState("");

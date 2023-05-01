@@ -1,4 +1,4 @@
-import { itemListInfo } from "../../../types/item";
+import { itemListInfo } from "@/types/item";
 import ItemListElement from "./ItemListElement";
 
 const ItemList = ({ itemList }: { itemList: itemListInfo[] }) => {
