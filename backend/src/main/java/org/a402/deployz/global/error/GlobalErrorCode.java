@@ -19,7 +19,7 @@ public enum GlobalErrorCode {
 	TOKEN_EXPIRED(401, "G500", "토큰이 만료되었습니다."),
 	LOGIN_INFO_MISMATCH(401, "G600", "로그인 정보가 일치하지 않습니다."),
 	/* 회원 관련 에러 코드 */
-	MEMBER_NOT_FOUND(404, "M100", "해당하는 유저가 없습니다."),
+	MEMBER_NOT_FOUND(400, "M100", "존재하지 않는 사용자입니다."),
 	UNSUPPORTED_INFO(400, "O100", "지원하지 않는 로그인 방식입니다."),
 
 	/*프로젝트 관련 에러 코드*/
