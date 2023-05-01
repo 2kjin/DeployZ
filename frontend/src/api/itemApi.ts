@@ -1,10 +1,14 @@
-import api from "./api";
-import { itemDetailInfo } from "../../types/item";
+import { instance } from "./api";
+import { itemDetailInfo } from "@/types/item";
 
 //아이템 상세 정보 보여주는 api -> itemDetail
-export const fetchItemDetail = async (containerIdx: number): Promise<itemDetailInfo> => {
+export const fetchItemDetail = async (
+  containerIdx: number
+): Promise<itemDetailInfo> => {
   try {
-    const res = await api.get<itemDetailInfo>(`/item/detail/${containerIdx}`);
+    const res = await instance.get<itemDetailInfo>(
+      `/item/detail/${containerIdx}`
+    );
     return res.data;
   } catch (error) {
     console.log(error);
@@ -30,7 +34,8 @@ export const fetchItemDetail = async (containerIdx: number): Promise<itemDetailI
           idx: 2,
           status: "#124",
           state: "success",
-          message: "콘솔콘솔콘솔콘솔123콘솔콘솔콘솔콘솔123콘솔콘솔콘솔콘솔123콘솔",
+          message:
+            "콘솔콘솔콘솔콘솔123콘솔콘솔콘솔콘솔123콘솔콘솔콘솔콘솔123콘솔",
           registerTime: "23.04.19 11:04:23",
         },
         {
