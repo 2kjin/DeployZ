@@ -1,6 +1,5 @@
 package org.a402.deployz.global.security.oauth;
 
-import static org.a402.deployz.global.security.jwt.JwtAuthenticationFilter.*;
 import static org.a402.deployz.global.security.oauth.HttpCookieOAuthAuthorizationRequestRepository.REDIRECT_URI;
 import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.*;
@@ -35,8 +34,8 @@ import lombok.extern.slf4j.Slf4j;
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	public static final String REGISTRATION_ID = "registrationId";
 	//	public static final String SERVER_REDIRECT_URL = "/socialLogin";
-	//	public static final String SERVER_REDIRECT_URL = "https://j8a602.p.ssafy.io/socialLogin";
-	public static final String SERVER_REDIRECT_URL = "http://localhost:3000/login";
+	//	public static final String SERVER_REDIRECT_URL = "https://j8a602.p.ssafy.io/oauthRedirect";
+	public static final String SERVER_REDIRECT_URL = "http://localhost:5173/oauthRedirect";
 	private final JwtTokenProvider jwtTokenProvider;
 	private final MemberRepository memberRepository;
 	private final HttpCookieOAuthAuthorizationRequestRepository httpCookieOAuthAuthorizationRequestRepository;
@@ -70,8 +69,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 			attributes); // provider에 해당하는 유저객체 생성
 		final Member member = memberRepository.findMemberByEmail(oAuth2UserInfo.getEmail())
 			.orElseThrow(MemberNotFoundException::new); // 데이터 조회
-		final String accessToken = BEARER + jwtTokenProvider.createAccessToken(member);
-		final String refreshToken = BEARER + jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
+		final String accessToken = jwtTokenProvider.createAccessToken(member);
+		final String refreshToken = jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
 
 		httpServletResponse.setHeader(AUTHORIZATION, accessToken);
 

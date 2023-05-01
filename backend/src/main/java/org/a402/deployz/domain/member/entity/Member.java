@@ -17,9 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.a402.deployz.domain.project.entity.Project;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -35,6 +36,7 @@ public class Member implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idx", nullable = false)
 	private Long idx;
+	@ColumnDefault("false")
 	@Column(name = "deleted_flag")
 	private boolean deletedFlag;
 	@Column(name = "registration_id", length = 30)
@@ -43,6 +45,8 @@ public class Member implements UserDetails {
 	private String email;
 	@Column(name = "profile_image", length = 100)
 	private String profileImage;
+	@Column(name = "personal_access_token", length = 100)
+	private String personalAccessToken;
 	@OneToMany(mappedBy = "member", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<Project> projects = new ArrayList<>();
 
@@ -55,13 +59,18 @@ public class Member implements UserDetails {
 
 	@Builder
 	public Member(final Long idx, final boolean deletedFlag, final String registrationId, final String email,
-		final String profileImage, final List<Project> projects) {
+		final String profileImage, final String personalAccessToken, final List<Project> projects) {
 		this.idx = idx;
 		this.deletedFlag = deletedFlag;
 		this.registrationId = registrationId;
 		this.email = email;
 		this.profileImage = profileImage;
+		this.personalAccessToken = personalAccessToken;
 		this.projects = projects;
+	}
+
+	public void updatePersonalAccessToken(final String personalAccessToken){
+		this.personalAccessToken = personalAccessToken;
 	}
 
 	@Override

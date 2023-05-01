@@ -12,11 +12,11 @@ import org.a402.deployz.domain.project.entity.Project;
 import org.a402.deployz.domain.project.exception.ProjectNotFoundException;
 import org.a402.deployz.domain.project.repository.GitConfigRepository;
 import org.a402.deployz.domain.project.repository.GitTokenRepository;
-import org.a402.deployz.domain.item.repository.ItemRepository;
+import org.a402.deployz.domain.project.repository.ItemRepository;
 import org.a402.deployz.domain.project.repository.NginxConfigRepository;
 import org.a402.deployz.domain.project.repository.ProjectRepository;
 import org.a402.deployz.domain.project.repository.ProxyConfigRepository;
-import org.a402.deployz.domain.item.request.ItemConfigRequest;
+import org.a402.deployz.domain.project.request.ItemConfigRequest;
 import org.a402.deployz.domain.project.request.NginxConfigRequest;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
 import org.a402.deployz.global.error.GlobalErrorCode;
@@ -48,12 +48,12 @@ public class ProjectService {
 	private final ProxyConfigRepository proxyConfigRepository;
 	private final ItemRepository itemRepository;
 	private final GitTokenRepository gitTokenRepository;
+	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Transactional
-	public void addProject(TotalProjectConfigRequest request) {
+	public void addProject(TotalProjectConfigRequest request, String userEmail) {
 		// Project 저장
-		// @FIXME: need token parsing
-		Member member = memberRepository.findMemberByEmail("eunjikim8784@gmail.com").get();
+		Member member = memberRepository.findMemberByEmail(userEmail).orElseThrow(MemberNotFoundException::new);
 		Project project = projectRepository.save(
 			request.getProjectConfig().toEntity(member));
 
@@ -67,7 +67,7 @@ public class ProjectService {
 
 			// GitToken 저장
 			GitToken gitToken = GitToken.builder()
-				.secretToken(itemConfigRequest.getSecretToken())
+				.secretToken(passwordEncoder.encode(itemConfigRequest.getSecretToken()))
 				.branchName(itemConfigRequest.getBranchName())
 				.gitConfig(gitConfig)
 				.build();
@@ -116,4 +116,5 @@ public class ProjectService {
 		portCheck.put("port2", !itemRepository.existsByPortNumber2(port2));
 		return portCheck;
 	}
+
 }

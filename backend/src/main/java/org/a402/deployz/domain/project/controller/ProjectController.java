@@ -1,5 +1,7 @@
 package org.a402.deployz.domain.project.controller;
 
+import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -8,6 +10,7 @@ import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
 import org.a402.deployz.domain.project.service.ProjectService;
 import org.a402.deployz.global.common.BaseResponse;
 import org.a402.deployz.global.error.GlobalErrorCode;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -43,9 +44,17 @@ public class ProjectController {
 	@ApiResponse(responseCode = "200", description = "프로젝트 생성 성공")
 	@Operation(description = "프로젝트 생성 API", summary = "프로젝트 생성 API")
 	@PostMapping()
-	public BaseResponse<Void> projectAdd(@Valid @RequestBody TotalProjectConfigRequest request) {
-		projectService.addProject(request);
+	public BaseResponse<Void> projectAdd(@Valid @RequestBody TotalProjectConfigRequest request, Principal principal) {
+		projectService.addProject(request, principal.getName());
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+	}
+
+	@ApiResponse(responseCode = "200", description = "시크릿 토큰 생성 성공")
+	@Operation(description = "시크릿 토큰 생성 API", summary = "시크릿 토큰 생성 API")
+	@GetMapping("/git/secret-token")
+	public BaseResponse<String> secretTokenCreate(@RequestParam String branchName) {
+		String randomStr = RandomStringUtils.randomAlphanumeric(30);
+		return new BaseResponse<>(randomStr);
 	}
 
 	@ApiResponse(responseCode = "200", description = "프로젝트 삭제 성공")
