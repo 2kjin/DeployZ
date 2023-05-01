@@ -46,22 +46,22 @@ const defaultItem1: IItem = {
   itemName: "Front-end",
   portNumber1: "",
   portNumber2: "",
-  branchName: "",
+  branchName: "none",
   secretToken: "생성 버튼을 눌러주세요.",
   targetFolder: "",
-  frameworkType: "",
-  buildVersion: "",
+  frameworkType: "none",
+  buildVersion: "none",
 };
 
 const defaultItem2: IItem = {
   itemName: "Back-end",
   portNumber1: "",
   portNumber2: "",
-  branchName: "",
+  branchName: "none",
   secretToken: "생성 버튼을 눌러주세요.",
   targetFolder: "",
-  frameworkType: "",
-  buildVersion: "",
+  frameworkType: "none",
+  buildVersion: "none",
 };
 
 const defaultProxyPath: IProxyPath = {

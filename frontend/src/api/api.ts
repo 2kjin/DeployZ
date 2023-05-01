@@ -8,8 +8,6 @@ export const instance = axios.create({
 });
 
 export const gitlabInstance = axios.create({
-  // withCredentials: true,
-  baseURL: SERVER_URL,
   headers: {
     ["PRIVATE-TOKEN"]: "_xZSaKvVLZxDopWXz_y9",
   },

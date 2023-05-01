@@ -12,10 +12,18 @@ import {
 } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { itemListState } from "@/recoil/step";
+import { requestVersion } from "@/api/projectCreate";
 
-export default function ItemBox({ itemName }: { itemName: string }) {
+export default function ItemBox({
+  itemName,
+  branchList,
+}: {
+  itemName: string;
+  branchList: string[];
+}) {
   const [itemList, setItemList] = useRecoilState<IItem[]>(itemListState);
   const [item, setItem] = useState<IItem>(defaultItem);
+  const [versionList, setVersionList] = useState<string[]>([]);
 
   // FE, BE 별로 placeholder 결정해주는 함수
   const handlePlaceholder = (value: string) => {
@@ -42,6 +50,10 @@ export default function ItemBox({ itemName }: { itemName: string }) {
     const id = target.name as string;
     const value = target.value as string;
 
+    // value가 있는 select를 클릭했을때만 하위 version request fetch
+    if (id === "frameworkType" && value !== "none") {
+      getVersion(value);
+    }
     setItem((cur) => ({
       ...cur,
       [id]: value,
@@ -64,6 +76,11 @@ export default function ItemBox({ itemName }: { itemName: string }) {
         return newArray;
       }
     });
+  };
+
+  const getVersion = async (value: string) => {
+    const { data } = await requestVersion(value);
+    setVersionList(data);
   };
 
   // recoil에 저장된 이미 사용자가 입력한 값을 띄워주기위한 set
@@ -123,7 +140,7 @@ export default function ItemBox({ itemName }: { itemName: string }) {
       </InputContainer>
       {/* 2번째 줄 */}
       <InputContainer>
-        <FormControl variant="standard">
+        {/* <FormControl variant="standard">
           <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
             Branch Name
           </InputLabel>
@@ -135,6 +152,31 @@ export default function ItemBox({ itemName }: { itemName: string }) {
             value={item.branchName}
             onChange={handleItemData}
           />
+        </FormControl> */}
+        <FormControl variant="standard">
+          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
+            Branch Name
+          </InputLabel>
+          <Select
+            sx={{
+              width: "28.5rem",
+              fontSize: "1.4rem",
+              padding: "0.7rem 0",
+            }}
+            name="branchName"
+            defaultValue={"none"}
+            value={item.branchName}
+            onChange={handleSelectChange}
+          >
+            <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
+              <em>선택하세요.</em>
+            </MenuItem>
+            {branchList.map((branch) => (
+              <MenuItem value={branch} sx={{ fontSize: "1.4rem" }}>
+                {branch}
+              </MenuItem>
+            ))}
+          </Select>
         </FormControl>
         <FormControl variant="standard">
           <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
@@ -164,16 +206,18 @@ export default function ItemBox({ itemName }: { itemName: string }) {
             sx={{
               width: "28.5rem",
               fontSize: "1.4rem",
-              fontWeight: "bold",
               padding: "0.7rem 0",
             }}
             name="frameworkType"
             value={item.frameworkType}
             onChange={handleSelectChange}
           >
+            <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
+              <em>선택하세요.</em>
+            </MenuItem>
             <MenuItem
               value={handlePlaceholder("Framework")}
-              sx={{ fontSize: "1.5rem" }}
+              sx={{ fontSize: "1.4rem" }}
             >
               {handlePlaceholder("Framework")}
             </MenuItem>
@@ -187,16 +231,20 @@ export default function ItemBox({ itemName }: { itemName: string }) {
             sx={{
               width: "28.5rem",
               fontSize: "1.4rem",
-              fontWeight: "bold",
               padding: "0.7rem 0",
             }}
             name="buildVersion"
             value={item.buildVersion}
             onChange={handleSelectChange}
           >
-            <MenuItem value={10} sx={{ fontSize: "1.5rem" }}>
-              1.1
+            <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
+              <em>선택하세요.</em>
             </MenuItem>
+            {versionList.map((version) => (
+              <MenuItem value={version} sx={{ fontSize: "1.4rem" }}>
+                {version}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <FormControl sx={{ visibility: "hidden" }}>

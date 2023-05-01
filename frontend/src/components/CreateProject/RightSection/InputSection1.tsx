@@ -49,36 +49,34 @@ export default function InputSection2() {
     return `${year}년 ${month}월 ${date}일 ${hour}시 ${minute}분`;
   };
 
+  // 레포 정보저장
+  const getGitlabInfo = async () => {
+    try {
+      const { data } = await requestGitlabInfo(
+        projectConfig.hostUrl,
+        projectConfig.projectId
+      );
+      console.log(data);
+      setRepoInfo({
+        name: data.name,
+        path: data.name_with_namespace,
+        description: data.description,
+        deafultBranch: data.default_branch,
+        createdAt: data.created_at,
+        lastActivityAt: data.last_activity_at,
+      });
+      setProjectConfig((cur) => ({
+        ...cur,
+        repositoryUrl: data.http_url_to_repo,
+      }));
+    } catch (error) {
+      console.log("error");
+      setRepoInfo(NONE_PROJECTINFO);
+    }
+  };
   useEffect(() => {
-    // 레포 정보저장
-    const getGitlabInfo = async () => {
-      try {
-        const { data } = await requestGitlabInfo(
-          projectConfig.hostUrl,
-          projectConfig.projectId
-        );
-        console.log(data);
-        setRepoInfo({
-          name: data.name,
-          path: data.name_with_namespace,
-          description: data.description,
-          deafultBranch: data.default_branch,
-          createdAt: data.created_at,
-          lastActivityAt: data.last_activity_at,
-        });
-
-        setProjectConfig((cur) => ({
-          ...cur,
-          repositoryUrl: data.http_url_to_repo,
-        }));
-      } catch (error) {
-        console.log("error");
-        setRepoInfo(NONE_PROJECTINFO);
-      }
-    };
-
     getGitlabInfo();
-  }, [projectConfig.projectId]);
+  }, [projectConfig.projectId, projectConfig.hostUrl]);
 
   return (
     <Container>
@@ -174,6 +172,11 @@ export default function InputSection2() {
           />
         </FormControl>
       </InputContainer>
+      {projectConfig.projectId == "" && (
+        <ProjectContainer className="none">
+          레포지토리의 Host URL과 Project ID를 입력하세요.
+        </ProjectContainer>
+      )}
       {repoInfo.name !== "none" && (
         <ProjectContainer>
           <p>
@@ -197,12 +200,6 @@ export default function InputSection2() {
         </ProjectContainer>
       )}
       {repoInfo.name === "none" && (
-        <ProjectContainer className="none">
-          <p>😥</p>
-          레포지토리의 Host URL과 Project ID를 입력하세요.
-        </ProjectContainer>
-      )}
-      {repoInfo.name === "" && (
         <ProjectContainer className="none">
           <p>😥</p>
           존재하지않거나, 접근 권한이 없는 레포지토리입니다.
