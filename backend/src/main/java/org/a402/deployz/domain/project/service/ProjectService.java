@@ -1,16 +1,11 @@
 package org.a402.deployz.domain.project.service;
 
-import static org.a402.deployz.domain.project.entity.enums.FrameworkType.*;
-import static org.a402.deployz.domain.project.entity.enums.ReactVersion.*;
-import static org.a402.deployz.domain.project.entity.enums.SpringBootVersion.*;
-
-import java.util.HashMap;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
 import org.a402.deployz.domain.member.entity.Member;
-import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.NginxConfig;
 import org.a402.deployz.domain.project.entity.Project;
@@ -25,13 +20,16 @@ import org.a402.deployz.domain.project.request.ItemConfigRequest;
 import org.a402.deployz.domain.project.request.NginxConfigRequest;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
 import org.a402.deployz.global.error.GlobalErrorCode;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+import java.util.List;
+
+import static org.a402.deployz.domain.project.entity.enums.FrameworkType.*;
+import static org.a402.deployz.domain.project.entity.enums.ReactVersion.getReactVersion;
+import static org.a402.deployz.domain.project.entity.enums.SpringBootVersion.getSpringBootVersion;
+
 
 //  | findOrder() | 조회 유형의 service 메서드 |
 //  | addOrder() | 등록 유형의 service 메서드 |

@@ -23,7 +23,13 @@ public enum GlobalErrorCode {
 	UNSUPPORTED_INFO(400, "O100", "지원하지 않는 로그인 방식입니다."),
 
 	/*프로젝트 관련 에러 코드*/
-	PROJECT_NOT_FOUND(400, "M100", "해당 프로젝트가 존재하지 않습니다. ");
+	PROJECT_NOT_FOUND(400, "M100", "해당 프로젝트가 존재하지 않습니다. "),
+
+
+	/* 컨테이너 관련 에러 코드*/
+	ITEM_NOT_FOUND(400, "M100", "해당 컨테이너가 존재하지 않습니다. ");
+
+
 
 	private final String code;
 	private final String message;

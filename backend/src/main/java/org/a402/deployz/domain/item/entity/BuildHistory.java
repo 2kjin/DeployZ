@@ -1,4 +1,4 @@
-package org.a402.deployz.domain.project.entity;
+package org.a402.deployz.domain.item.entity;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.a402.deployz.domain.item.entity.Item;
 
 import lombok.Builder;
 import lombok.Getter;

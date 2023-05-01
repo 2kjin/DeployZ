@@ -2,7 +2,6 @@ package org.a402.deployz.global.security.config;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.a402.deployz.global.security.jwt.JwtAuthenticationFilter;
 import org.a402.deployz.global.security.jwt.JwtTokenProvider;
 import org.a402.deployz.global.security.oauth.CustomOAuth2UserService;
@@ -15,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;

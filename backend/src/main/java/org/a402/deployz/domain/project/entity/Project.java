@@ -22,6 +22,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import org.a402.deployz.domain.git.entity.GitConfig;
+import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.member.entity.Member;
 import org.hibernate.annotations.ColumnDefault;
 
