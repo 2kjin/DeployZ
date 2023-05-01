@@ -37,7 +37,7 @@ public class MemberController {
 
 	@Operation(description = "토큰 재생성 API", summary = "토큰 재생성 API")
 	@ApiResponse(responseCode = "200", description = "신규 엑세스 토큰 발급 완료", content = @Content(schema = @Schema(implementation = String.class)))
-	@ApiResponse(responseCode = "400", description = "해당하는 이메일 찾을 수 없음")
+	@ApiResponse(responseCode = "400", description = "유저정보 찾을 수 없음")
 	@PostMapping("/reCreate")
 	public BaseResponse<String> reCreateTokens(@RequestBody ReCreateTokenRequest reCreateTokenRequest) {
 		final String newToken = memberService.reCreateToken(reCreateTokenRequest);
