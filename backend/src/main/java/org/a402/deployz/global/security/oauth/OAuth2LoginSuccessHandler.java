@@ -1,6 +1,5 @@
 package org.a402.deployz.global.security.oauth;
 
-import static org.a402.deployz.global.security.jwt.JwtAuthenticationFilter.*;
 import static org.a402.deployz.global.security.oauth.HttpCookieOAuthAuthorizationRequestRepository.REDIRECT_URI;
 import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.*;
@@ -70,8 +69,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 			attributes); // provider에 해당하는 유저객체 생성
 		final Member member = memberRepository.findMemberByEmail(oAuth2UserInfo.getEmail())
 			.orElseThrow(MemberNotFoundException::new); // 데이터 조회
-		final String accessToken = BEARER + jwtTokenProvider.createAccessToken(member);
-		final String refreshToken = BEARER + jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
+		final String accessToken = jwtTokenProvider.createAccessToken(member);
+		final String refreshToken = jwtTokenProvider.createRefreshToken(accessToken, member.getEmail());
 
 		httpServletResponse.setHeader(AUTHORIZATION, accessToken);
 
