@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
@@ -10,17 +9,13 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-import { ItemInfo } from "../../../types/itemlist";
+import { itemListInfo } from "../../../types/item";
 
-interface ItemListElementProps {
-  item: ItemInfo;
-}
-
-export default function ItemListElement({ item }: ItemListElementProps) {
+export default function ItemListElement({ item }: { item: itemListInfo }) {
   const navigate = useNavigate();
 
   const handleItemClick = () => {
-    navigate(`/itemdetail/${item.idx}`);
+    navigate(`/item/detail/${item.idx}`);
   };
 
   return (
@@ -29,7 +24,7 @@ export default function ItemListElement({ item }: ItemListElementProps) {
         <PlayArrowIcon style={PlayArrowIconStyle} />
         <StopIcon style={StopIconStyle} />
         <SProjectName>{item.itemName}</SProjectName>
-        {item.itemStates ? (
+        {item.status === "success" ? (
           <CheckCircleOutlineIcon style={checkStyle} />
         ) : (
           <HighlightOffIcon style={HighlightOffIconStyle} />

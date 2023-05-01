@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+//import api
+import { fetchItemDetail } from "../../api/itemApi";
 
 //import css icons
 import styled from "styled-components";
@@ -10,129 +14,107 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 //import components
 import Header from "@components/common/Header";
 import ItemBuildList from "./ItemBuildList";
-import { ItemInfo } from "types/itemlist";
 
-const itemInfoLists: ItemInfo[] = [
-  // {
-  //   idx: 1,
-  //   itemName: "FE",
-  //   frameworkType: "react",
-  //   portNumber1: 3000,
-  //   portNumber2: 3001,
-  //   itemStates: "true",
-  //   lastSuccessDate: "3days 17hr",
-  //   lastFailedDate: "1days 5hr",
-  // },
-  {
-    idx: 2,
-    itemName: "BE",
-    frameworkType: "springBoot",
-    portNumber1: 8000,
-    portNumber2: 8001,
-    itemStates: "true",
-    lastSuccessDate: "3days 17hr",
-    lastFailedDate: "1days 5hr",
-  },
-  // {
-  //   idx: 3,
-  //   itemName: "DJANGO",
-  //   frameworkType: "django",
-  //   portNumber1: 9000,
-  //   portNumber2: 9001,
-  //   itemStates: "false",
-  //   lastSuccessDate: "3days 17hr",
-  //   lastFailedDate: "1days 5hr",
-  // },
-];
+//import type
+import { itemDetailInfo } from "types/item";
 
 export default function ItemDetail() {
+  const [selectedMessage, setSelectedMessage] = useState("");
+
+  const handleItemClick = (message: string) => {
+    setSelectedMessage(message);
+  };
+
+  const { idx } = useParams<{ idx: string }>();
+  const containerIdx = parseInt(idx as string, 10);
+
+  const [itemDetail, setItemDetail] = useState<itemDetailInfo | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchItemDetail(containerIdx);
+      setItemDetail(data);
+    };
+    fetchData();
+  }, []);
+
   return (
     <SWrap>
       <Header />
-      {itemInfoLists.map((item) => (
-        <SFrameMainDiv>
-          <Icon
-            icon="mdi:arrow-left-drop-circle-outline"
-            fontSize="65"
-            color="white"
-            cursor="pointer"
-          />
-          <SFrame>
-            <SFrameName>{item.itemName}</SFrameName>
-            <SFrameImg>
-              {item.frameworkType === "react" ? (
-                <Icon icon="mdi:react" fontSize="250" color="white" />
-              ) : item.frameworkType === "springBoot" ? (
-                <Icon icon="simple-icons:springboot" fontSize="250" color="white" />
-              ) : (
-                <Icon icon="tabler:brand-django" fontSize="250" color="white" />
-              )}
-            </SFrameImg>
-          </SFrame>
-          <Icon
-            icon="mdi:arrow-right-drop-circle-outline"
-            fontSize="65"
-            color="white"
-            cursor="pointer"
-          />
-        </SFrameMainDiv>
-      ))}
-      <SCentered>
-        <SRadioLabel htmlFor="one">
-          <Icon icon="mdi:number-one-circle-outline" fontSize="70" />
-          <SSpan>빌드</SSpan>
-        </SRadioLabel>
-        <SLine />
-        <SRadioLabel htmlFor="two">
-          <Icon icon="mdi:number-two-circle-outline" fontSize="70" />
-          <SSpan>배포</SSpan>
-        </SRadioLabel>
-        <SLine />
-        <SRadioLabel htmlFor="three">
-          <Icon icon="mdi:number-three-circle-outline" fontSize="70" />
-          <SSpan>실행</SSpan>
-        </SRadioLabel>
-      </SCentered>
-      {itemInfoLists.map((item) => (
-        <SDetailDiv>
-          <SDetailInfo>
-            <SItemContainer>
-              <SItem>포트번호</SItem>
-              <SItemValue>
-                {item.portNumber1} | {item.portNumber2}
-              </SItemValue>
-            </SItemContainer>
-            <SItemContainer>
-              <SItem>빌드 상태</SItem>
-              <SItemStatus>
-                {item.itemStates ? (
-                  <CheckCircleOutlineIcon style={checkStyle} />
+      {itemDetail && (
+        <>
+          <SFrameMainDiv>
+            <Icon
+              icon="mdi:arrow-left-drop-circle-outline"
+              fontSize="65"
+              color="white"
+              cursor="pointer"
+            />
+            <SFrame>
+              <SFrameName>{itemDetail.itemName}</SFrameName>
+              <SFrameImg>
+                {itemDetail.frameworkType === "react" ? (
+                  <Icon icon="mdi:react" fontSize="250" color="white" />
+                ) : itemDetail.frameworkType === "springBoot" ? (
+                  <Icon icon="simple-icons:springboot" fontSize="250" color="white" />
                 ) : (
-                  <HighlightOffIcon style={HighlightOffIconStyle} />
+                  <Icon icon="tabler:brand-django" fontSize="250" color="white" />
                 )}
-              </SItemStatus>
-            </SItemContainer>
-            <SItemContainer>
-              <SItem>최근성공</SItem>
-              <SItemValue>{item.lastSuccessDate}</SItemValue>
-            </SItemContainer>
-            <SItemContainer>
-              <SItem>최근실패</SItem>
-              <SItemValue>{item.lastFailedDate}</SItemValue>
-            </SItemContainer>
-          </SDetailInfo>
-          <SBuildInfo>
-            <SBuildList>
-              <SBuildName>
-                <Icon icon="material-symbols:cloud-upload" fontSize="55" color="#FEA51D" />
-                <SP>빌드 내역</SP>
-              </SBuildName>
-              <ItemBuildList />
-            </SBuildList>
-            <SBuildContent></SBuildContent>
-          </SBuildInfo>
-        </SDetailDiv>
-      ))}
+              </SFrameImg>
+            </SFrame>
+            <Icon
+              icon="mdi:arrow-right-drop-circle-outline"
+              fontSize="65"
+              color="white"
+              cursor="pointer"
+            />
+          </SFrameMainDiv>
+          <SCentered>
+            <SRadioLabel htmlFor="one">
+              <Icon icon="mdi:number-one-circle-outline" fontSize="70" />
+              <SSpan>빌드</SSpan>
+            </SRadioLabel>
+            <SLine />
+            <SRadioLabel htmlFor="two">
+              <Icon icon="mdi:number-two-circle-outline" fontSize="70" />
+              <SSpan>배포</SSpan>
+            </SRadioLabel>
+            <SLine />
+            <SRadioLabel htmlFor="three">
+              <Icon icon="mdi:number-three-circle-outline" fontSize="70" />
+              <SSpan>실행</SSpan>
+            </SRadioLabel>
+          </SCentered>
+          <SDetailDiv>
+            <SDetailInfo>
+              <SItemContainer>
+                <SItem>포트번호</SItem>
+                <SItemValue>
+                  {itemDetail.portNumber1} | {itemDetail.portNumber2}
+                </SItemValue>
+              </SItemContainer>
+              <SItemContainer>
+                <SItem>빌드 상태</SItem>
+                <SItemStatus>
+                  {itemDetail.itemStates ? (
+                    <CheckCircleOutlineIcon style={checkStyle} />
+                  ) : (
+                    <HighlightOffIcon style={HighlightOffIconStyle} />
+                  )}
+                </SItemStatus>
+              </SItemContainer>
+              <SItemContainer>
+                <SItem>최근성공</SItem>
+                <SItemValue>{itemDetail.lastSuccessDate}</SItemValue>
+              </SItemContainer>
+              <SItemContainer>
+                <SItem>최근실패</SItem>
+                <SItemValue>{itemDetail.lastFailedDate}</SItemValue>
+              </SItemContainer>
+            </SDetailInfo>
+            <ItemBuildList itemHistoryLists={itemDetail.itemHistories} />
+          </SDetailDiv>
+        </>
+      )}
     </SWrap>
   );
 }
@@ -169,34 +151,6 @@ const SP = styled.p`
   font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.primary};
   margin-left: 1rem;
-`;
-
-const SBuildName = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const SBuildContent = styled.div`
-  width: 80%;
-  height: 60rem;
-  flex-shrink: 0;
-`;
-
-const SBuildList = styled.div`
-  width: 20%;
-  height: 60rem;
-  flex-shrink: 0;
-`;
-
-const SBuildInfo = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-right: 3rem;
-  margin-left: 3rem;
-  margin-top: 1rem;
-  flex-shrink: 0;
 `;
 
 const SDetailInfo = styled.div`
@@ -256,12 +210,14 @@ const SWrap = styled.div`
 `;
 
 const SDetailDiv = styled.div`
-  width: 170vh;
+  width: 150vh;
+  height: 80vh;
   background-color: ${theme.colors.white};
   border-radius: 5rem;
   margin: 5vh auto 5vh;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 `;
 
 const SCentered = styled.div`

@@ -22,13 +22,15 @@ const router = createBrowserRouter([
     // ],
   },
   { path: "/project", element: <ProjectListPage /> },
-  { path: "/item", element: <ItemListPage /> },
-  { path: "/itemdetail/:idx", element: <ItemDetail /> },
+  { path: "/project/detail/:idx", element: <ItemListPage /> },
+  { path: "/item/detail/:idx", element: <ItemDetail /> },
   {
-    path: "/test", element: <ThreejstestPage />
+    path: "/test",
+    element: <ThreejstestPage />,
   },
   {
-    path: "*", element: <Page404 />
+    path: "*",
+    element: <Page404 />,
   },
 ]);
 

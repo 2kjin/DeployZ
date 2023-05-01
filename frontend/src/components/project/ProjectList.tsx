@@ -2,52 +2,25 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { fetchProjectList } from "../../api/projectApi";
 
 import ProjectListItem from "./ProjectListItem";
-import { ProjectInfo } from "../../../types/projectlist";
-import { style } from "@mui/system";
-
-//더미데이터
-export const projects: ProjectInfo[] = [
-  {
-    idx: 1,
-    projectName: "DeployZ",
-    itemCnt: 3,
-    lastSuccessDate: "3days 11hr",
-    lastFailedDate: "4days 2hr",
-    itemName: "#FE",
-    isIng: "",
-  },
-  {
-    idx: 2,
-    projectName: "Actopus",
-    itemCnt: 4,
-    lastSuccessDate: "1days 11hr",
-    lastFailedDate: "2days 5hr",
-    itemName: "#BE",
-    isIng: "true",
-  },
-  {
-    idx: 2,
-    projectName: "Actopus",
-    itemCnt: 4,
-    lastSuccessDate: "1days 11hr",
-    lastFailedDate: "2days 5hr",
-    itemName: "#BE",
-    isIng: "true",
-  },
-];
+import { projectListInfo } from "../../../types/project";
 
 export default function ProjectList(): JSX.Element {
   const [status, setStatus] = useState(0);
-  const [visibleProjects, setVisibleProjects] = useState<ProjectInfo[]>([]);
+  const [visibleProjects, setVisibleProjects] = useState<projectListInfo[]>([]);
 
   useEffect(() => {
-    if (status <= 2) {
-      setVisibleProjects(projects.slice(0, 3));
-    } else {
-      setVisibleProjects(projects);
+    async function fetchProjects() {
+      const projects = await fetchProjectList();
+      if (status <= 2) {
+        setVisibleProjects(projects.slice(0, 3));
+      } else {
+        setVisibleProjects(projects);
+      }
     }
+    fetchProjects();
   }, [status]);
 
   return (
