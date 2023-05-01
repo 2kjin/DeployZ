@@ -55,7 +55,7 @@ public class ProjectService {
 	public void addProject(TotalProjectConfigRequest request) {
 		// Project 저장
 		// @FIXME: need token parsing
-		Member member = memberRepository.findMemberByEmail("eunjikim8784@gmail.com");
+		Member member = memberRepository.findMemberByEmail("eunjikim8784@gmail.com").get();
 		Project project = projectRepository.save(
 			request.getProjectConfig().toEntity(member));
 
