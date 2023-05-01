@@ -1,13 +1,16 @@
 package org.a402.deployz.domain.project.service;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import static org.a402.deployz.domain.project.entity.enums.FrameworkType.*;
+import static org.a402.deployz.domain.project.entity.enums.ReactVersion.*;
+import static org.a402.deployz.domain.project.entity.enums.SpringBootVersion.*;
+
+import java.util.HashMap;
+import java.util.List;
 
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
 import org.a402.deployz.domain.member.entity.Member;
+import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.NginxConfig;
 import org.a402.deployz.domain.project.entity.Project;
@@ -22,16 +25,13 @@ import org.a402.deployz.domain.project.request.ItemConfigRequest;
 import org.a402.deployz.domain.project.request.NginxConfigRequest;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
 import org.a402.deployz.global.error.GlobalErrorCode;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-
-import static org.a402.deployz.domain.project.entity.enums.FrameworkType.*;
-import static org.a402.deployz.domain.project.entity.enums.ReactVersion.getReactVersion;
-import static org.a402.deployz.domain.project.entity.enums.SpringBootVersion.getSpringBootVersion;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 //  | findOrder() | 조회 유형의 service 메서드 |
 //  | addOrder() | 등록 유형의 service 메서드 |
@@ -50,12 +50,12 @@ public class ProjectService {
 	private final ProxyConfigRepository proxyConfigRepository;
 	private final ItemRepository itemRepository;
 	private final GitTokenRepository gitTokenRepository;
+	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Transactional
-	public void addProject(TotalProjectConfigRequest request) {
+	public void addProject(TotalProjectConfigRequest request, String userEmail) {
 		// Project 저장
-		// @FIXME: need token parsing
-		Member member = memberRepository.findMemberByEmail("eunjikim8784@gmail.com").get();
+		Member member = memberRepository.findMemberByEmail(userEmail).orElseThrow(MemberNotFoundException::new);
 		Project project = projectRepository.save(
 			request.getProjectConfig().toEntity(member));
 
@@ -69,7 +69,7 @@ public class ProjectService {
 
 			// GitToken 저장
 			GitToken gitToken = GitToken.builder()
-				.secretToken(itemConfigRequest.getSecretToken())
+				.secretToken(passwordEncoder.encode(itemConfigRequest.getSecretToken()))
 				.branchName(itemConfigRequest.getBranchName())
 				.gitConfig(gitConfig)
 				.build();
@@ -118,4 +118,5 @@ public class ProjectService {
 		portCheck.put("port2", !itemRepository.existsByPortNumber2(port2));
 		return portCheck;
 	}
+
 }
