@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 //import css
 import styled from "styled-components";
@@ -7,16 +8,22 @@ import { theme } from "@/styles/theme";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-import { ProjectInfo } from "../../../types/projectlist";
+import { projectListInfo } from "../../../types/project";
 
 //!project?.name &&
 //project 객체가 존재하지 않거나 name 프로퍼티가 비어있는 경우 true 반환
 //모든 프로퍼티가 비어있다면 isProjectEmpty 변수에 true 할당
 
-export default function ProjectListItem({ project }: { project: ProjectInfo }): JSX.Element {
+export default function ProjectListItem({ project }: { project: projectListInfo }): JSX.Element {
+  const navigate = useNavigate();
+
+  const handleItemClick = () => {
+    navigate(`/project/detail/${project.idx}`);
+  };
+
   return (
     <SProjectListItem>
-      {project?.isIng ? (
+      {project.isSuccess === "success" ? (
         <CheckCircleOutlineIcon style={checkStyle} />
       ) : (
         <HighlightOffIcon style={HighlightOffIconStyle} />
@@ -31,7 +38,7 @@ export default function ProjectListItem({ project }: { project: ProjectInfo }): 
         <SLastFailureTime>{project?.lastFailedDate}</SLastFailureTime>
         <SContainerButton>{project?.itemName}</SContainerButton>
       </SLastFailureDiv>
-      <SButton>상세보기</SButton>
+      <SButton onClick={handleItemClick}>상세보기</SButton>
     </SProjectListItem>
   );
 }
@@ -85,6 +92,10 @@ const SProjectListItem = styled.div`
   margin-top: 2rem;
   padding-right: 1rem;
   padding-left: 1rem;
+
+  /* 추가된 CSS */
+  flex-wrap: wrap;
+  overflow: hidden;
 `;
 
 const SProjectName = styled.span`

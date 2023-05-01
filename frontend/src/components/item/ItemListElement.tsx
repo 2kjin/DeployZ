@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
@@ -10,17 +9,13 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-import { ItemInfo } from "../../../types/itemlist";
+import { itemListInfo } from "../../../types/item";
 
-interface ItemListElementProps {
-  item: ItemInfo;
-}
-
-export default function ItemListElement({ item }: ItemListElementProps) {
+export default function ItemListElement({ item }: { item: itemListInfo }) {
   const navigate = useNavigate();
 
   const handleItemClick = () => {
-    navigate(`/itemdetail/${item.idx}`);
+    navigate(`/item/detail/${item.idx}`);
   };
 
   return (
@@ -28,15 +23,16 @@ export default function ItemListElement({ item }: ItemListElementProps) {
       <SItem>
         <PlayArrowIcon style={PlayArrowIconStyle} />
         <StopIcon style={StopIconStyle} />
-        <SProjectName>{item?.itemName}</SProjectName>
-        {item?.isIng ? (
+        <SProjectName>{item.itemName}</SProjectName>
+        {item.status === "success" ? (
           <CheckCircleOutlineIcon style={checkStyle} />
         ) : (
           <HighlightOffIcon style={HighlightOffIconStyle} />
         )}
-        <SItemCount>{item?.itemPort.join(", ")}</SItemCount>
-        <SLastSuccessTime>{item?.lastSuccessDate}</SLastSuccessTime>
-        <SLastFailureTime>{item?.lastFailedDate}</SLastFailureTime>
+        <SItemCount>{item.portNumber1}</SItemCount>
+        <SItemCount>{item.portNumber2}</SItemCount>
+        <SLastSuccessTime>{item.lastSuccessDate}</SLastSuccessTime>
+        <SLastFailureTime>{item.lastFailedDate}</SLastFailureTime>
         <DeleteOutlineIcon style={DeleteOutlineIconStyle} />
         <SButton onClick={handleItemClick}>상세보기</SButton>
       </SItem>
@@ -49,6 +45,7 @@ const PlayArrowIconStyle = {
   cursor: "pointer",
   color: theme.colors.checkgreen,
 };
+
 const StopIconStyle = {
   fontSize: "5rem",
   cursor: "pointer",
