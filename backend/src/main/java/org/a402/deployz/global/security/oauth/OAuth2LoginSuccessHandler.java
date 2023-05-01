@@ -35,8 +35,8 @@ import lombok.extern.slf4j.Slf4j;
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	public static final String REGISTRATION_ID = "registrationId";
 	//	public static final String SERVER_REDIRECT_URL = "/socialLogin";
-	//	public static final String SERVER_REDIRECT_URL = "https://j8a602.p.ssafy.io/socialLogin";
-	public static final String SERVER_REDIRECT_URL = "http://localhost:3000/login";
+	//	public static final String SERVER_REDIRECT_URL = "https://j8a602.p.ssafy.io/oauthRedirect";
+	public static final String SERVER_REDIRECT_URL = "http://localhost:5173/oauthRedirect";
 	private final JwtTokenProvider jwtTokenProvider;
 	private final MemberRepository memberRepository;
 	private final HttpCookieOAuthAuthorizationRequestRepository httpCookieOAuthAuthorizationRequestRepository;
