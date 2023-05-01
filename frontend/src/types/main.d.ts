@@ -4,6 +4,15 @@ interface IStepItem {
   status: String;
 }
 
+interface IProjectInfoById {
+  name: string;
+  path: string;
+  description: string;
+  deafultBranch: string;
+  createdAt: string;
+  lastActivityAt: string;
+}
+
 interface IProject {
   projectConfig: IProjectConfig;
   itemList: IItem[];
