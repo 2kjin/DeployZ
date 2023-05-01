@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Header from "@components/common/Header";
 import ItemList from "@components/item/ItemList";
 import { fetchProjectDetail } from "../api/projectApi";
-import { projectDetailInfo } from "../../types/project";
+import { projectDetailInfo } from "@/types/project";
 //import css
 import styled from "styled-components";
 import { theme } from "@/styles/theme";

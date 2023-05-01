@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import{ useState, useEffect } from "react";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { fetchProjectList } from "../../api/projectApi";
 
 import ProjectListItem from "./ProjectListItem";
-import { projectListInfo } from "../../../types/project";
+import { projectListInfo } from "@/types/project";
 
 export default function ProjectList(): JSX.Element {
   const [status, setStatus] = useState(0);

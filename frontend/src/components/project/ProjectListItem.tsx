@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
 //import css
@@ -8,13 +7,17 @@ import { theme } from "@/styles/theme";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-import { projectListInfo } from "../../../types/project";
+import { projectListInfo } from "@/types/project";
 
 //!project?.name &&
 //project 객체가 존재하지 않거나 name 프로퍼티가 비어있는 경우 true 반환
 //모든 프로퍼티가 비어있다면 isProjectEmpty 변수에 true 할당
 
-export default function ProjectListItem({ project }: { project: projectListInfo }): JSX.Element {
+export default function ProjectListItem({
+  project,
+}: {
+  project: projectListInfo;
+}): JSX.Element {
   const navigate = useNavigate();
 
   const handleItemClick = () => {

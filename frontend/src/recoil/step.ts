@@ -33,7 +33,10 @@ export const stepState = atom<IStepItem[]>({
   ],
 });
 
-const defaultProjectConfig = {
+const defaultProjectConfig: IProjectConfig = {
+  hostUrl: "",
+  repositoryUrl: "",
+  projectId: "",
   projectName: "",
   description: "",
   imageUrl: "",
@@ -43,29 +46,22 @@ const defaultItem1: IItem = {
   itemName: "Front-end",
   portNumber1: "",
   portNumber2: "",
-  branchName: "",
+  branchName: "none",
   secretToken: "생성 버튼을 눌러주세요.",
   targetFolder: "",
-  frameworkType: "",
-  buildVersion: "",
+  frameworkType: "none",
+  buildVersion: "none",
 };
 
 const defaultItem2: IItem = {
   itemName: "Back-end",
   portNumber1: "",
   portNumber2: "",
-  branchName: "",
+  branchName: "none",
   secretToken: "생성 버튼을 눌러주세요.",
   targetFolder: "",
-  frameworkType: "",
-  buildVersion: "",
-};
-
-const defaultGitConfig: IGitConfig = {
-  hostUrl: "",
-  repositoryUrl: "",
-  projectId: "",
-  accessToken: "",
+  frameworkType: "none",
+  buildVersion: "none",
 };
 
 const defaultProxyPath: IProxyPath = {
@@ -84,12 +80,11 @@ const defaultNginxConfig: INginxConfig = {
 const defaultProject: IProject = {
   projectConfig: defaultProjectConfig,
   itemList: [defaultItem1, defaultItem2],
-  gitConfig: defaultGitConfig,
   nginxConfig: defaultNginxConfig,
 };
 
 // 스텝 1 프로젝트 정보
-export const projectConfig = atom<IProjectConfig>({
+export const projectConfigState = atom<IProjectConfig>({
   key: "projectConfig",
   default: defaultProjectConfig,
 });
@@ -100,26 +95,8 @@ export const itemListState = atom<IItem[]>({
   default: defaultProject.itemList,
 });
 
-// 스텝 3 Git 정보
-export const gitState = atom<IGitConfig>({
-  key: "git",
-  default: defaultGitConfig,
-});
-
 // 스텝 4 Nginx 정보
 export const NginxState = atom<INginxConfig>({
   key: "nginx",
   default: defaultNginxConfig,
-});
-
-// proxy state
-export const proxyState = atom<IProxyPath>({
-  key: "proxyPath",
-  default: defaultProxyPath,
-});
-
-// 최종 프로젝트 전체
-export const projectState = atom<IProject>({
-  key: "project",
-  default: defaultProject,
 });

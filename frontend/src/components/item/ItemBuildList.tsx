@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled, { ThemedStyledProps, DefaultTheme } from "styled-components";
 import { theme } from "@/styles/theme";
-import { itemHistory } from "../../../types/item";
+import { itemHistory } from "@/types/item";
 
 //import css icons
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";

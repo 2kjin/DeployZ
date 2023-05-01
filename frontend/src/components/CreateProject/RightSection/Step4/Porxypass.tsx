@@ -35,9 +35,9 @@ export default function Proxypass({
           <InputLabel>URL</InputLabel>
           <FormControl variant="standard" sx={{ marginTop: "2%" }}>
             <InputBox
-              widthSize={"23rem"}
-              fontSize={"1.2rem"}
-              spacingSize={3}
+              widthsize={"23rem"}
+              fontsize={"1.2rem"}
+              spacingsize={3}
               placeholder={`ex) http://localhost:8080`}
               id="pathUrl"
               value={pathItem.pathUrl}
@@ -49,9 +49,9 @@ export default function Proxypass({
           <InputLabel>Path</InputLabel>
           <FormControl variant="standard">
             <InputBox
-              widthSize={"23rem"}
-              fontSize={"1.2rem"}
-              spacingSize={3}
+              widthsize={"23rem"}
+              fontsize={"1.2rem"}
+              spacingsize={3}
               placeholder={`ex) /api`}
               id="pathName"
               value={pathItem.pathName}
@@ -109,20 +109,20 @@ const DeleteBtn = styled.div`
 `;
 
 const InputBox = mstyled(InputBase)<{
-  widthSize: string;
-  fontSize: string;
-  spacingSize: number;
-}>(({ theme, widthSize, fontSize, spacingSize }) => ({
+  widthsize: string;
+  fontsize: string;
+  spacingsize: number;
+}>(({ theme, widthsize, fontsize, spacingsize }) => ({
   "label + &": {
-    marginTop: theme.spacing(spacingSize),
+    marginTop: theme.spacing(spacingsize),
   },
   "& .MuiInputBase-input": {
     borderRadius: 4,
     position: "relative",
     backgroundColor: theme.palette.mode === "light" ? "#fcfcfb" : "#2b2b2b",
     border: "1px solid #ced4da",
-    fontSize: fontSize,
-    width: widthSize,
+    fontSize: fontsize,
+    width: widthsize,
     padding: "10px 12px",
     transition: theme.transitions.create(["border-color", "background-color"]),
     "&:focus": {

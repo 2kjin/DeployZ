@@ -1,4 +1,3 @@
-import React from "react";
 import ProjectList from "@components/project/ProjectList";
 import Header from "@components/common/Header";
 import styled from "styled-components";

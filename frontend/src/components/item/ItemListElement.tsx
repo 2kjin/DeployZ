@@ -9,7 +9,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-import { itemListInfo } from "../../../types/item";
+import { itemListInfo } from "@/types/item";
 
 export default function ItemListElement({ item }: { item: itemListInfo }) {
   const navigate = useNavigate();

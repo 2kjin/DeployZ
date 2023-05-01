@@ -1,10 +1,10 @@
-import api from "./api";
-import { projectListInfo, projectDetailInfo } from "types/project";
+import { instance } from "./api";
+import { projectListInfo, projectDetailInfo } from "@/types/project";
 
 //사용자의 프로젝트 리스트를 보여주는 api
 export const fetchProjectList = async (): Promise<projectListInfo[]> => {
   try {
-    const res = await api.get<{ data: projectListInfo[] }>("/project");
+    const res = await instance.get<{ data: projectListInfo[] }>("/project");
     return res.data.data;
   } catch (error) {
     console.log(error);
@@ -42,9 +42,13 @@ export const fetchProjectList = async (): Promise<projectListInfo[]> => {
 
 //하나의 프로젝트에 대한 상세 정보 api->
 //아이템 리스트 화면으로 렌딩
-export const fetchProjectDetail = async (projectIdx: number): Promise<projectDetailInfo> => {
+export const fetchProjectDetail = async (
+  projectIdx: number
+): Promise<projectDetailInfo> => {
   try {
-    const res = await api.get<projectDetailInfo>(`/project/detail/${projectIdx}`);
+    const res = await instance.get<projectDetailInfo>(
+      `/project/detail/${projectIdx}`
+    );
     console.log(res.data);
     return res.data;
   } catch (error) {
