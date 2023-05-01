@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.a402.deployz.domain.project.entity.ItemState;
+import org.a402.deployz.domain.item.entity.ItemState;
 
 import lombok.Builder;
 import lombok.Getter;

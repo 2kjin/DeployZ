@@ -2,6 +2,8 @@ package org.a402.deployz.global.security.config;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.a402.deployz.global.security.jwt.JwtAuthenticationFilter;
 import org.a402.deployz.global.security.jwt.JwtTokenProvider;
@@ -15,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -85,9 +88,10 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		final CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-		corsConfiguration.setAllowedOrigins(List.of(FRONT_URL_PATTERN, SERVER_URL_PATTERN));
+		corsConfiguration.setAllowedOrigins(
+			Stream.of(FRONT_URL_PATTERN, SERVER_URL_PATTERN).collect(Collectors.toList()));
 		corsConfiguration.setAllowedMethods(Arrays.asList(POST, GET, DELETE, PUT, HEAD, OPTIONS));
-		corsConfiguration.setAllowedHeaders(List.of(ALLOW_PATTERN));
+		corsConfiguration.setAllowedHeaders(Stream.of(ALLOW_PATTERN).collect(Collectors.toList()));
 		corsConfiguration.setAllowCredentials(true);
 
 		final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();

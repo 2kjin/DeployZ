@@ -1,4 +1,4 @@
-package org.a402.deployz.domain.project.entity;
+package org.a402.deployz.domain.item.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import org.a402.deployz.domain.project.entity.Project;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
@@ -39,9 +40,9 @@ public class Item {
 	private LocalDateTime lastSuccessDate;
 	@Column(name = "last_failure_date")
 	private LocalDateTime lastFailureDate;
-	@Column(name = "delete_flag")
+	@Column(name = "deleted_flag")
 	@ColumnDefault("false")
-	private boolean deleteFlag;
+	private boolean deletedFlag;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "project_idx")
 	private Project project;
@@ -55,7 +56,7 @@ public class Item {
 		final String branchName, final String targetFolderPath,
 		final String frameworkType, final String buildVersion,
 		final LocalDateTime lastSuccessDate,
-		final LocalDateTime lastFailureDate, final boolean deleteFlag, final Project project,
+		final LocalDateTime lastFailureDate, final boolean deletedFlag, final Project project,
 		final List<BuildHistory> itemHistories,
 		final List<ItemState> itemStates) {
 		this.idx = idx;
@@ -68,10 +69,14 @@ public class Item {
 		this.buildVersion = buildVersion;
 		this.lastSuccessDate = lastSuccessDate;
 		this.lastFailureDate = lastFailureDate;
-		this.deleteFlag = deleteFlag;
+		this.deletedFlag = deletedFlag;
 		this.project = project;
 		this.itemHistories = itemHistories;
 		this.itemStates = itemStates;
 	}
 
+	//deleted_flag 변경
+	public void updateDeletedFlag() {
+		this.deletedFlag = true;
+	}
 }
