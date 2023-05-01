@@ -28,7 +28,7 @@ public class MemberController {
 	@Operation(description = "(출제자용)유저 정보 조회하기 API", summary = "(출제자용)유저 정보 조회하기 API")
 	@ApiResponse(responseCode = "200", description = "유저정보 불러오기 성공")
 	@ApiResponse(responseCode = "400", description = "유저정보 찾을 수 없음")
-	@GetMapping("/member")
+	@GetMapping
 	public BaseResponse<MemberInformationResponse> findMemberInfo(@RequestParam Long idx) {
 		final MemberInformationResponse memberInformation = memberService.findMemberInformation(idx);
 
