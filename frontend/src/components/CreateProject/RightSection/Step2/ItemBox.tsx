@@ -322,6 +322,9 @@ const SaveBtn = styled.div`
   font-size: 1.4rem;
   border-radius: 0.5rem;
   cursor: pointer;
+  :hover {
+    transform: scale(1.03);
+  }
 `;
 
 const InputContainer = styled.div`

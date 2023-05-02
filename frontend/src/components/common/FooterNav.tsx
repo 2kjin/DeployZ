@@ -148,4 +148,7 @@ const NavBtn = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  :hover {
+    transform: scale(1.03);
+  }
 `;
