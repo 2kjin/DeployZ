@@ -6,13 +6,13 @@ import { useState } from "react";
 export default function LandingPage() {
   // Header type 설정
   const [type, setType] = useState<string>("standard");
-  
+
   return (
     <>
-    <Header type={type} />
-    <Container>
-      <Landing/>
-    </Container>
+      <Header type={type} />
+      <Container>
+        <Landing />
+      </Container>
     </>
   );
 }

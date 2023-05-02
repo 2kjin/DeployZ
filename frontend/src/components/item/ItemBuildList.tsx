@@ -15,14 +15,22 @@ interface SBuildItemProps {
   // 기존의 props에 추가될 selected prop
 }
 
-export default function ItemBuildList({ itemHistoryLists }: { itemHistoryLists: itemHistory[] }) {
+export default function ItemBuildList({
+  itemHistoryLists,
+}: {
+  itemHistoryLists: itemHistory[];
+}) {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
 
   return (
     <SDetailBuild>
       <SBuildList>
         <SBuildName>
-          <Icon icon="material-symbols:cloud-upload" fontSize="55" color="#FEA51D" />
+          <Icon
+            icon="material-symbols:cloud-upload"
+            fontSize="55"
+            color="#FEA51D"
+          />
           <SP>빌드 내역</SP>
         </SBuildName>
         {itemHistoryLists.map((item) => (
@@ -48,7 +56,9 @@ export default function ItemBuildList({ itemHistoryLists }: { itemHistoryLists: 
       <SBuildMessage>
         <SBuildName>
           <SP>콘솔 출력</SP>
-          <SStatusP>{itemHistoryLists.find((item) => item.idx === selectedIdx)?.status}</SStatusP>
+          <SStatusP>
+            {itemHistoryLists.find((item) => item.idx === selectedIdx)?.status}
+          </SStatusP>
         </SBuildName>
         <SBuildMessageContent>
           {itemHistoryLists.find((item) => item.idx === selectedIdx)?.message}

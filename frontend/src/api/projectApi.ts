@@ -18,24 +18,24 @@ export const fetchProjectList = async (): Promise<projectListInfo[]> => {
         itemName: "#FE",
         lastFailedDate: "4days 2hr",
       },
-      {
-        idx: 2,
-        projectName: "프로젝트2번",
-        itemCnt: 4,
-        isSuccess: "success",
-        lastSuccessDate: "3days 11hr",
-        itemName: "#BE",
-        lastFailedDate: "4days 2hr",
-      },
-      {
-        idx: 3,
-        projectName: "프로젝트3번",
-        itemCnt: 2,
-        isSuccess: "success",
-        lastSuccessDate: "3days 11hr",
-        itemName: "#DJANGO",
-        lastFailedDate: "4days 2hr",
-      },
+      // {
+      //   idx: 2,
+      //   projectName: "프로젝트2번",
+      //   itemCnt: 4,
+      //   isSuccess: "success",
+      //   lastSuccessDate: "3days 11hr",
+      //   itemName: "#BE",
+      //   lastFailedDate: "4days 2hr",
+      // },
+      // {
+      //   idx: 3,
+      //   projectName: "프로젝트3번",
+      //   itemCnt: 2,
+      //   isSuccess: "success",
+      //   lastSuccessDate: "3days 11hr",
+      //   itemName: "#DJANGO",
+      //   lastFailedDate: "4days 2hr",
+      // },
     ];
   }
 };

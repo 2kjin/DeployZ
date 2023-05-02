@@ -1,4 +1,5 @@
-import{ useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -8,6 +9,11 @@ import ProjectListItem from "./ProjectListItem";
 import { projectListInfo } from "@/types/project";
 
 export default function ProjectList(): JSX.Element {
+  const navigate = useNavigate();
+
+  const handleItemClick = () => {
+    navigate(`/step`);
+  };
   const [status, setStatus] = useState(0);
   const [visibleProjects, setVisibleProjects] = useState<projectListInfo[]>([]);
 
@@ -29,7 +35,7 @@ export default function ProjectList(): JSX.Element {
         <ProjectListItem key={project.idx} project={project} />
       ))}
       {status <= 2 && visibleProjects.length < 3 && (
-        <SEmptyDiv>
+        <SEmptyDiv onClick={handleItemClick}>
           <AddCircleIcon style={styles} />
         </SEmptyDiv>
       )}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 //import api
 import { fetchItemDetail } from "../../api/itemApi";
@@ -19,6 +19,11 @@ import ItemBuildList from "./ItemBuildList";
 import { itemDetailInfo } from "@/types/item";
 
 export default function ItemDetail() {
+  const { idx } = useParams<{ idx: string }>();
+  const initialContainerIdx = parseInt(idx as string, 10);
+  const [containerIdx, setContainerIdx] = useState<number>(initialContainerIdx);
+  const [itemDetail, setItemDetail] = useState<itemDetailInfo | null>(null);
+
   // Header type 설정
   const [type, setType] = useState<string>("standard");
   const [selectedMessage, setSelectedMessage] = useState("");
@@ -27,17 +32,37 @@ export default function ItemDetail() {
     setSelectedMessage(message);
   };
 
-  const { idx } = useParams<{ idx: string }>();
-  const containerIdx = parseInt(idx as string, 10);
+  const navigate = useNavigate();
 
-  const [itemDetail, setItemDetail] = useState<itemDetailInfo | null>(null);
+  const handlePrevClick = () => {
+    const prevIdx = containerIdx - 1;
+    if (prevIdx > 0) {
+      navigate(`/item/detail/${prevIdx}`);
+    }
+  };
+
+  //아이템 디테일 이동 가능한 idx 임시로 5로 지정
+  //수정해야함
+  const handleNextClick = () => {
+    const nextIdx = containerIdx + 1;
+    if (nextIdx <= 5) {
+      navigate(`/item/detail/${nextIdx}`);
+    }
+  };
+
+  useEffect(() => {
+    setContainerIdx(initialContainerIdx);
+  }, [initialContainerIdx]);
+
+  useEffect(() => {}, [containerIdx]);
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchItemDetail(containerIdx);
       setItemDetail(data);
     };
     fetchData();
-  }, []);
+  }, [containerIdx]);
 
   return (
     <SWrap>
@@ -50,6 +75,7 @@ export default function ItemDetail() {
               fontSize="65"
               color="white"
               cursor="pointer"
+              onClick={handlePrevClick}
             />
             <SFrame>
               <SFrameName>{itemDetail.itemName}</SFrameName>
@@ -57,9 +83,17 @@ export default function ItemDetail() {
                 {itemDetail.frameworkType === "react" ? (
                   <Icon icon="mdi:react" fontSize="250" color="white" />
                 ) : itemDetail.frameworkType === "springBoot" ? (
-                  <Icon icon="simple-icons:springboot" fontSize="250" color="white" />
+                  <Icon
+                    icon="simple-icons:springboot"
+                    fontSize="250"
+                    color="white"
+                  />
                 ) : (
-                  <Icon icon="tabler:brand-django" fontSize="250" color="white" />
+                  <Icon
+                    icon="tabler:brand-django"
+                    fontSize="250"
+                    color="white"
+                  />
                 )}
               </SFrameImg>
             </SFrame>
@@ -68,6 +102,7 @@ export default function ItemDetail() {
               fontSize="65"
               color="white"
               cursor="pointer"
+              onClick={handleNextClick}
             />
           </SFrameMainDiv>
           <SCentered>

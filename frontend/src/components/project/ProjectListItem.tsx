@@ -31,15 +31,15 @@ export default function ProjectListItem({
       ) : (
         <HighlightOffIcon style={HighlightOffIconStyle} />
       )}
-      <SProjectName>{project?.projectName}</SProjectName>
-      <SItemCount>{project?.itemCnt}</SItemCount>
+      <SProjectName>{project.projectName}</SProjectName>
+      <SItemCount>{project.itemCnt}</SItemCount>
       <SLastSuccessDiv>
-        <SLastSuccessTime>{project?.lastSuccessDate}</SLastSuccessTime>
-        <SContainerButton>{project?.itemName}</SContainerButton>
+        <SLastSuccessTime>{project.lastSuccessDate}</SLastSuccessTime>
+        <SContainerButton>{project.itemName}</SContainerButton>
       </SLastSuccessDiv>
       <SLastFailureDiv>
-        <SLastFailureTime>{project?.lastFailedDate}</SLastFailureTime>
-        <SContainerButton>{project?.itemName}</SContainerButton>
+        <SLastFailureTime>{project.lastFailedDate}</SLastFailureTime>
+        <SContainerButton>{project.itemName}</SContainerButton>
       </SLastFailureDiv>
       <SButton onClick={handleItemClick}>상세보기</SButton>
     </SProjectListItem>

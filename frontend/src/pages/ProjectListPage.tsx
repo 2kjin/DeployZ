@@ -3,6 +3,7 @@ import ProjectList from "@components/project/ProjectList";
 import Header from "@components/common/Header";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
+import { success } from "@components/common/notify";
 
 export default function ProjectListPage(): JSX.Element {
   // Header type 설정
@@ -59,6 +60,7 @@ const STitle = styled.span`
   font-weight: ${theme.fontWeight.extrabold};
   font-size: 5.5rem;
   margin-left: 3vh;
+  padding-left: 2rem;
 `;
 
 const SProjectList = styled.div`

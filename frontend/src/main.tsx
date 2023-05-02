@@ -8,6 +8,8 @@ import router from "./router";
 import { normalize } from "styled-normalize";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "@/apollo/client";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const GlobalStyle = createGlobalStyle`
   ${normalize}
@@ -34,6 +36,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <ApolloProvider client={client}>
         <RecoilRoot>
           <RouterProvider router={router} />
+          <ToastContainer />
         </RecoilRoot>
       </ApolloProvider>
     </MThemeProvider>

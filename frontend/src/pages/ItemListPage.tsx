@@ -11,11 +11,14 @@ import { theme } from "@/styles/theme";
 
 //import images
 import logo from "../assets/logo.png";
+import { error, warning } from "@components/common/notify";
 
 export default function ItemListPage() {
   const { idx } = useParams<{ idx: string }>();
   const projectIdx = parseInt(idx as string, 10);
-  const [projectDetail, setProjectDetail] = useState<projectDetailInfo | null>(null);
+  const [projectDetail, setProjectDetail] = useState<projectDetailInfo | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,16 +34,16 @@ export default function ItemListPage() {
     fetchData();
   }, [projectIdx]);
 
-  if (!projectDetail) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    error("하하하");
+  }, []);
 
   // Header type 설정
   const [type, setType] = useState<string>("standard");
-  
+
   return (
     <>
-      <Header type={type}  />
+      <Header type={type} />
       <STitleBox>
         <SEditButton>설정</SEditButton>
         <SDiv>
