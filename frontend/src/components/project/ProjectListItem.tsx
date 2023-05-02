@@ -13,11 +13,7 @@ import { projectListInfo } from "@/types/project";
 //project 객체가 존재하지 않거나 name 프로퍼티가 비어있는 경우 true 반환
 //모든 프로퍼티가 비어있다면 isProjectEmpty 변수에 true 할당
 
-export default function ProjectListItem({
-  project,
-}: {
-  project: projectListInfo;
-}): JSX.Element {
+export default function ProjectListItem({ project }: { project: projectListInfo }): JSX.Element {
   const navigate = useNavigate();
 
   const handleItemClick = () => {
@@ -31,15 +27,15 @@ export default function ProjectListItem({
       ) : (
         <HighlightOffIcon style={HighlightOffIconStyle} />
       )}
-      <SProjectName>{project?.projectName}</SProjectName>
-      <SItemCount>{project?.itemCnt}</SItemCount>
+      <SProjectName>{project.projectName}</SProjectName>
+      <SItemCount>{project.itemCnt}</SItemCount>
       <SLastSuccessDiv>
-        <SLastSuccessTime>{project?.lastSuccessDate}</SLastSuccessTime>
-        <SContainerButton>{project?.itemName}</SContainerButton>
+        <SLastSuccessTime>{project.lastSuccessDate}</SLastSuccessTime>
+        <SContainerButton>{project.itemName}</SContainerButton>
       </SLastSuccessDiv>
       <SLastFailureDiv>
-        <SLastFailureTime>{project?.lastFailedDate}</SLastFailureTime>
-        <SContainerButton>{project?.itemName}</SContainerButton>
+        <SLastFailureTime>{project.lastFailedDate}</SLastFailureTime>
+        <SContainerButton>{project.itemName}</SContainerButton>
       </SLastFailureDiv>
       <SButton onClick={handleItemClick}>상세보기</SButton>
     </SProjectListItem>

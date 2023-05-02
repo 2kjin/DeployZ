@@ -3,13 +3,7 @@ import { theme } from "@/styles/theme";
 import styled from "styled-components";
 import { alpha, styled as mstyled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { itemListState } from "@/recoil/step";
 import { requestVersion } from "@/api/projectCreate";
@@ -66,9 +60,7 @@ export default function ItemBox({
    */
   const saveInfo = () => {
     setItemList((prev: IItem[]) => {
-      const index = prev.findIndex(
-        (prevItem) => prevItem.itemName === item.itemName
-      );
+      const index = prev.findIndex((prevItem) => prevItem.itemName === item.itemName);
       if (index === -1) {
         return [...prev, item];
       } else {
@@ -113,9 +105,7 @@ export default function ItemBox({
             Item Name
           </InputLabel>
           <InputBox
-            placeholder={`컨테이너 명을 입력세요. ex) ${handlePlaceholder(
-              "ItemName"
-            )}`}
+            placeholder={`컨테이너 명을 입력세요. ex) ${handlePlaceholder("ItemName")}`}
             id="itemName"
             value={item.itemName}
             // onChange={handleItemData}
@@ -126,9 +116,7 @@ export default function ItemBox({
             Port Number 1
           </InputLabel>
           <InputBox
-            placeholder={`할당할 포트번호를 입력하세요. ex) ${handlePlaceholder(
-              "Port1"
-            )}`}
+            placeholder={`할당할 포트번호를 입력하세요. ex) ${handlePlaceholder("Port1")}`}
             id="portNumber1"
             value={item.portNumber1}
             onChange={handleItemData}
@@ -139,9 +127,7 @@ export default function ItemBox({
             Port Number 2
           </InputLabel>
           <InputBox
-            placeholder={`할당할 포트번호를 입력하세요. ex) ${handlePlaceholder(
-              "Port2"
-            )}`}
+            placeholder={`할당할 포트번호를 입력하세요. ex) ${handlePlaceholder("Port2")}`}
             id="portNumber2"
             value={item.portNumber2}
             onChange={handleItemData}
@@ -193,9 +179,7 @@ export default function ItemBox({
             Target Folder
           </InputLabel>
           <InputBox
-            placeholder={`해당 폴더를 입력하세요. ex) ${handlePlaceholder(
-              "TargetFolder"
-            )}`}
+            placeholder={`해당 폴더를 입력하세요. ex) ${handlePlaceholder("TargetFolder")}`}
             id="targetFolder"
             value={item.targetFolder}
             onChange={handleItemData}
@@ -225,10 +209,7 @@ export default function ItemBox({
             <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
               <em>선택하세요.</em>
             </MenuItem>
-            <MenuItem
-              value={handlePlaceholder("Framework")}
-              sx={{ fontSize: "1.4rem" }}
-            >
+            <MenuItem value={handlePlaceholder("Framework")} sx={{ fontSize: "1.4rem" }}>
               {handlePlaceholder("Framework")}
             </MenuItem>
           </Select>

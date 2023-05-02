@@ -16,8 +16,7 @@ export default function FooterNav() {
   const nginxConfig = useRecoilValue<INginxConfig>(NginxState);
 
   const [stepInfo, setStepInfo] = useRecoilState<IStepItem[]>(stepState);
-  const [currentChapter, setCurrentChapter] =
-    useRecoilState<number>(chapterState);
+  const [currentChapter, setCurrentChapter] = useRecoilState<number>(chapterState);
 
   // stepInfo의 status 변경
   const handleStatusChangeBack = (value: number) => {

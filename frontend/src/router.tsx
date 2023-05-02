@@ -14,7 +14,6 @@ const router = createBrowserRouter([
   { path: "/project", element: <ProjectListPage /> },
   { path: "/project/detail/:idx", element: <ItemListPage /> },
   { path: "/item/detail/:idx", element: <ItemDetail /> },
-  { path: "/item", element: <ItemListPage /> },
   { path: "*", element: <Page404 /> },
 ]);
 
