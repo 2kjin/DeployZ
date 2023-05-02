@@ -2,9 +2,22 @@ import styled from "styled-components";
 import { theme } from "@/styles/theme"
 import { FormControl, InputBase, InputLabel } from "@mui/material";
 import { alpha, styled as mstyled } from "@mui/material/styles";
+import { requestPersonalToken } from "@/api/auth";
+import { IPersoanlToken } from "@/types/auth";
+
+const personalToken: IPersoanlToken = {
+  personaltoken: "",
+};
 
 export default function PersonalToken() {
-
+  const createPersonalToken = async () => {
+    const personalTokenInfo = {
+      personaltoken: personalToken.personaltoken,
+    };
+    await requestPersonalToken(personalTokenInfo);
+  };
+  console.log(createPersonalToken)
+  
   return (
   <Container>
     <Box>
@@ -45,7 +58,7 @@ export default function PersonalToken() {
           placeholder={`ex) RIiCysmWxzLKJyETfaqf`}
         />
       </FormControl>
-      <SaveBtn>저장</SaveBtn>
+      <SaveBtn onClick={createPersonalToken}>저장</SaveBtn>
     </Box>
   </Container>
   )

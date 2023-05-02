@@ -1,15 +1,17 @@
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LogoPic from "@/assets/logo.png";
 import GitlabPic from "@/assets/gitlab.png";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { requestLogout } from "@/api/auth";
 
 export default function Header({ type }: { type: String }) {
   const navigate = useNavigate();
+  const uselocation = useLocation();
   const [isLogin, setIsLogin] = useState(false);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
     if (token) {
@@ -17,9 +19,17 @@ export default function Header({ type }: { type: String }) {
     }
   }, [token]);
 
-  const handleLogOut = () => {
-    setIsLogin(false);
-    localStorage.removeItem('token');
+  const logout = async () => {
+    try {
+      await requestLogout();
+      if (uselocation.pathname === "/") {
+        location.reload();
+      } else {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -35,7 +45,7 @@ export default function Header({ type }: { type: String }) {
       {isLogin && (
       <NavStyle to="/step" >Infra Guide</NavStyle> )}
       {isLogin ? (
-      <Loginbtn onClick={() => handleLogOut()}>
+      <Loginbtn onClick={() => logout()}>
         <Gitlab alt="gitlab" src={GitlabPic} />
         LOGOUT
       </Loginbtn>
