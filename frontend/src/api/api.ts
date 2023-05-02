@@ -19,14 +19,14 @@ export const gitlabInstance = axios.create({
  */
 
 // interceptors를 통해
-instance.interceptors.request.use(
-  function (config) {
-    const accessToken = localStorage.getItem("accessToken");
-    // 요청 바로 직전
-    config.headers["Authorization"] = `Bearer ${accessToken}`;
-    return config;
-  },
-  function (error) {
-    return Promise.reject(error);
-  }
-);
+// instance.interceptors.request.use(
+//   function (config) {
+//     const accessToken = localStorage.getItem("accessToken");
+//     // 요청 바로 직전
+//     config.headers["Authorization"] = `Bearer ${accessToken}`;
+//     return config;
+//   },
+//   function (error) {
+//     return Promise.reject(error);
+//   }
+// );
