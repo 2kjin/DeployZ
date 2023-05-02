@@ -30,7 +30,7 @@ spring:
     port: ${REDIS_PORT}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
     properties:
