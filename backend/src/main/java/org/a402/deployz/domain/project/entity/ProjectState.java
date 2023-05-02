@@ -12,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.a402.deployz.domain.project.entity.Project;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,8 +29,8 @@ public class ProjectState {
 	private String status;
 	@Column(name = "register_Time")
 	private LocalDateTime registerTime;
-	@Column(name = "last_modified_date")
-	private LocalDateTime lastModifiedDate;
+	@Column(name = "last_failure_date")
+	private LocalDateTime lastFailureDate;
 	@Column(name = "step", length = 20)
 	private String step;
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -41,11 +39,11 @@ public class ProjectState {
 
 	@Builder
 	public ProjectState(final Long idx, final String status, final LocalDateTime registerTime,
-		final LocalDateTime lastModifiedDate, final String step, final Project projects) {
+		final LocalDateTime lastFailureDate, final String step, final Project projects) {
 		this.idx = idx;
 		this.status = status;
 		this.registerTime = registerTime;
-		this.lastModifiedDate = lastModifiedDate;
+		this.lastFailureDate = lastFailureDate;
 		this.step = step;
 		this.projects = projects;
 	}
