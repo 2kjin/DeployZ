@@ -54,7 +54,7 @@ public class SecurityConfig {
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt Token으로 인증하므로 session 생성하지 않는다.
 			.and()
-			.cors();
+			.cors().configurationSource(corsConfigurationSource());
 
 		httpSecurity.authorizeRequests()
 			//HttpServletRequest를 사용하는 요청에 대한 권한체크
