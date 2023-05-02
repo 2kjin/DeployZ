@@ -1,16 +1,14 @@
 package org.a402.deployz.domain.member.controller;
 
-import org.a402.deployz.domain.member.request.MemberUpdateRequest;
 import org.a402.deployz.domain.member.request.ReCreateTokenRequest;
+import org.a402.deployz.domain.member.request.RegisterTokenRequest;
 import org.a402.deployz.domain.member.response.MemberInformationResponse;
-import org.a402.deployz.domain.member.response.MemberUpdateResponse;
 import org.a402.deployz.domain.member.service.MemberService;
 import org.a402.deployz.global.common.BaseResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,14 +35,15 @@ public class MemberController {
 		return new BaseResponse<>(memberInformation);
 	}
 
-	@Operation(description = "회원 정보 수정하기 API", summary = "회원 정보 수정하기 API")
+	@Operation(description = "회원토큰 등록 API", summary = "회원토큰 등록하기 API")
 	@ApiResponse(responseCode = "200", description = "회원 정보 수정 성공")
 	@ApiResponse(responseCode = "400", description = "회원 정보 찾을 수 없음")
-	@PutMapping
-	public BaseResponse<MemberUpdateResponse> updateMember(@RequestBody MemberUpdateRequest memberUpdateRequest) {
-		final MemberUpdateResponse memberUpdateResponse = memberService.updateMember(memberUpdateRequest);
+	@PostMapping
+	public BaseResponse<String> registerToken(@RequestBody RegisterTokenRequest registerTokenRequest,
+	@AuthenticationPrincipal UserDetails userDetails) {
+		final String personalAccessToken = memberService.registerToken(registerTokenRequest, userDetails);
 
-		return new BaseResponse<>(memberUpdateResponse);
+		return new BaseResponse<>(personalAccessToken);
 	}
 
 	@Operation(description = "토큰 재생성 API", summary = "토큰 재생성 API")

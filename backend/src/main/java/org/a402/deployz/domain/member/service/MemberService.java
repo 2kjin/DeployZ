@@ -3,10 +3,9 @@ package org.a402.deployz.domain.member.service;
 import org.a402.deployz.domain.member.entity.Member;
 import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.member.repository.MemberRepository;
-import org.a402.deployz.domain.member.request.MemberUpdateRequest;
 import org.a402.deployz.domain.member.request.ReCreateTokenRequest;
+import org.a402.deployz.domain.member.request.RegisterTokenRequest;
 import org.a402.deployz.domain.member.response.MemberInformationResponse;
-import org.a402.deployz.domain.member.response.MemberUpdateResponse;
 import org.a402.deployz.global.security.jwt.JwtTokenProvider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -37,11 +36,12 @@ public class MemberService {
 	}
 
 	@Transactional
-	public MemberUpdateResponse updateMember(final MemberUpdateRequest memberUpdateRequest) {
-		final Member member = memberRepository.findById(memberUpdateRequest.getIdx())
+	public String registerToken(final RegisterTokenRequest registerTokenRequest,
+		final UserDetails userDetails) {
+		final Member member = memberRepository.findMemberByEmail(userDetails.getUsername())
 			.orElseThrow(MemberNotFoundException::new);
-		member.updatePersonalAccessToken(memberUpdateRequest.getPersonalAccessToken());
+		member.updatePersonalAccessToken(registerTokenRequest.getPersonalAccessToken());
 
-		return new MemberUpdateResponse(member);
+		return member.getPersonalAccessToken();
 	}
 }
