@@ -54,6 +54,7 @@ export default function ItemBox({
     if (id === "frameworkType" && value !== "none") {
       getVersion(value);
     }
+
     setItem((cur) => ({
       ...cur,
       [id]: value,
@@ -79,14 +80,23 @@ export default function ItemBox({
   };
 
   const getVersion = async (value: string) => {
-    const { data } = await requestVersion(value);
-    setVersionList(data);
+    const {
+      data: { result },
+    } = await requestVersion(value);
+    // console.log(result);
+    setVersionList(result);
   };
 
   // recoil에 저장된 이미 사용자가 입력한 값을 띄워주기위한 set
   useEffect(() => {
     itemList.map((item: IItem) => {
-      if (item.itemName === itemName) setItem(item);
+      if (item.itemName === itemName) {
+        setItem(item);
+        if (item.frameworkType !== "none") {
+          getVersion(item.frameworkType);
+        }
+      }
+      console.log(item);
     });
   }, []);
 
@@ -236,6 +246,12 @@ export default function ItemBox({
             name="buildVersion"
             value={item.buildVersion}
             onChange={handleSelectChange}
+            defaultValue={item.buildVersion}
+            MenuProps={{
+              style: {
+                maxHeight: "300px",
+              },
+            }}
           >
             <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
               <em>선택하세요.</em>
@@ -306,6 +322,9 @@ const SaveBtn = styled.div`
   font-size: 1.4rem;
   border-radius: 0.5rem;
   cursor: pointer;
+  :hover {
+    transform: scale(1.03);
+  }
 `;
 
 const InputContainer = styled.div`
@@ -333,7 +352,7 @@ const INPUTFORM: InputForm[] = [
     Port2: 8082,
     BranchName: "be-develop",
     TargetFolder: "/backend",
-    Framework: "Springboot",
+    Framework: "SpringBoot",
   },
 ];
 

@@ -34,9 +34,9 @@ export default function InputSection2() {
         </Section>
         <Section>
           <Label>Secret Token</Label>
-          {itemName.map((item) => {
+          {itemName.map((item, idx) => {
             return (
-              <SecretSection>
+              <SecretSection key={idx}>
                 <SecretLeft># {item[0]}</SecretLeft>
                 <SecretRight>{item[1]}</SecretRight>
               </SecretSection>

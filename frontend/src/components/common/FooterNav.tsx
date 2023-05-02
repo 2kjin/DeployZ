@@ -8,6 +8,7 @@ import {
   projectConfigState,
   stepState,
 } from "@/recoil/step";
+import { requestCreateProject } from "@/api/projectCreate";
 
 export default function FooterNav() {
   const projectConfig = useRecoilValue<IProjectConfig>(projectConfigState);
@@ -65,6 +66,16 @@ export default function FooterNav() {
     console.log("STEP 4 :", nginxConfig);
   };
 
+  const createProject = async () => {
+    const projectInfo = {
+      projectConfig: projectConfig,
+      itemList: itemList,
+      nginxConfig: nginxConfig,
+    };
+    const { data } = await requestCreateProject(projectInfo);
+    console.log(data);
+  };
+
   return (
     <Container>
       <Left>
@@ -80,7 +91,7 @@ export default function FooterNav() {
           </NavBtn>
         )}
         {currentChapter == 4 && (
-          <NavBtn className="next" onClick={checkProject}>
+          <NavBtn className="next" onClick={createProject}>
             <b>프로젝트 생성</b>
           </NavBtn>
         )}
@@ -137,4 +148,7 @@ const NavBtn = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  :hover {
+    transform: scale(1.03);
+  }
 `;

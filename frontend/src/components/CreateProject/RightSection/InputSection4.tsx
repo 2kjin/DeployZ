@@ -66,9 +66,9 @@ export default function InputSection2() {
             EC2 도메인 주소
           </InputLabel>
           <InputBox
-            widthsize={"50rem"}
-            fontsize={"1.5rem"}
-            spacingsize={4}
+            widthnum={"50rem"}
+            fontnum={"1.5rem"}
+            spacingnum={4}
             placeholder={`도메인 주소를 입력하세요.`}
             id="domainUrl"
             value={nginxConfig.domainUrl}
@@ -99,9 +99,9 @@ export default function InputSection2() {
                 SSL Certificate
               </InputLabel>
               <InputBox
-                widthsize={"30rem"}
-                fontsize={"1.2rem"}
-                spacingsize={3}
+                widthnum={"30rem"}
+                fontnum={"1.2rem"}
+                spacingnum={3}
                 placeholder={`SSL Certificate를 입력하세요.`}
                 id="sslCertificate"
                 value={nginxConfig.sslCertificate}
@@ -121,9 +121,9 @@ export default function InputSection2() {
                 SSL Certificate Key
               </InputLabel>
               <InputBox
-                widthsize={"30rem"}
-                fontsize={"1.2rem"}
-                spacingsize={3}
+                widthnum={"30rem"}
+                fontnum={"1.2rem"}
+                spacingnum={3}
                 placeholder={`SSL Certificate Key를 입력하세요.`}
                 id="sslCertificateKey"
                 value={nginxConfig.sslCertificateKey}
@@ -138,7 +138,11 @@ export default function InputSection2() {
             <AddBtn onClick={addProxy}>추가</AddBtn>
           </SectionCheck>
           {nginxConfig.proxyPathList.map((pathItem) => (
-            <Proxypass pathItem={pathItem} deleteProxy={deleteProxy} />
+            <Proxypass
+              key={pathItem.idx}
+              pathItem={pathItem}
+              deleteProxy={deleteProxy}
+            />
           ))}
         </Section>
       </InputContainer>
@@ -184,20 +188,20 @@ const Container = styled.div`
 `;
 
 const InputBox = mstyled(InputBase)<{
-  widthsize: string;
-  fontsize: string;
-  spacingsize: number;
-}>(({ theme, widthsize, fontsize, spacingsize }) => ({
+  widthnum: string;
+  fontnum: string;
+  spacingnum: number;
+}>(({ theme, widthnum, fontnum, spacingnum }) => ({
   "label + &": {
-    marginTop: theme.spacing(spacingsize),
+    marginTop: theme.spacing(spacingnum),
   },
   "& .MuiInputBase-input": {
     borderRadius: 4,
     position: "relative",
     backgroundColor: theme.palette.mode === "light" ? "#fcfcfb" : "#2b2b2b",
     border: "1px solid #ced4da",
-    fontSize: fontsize,
-    width: widthsize,
+    fontSize: fontnum,
+    width: widthnum,
     padding: "10px 12px",
     transition: theme.transitions.create(["border-color", "background-color"]),
     "&:focus": {

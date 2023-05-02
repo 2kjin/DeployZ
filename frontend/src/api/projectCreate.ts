@@ -15,6 +15,12 @@ export const requestGitlabBranch = async (
   );
 };
 
+// framework 빌드 버전 조회
 export const requestVersion = async (framework: string) => {
   return instance.get(`/project/buildVersion/${framework}`);
+};
+
+// 프로젝트 생성
+export const requestCreateProject = async (params: IProject) => {
+  return instance.post(`/project`, params);
 };
