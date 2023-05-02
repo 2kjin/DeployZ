@@ -27,12 +27,8 @@ export default function InputSection2() {
   return (
     <Container>
       <p className="subject">Item 정보 입력</p>
-      {itemList.map((item: IItem) => (
-        <ItemBox
-          key={item.itemName}
-          itemName={item.itemName}
-          branchList={branchList}
-        />
+      {itemList.map((item: IItem, idx) => (
+        <ItemBox key={idx} itemName={item.itemName} branchList={branchList} />
       ))}
     </Container>
   );

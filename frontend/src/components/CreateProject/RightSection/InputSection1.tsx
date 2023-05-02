@@ -56,7 +56,6 @@ export default function InputSection2() {
         projectConfig.hostUrl,
         projectConfig.projectId
       );
-      console.log(data);
       setRepoInfo({
         name: data.name,
         path: data.name_with_namespace,
@@ -95,9 +94,9 @@ export default function InputSection2() {
             Hoost URL
           </InputLabel>
           <InputBox
-            widthsize={"30rem"}
-            fontsize={"1.4rem"}
-            spacingsize={4}
+            widthnum={"30rem"}
+            fontnum={"1.4rem"}
+            spacingnum={4}
             placeholder={`ex) https://lab.ssafy.com`}
             id="hostUrl"
             value={projectConfig.hostUrl}
@@ -116,9 +115,9 @@ export default function InputSection2() {
             Project ID
           </InputLabel>
           <InputBox
-            widthsize={"30rem"}
-            fontsize={"1.4rem"}
-            spacingsize={4}
+            widthnum={"30rem"}
+            fontnum={"1.4rem"}
+            spacingnum={4}
             placeholder={`해당 레포지토리의 project id를 입력하세요.`}
             id="projectId"
             value={projectConfig.projectId}
@@ -141,9 +140,9 @@ export default function InputSection2() {
             Project Name
           </InputLabel>
           <InputBox
-            widthsize={"30rem"}
-            fontsize={"1.4rem"}
-            spacingsize={4}
+            widthnum={"30rem"}
+            fontnum={"1.4rem"}
+            spacingnum={4}
             placeholder={`프로젝트 이름을 입력하세요.`}
             id="projectName"
             value={projectConfig.projectName}
@@ -162,9 +161,9 @@ export default function InputSection2() {
             Project Description
           </InputLabel>
           <InputBox
-            widthsize={"30rem"}
-            fontsize={"1.4rem"}
-            spacingsize={4}
+            widthnum={"30rem"}
+            fontnum={"1.4rem"}
+            spacingnum={4}
             placeholder={`프로젝트 설명을 입력하세요.`}
             id="description"
             value={projectConfig.description}
@@ -247,30 +246,40 @@ const Container = styled.div`
 `;
 
 const InputBox = mstyled(InputBase)<{
-  widthsize: string;
-  fontsize: string;
-  spacingsize: number;
-}>(({ theme, widthsize, fontsize, spacingsize }) => ({
-  "label + &": {
-    marginTop: theme.spacing(spacingsize),
-  },
-  "& .MuiInputBase-input": {
-    borderRadius: 4,
-    position: "relative",
-    backgroundColor: theme.palette.mode === "light" ? "#fcfcfb" : "#2b2b2b",
-    border: "1px solid #ced4da",
-    fontSize: fontsize,
-    width: widthsize,
-    padding: "10px 12px",
-    transition: theme.transitions.create(["border-color", "background-color"]),
-    "&:focus": {
-      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-      borderColor: theme.palette.primary.main,
+  widthnum: string;
+  fontnum: string;
+  spacingnum: number;
+}>(
+  ({
+    theme,
+    widthnum: widthnum,
+    fontnum: fontnum,
+    spacingnum: spacingnum,
+  }) => ({
+    "label + &": {
+      marginTop: theme.spacing(spacingnum),
     },
-    // 글꼴 설정 추가
-    fontFamily: "Pretendard",
-  },
-}));
+    "& .MuiInputBase-input": {
+      borderRadius: 4,
+      position: "relative",
+      backgroundColor: theme.palette.mode === "light" ? "#fcfcfb" : "#2b2b2b",
+      border: "1px solid #ced4da",
+      fontSize: fontnum,
+      width: widthnum,
+      padding: "10px 12px",
+      transition: theme.transitions.create([
+        "border-color",
+        "background-color",
+      ]),
+      "&:focus": {
+        boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+        borderColor: theme.palette.primary.main,
+      },
+      // 글꼴 설정 추가
+      fontFamily: "Pretendard",
+    },
+  })
+);
 
 const InputContainer = styled.div`
   width: 63%;

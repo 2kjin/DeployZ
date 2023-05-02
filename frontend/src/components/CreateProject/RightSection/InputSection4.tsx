@@ -102,7 +102,7 @@ export default function InputSection2() {
                 widthsize={"30rem"}
                 fontsize={"1.2rem"}
                 spacingsize={3}
-                placeholder={`ex) ???`}
+                placeholder={`SSL Certificate를 입력하세요.`}
                 id="sslCertificate"
                 value={nginxConfig.sslCertificate}
                 onChange={handleItemData}
@@ -124,7 +124,7 @@ export default function InputSection2() {
                 widthsize={"30rem"}
                 fontsize={"1.2rem"}
                 spacingsize={3}
-                placeholder={`ex) ???`}
+                placeholder={`SSL Certificate Key를 입력하세요.`}
                 id="sslCertificateKey"
                 value={nginxConfig.sslCertificateKey}
                 onChange={handleItemData}

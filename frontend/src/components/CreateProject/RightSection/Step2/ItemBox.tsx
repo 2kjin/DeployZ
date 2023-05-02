@@ -121,7 +121,7 @@ export default function ItemBox({
             )}`}
             id="portNumber1"
             value={item.portNumber1}
-            // onChange={handleItemData}
+            onChange={handleItemData}
           />
         </FormControl>
         <FormControl variant="standard">
@@ -171,8 +171,8 @@ export default function ItemBox({
             <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
               <em>선택하세요.</em>
             </MenuItem>
-            {branchList.map((branch) => (
-              <MenuItem value={branch} sx={{ fontSize: "1.4rem" }}>
+            {branchList.map((branch, idx) => (
+              <MenuItem key={idx} value={branch} sx={{ fontSize: "1.4rem" }}>
                 {branch}
               </MenuItem>
             ))}
@@ -240,8 +240,8 @@ export default function ItemBox({
             <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
               <em>선택하세요.</em>
             </MenuItem>
-            {versionList.map((version) => (
-              <MenuItem value={version} sx={{ fontSize: "1.4rem" }}>
+            {versionList.map((version, idx) => (
+              <MenuItem key={idx} value={version} sx={{ fontSize: "1.4rem" }}>
                 {version}
               </MenuItem>
             ))}
