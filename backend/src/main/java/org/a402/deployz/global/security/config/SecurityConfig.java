@@ -2,6 +2,7 @@ package org.a402.deployz.global.security.config;
 
 import java.util.Arrays;
 import java.util.List;
+
 import org.a402.deployz.global.security.jwt.JwtAuthenticationFilter;
 import org.a402.deployz.global.security.jwt.JwtTokenProvider;
 import org.a402.deployz.global.security.oauth.CustomOAuth2UserService;
@@ -14,7 +15,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -51,7 +51,9 @@ public class SecurityConfig {
 			.csrf().disable() // rest api 이기 때문에 csrf 보안이 필요 없으므로 disable 처리한다.
 			.formLogin().disable()
 			.sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS); // jwt Token으로 인증하므로 session 생성하지 않는다.
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt Token으로 인증하므로 session 생성하지 않는다.
+			.and()
+			.cors();
 
 		httpSecurity.authorizeRequests()
 			//HttpServletRequest를 사용하는 요청에 대한 권한체크
