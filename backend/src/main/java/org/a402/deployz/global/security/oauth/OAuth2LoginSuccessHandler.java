@@ -34,7 +34,8 @@ import lombok.extern.slf4j.Slf4j;
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	public static final String REGISTRATION_ID = "registrationId";
 	//	public static final String SERVER_REDIRECT_URL = "/socialLogin";
-	public static final String SERVER_REDIRECT_URL = "/oauthRedirect";
+	public static final String LOGIN_SERVER_REDIRECT_URL = "/loginRedirect";
+	public static final String SIGNUP_SERVER_REDIRECT_URL = "/signupRedirect";
 	//	public static final String SERVER_REDIRECT_URL = "http://localhost:5173/oauthRedirect";
 	private final JwtTokenProvider jwtTokenProvider;
 	private final MemberRepository memberRepository;
@@ -56,11 +57,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 			.map(Cookie::getValue);
 
 		//		final String targetUrl = redirectUri.orElse(getDefaultTargetUrl()+SERVER_REDIRECT_URL);
-		final String targetUrl = redirectUri.orElse(SERVER_REDIRECT_URL);
+		//		final String targetUrl = redirectUri.orElse(SERVER_REDIRECT_URL);
 		final OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
 		final Map<String, Object> attributes = oAuth2User.getAttributes();
-
-		log.info("targetUrl 정보 = {}", targetUrl);
 		log.info("로그인 유저정보 = {}", oAuth2User);
 
 		final OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken)authentication;
@@ -74,8 +73,18 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
 		httpServletResponse.setHeader(AUTHORIZATION, accessToken);
 
+		if (member.getPersonalAccessToken() == null) {
+			return UriComponentsBuilder.newInstance()
+				.path(SIGNUP_SERVER_REDIRECT_URL)
+				.queryParam(ACCESS_TOKEN, accessToken)
+				.queryParam(REFRESH_TOKEN, refreshToken)
+				.queryParam(REGISTRATION_ID, registrationId)
+				.build()
+				.toUriString();
+		}
+
 		return UriComponentsBuilder.newInstance()
-			.path(SERVER_REDIRECT_URL)
+			.path(LOGIN_SERVER_REDIRECT_URL)
 			.queryParam(ACCESS_TOKEN, accessToken)
 			.queryParam(REFRESH_TOKEN, refreshToken)
 			.queryParam(REGISTRATION_ID, registrationId)
