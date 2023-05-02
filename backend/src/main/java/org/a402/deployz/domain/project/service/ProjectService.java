@@ -2,24 +2,26 @@ package org.a402.deployz.domain.project.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
+import org.a402.deployz.domain.item.repository.ItemRepository;
+import org.a402.deployz.domain.item.request.ItemConfigRequest;
 import org.a402.deployz.domain.member.entity.Member;
 import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.NginxConfig;
 import org.a402.deployz.domain.project.entity.Project;
 import org.a402.deployz.domain.project.exception.ProjectNotFoundException;
+import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.project.repository.GitConfigRepository;
 import org.a402.deployz.domain.project.repository.GitTokenRepository;
-import org.a402.deployz.domain.project.repository.ItemRepository;
 import org.a402.deployz.domain.project.repository.NginxConfigRepository;
 import org.a402.deployz.domain.project.repository.ProjectRepository;
 import org.a402.deployz.domain.project.repository.ProxyConfigRepository;
-import org.a402.deployz.domain.project.request.ItemConfigRequest;
 import org.a402.deployz.domain.project.request.NginxConfigRequest;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
 import org.a402.deployz.global.error.GlobalErrorCode;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
