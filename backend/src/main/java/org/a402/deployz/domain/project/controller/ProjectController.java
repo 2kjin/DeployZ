@@ -6,7 +6,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.a402.deployz.domain.project.entity.Project;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
+import org.a402.deployz.domain.project.response.ProjectResponse;
 import org.a402.deployz.domain.project.service.ProjectService;
 import org.a402.deployz.global.common.BaseResponse;
 import org.a402.deployz.global.error.GlobalErrorCode;
@@ -60,10 +62,21 @@ public class ProjectController {
 	@ApiResponse(responseCode = "200", description = "프로젝트 삭제 성공")
 	@Operation(description = "프로젝트 삭제 API", summary = "프로젝트 삭제 API")
 	@DeleteMapping("/{projectIdx}")
-	public BaseResponse<Void> projectRemove(@Valid @RequestParam long idx) {
-		projectService.removeProject(idx);
+	public BaseResponse<Void> projectRemove(@Valid @PathVariable Long projectIdx) {
+		projectService.removeProject(projectIdx);
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
+
+	@ApiResponse(responseCode = "200", description = "프로젝트 목록 조회 성공")
+	@Operation(description = "프로젝트 목록 조회 API", summary = "프로젝트 목록 조회 API")
+	@GetMapping
+	//일단은 멤버 Idx를 기준으로 프로젝트들 조회
+	public BaseResponse<List<ProjectResponse>> projectList() {
+		List<ProjectResponse> projectDtoList = projectService.findProject(1);
+
+		return new BaseResponse<>(projectDtoList);
+	}
+
 
 	@ApiResponse(responseCode = "200", description = "프레임워크 타입 조회 성공")
 	@Operation(description = "프레임워크 타입 조회 API", summary = "프레임워크 타입 조회 API")
@@ -91,8 +104,5 @@ public class ProjectController {
 
 		return new BaseResponse<>(portNumCheck);
 	}
-
-
-
 
 }

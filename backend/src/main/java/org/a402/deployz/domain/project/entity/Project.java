@@ -46,8 +46,8 @@ public class Project {
 	private String projectName;
 	@Column(name = "last_success_date")
 	private LocalDateTime lastSuccessDate;
-	@Column(name = "last_modified_date")
-	private LocalDateTime lastModifiedDate;
+	@Column(name = "last_failure_date")
+	private LocalDateTime lastFailureDate;
 	@Column(name = "description", length = 100)
 	private String description;
 	@Column(name = "image_path", length = 100)
@@ -66,14 +66,14 @@ public class Project {
 
 	@Builder
 	public Project(Long idx, Member member, boolean deletedFlag, String projectName, LocalDateTime lastSuccessDate,
-		LocalDateTime lastModifiedDate, String description, String imagePath, List<Item> items, GitConfig gitConfig,
+		LocalDateTime lastFailureDate, String description, String imagePath, List<Item> items, GitConfig gitConfig,
 		NginxConfig nginxConfig) {
 		this.idx = idx;
 		this.member = member;
 		this.deletedFlag = deletedFlag;
 		this.projectName = projectName;
 		this.lastSuccessDate = lastSuccessDate;
-		this.lastModifiedDate = lastModifiedDate;
+		this.lastFailureDate = lastFailureDate;
 		this.description = description;
 		this.imagePath = imagePath;
 		this.items = items;

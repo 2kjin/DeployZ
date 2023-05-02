@@ -10,6 +10,7 @@ import org.a402.deployz.domain.member.entity.Member;
 import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.NginxConfig;
 import org.a402.deployz.domain.project.entity.Project;
+import org.a402.deployz.domain.project.entity.ProjectState;
 import org.a402.deployz.domain.project.exception.ProjectNotFoundException;
 import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.project.repository.GitConfigRepository;
@@ -19,12 +20,17 @@ import org.a402.deployz.domain.project.repository.ProjectRepository;
 import org.a402.deployz.domain.project.repository.ProxyConfigRepository;
 import org.a402.deployz.domain.project.request.NginxConfigRequest;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
+import org.a402.deployz.domain.project.response.ProjectResponse;
 import org.a402.deployz.global.error.GlobalErrorCode;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,6 +38,7 @@ import static org.a402.deployz.domain.project.entity.enums.FrameworkType.*;
 import static org.a402.deployz.domain.project.entity.enums.ReactVersion.getReactVersion;
 import static org.a402.deployz.domain.project.entity.enums.SpringBootVersion.getSpringBootVersion;
 
+import javax.validation.Valid;
 
 //  | findOrder() | 조회 유형의 service 메서드 |
 //  | addOrder() | 등록 유형의 service 메서드 |
@@ -88,8 +95,8 @@ public class ProjectService {
 	}
 
 	@Transactional
-	public void removeProject(long idx) {
-		projectRepository.findByIdx(idx)
+	public void removeProject(@Valid long projectIdx) {
+		projectRepository.findByIdx(projectIdx)
 			.orElseThrow(() -> new ProjectNotFoundException(GlobalErrorCode.PROJECT_NOT_FOUND))
 			.updateDeletedFlag();
 	}
@@ -110,7 +117,7 @@ public class ProjectService {
 
 		return names;
 	}
-
+	@Transactional
 	public HashMap<String, Boolean> findPortNumCheckList(Long port1, Long port2) {
 		HashMap<String, Boolean> portCheck = new HashMap<>();
 		//true: 사용 가능, false: 사용 불가
@@ -119,4 +126,33 @@ public class ProjectService {
 		return portCheck;
 	}
 
+	// staus를 확인하기 위한 코드
+	@Transactional
+	public List<ProjectResponse> findProject(long memberIdx) {
+		List<Project> tmp = projectRepository.findByMemberIdx(memberIdx);
+		Long itemCnt = null;
+		List<ProjectResponse> result = new ArrayList<>();
+
+		for (Project project : tmp) {
+			String status=null;
+
+			//최근 성공시간이 최근 실패시간 보다 이후 -> SUCCESS
+			LocalDateTime successDate=project.getLastSuccessDate();
+			LocalDateTime failureDate=project.getLastFailureDate();
+
+			//failureDate가 더 이후: 음수값 반환 / successDate가 더 최근: 양수 반환
+
+			Duration duration = Duration.between(failureDate, successDate);
+			// 초 단위 차이
+			long diffInSeconds = duration.getSeconds();
+			if (diffInSeconds>=0) status="SUCCESS";
+			else status="FAIL";
+
+			//해당 프로젝트의 item 개수를 count
+			itemCnt= itemRepository.countItemsByProjectIdx(project.getIdx());
+
+			result.add(new ProjectResponse(project, status, itemCnt));
+		}
+		return result;
+	}
 }
