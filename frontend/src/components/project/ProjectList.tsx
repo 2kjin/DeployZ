@@ -51,14 +51,14 @@ const styles = {
 
 const SEmptyDiv = styled.div`
   display: flex;
-  justify-content: center; /* 가로 방향 가운데 정렬 */
-  align-items: center; /* 세로 방향 가운데 정렬 */
-  width: 95%;
+  width: 78vw;
   height: 15vh;
   background: ${theme.colors.lightgray};
+  overflow: hidden;
+  margin: auto;
   border-radius: 1rem;
-  margin-bottom: 2rem;
-  margin-top: 2rem;
-  padding-right: 1rem;
-  padding-left: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4rem;
 `;
