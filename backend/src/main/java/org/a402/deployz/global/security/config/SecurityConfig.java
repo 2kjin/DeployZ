@@ -88,7 +88,8 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		final CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-		corsConfiguration.setAllowedOrigins(List.of(FRONT_URL_PATTERN, SERVER_URL_PATTERN, FRONT_URL_PATTERN_SERVER));
+		//		corsConfiguration.setAllowedOrigins(List.of(FRONT_URL_PATTERN, SERVER_URL_PATTERN, FRONT_URL_PATTERN_SERVER));
+		corsConfiguration.setAllowedOrigins(List.of("*"));
 		corsConfiguration.setAllowedMethods(Arrays.asList(POST, GET, DELETE, PUT, HEAD, OPTIONS));
 		corsConfiguration.setAllowedHeaders(List.of(ALLOW_PATTERN));
 		corsConfiguration.setAllowCredentials(true);
