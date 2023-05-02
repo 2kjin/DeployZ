@@ -9,6 +9,7 @@ import org.a402.deployz.global.security.oauth.CustomOAuth2UserService;
 import org.a402.deployz.global.security.oauth.HttpCookieOAuthAuthorizationRequestRepository;
 import org.a402.deployz.global.security.oauth.OAuth2LoginFailureHandler;
 import org.a402.deployz.global.security.oauth.OAuth2LoginSuccessHandler;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 	public static final String SERVER_URL_PATTERN = "http://k8a402.p.ssafy.io";
 	public static final String FRONT_URL_PATTERN = "http://localhost:5173";
+	public static final String FRONT_URL_PATTERN_SERVER = "http://localhost:3000";
 	public static final String BASE_URL_PATTERN = "/**";
 	public static final String HEAD = "HEAD";
 	public static final String OPTIONS = "OPTIONS";
@@ -35,7 +37,6 @@ public class SecurityConfig {
 	public static final String GET = "GET";
 	public static final String DELETE = "DELETE";
 	public static final String PUT = "PUT";
-
 	public static final String ALLOW_PATTERN = "*";
 
 	private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
@@ -87,7 +88,7 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		final CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-		corsConfiguration.setAllowedOrigins(List.of(FRONT_URL_PATTERN, SERVER_URL_PATTERN));
+		corsConfiguration.setAllowedOrigins(List.of(FRONT_URL_PATTERN, SERVER_URL_PATTERN, FRONT_URL_PATTERN_SERVER));
 		corsConfiguration.setAllowedMethods(Arrays.asList(POST, GET, DELETE, PUT, HEAD, OPTIONS));
 		corsConfiguration.setAllowedHeaders(List.of(ALLOW_PATTERN));
 		corsConfiguration.setAllowCredentials(true);
