@@ -57,7 +57,6 @@ const SItem = styled.div`
   font-size: 2.5rem;
   font-weight: ${theme.fontWeight.medium};
   color: ${theme.colors.primary};
-  margin-right: 3rem;
 `;
 
 const SDiv = styled.div`

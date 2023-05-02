@@ -11,7 +11,6 @@ import { theme } from "@/styles/theme";
 
 //import images
 import logo from "../assets/logo.png";
-import { error, warning } from "@components/common/notify";
 
 export default function ItemListPage() {
   const { idx } = useParams<{ idx: string }>();
@@ -34,10 +33,6 @@ export default function ItemListPage() {
     fetchData();
   }, [projectIdx]);
 
-  useEffect(() => {
-    error("하하하");
-  }, []);
-
   // Header type 설정
   const [type, setType] = useState<string>("standard");
 
@@ -53,20 +48,26 @@ export default function ItemListPage() {
       </STitleBox>
       <SListBox>
         <SListTitleDiv>
+          <SItem></SItem>
+          <SItem></SItem>
           <SItem>이름</SItem>
           <SItem>상태</SItem>
           <SItem>포트</SItem>
           <SItem>최근 성공</SItem>
           <SItem>최근 실패</SItem>
+          <SItem></SItem>
+          <SItem></SItem>
         </SListTitleDiv>
         {projectDetail && <ItemList itemList={projectDetail.itemList} />}
       </SListBox>
     </>
   );
 }
-const SItem = styled.span`
-  font-size: 2.2rem;
-  font-weight: ${theme.fontWeight.extrabold};
+
+const SItem = styled.div`
+  flex: 2;
+  font-size: 2.8rem;
+  font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.primary};
 `;
 
@@ -81,12 +82,11 @@ const SEditButton = styled.button`
   border-radius: 5rem;
   background: ${theme.colors.secondary};
   color: ${theme.colors.white};
-  font-size: 2rem;
-  font-weight: ${theme.fontWeight.normal};
+  font-size: 2.1rem;
+  font-weight: ${theme.fontWeight.bold};
   cursor: pointer;
-  width: 11vh;
-  height: 5vh;
-  margin-left: 2rem;
+  padding: 1rem 1.5rem;
+  margin-left: 3rem;
 `;
 
 const STitleBox = styled.div`
@@ -102,36 +102,32 @@ const STitleBox = styled.div`
 
 const STitle = styled.span`
   color: ${theme.colors.primary};
-  font-weight: ${theme.fontWeight.extrabold};
-  font-size: 5.5rem;
-  margin-left: 1vh;
+  font-weight: ${theme.fontWeight.extraBold};
+  font-size: 4.5rem;
+  padding-left: 6rem;
 `;
 
 const SListBox = styled.div`
   width: 80vw;
   height: 70vh;
   background-color: ${theme.colors.white};
-  border-radius: 3rem;
+  border-radius: 2rem;
   margin: auto;
-  display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 `;
 
 const SListTitleDiv = styled.div`
-  width: 51%;
-  height: 10%;
   display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding-right: 10rem;
-  margin-top: 1.5rem;
+  text-align: center;
+  width: 78vw;
+  height: 12vh;
 `;
 
 const SImg = styled.img`
-  width: 12vh;
+  width: 13vh;
   height: 4vh;
-  margin-right: 3vh;
 `;

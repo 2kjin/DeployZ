@@ -41,6 +41,7 @@ const SItem = styled.div`
   font-size: 3rem;
   font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.primary};
+  margin-right: 3rem;
 `;
 
 const STitleBox = styled.div`
