@@ -19,6 +19,8 @@ import ItemBuildList from "./ItemBuildList";
 import { itemDetailInfo } from "@/types/item";
 
 export default function ItemDetail() {
+  // Header type 설정
+  const [type, setType] = useState<string>("standard");
   const [selectedMessage, setSelectedMessage] = useState("");
 
   const handleItemClick = (message: string) => {
@@ -39,7 +41,7 @@ export default function ItemDetail() {
 
   return (
     <SWrap>
-      <Header />
+      <Header type={type} />
       {itemDetail && (
         <>
           <SFrameMainDiv>

@@ -1,12 +1,15 @@
+import { useState } from "react";
 import ProjectList from "@components/project/ProjectList";
 import Header from "@components/common/Header";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
 export default function ProjectListPage(): JSX.Element {
+  // Header type 설정
+  const [type, setType] = useState<string>("standard");
   return (
     <>
-      <Header />
+      <Header type={type} />
       <STitleBox>
         <STitle>프로젝트 목록</STitle>
       </STitleBox>
