@@ -91,7 +91,7 @@ public class JwtTokenProvider {
 
 		userDetails = memberDetailService.loadUserByUsername(getUserEmail(saveToken));
 
-		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+		return new UsernamePasswordAuthenticationToken(userDetails, accessToken, userDetails.getAuthorities());
 	}
 
 	// Jwt 토큰에서 회원 구별 정보 추출(email).

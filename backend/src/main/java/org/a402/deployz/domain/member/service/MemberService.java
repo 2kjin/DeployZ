@@ -10,6 +10,7 @@ import org.a402.deployz.domain.member.request.ReCreateTokenRequest;
 import org.a402.deployz.domain.member.response.MemberInformationResponse;
 import org.a402.deployz.domain.member.response.MemberUpdateResponse;
 import org.a402.deployz.global.security.jwt.JwtTokenProvider;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +23,8 @@ public class MemberService {
 	private final JwtTokenProvider jwtTokenProvider;
 
 	@Transactional(readOnly = true)
-	public MemberInformationResponse findMemberInformation(final Long idx) {
-		final Member member = memberRepository.findById(idx)
+	public MemberInformationResponse findMemberInformation(final UserDetails userDetails) {
+		final Member member = memberRepository.findMemberByEmail(userDetails.getUsername())
 			.orElseThrow(MemberNotFoundException::new);
 
 		return new MemberInformationResponse(member);
