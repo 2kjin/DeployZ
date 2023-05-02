@@ -282,7 +282,7 @@ const InputBox = mstyled(InputBase)(({ theme }) => ({
 
 const Container = styled.div`
   width: 80%;
-  height: 45%;
+  height: 50%;
   background-color: ${theme.colors.container};
   padding: 1rem 1.2rem;
   border-radius: 1rem;

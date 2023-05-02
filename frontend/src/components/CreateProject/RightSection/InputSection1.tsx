@@ -218,7 +218,7 @@ const Container = styled.div`
   flex: 4;
   margin: 2rem 1.5rem;
   border-radius: 1rem;
-  padding: 1.5rem;
+  padding: 2.5rem;
   color: ${theme.colors.primary};
 
   .none {
@@ -294,7 +294,6 @@ const ProjectContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 3%;
   background-color: ${theme.colors.container};
   border-radius: 1rem;
   padding: 1rem 2rem;

@@ -40,7 +40,7 @@ const Container = styled.div`
   flex: 4;
   margin: 2rem 1.5rem;
   border-radius: 1rem;
-  padding: 1.5rem;
+  padding: 2.5rem;
   color: ${theme.colors.primary};
 
   .subject {
