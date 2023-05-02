@@ -1,7 +1,5 @@
 package org.a402.deployz.domain.member.service;
 
-import static org.a402.deployz.global.security.jwt.JwtAuthenticationFilter.*;
-
 import org.a402.deployz.domain.member.entity.Member;
 import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.member.repository.MemberRepository;
@@ -31,12 +29,11 @@ public class MemberService {
 	}
 
 	@Transactional(readOnly = true)
-	public String reCreateToken(final ReCreateTokenRequest reCreateTokenRequest) {
-		final Member member = memberRepository.findMemberByEmail(reCreateTokenRequest.getEmail())
+	public String reCreateToken(final ReCreateTokenRequest reCreateTokenRequest, final UserDetails userDetails) {
+		final Member member = memberRepository.findMemberByEmail(userDetails.getUsername())
 			.orElseThrow(MemberNotFoundException::new);
-		final String refreshToken = jwtTokenProvider.splitToken(reCreateTokenRequest.getRefreshToken());
 
-		return BEARER + jwtTokenProvider.reCreateAccessToken(refreshToken, member);
+		return jwtTokenProvider.reCreateAccessToken(reCreateTokenRequest.getRefreshToken(), member);
 	}
 
 	@Transactional
