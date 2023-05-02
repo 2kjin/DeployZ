@@ -10,7 +10,7 @@ import Page404 from "./pages/Page404";
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
   { path: "/intro", element: <IntroPage /> },
-  { path: "/step", element: <ProjectStepPage />, },
+  { path: "/step", element: <ProjectStepPage /> },
   { path: "/project", element: <ProjectListPage /> },
   { path: "/project/detail/:idx", element: <ItemListPage /> },
   { path: "/item/detail/:idx", element: <ItemDetail /> },
