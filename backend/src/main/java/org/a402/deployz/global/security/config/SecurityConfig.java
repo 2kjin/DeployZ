@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 	public static final String SERVER_URL_PATTERN = "http://k8a402.p.ssafy.io";
-	public static final String FRONT_URL_PATTERN = "http://localhost:3000";
+	public static final String FRONT_URL_PATTERN = "http://localhost:5173";
 	public static final String BASE_URL_PATTERN = "/**";
 	public static final String HEAD = "HEAD";
 	public static final String OPTIONS = "OPTIONS";
