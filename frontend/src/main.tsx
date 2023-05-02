@@ -4,10 +4,10 @@ import { RouterProvider } from "react-router-dom";
 import { ThemeProvider as MThemeProvider } from "@mui/material/styles";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { mtheme, theme } from "@/styles/theme";
-import router from "./router.tsx";
+import router from "./router";
 import { normalize } from "styled-normalize";
 import { ApolloProvider } from "@apollo/client";
-import { client } from "@/apollo/client.ts";
+import { client } from "@/apollo/client";
 
 const GlobalStyle = createGlobalStyle`
   ${normalize}
