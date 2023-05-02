@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { theme } from "@/styles/theme";
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -9,8 +10,14 @@ import {
   stepState,
 } from "@/recoil/step";
 import { requestCreateProject } from "@/api/projectCreate";
+import Modal from '@mui/material/Modal';
+import InfraGuideModal from '@components/modal/InfraGuideModal';
 
 export default function FooterNav() {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  
   const projectConfig = useRecoilValue<IProjectConfig>(projectConfigState);
   const itemList = useRecoilValue<IItem[]>(itemListState);
   const nginxConfig = useRecoilValue<INginxConfig>(NginxState);
@@ -79,7 +86,17 @@ export default function FooterNav() {
   return (
     <Container>
       <Left>
-        <NavBtn className="Infra">인프라 가이드 보러가기</NavBtn>
+        <NavBtn className="Infra" onClick={handleOpen}>인프라 가이드 보러가기</NavBtn>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          >
+          <>
+            <InfraGuideModal
+            handleClose = {handleClose}
+            />
+          </>
+        </Modal>
       </Left>
       <Right chapter={currentChapter}>
         <NavBtn className="back" onClick={toBack}>

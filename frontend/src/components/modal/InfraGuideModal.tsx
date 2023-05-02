@@ -71,7 +71,7 @@ const ModalContainer = styled.div`
   width: 60%;
   height: 90%;
   border: none;
-  box-shadow: 0 2px 4px, 0px 1px 2px inset;
+  /* box-shadow: 0 2px 4px, 0px 1px 2px inset; */
   border-radius: 4vh;
   background: ${theme.colors.container};
   color: ${theme.colors.primary};

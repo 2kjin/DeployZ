@@ -40,7 +40,7 @@ export default function Header({ type }: { type: String }) {
         LOGOUT
       </Loginbtn>
       ) : (
-      <Loginbtn href="http://k8a402.p.ssafy.io/oauth2/authorization/gitlab">
+      <Loginbtn href="https://deployz.co.kr/oauth2/authorization/gitlab">
       <Gitlab alt="gitlab" src={GitlabPic} />
       LOGIN
       </Loginbtn>
