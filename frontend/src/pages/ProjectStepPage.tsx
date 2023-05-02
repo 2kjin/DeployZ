@@ -12,7 +12,7 @@ import { useState } from "react";
 
 export default function ProjectStepPage() {
   const currentChapter = useRecoilValue(chapterState);
-  
+
   // Header type 설정
   const [type, setType] = useState<string>("standard");
 

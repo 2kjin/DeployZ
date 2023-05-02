@@ -16,7 +16,9 @@ import { error, warning } from "@components/common/notify";
 export default function ItemListPage() {
   const { idx } = useParams<{ idx: string }>();
   const projectIdx = parseInt(idx as string, 10);
-  const [projectDetail, setProjectDetail] = useState<projectDetailInfo | null>(null);
+  const [projectDetail, setProjectDetail] = useState<projectDetailInfo | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchData = async () => {

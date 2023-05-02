@@ -28,11 +28,11 @@ export default function Footer() {
           <Title>이용약관</Title>
           <Title>개인정보처리방침</Title>
         </div>
-      <Bottom>Copyright ©2023 DeployZ All Rights Reserved.</Bottom>
+        <Bottom>Copyright ©2023 DeployZ All Rights Reserved.</Bottom>
       </ContentDiv>
     </Container>
   );
-};
+}
 
 const Container = styled.div`
   display: flex;
@@ -51,7 +51,7 @@ const ContentDiv = styled.div`
   width: 60%;
 `;
 const Logo = styled.img`
-  width : 15rem;
+  width: 15rem;
 `;
 const Title = styled.p`
   font-size: 1.5rem;
@@ -72,4 +72,4 @@ const Bottom = styled.div`
   display: flex;
   justify-content: center;
   border-top: 1px solid ${theme.colors.darkgray};
-`
+`;

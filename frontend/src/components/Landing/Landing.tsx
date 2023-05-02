@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
-import { theme } from "@/styles/theme"
-import Modal from '@mui/material/Modal';
-import InfraGuideModal from '@components/modal/InfraGuideModal';
+import { theme } from "@/styles/theme";
+import Modal from "@mui/material/Modal";
+import InfraGuideModal from "@components/modal/InfraGuideModal";
 
 export default function Landing1() {
   const [open, setOpen] = useState(false);
@@ -13,78 +13,73 @@ export default function Landing1() {
   const navigate = useNavigate();
 
   return (
-  <Container>
-    <Title>
-      그동안
-      <span style={{ fontWeight: `${theme.fontWeight.extrabold}`}}>
-      &nbsp;'인프라'&nbsp;
-      </span>
-      너무 어려우셨나요?
-    </Title>
-    <div className="btn-container">
-    <Guidebtn onClick={handleOpen}>Infra Guide</Guidebtn>
-      <Modal
-      open={open}
-      onClose={handleClose}
+    <Container>
+      <Title>
+        그동안
+        <span style={{ fontWeight: `${theme.fontWeight.extrabold}` }}>
+          &nbsp;'인프라'&nbsp;
+        </span>
+        너무 어려우셨나요?
+      </Title>
+      <div className="btn-container">
+        <Guidebtn onClick={handleOpen}>Infra Guide</Guidebtn>
+        <Modal open={open} onClose={handleClose}>
+          <>
+            <InfraGuideModal handleClose={handleClose} />
+          </>
+        </Modal>
+        <Guidebtn onClick={() => navigate("/intro")}>Start Now</Guidebtn>
+      </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.6 }}
       >
-      <>
-        <InfraGuideModal
-        handleClose = {handleClose}
-        />
-      </>
-      </Modal>
-    <Guidebtn onClick={() => navigate("/intro")}>Start Now</Guidebtn>
-    </div>
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      <Svg
-        id="svg"
-        viewBox="0 0 1440 300"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ position: "fixed", bottom: 0, left: 0 }}
-        preserveAspectRatio="none"
-      >
-        <path
-          d="M 0,400 C 0,400 0,200 0,200 C 52.417038818275515,195.67777396083818 1362.7097217451048,183.33631054620406 1440,200 C 1440,200 1440,400 1440,400 Z"
-          stroke="none"
-          strokeWidth="0"
-          fill="#ffffff"
-          fillOpacity="1"
-          className="path-0"
+        <Svg
+          id="svg"
+          viewBox="0 0 1440 300"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{ position: "fixed", bottom: 0, left: 0 }}
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M 0,400 C 0,400 0,200 0,200 C 52.417038818275515,195.67777396083818 1362.7097217451048,183.33631054620406 1440,200 C 1440,200 1440,400 1440,400 Z"
+            stroke="none"
+            strokeWidth="0"
+            fill="#ffffff"
+            fillOpacity="1"
+            className="path-0"
           ></path>
-      </Svg>
-    </motion.div>
-  </Container>
-  )
+        </Svg>
+      </motion.div>
+    </Container>
+  );
 }
 
 const Container = styled.div`
-  display : flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height : 93vh;
-  width : 100%;
-  background-color : ${theme.colors.primary};
+  height: 93vh;
+  width: 100%;
+  background-color: ${theme.colors.primary};
   .btn-container {
     display: flex;
     justify-content: center;
     align-items: center;
     padding-bottom: 10%;
   }
-`
+`;
 const Title = styled.div`
   color: ${theme.colors.white};
   font-size: 4rem;
-`
+`;
 const Guidebtn = styled.div`
   background: none;
   border-radius: 15rem;
-  border: .3rem solid ${theme.colors.white};
+  border: 0.3rem solid ${theme.colors.white};
   color: ${theme.colors.white};
   padding: 1rem 4rem;
   font-size: 2.5rem;
@@ -94,10 +89,10 @@ const Guidebtn = styled.div`
     background: ${theme.colors.white};
     border-color: ${theme.colors.white};
     color: ${theme.colors.primary};
-    transition: all .4s ease-out;
+    transition: all 0.4s ease-out;
     cursor: pointer;
   }
-`
+`;
 
 const animatePath = keyframes`
   0% {
@@ -118,10 +113,10 @@ const animatePath = keyframes`
   `;
 
 const Svg = styled.svg`
-/* z-index: 0; */
-width: 100%;
-transition: all 300ms ease-in-out 150ms;
-.path-0 {
-  animation: ${animatePath} 10s linear infinite;
-}
+  /* z-index: 0; */
+  width: 100%;
+  transition: all 300ms ease-in-out 150ms;
+  .path-0 {
+    animation: ${animatePath} 10s linear infinite;
+  }
 `;

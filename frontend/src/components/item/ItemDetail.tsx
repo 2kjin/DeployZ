@@ -83,9 +83,17 @@ export default function ItemDetail() {
                 {itemDetail.frameworkType === "react" ? (
                   <Icon icon="mdi:react" fontSize="250" color="white" />
                 ) : itemDetail.frameworkType === "springBoot" ? (
-                  <Icon icon="simple-icons:springboot" fontSize="250" color="white" />
+                  <Icon
+                    icon="simple-icons:springboot"
+                    fontSize="250"
+                    color="white"
+                  />
                 ) : (
-                  <Icon icon="tabler:brand-django" fontSize="250" color="white" />
+                  <Icon
+                    icon="tabler:brand-django"
+                    fontSize="250"
+                    color="white"
+                  />
                 )}
               </SFrameImg>
             </SFrame>
