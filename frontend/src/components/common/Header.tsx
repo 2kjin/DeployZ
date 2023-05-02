@@ -4,20 +4,47 @@ import { useNavigate } from "react-router-dom";
 import LogoPic from "@/assets/logo.png";
 import GitlabPic from "@/assets/gitlab.png";
 import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Header({ type }: { type: String }) {
   const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    if (token) {
+      setIsLogin(true);
+    }
+  }, [token]);
+
+  const handleLogOut = () => {
+    setIsLogin(false);
+    localStorage.removeItem('token');
+  };
 
   return (
     <Container type={type}>
-      <Logo alt="logo" src={LogoPic} onClick={() => navigate("/")} />
+      {isLogin ? (
+      <Logo alt="logo" src={LogoPic} onClick={() => navigate("/project")}/>
+      ) : (
+      <Logo alt="logo" src={LogoPic} onClick={() => navigate("/")}/>
+      )}
       <div className="nav-container">
-        <NavStyle to="/project">Project List</NavStyle>
-        <NavStyle to="/step">Infra Guide</NavStyle>
-        <Loginbtn>
-          <Gitlab alt="gitlab" src={GitlabPic} />
-          LOGIN
-        </Loginbtn>
+      {isLogin && (
+      <NavStyle to="/project" >Project List</NavStyle> )}
+      {isLogin && (
+      <NavStyle to="/step" >Infra Guide</NavStyle> )}
+      {isLogin ? (
+      <Loginbtn onClick={() => handleLogOut()}>
+        <Gitlab alt="gitlab" src={GitlabPic} />
+        LOGOUT
+      </Loginbtn>
+      ) : (
+      <Loginbtn href="http://k8a402.p.ssafy.io/oauth2/authorization/gitlab">
+      <Gitlab alt="gitlab" src={GitlabPic} />
+      LOGIN
+      </Loginbtn>
+      )}
       </div>
     </Container>
   );
@@ -61,8 +88,8 @@ const Logo = styled.img`
   :hover {
     cursor: pointer;
   }
-`;
-const Loginbtn = styled.div`
+`
+const Loginbtn = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,6 +101,7 @@ const Loginbtn = styled.div`
   margin: 1vh;
   font-size: 1.5rem;
   font-weight: ${theme.fontWeight.extrabold};
+  text-decoration: none;
   :hover {
     background: ${theme.colors.secondary};
     border-color: ${theme.colors.secondary};
