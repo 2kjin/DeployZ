@@ -8,14 +8,14 @@ import MouseIcon from "@mui/icons-material/Mouse";
 import Proxypass from "./Step4/Porxypass";
 import { useRecoilState } from "recoil";
 import { NginxState } from "@/recoil/step";
-import Modal from '@mui/material/Modal';
-import SSLGuideModal from '@components/Guide/SSLGuideModal';
+import Modal from "@mui/material/Modal";
+import SSLGuideModal from "@components/Guide/SSLGuideModal";
 
 export default function InputSection2() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  
+
   const [nginxConfig, setNginxConfig] =
     useRecoilState<INginxConfig>(NginxState);
 
@@ -89,19 +89,14 @@ export default function InputSection2() {
           <p>보안을 위해 HTTPS를 사용하려면 SSL 인증서를 등록해야돼요!</p>
           <SectionGuide>
             <p>방법을 잘 모르시겠다면,</p>
-            <GuildButton onClick={handleOpen} >
+            <GuildButton onClick={handleOpen}>
               가이드 보러가기
               <MouseIcon sx={{ fontSize: 18, marginLeft: 0.3 }} />
             </GuildButton>
-            <Modal
-              open={open}
-              onClose={handleClose}
-              >
+            <Modal open={open} onClose={handleClose}>
               <>
-                <SSLGuideModal
-                handleClose = {handleClose}
-                />
-              </> 
+                <SSLGuideModal handleClose={handleClose} />
+              </>
             </Modal>
           </SectionGuide>
           <InputContainer>
