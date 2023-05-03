@@ -19,40 +19,67 @@ export default function ItemListElement({ item }: { item: itemListInfo }) {
   };
 
   return (
-    <>
-      <SItem>
-        <PlayArrowIcon style={PlayArrowIconStyle} />
-        <StopIcon style={StopIconStyle} />
-        <SProjectName>{item.itemName}</SProjectName>
-        {item.status === "success" ? (
-          <CheckCircleOutlineIcon style={checkStyle} />
-        ) : (
-          <HighlightOffIcon style={HighlightOffIconStyle} />
-        )}
-        <SItemCount>{item.portNumber1}</SItemCount>
-        <SItemCount>{item.portNumber2}</SItemCount>
-        <SLastSuccessTime>{item.lastSuccessDate}</SLastSuccessTime>
-        <SLastFailureTime>{item.lastFailedDate}</SLastFailureTime>
-        <DeleteOutlineIcon style={DeleteOutlineIconStyle} />
-        <SButton onClick={handleItemClick}>상세보기</SButton>
-      </SItem>
-    </>
+    <SItemList>
+      <SDiv>
+        <SItem>
+          <PlayArrowIcon style={PlayArrowIconStyle} />
+        </SItem>
+        <SItem>
+          <StopIcon style={StopIconStyle} />
+        </SItem>
+        <SItem>{item.itemName}</SItem>
+        <SItem>
+          {item.status === "success" ? (
+            <CheckCircleOutlineIcon style={checkStyle} />
+          ) : (
+            <HighlightOffIcon style={HighlightOffIconStyle} />
+          )}
+        </SItem>
+        <SItem>
+          {item.portNumber1} , {item.portNumber2}
+        </SItem>
+        <SItem>{item.lastSuccessDate}</SItem>
+        <SItem>{item.lastFailedDate}</SItem>
+        <SItem>
+          <DeleteOutlineIcon style={DeleteOutlineIconStyle} />
+        </SItem>
+        <SItem>
+          <SButton onClick={handleItemClick}>상세보기</SButton>
+        </SItem>
+      </SDiv>
+    </SItemList>
   );
 }
 
+const SItem = styled.div`
+  flex: 2;
+  font-size: 2.3rem;
+  font-weight: ${theme.fontWeight.medium};
+  color: ${theme.colors.primary};
+  margin-right: 3rem;
+`;
+
+const SDiv = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+`;
+
 const PlayArrowIconStyle = {
-  fontSize: "5rem",
+  fontSize: "6rem",
   cursor: "pointer",
   color: theme.colors.checkgreen,
 };
 
 const StopIconStyle = {
-  fontSize: "5rem",
+  fontSize: "6rem",
   cursor: "pointer",
   color: theme.colors.error,
 };
 const DeleteOutlineIconStyle = {
-  fontSize: "5rem",
+  fontSize: "6rem",
   cursor: "pointer",
   color: theme.colors.error,
 };
@@ -73,26 +100,23 @@ const SButton = styled.button`
   background: ${theme.colors.secondary};
   color: ${theme.colors.white};
   font-size: 2rem;
-  font-weight: ${theme.fontWeight.normal};
+  font-weight: ${theme.fontWeight.medium};
   cursor: pointer;
-  width: 11vh;
-  height: 5vh;
-  margin-right: 1rem;
+  padding: 0.8rem 1.5rem;
 `;
 
-const SItem = styled.div`
+const SItemList = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 95%;
-  height: 10vh;
+  flex-direction: column;
+  width: 75vw;
+  height: 12vh;
   background: ${theme.colors.lightgray};
+  overflow: hidden;
+  margin: auto;
   border-radius: 1rem;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-  padding-right: 1rem;
-  padding-left: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
 `;
 
 const SProjectName = styled.span`

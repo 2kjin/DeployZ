@@ -25,102 +25,83 @@ export default function ProjectListItem({
   };
 
   return (
-    <SProjectListItem>
-      {project.isSuccess === "success" ? (
-        <CheckCircleOutlineIcon style={checkStyle} />
-      ) : (
-        <HighlightOffIcon style={HighlightOffIconStyle} />
-      )}
-      <SProjectName>{project.projectName}</SProjectName>
-      <SItemCount>{project.itemCnt}</SItemCount>
-      <SLastSuccessDiv>
-        <SLastSuccessTime>{project.lastSuccessDate}</SLastSuccessTime>
-        <SContainerButton>{project.itemName}</SContainerButton>
-      </SLastSuccessDiv>
-      <SLastFailureDiv>
-        <SLastFailureTime>{project.lastFailedDate}</SLastFailureTime>
-        <SContainerButton>{project.itemName}</SContainerButton>
-      </SLastFailureDiv>
-      <SButton onClick={handleItemClick}>상세보기</SButton>
-    </SProjectListItem>
+    <SProjectList>
+      <SDiv>
+        <SItem>
+          {project.isSuccess === "success" ? (
+            <CheckCircleOutlineIcon style={checkStyle} />
+          ) : (
+            <HighlightOffIcon style={HighlightOffIconStyle} />
+          )}
+        </SItem>
+        <SItem>{project.projectName}</SItem>
+        <SItem>{project.itemCnt}</SItem>
+        <SItem>
+          {project.lastSuccessDate}
+          <SContainerButton>{project.itemName}</SContainerButton>
+        </SItem>
+        <SItem>
+          {project.lastFailedDate}
+          <SContainerButton>{project.itemName}</SContainerButton>
+        </SItem>
+        <SItem>
+          <SButton onClick={handleItemClick}>상세보기</SButton>
+        </SItem>
+      </SDiv>
+    </SProjectList>
   );
 }
 
+const SItem = styled.div`
+  flex: 2;
+  font-size: 2.5rem;
+  font-weight: ${theme.fontWeight.medium};
+  color: ${theme.colors.primary};
+`;
+
+const SDiv = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+`;
+
+const SProjectList = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 78vw;
+  height: 15vh;
+  background: ${theme.colors.lightgray};
+  overflow: hidden;
+  margin: auto;
+  border-radius: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4rem;
+`;
+
 const HighlightOffIconStyle = {
-  fontSize: "6rem",
+  fontSize: "5rem",
   color: theme.colors.error,
 };
 
 const checkStyle = {
-  fontSize: "6rem",
+  fontSize: "5rem",
   color: theme.colors.checkgreen,
 };
 
-const SLastSuccessDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center; /* 자식 요소들을 수직 방향 가운데 정렬 */
-`;
-
-const SLastFailureDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center; /* 자식 요소들을 수직 방향 가운데 정렬 */
-`;
-
 const SContainerButton = styled.button`
   border: none;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   background: ${theme.colors.darkgray};
   color: ${theme.colors.primary};
-  font-size: 2rem;
-  font-weight: ${theme.fontWeight.bold};
+  font-size: 1.7rem;
+  font-weight: ${theme.fontWeight.medium};
   width: 6vh;
-  height: 4vh;
+  height: 3vh;
   margin-left: 1rem;
-  white-space: nowrap;
   overflow: hidden;
-`;
-
-const SProjectListItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 95%;
-  height: 15vh;
-  background: ${theme.colors.lightgray};
-  border-radius: 1rem;
-  margin-bottom: 2rem;
-  margin-top: 2rem;
-  padding-right: 1rem;
-  padding-left: 1rem;
-
-  /* 추가된 CSS */
-  flex-wrap: wrap;
-  overflow: hidden;
-`;
-
-const SProjectName = styled.span`
-  font-size: 3rem;
-  font-weight: ${theme.fontWeight.bold};
-  margin-right: 5rem;
-`;
-
-const SItemCount = styled.span`
-  font-size: 3rem;
-  font-weight: ${theme.fontWeight.bold};
-  margin-left: 2rem;
-`;
-
-const SLastSuccessTime = styled.span`
-  font-size: 3rem;
-  font-weight: ${theme.fontWeight.bold};
-`;
-
-const SLastFailureTime = styled.span`
-  font-size: 3rem;
-  font-weight: ${theme.fontWeight.bold};
 `;
 
 const SButton = styled.button`
@@ -129,9 +110,7 @@ const SButton = styled.button`
   background: ${theme.colors.secondary};
   color: ${theme.colors.white};
   font-size: 2rem;
-  font-weight: ${theme.fontWeight.normal};
+  font-weight: ${theme.fontWeight.medium};
   cursor: pointer;
-  width: 11vh;
-  height: 5vh;
-  margin-right: 1rem;
+  padding: 0.8rem 1.5rem;
 `;
