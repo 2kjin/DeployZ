@@ -20,5 +20,6 @@ export interface projectDetailInfo {
   name: string;
   portNumber1: number;
   portNumber2: number;
+  projectName: string;
   status: string;
 }

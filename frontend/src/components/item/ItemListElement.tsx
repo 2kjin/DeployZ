@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
@@ -12,38 +11,13 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 import { itemListInfo } from "@/types/item";
 import { itemDelete } from "@/api/itemApi";
+import { changeTime } from "@/api/projectApi";
 
 export default function ItemListElement({ item }: { item: itemListInfo }) {
   const navigate = useNavigate();
-  const [items, setItems] = useState<itemListInfo[]>([]);
 
   const handleItemClick = () => {
     navigate(`/item/detail/${item.idx}`);
-  };
-
-  /**
-   *
-   * @param value UTC기준 시간 string으로 입력
-   * @returns '년 월 일'로 리턴
-   */
-  const timeTransfrom = (value: string) => {
-    if (value === "") return "";
-    // 문자열에서 Date 객체 생성
-    const ts = new Date(value);
-
-    // 한국 표준시로 변환
-    const korOffset = 9 * 60; // 한국 표준시는 UTC+9
-    const korTs = new Date(
-      ts.getTime() + (korOffset + ts.getTimezoneOffset()) * 60000
-    );
-
-    // 년, 월, 일, 시, 분 구하기
-    const year = korTs.getFullYear();
-    const month = korTs.getMonth() + 1;
-    const date = korTs.getDate();
-    const hour = korTs.getHours();
-    const minute = korTs.getMinutes();
-    return `${year}년 ${month}월 ${date}일 ${hour}시 ${minute}분`;
   };
 
   const handleDeleteClick = async () => {
@@ -80,8 +54,8 @@ export default function ItemListElement({ item }: { item: itemListInfo }) {
         <SItem>
           {item.portNumber1} , {item.portNumber2}
         </SItem>
-        <STimeItem>{timeTransfrom(item.lastSuccessDate)}</STimeItem>
-        <STimeItem>{timeTransfrom(item.lastFailureDate)}</STimeItem>
+        <STimeItem>{changeTime(item.lastSuccessDate)}</STimeItem>
+        <STimeItem>{changeTime(item.lastFailureDate)}</STimeItem>
         <SItem>
           <DeleteOutlineIcon
             style={DeleteOutlineIconStyle}
@@ -98,7 +72,7 @@ export default function ItemListElement({ item }: { item: itemListInfo }) {
 
 const STimeItem = styled.div`
   flex: 2;
-  font-size: 1.9rem;
+  font-size: 2rem;
   font-weight: ${theme.fontWeight.medium};
   color: ${theme.colors.primary};
   margin-right: 1rem;
