@@ -25,10 +25,12 @@ import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.member.entity.Member;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@DynamicUpdate
 @Table(name = "project")
 public class Project {
 
@@ -79,5 +81,13 @@ public class Project {
 		this.items = items;
 		this.gitConfig = gitConfig;
 		this.nginxConfig = nginxConfig;
+	}
+
+	public void setLastSuccessDate(LocalDateTime mostLastSuccessTime) {
+		this.lastSuccessDate=mostLastSuccessTime;
+	}
+
+	public void setLastFailureDate(LocalDateTime mostLastFailureTime) {
+		this.lastFailureDate=mostLastFailureTime;
 	}
 }

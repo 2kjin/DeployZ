@@ -28,9 +28,9 @@ public class BuildHistory {
 	@Column(name = "idx", nullable = false)
 	private Long idx;
 	@Column(name = "status", length = 20)
-	private Long status;
+	private String status;
 	@Column(name = "message", length = 100)
-	private Long message;
+	private String message;
 	@Column(name = "register_Time")
 	private LocalDateTime registerTime;
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -38,7 +38,7 @@ public class BuildHistory {
 	private Item item;
 
 	@Builder
-	public BuildHistory(final Long idx, final Long status, final Long message, final LocalDateTime registerTime,
+	public BuildHistory(final Long idx, final String status, final String message, final LocalDateTime registerTime,
 		final Item item) {
 		this.idx = idx;
 		this.status = status;
