@@ -12,6 +12,7 @@ import {
 import { requestCreateProject } from "@/api/projectCreate";
 import Modal from '@mui/material/Modal';
 import InfraGuideModal from '@components/modal/InfraGuideModal';
+import { success } from "@components/common/Toast/notify";
 
 export default function FooterNav() {
   const [open, setOpen] = useState(false);
@@ -55,14 +56,12 @@ export default function FooterNav() {
 
   const toBack = () => {
     handleStatusChangeBack(currentChapter - 1);
-    // navigate(`${nowStep - 1}`, { replace: true });
     setCurrentChapter(currentChapter - 1);
     checkProject();
   };
 
   const toNext = () => {
     handleStatusChangeNext(currentChapter - 1);
-    // navigate(`${nowStep + 1}`, { replace: true });
     setCurrentChapter(currentChapter + 1);
     checkProject();
   };
@@ -80,7 +79,9 @@ export default function FooterNav() {
       nginxConfig: nginxConfig,
     };
     const { data } = await requestCreateProject(projectInfo);
-    console.log(data);
+    if (data.status === 200) {
+      success("프로젝트 생성 완료!");
+    }
   };
 
   return (

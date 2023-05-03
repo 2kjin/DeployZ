@@ -12,7 +12,12 @@ import {
 } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { itemListState } from "@/recoil/step";
-import { requestVersion } from "@/api/projectCreate";
+import {
+  requestIsDuplicate,
+  requestSecretToken,
+  requestVersion,
+} from "@/api/projectCreate";
+import { success, error } from "@components/common/Toast/notify";
 
 export default function ItemBox({
   itemName,
@@ -55,23 +60,45 @@ export default function ItemBox({
       getVersion(value);
     }
 
+    if (id === "branchName") {
+      getSercretToken(value);
+    }
     setItem((cur) => ({
       ...cur,
       [id]: value,
     }));
   };
 
-  /**
-   * itemName같으면 새로 추가하고 다르다면 뒤에 추가
-   */
-  const saveInfo = () => {
+  const handlePortValid = async (port1: string, port2: string) => {
+    try {
+      const {
+        data: { result },
+      } = await requestIsDuplicate(port1, port2);
+      // console.log(result);
+      if (result.port1 === false || result.port2 === false) {
+        error("포트 번호가 중복됩니다.");
+      } else {
+        success("저장되었습니다.");
+        saveInfo();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // itemName같으면 새로 추가하고 다르다면 뒤에 추가
+  const saveInfo = async () => {
+    // recoil에 local state 저장
     setItemList((prev: IItem[]) => {
       const index = prev.findIndex(
         (prevItem) => prevItem.itemName === item.itemName
       );
+      // 새로 추가
       if (index === -1) {
         return [...prev, item];
-      } else {
+      }
+      // 기존 수정
+      else {
         const newArray = [...prev];
         newArray[index] = item;
         return newArray;
@@ -83,8 +110,24 @@ export default function ItemBox({
     const {
       data: { result },
     } = await requestVersion(value);
-    // console.log(result);
     setVersionList(result);
+  };
+
+  const getSercretToken = async (value: string) => {
+    // 시크릿 토큰 발급
+    try {
+      const {
+        data: { result },
+      } = await requestSecretToken(value);
+
+      console.log(result);
+      setItem((cur) => ({
+        ...cur,
+        secretToken: result,
+      }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // recoil에 저장된 이미 사용자가 입력한 값을 띄워주기위한 set
@@ -96,7 +139,6 @@ export default function ItemBox({
           getVersion(item.frameworkType);
         }
       }
-      console.log(item);
     });
   }, []);
 
@@ -104,7 +146,11 @@ export default function ItemBox({
     <Container>
       <InputContainer>
         <Subject>{itemName}</Subject>
-        <SaveBtn onClick={saveInfo}>저장</SaveBtn>
+        <SaveBtn
+          onClick={() => handlePortValid(item.portNumber1, item.portNumber2)}
+        >
+          저장
+        </SaveBtn>
       </InputContainer>
       {/* 첫번째 줄 */}
       <InputContainer>

@@ -11,6 +11,7 @@ import { theme } from "@/styles/theme";
 
 //import images
 import logo from "../assets/logo.png";
+import { error, warning } from "@components/common/Toast/notify";
 
 export default function ItemListPage() {
   const { idx } = useParams<{ idx: string }>();
