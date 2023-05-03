@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getPersonalToken } from "./auth";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_DOMAIN;
 
@@ -8,10 +9,15 @@ export const instance = axios.create({
 });
 
 export const gitlabInstance = axios.create({
-  headers: {
-    ["PRIVATE-TOKEN"]: "_xZSaKvVLZxDopWXz_y9",
-  },
 });
+
+gitlabInstance.interceptors.request.use(
+  async function (config) {
+    const { data : {result}} = await getPersonalToken();
+    config.headers["PRIVATE-TOKEN"] = result;
+    return config
+  } 
+)
 
 /** 401 Error : acess token이 만료되어 발생
  * 프론트는 401이 발생할때마다 refresh 보내서 새로운 access 토큰 받아옴과

@@ -26,16 +26,14 @@ export default function PersonalToken() {
     const url = `https://lab.ssafy.com/api/v4/projects/?access_token=${personalToken}`;
     console.log(url)
     try {
-      const response = await axios.get(url);
-      if (response.status === 200) {
+      const { status } = await axios.get(url);
+      if (status === 200) {
         const body: IPersoanlToken = {personalAccessToken: personalToken};
         await requestPersonalToken(body);
         navigate("/project");
       }
     } catch (err) {
-      if (err.response.status === 401) {
-        error("Personal access token 이 아닙니다. 토큰 정보를 확인해주세요.");
-      }
+      error("Personal access token 이 아닙니다. 토큰 정보를 확인해주세요.");
     }
     console.log(personalToken)
     }
@@ -93,7 +91,7 @@ const Container = styled.div`
   display : flex;
   justify-content: center;
   align-items: center;
-  height : 93vh;
+  height : 100vh;
   width : 100%;
 `
 const Box = styled.div`
