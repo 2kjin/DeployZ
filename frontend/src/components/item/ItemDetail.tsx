@@ -23,11 +23,6 @@ export default function ItemDetail() {
   const initialContainerIdx = parseInt(idx as string, 10);
   const [containerIdx, setContainerIdx] = useState<number>(initialContainerIdx);
   const [itemDetail, setItemDetail] = useState<itemDetailInfo | null>(null);
-  const [selectedMessage, setSelectedMessage] = useState("");
-
-  const handleItemClick = (message: string) => {
-    setSelectedMessage(message);
-  };
 
   const navigate = useNavigate();
 
@@ -51,19 +46,23 @@ export default function ItemDetail() {
     setContainerIdx(initialContainerIdx);
   }, [initialContainerIdx]);
 
-  useEffect(() => {}, [containerIdx]);
-
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchItemDetail(containerIdx);
-      setItemDetail(data);
-    };
-    fetchData();
+    async function fetchDetail(containerIdx: number) {
+      try {
+        const {
+          data: { result },
+        } = await fetchItemDetail(containerIdx);
+        setItemDetail(result);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchDetail(containerIdx);
   }, [containerIdx]);
 
   return (
     <SWrap>
-      <Header type= "standard" />
+      <Header type="standard" />
       {itemDetail && (
         <>
           <SFrameMainDiv>

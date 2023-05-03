@@ -12,13 +12,12 @@ import { theme } from "@/styles/theme";
 
 //import images
 import logo from "../assets/logo.png";
-import { error, warning } from "@components/common/Toast/notify";
 
 export default function ItemListPage() {
   // Header type 설정
   const { idx } = useParams<{ idx: string }>();
   const projectIdx = parseInt(idx as string, 10);
-  const [projectDetail, setProjectDetail] = useState<projectDetailInfo[]>([]);
+  const [projectDetail, setProjectDetail] = useState<projectDetailInfo[]>();
 
   useEffect(() => {
     async function fetchItems(projectIdx: number) {
@@ -41,8 +40,11 @@ export default function ItemListPage() {
         <SEditButton>설정</SEditButton>
         <SDiv>
           <SImg src={logo} />
-          {/**수정필요 */}
-          <STitle>이름들어갈자리 값생기면넣을거임</STitle>
+          <STitle>
+            {projectDetail &&
+              projectDetail.length > 0 &&
+              projectDetail[0].projectName}
+          </STitle>
         </SDiv>
       </STitleBox>
       <SListBox>

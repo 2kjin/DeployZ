@@ -1,5 +1,4 @@
 import { instance } from "./api";
-import { itemDetailInfo } from "@/types/item";
 
 //아이템 상세 정보 보여주는 api -> itemDetail
 export const fetchItemDetail = async (containerIdx: number) => {

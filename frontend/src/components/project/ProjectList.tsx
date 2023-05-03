@@ -23,11 +23,7 @@ export default function ProjectList() {
         const {
           data: { result },
         } = await fetchProjectList();
-        if (result.length <= 2) {
-          setVisibleProjects(result);
-        } else {
-          setVisibleProjects(result);
-        }
+        setVisibleProjects(result);
       } catch (error) {
         console.error(error);
       }
