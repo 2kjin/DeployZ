@@ -16,7 +16,6 @@ import { error, warning } from "@components/common/Toast/notify";
 
 export default function ItemListPage() {
   // Header type 설정
-  const [type, setType] = useState<string>("standard");
   const { idx } = useParams<{ idx: string }>();
   const projectIdx = parseInt(idx as string, 10);
   const [projectDetail, setProjectDetail] = useState<projectDetailInfo[]>([]);
@@ -37,7 +36,7 @@ export default function ItemListPage() {
 
   return (
     <>
-      <Header type={type} />
+      <Header type="standard" />
       <STitleBox>
         <SEditButton>설정</SEditButton>
         <SDiv>
