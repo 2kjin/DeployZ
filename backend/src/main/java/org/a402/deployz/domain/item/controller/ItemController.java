@@ -1,18 +1,19 @@
 package org.a402.deployz.domain.item.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.item.response.ItemListResponse;
 import org.a402.deployz.domain.item.service.ItemService;
+import org.a402.deployz.domain.project.entity.Project;
+import org.a402.deployz.domain.project.repository.ProjectRepository;
 import org.a402.deployz.global.common.BaseResponse;
 import org.a402.deployz.global.error.GlobalErrorCode;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ItemController {
 
 	private final ItemService itemService;
+	private final ProjectRepository projectRepository;
 
 	@ApiResponse(responseCode = "200", description = "컨테이너 삭제 성공")
 	@Operation(description = "컨테이너 삭제 API", summary = "컨테이너 삭제 API")
@@ -52,8 +54,11 @@ public class ItemController {
 	@ApiResponse(responseCode = "200", description = "컨테이너 리스트 조회 성공")
 	@Operation(description = "컨테이너 리스트 조회 API", summary = "컨테이너 리스트 조회 API")
 	@GetMapping("/{projectIdx}")
-	public BaseResponse<List<ItemListResponse>> ItemList(@Valid @PathVariable Long projectIdx) {
-			List<ItemListResponse> itemList = itemService.findItem(projectIdx);
+	public BaseResponse <List<ItemListResponse>> ItemList(@Valid @PathVariable Long projectIdx) {
+		//프로젝트idx의 프로젝트 제목 반환
+		Optional<Project> project= projectRepository.findByIdx(projectIdx);
+		String projectName=project.get().getProjectName();
+		List<ItemListResponse> itemList = itemService.findItem(projectIdx,projectName);
 
 		return  new BaseResponse<>(itemList);
 	}

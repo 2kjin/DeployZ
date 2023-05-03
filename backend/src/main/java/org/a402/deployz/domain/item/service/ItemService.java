@@ -4,16 +4,13 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.item.exception.ItemNotFoundException;
 import org.a402.deployz.domain.item.repository.ItemRepository;
 import org.a402.deployz.domain.item.response.ItemListResponse;
 import org.a402.deployz.domain.project.entity.Project;
-import org.a402.deployz.domain.project.exception.ProjectNotFoundException;
 import org.a402.deployz.domain.project.repository.ProjectRepository;
-import org.a402.deployz.domain.project.response.ProjectResponse;
 import org.a402.deployz.domain.project.service.ProjectService;
 import org.a402.deployz.global.error.GlobalErrorCode;
 import org.springframework.stereotype.Service;
@@ -41,7 +38,7 @@ public class ItemService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<ItemListResponse> findItem(long projectIdx) {
+	public List<ItemListResponse> findItem(long projectIdx, String projectName) {
 		List<ItemListResponse> result = new ArrayList<>();
 		LocalDateTime mostLastSuccessTime = null;
 		LocalDateTime mostLastFailureTime = null;
@@ -83,7 +80,7 @@ public class ItemService {
 					}
 				}
 				if(!item.isDeletedFlag()) {
-					result.add(new ItemListResponse(item, status));
+					result.add(new ItemListResponse(item, status,projectName));
 				}
 			}
 		} catch (Exception e) {
