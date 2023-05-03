@@ -4,19 +4,28 @@ import { FormControl, InputBase, InputLabel } from "@mui/material";
 import { alpha, styled as mstyled } from "@mui/material/styles";
 import { requestPersonalToken } from "@/api/auth";
 import { IPersoanlToken } from "@/types/auth";
-
-const personalToken: IPersoanlToken = {
-  personaltoken: "",
-};
+import { useState } from "react";
 
 export default function PersonalToken() {
+  const [personalToken, setPersonalToken] = useState<IPersoanlToken>({
+    personalAccessToken: "",
+  });
+  
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPersonalToken({
+      ...personalToken,
+      personalAccessToken: event.target.value,
+    });
+  };
+  
   const createPersonalToken = async () => {
     const personalTokenInfo = {
-      personaltoken: personalToken.personaltoken,
+      personalAccessToken: personalToken.personalAccessToken,
     };
     await requestPersonalToken(personalTokenInfo);
   };
-  console.log(createPersonalToken)
+  
+  console.log(personalToken)
   
   return (
   <Container>
@@ -56,6 +65,7 @@ export default function PersonalToken() {
           fontnum={"2rem"}
           spacingnum={4}
           placeholder={`ex) RIiCysmWxzLKJyETfaqf`}
+          onChange={handleInputChange}
         />
       </FormControl>
       <SaveBtn onClick={createPersonalToken}>저장</SaveBtn>
