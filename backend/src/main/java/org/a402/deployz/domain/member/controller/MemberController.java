@@ -5,6 +5,7 @@ import org.a402.deployz.domain.member.request.RegisterTokenRequest;
 import org.a402.deployz.domain.member.response.MemberInformationResponse;
 import org.a402.deployz.domain.member.service.MemberService;
 import org.a402.deployz.global.common.BaseResponse;
+import org.a402.deployz.global.error.GlobalErrorCode;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,13 +36,23 @@ public class MemberController {
 		return new BaseResponse<>(memberInformation);
 	}
 
-	@Operation(description = "회원토큰 등록 API", summary = "회원토큰 등록하기 API")
+	@Operation(description = "회원 개인 토큰 등록 API", summary = "회원 개인 토큰 등록하기 API")
 	@ApiResponse(responseCode = "200", description = "회원 정보 수정 성공")
 	@ApiResponse(responseCode = "400", description = "회원 정보 찾을 수 없음")
 	@PostMapping
 	public BaseResponse<String> registerToken(@RequestBody RegisterTokenRequest registerTokenRequest,
 	@AuthenticationPrincipal UserDetails userDetails) {
-		final String personalAccessToken = memberService.registerToken(registerTokenRequest, userDetails);
+		memberService.registerToken(registerTokenRequest, userDetails);
+
+		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+	}
+
+	@Operation(description = "회원 개인 토큰 조회 API", summary = "회원 개인 토큰 조회하기 API")
+	@ApiResponse(responseCode = "200", description = "신규 엑세스 토큰 발급 완료")
+	@ApiResponse(responseCode = "400", description = "유저정보 찾을 수 없음")
+	@GetMapping("/personalAccessToken")
+	public BaseResponse<String> findPersonalAccessToken(@AuthenticationPrincipal final UserDetails userDetails) {
+		final String personalAccessToken = memberService.findPersonalAccessToken(userDetails);
 
 		return new BaseResponse<>(personalAccessToken);
 	}
