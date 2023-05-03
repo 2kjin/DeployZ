@@ -1,5 +1,6 @@
 package org.a402.deployz.domain.item.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.a402.deployz.domain.item.entity.Item;
@@ -15,8 +16,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	boolean existsByPortNumber1(Long port1);
 	boolean existsByPortNumber2(Long port2);
 	Optional<Item>findItemByIdx(long idx);
-	long countItemsByProjectIdx(@Param("projectIdx")  Long projectIdx);
-
-
-
+	long countItemsByProjectIdx(Long projectIdx);
+	List<Item> findItemByProjectIdx(long projectIdx);
 }
