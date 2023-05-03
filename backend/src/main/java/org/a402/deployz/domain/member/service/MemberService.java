@@ -2,6 +2,7 @@ package org.a402.deployz.domain.member.service;
 
 import org.a402.deployz.domain.member.entity.Member;
 import org.a402.deployz.domain.member.exception.MemberNotFoundException;
+import org.a402.deployz.domain.member.exception.PersonalTokenNotFountException;
 import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.member.request.ReCreateTokenRequest;
 import org.a402.deployz.domain.member.request.RegisterTokenRequest;
@@ -36,11 +37,22 @@ public class MemberService {
 	}
 
 	@Transactional
-	public String registerToken(final RegisterTokenRequest registerTokenRequest,
-		final UserDetails userDetails) {
+	public void registerToken(final RegisterTokenRequest registerTokenRequest, final UserDetails userDetails) {
+		final Member member = memberRepository.findMemberByEmail(userDetails.getUsername()).orElseThrow(MemberNotFoundException::new);
+		member.updatePersonalAccessToken(registerTokenRequest.getPersonalAccessToken());
+
+		if (member.getPersonalAccessToken() == null) {
+			throw new PersonalTokenNotFountException();
+		}
+	}
+
+	public String findPersonalAccessToken(final UserDetails userDetails) {
 		final Member member = memberRepository.findMemberByEmail(userDetails.getUsername())
 			.orElseThrow(MemberNotFoundException::new);
-		member.updatePersonalAccessToken(registerTokenRequest.getPersonalAccessToken());
+
+		if (member.getPersonalAccessToken() == null) {
+			throw new PersonalTokenNotFountException();
+		}
 
 		return member.getPersonalAccessToken();
 	}

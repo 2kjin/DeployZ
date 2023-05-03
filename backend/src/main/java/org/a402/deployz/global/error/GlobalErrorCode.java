@@ -20,6 +20,7 @@ public enum GlobalErrorCode {
 	LOGIN_INFO_MISMATCH(401, "G600", "로그인 정보가 일치하지 않습니다."),
 	/* 회원 관련 에러 코드 */
 	MEMBER_NOT_FOUND(400, "M100", "존재하지 않는 사용자입니다."),
+	PERSONAL_TOKEN_NOT_FOUND(400, "M100", ".사용자의 토큰이 존재하지 않습니다."),
 	UNSUPPORTED_INFO(400, "O100", "지원하지 않는 로그인 방식입니다."),
 
 	/*프로젝트 관련 에러 코드*/
