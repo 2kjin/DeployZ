@@ -35,6 +35,7 @@ const SProjectName = styled.div`
   text-align: center;
   width: 78vw;
   height: 12vh;
+  margin-left: 3rem;
 `;
 const SItem = styled.div`
   flex: 2;
