@@ -82,7 +82,9 @@ public class ItemService {
 						mostLastFailureTime = successDate;
 					}
 				}
-				result.add(new ItemListResponse(item, status));
+				if(!item.isDeletedFlag()) {
+					result.add(new ItemListResponse(item, status));
+				}
 			}
 		} catch (Exception e) {
 			// 예외 발생 시 처리
