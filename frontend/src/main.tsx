@@ -36,7 +36,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <ApolloProvider client={client}>
         <RecoilRoot>
           <RouterProvider router={router} />
-          <ToastContainer />
+          <ToastContainer limit={2} style={{ fontSize: "1.6rem" }} />
         </RecoilRoot>
       </ApolloProvider>
     </MThemeProvider>

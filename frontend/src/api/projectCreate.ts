@@ -21,6 +21,16 @@ export const requestVersion = async (framework: string) => {
 };
 
 // 프로젝트 생성
-export const requestCreateProject = async (params: IProject) => {
-  return instance.post(`/project`, params);
+export const requestCreateProject = async (projectInfo: IProject) => {
+  return instance.post(`/project`, projectInfo);
+};
+
+// 포트 중복 검사
+export const requestIsDuplicate = async (num1: string, num2: string) => {
+  return instance.get(`/project/container?port1=${num1}&port2=${num2}`);
+};
+
+// 시크릿 토큰 생성
+export const requestSecretToken = async (branchName: String) => {
+  return instance.get(`project/git/secret-token?branchName=${branchName}`);
 };

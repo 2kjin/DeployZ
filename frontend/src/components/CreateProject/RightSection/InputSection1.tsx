@@ -91,7 +91,7 @@ export default function InputSection2() {
               color: "#151649",
             }}
           >
-            Hoost URL
+            Host URL
           </InputLabel>
           <InputBox
             widthnum={"30rem"}
@@ -180,7 +180,7 @@ export default function InputSection2() {
           {repoInfo.name !== "none" && (
             <ProjectContainer>
               <p>
-                <b>프로젝트명</b> :{repoInfo.name}
+                <b>프로젝트명</b> : {repoInfo.name}
               </p>
               <p>
                 <b>프로젝트 소개</b> : {repoInfo.description}
