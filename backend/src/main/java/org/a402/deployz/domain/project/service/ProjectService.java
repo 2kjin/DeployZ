@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
+import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.item.repository.ItemRepository;
 import org.a402.deployz.domain.item.request.ItemConfigRequest;
 import org.a402.deployz.domain.member.entity.Member;
@@ -103,6 +104,14 @@ public class ProjectService {
 			projectRepository.findByIdx(projectIdx)
 				.orElseThrow(() -> new ProjectNotFoundException(GlobalErrorCode.PROJECT_NOT_FOUND))
 				.updateDeletedFlag();
+
+			//해당 projectIdx의 item들도 삭제
+			List<Item> items=projectRepository.findByIdx(projectIdx).orElseThrow(() -> new ProjectNotFoundException(GlobalErrorCode.PROJECT_NOT_FOUND)).getItems();
+
+			for (Item item: items){
+				item.updateDeletedFlag();
+			}
+
 		} catch (Exception e) {
 			log.error("Error deleting project with ID {}: {}", projectIdx, e.getMessage());
 			throw new RuntimeException("Failed to delete project", e);
