@@ -185,7 +185,9 @@ public class ProjectService {
 				status = "ERROR";
 				itemCnt = 0L;
 			}
-			result.add(new ProjectResponse(project, status, itemCnt));
+			if (!project.isDeletedFlag()) {
+				result.add(new ProjectResponse(project, status, itemCnt));
+			}
 		}
 		return result;
 	}
