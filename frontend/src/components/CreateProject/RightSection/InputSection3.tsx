@@ -6,7 +6,7 @@ import { itemListState } from "@/recoil/step";
 import SdCardAlertIcon from "@mui/icons-material/SdCardAlert";
 import MouseIcon from "@mui/icons-material/Mouse";
 import Modal from "@mui/material/Modal";
-import WebhookGuideModal from "@components/modal/WebhookGuideModal";
+import WebhookGuideModal from "@components/Guide/WebhookGuideModal";
 
 export default function InputSection2() {
   const itemList = useRecoilValue<IItem[]>(itemListState);
