@@ -8,7 +8,7 @@ export interface itemDetailInfo {
   portNumber2: number;
   itemStates: string;
   lastSuccessDate: string;
-  lastFailedDate: string;
+  lastFailureDate: string;
   itemHistories: itemHistory[];
   itemProgresses: {
     builds: itemProgress[];
@@ -20,12 +20,12 @@ export interface itemDetailInfo {
 //아이템 리스트들의 타입
 export interface itemListInfo {
   idx: number;
-  itemName: string;
-  status: string;
+  lastFailureDate: string;
+  lastSuccessDate: string;
+  name: string;
   portNumber1: number;
   portNumber2: number;
-  lastSuccessDate: string;
-  lastFailedDate: string;
+  status: string;
 }
 
 export interface itemHistory {

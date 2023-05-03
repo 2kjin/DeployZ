@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import Header from "@components/common/Header";
 import ItemList from "@components/item/ItemList";
-import { fetchProjectDetail } from "../api/projectApi";
 import { projectDetailInfo } from "@/types/project";
+import { fetchProjectDetail } from "@/api/projectApi";
+
 //import css
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
@@ -14,28 +15,25 @@ import logo from "../assets/logo.png";
 import { error, warning } from "@components/common/Toast/notify";
 
 export default function ItemListPage() {
-  const { idx } = useParams<{ idx: string }>();
-  const projectIdx = parseInt(idx as string, 10);
-  const [projectDetail, setProjectDetail] = useState<projectDetailInfo | null>(
-    null
-  );
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const detail = await fetchProjectDetail(projectIdx);
-        console.log(detail);
-        setProjectDetail(detail);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [projectIdx]);
-
   // Header type 설정
   const [type, setType] = useState<string>("standard");
+  const { idx } = useParams<{ idx: string }>();
+  const projectIdx = parseInt(idx as string, 10);
+  const [projectDetail, setProjectDetail] = useState<projectDetailInfo[]>([]);
+
+  useEffect(() => {
+    async function fetchItems(projectIdx: number) {
+      try {
+        const {
+          data: { result },
+        } = await fetchProjectDetail(projectIdx);
+        setProjectDetail(result);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchItems(projectIdx);
+  }, [projectIdx]);
 
   return (
     <>
@@ -44,7 +42,8 @@ export default function ItemListPage() {
         <SEditButton>설정</SEditButton>
         <SDiv>
           <SImg src={logo} />
-          {projectDetail && <STitle>{projectDetail.projectName}</STitle>}
+          {/**수정필요 */}
+          <STitle>이름들어갈자리 값생기면넣을거임</STitle>
         </SDiv>
       </STitleBox>
       <SListBox>
@@ -59,7 +58,7 @@ export default function ItemListPage() {
           <SItem></SItem>
           <SItem></SItem>
         </SListTitleDiv>
-        {projectDetail && <ItemList itemList={projectDetail.itemList} />}
+        <ItemList />
       </SListBox>
     </>
   );

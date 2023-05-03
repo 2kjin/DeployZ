@@ -145,7 +145,7 @@ export default function ItemDetail() {
               </SItemContainer>
               <SItemContainer>
                 <SItem>최근실패</SItem>
-                <SItemValue>{itemDetail.lastFailedDate}</SItemValue>
+                <SItemValue>{itemDetail.lastFailureDate}</SItemValue>
               </SItemContainer>
             </SDetailInfo>
             <ItemBuildList itemHistoryLists={itemDetail.itemHistories} />

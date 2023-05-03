@@ -9,10 +9,6 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 import { projectListInfo } from "@/types/project";
 
-//!project?.name &&
-//project 객체가 존재하지 않거나 name 프로퍼티가 비어있는 경우 true 반환
-//모든 프로퍼티가 비어있다면 isProjectEmpty 변수에 true 할당
-
 export default function ProjectListItem({
   project,
 }: {
@@ -24,11 +20,36 @@ export default function ProjectListItem({
     navigate(`/project/detail/${project.idx}`);
   };
 
+  /**
+   *
+   * @param value UTC기준 시간 string으로 입력
+   * @returns '년 월 일'로 리턴
+   */
+  const timeTransfrom = (value: string) => {
+    if (value === "") return "";
+    // 문자열에서 Date 객체 생성
+    const ts = new Date(value);
+
+    // 한국 표준시로 변환
+    const korOffset = 9 * 60; // 한국 표준시는 UTC+9
+    const korTs = new Date(
+      ts.getTime() + (korOffset + ts.getTimezoneOffset()) * 60000
+    );
+
+    // 년, 월, 일, 시, 분 구하기
+    const year = korTs.getFullYear();
+    const month = korTs.getMonth() + 1;
+    const date = korTs.getDate();
+    const hour = korTs.getHours();
+    const minute = korTs.getMinutes();
+    return `${year}년 ${month}월 ${date}일 ${hour}시 ${minute}분`;
+  };
+
   return (
     <SProjectList>
       <SDiv>
         <SItem>
-          {project.isSuccess === "success" ? (
+          {project.status === "SUCCESS" ? (
             <CheckCircleOutlineIcon style={checkStyle} />
           ) : (
             <HighlightOffIcon style={HighlightOffIconStyle} />
@@ -36,14 +57,14 @@ export default function ProjectListItem({
         </SItem>
         <SItem>{project.projectName}</SItem>
         <SItem>{project.itemCnt}</SItem>
-        <SItem>
-          {project.lastSuccessDate}
+        <STimeItem>
+          {timeTransfrom(project.lastSuccessDate)}
           <SContainerButton>{project.itemName}</SContainerButton>
-        </SItem>
-        <SItem>
-          {project.lastFailedDate}
+        </STimeItem>
+        <STimeItem>
+          {timeTransfrom(project.lastFailureDate)}
           <SContainerButton>{project.itemName}</SContainerButton>
-        </SItem>
+        </STimeItem>
         <SItem>
           <SButton onClick={handleItemClick}>상세보기</SButton>
         </SItem>
@@ -51,6 +72,13 @@ export default function ProjectListItem({
     </SProjectList>
   );
 }
+
+const STimeItem = styled.div`
+  flex: 2;
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.medium};
+  color: ${theme.colors.primary};
+`;
 
 const SItem = styled.div`
   flex: 2;

@@ -10,12 +10,51 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 import { itemListInfo } from "@/types/item";
+import { itemDelete } from "@/api/itemApi";
 
 export default function ItemListElement({ item }: { item: itemListInfo }) {
   const navigate = useNavigate();
 
   const handleItemClick = () => {
     navigate(`/item/detail/${item.idx}`);
+  };
+
+  /**
+   *
+   * @param value UTC기준 시간 string으로 입력
+   * @returns '년 월 일'로 리턴
+   */
+  const timeTransfrom = (value: string) => {
+    if (value === "") return "";
+    // 문자열에서 Date 객체 생성
+    const ts = new Date(value);
+
+    // 한국 표준시로 변환
+    const korOffset = 9 * 60; // 한국 표준시는 UTC+9
+    const korTs = new Date(
+      ts.getTime() + (korOffset + ts.getTimezoneOffset()) * 60000
+    );
+
+    // 년, 월, 일, 시, 분 구하기
+    const year = korTs.getFullYear();
+    const month = korTs.getMonth() + 1;
+    const date = korTs.getDate();
+    const hour = korTs.getHours();
+    const minute = korTs.getMinutes();
+    return `${year}년 ${month}월 ${date}일 ${hour}시 ${minute}분`;
+  };
+
+  const handleDeleteClick = async () => {
+    const confirmed = window.confirm("정말로 삭제하시겠습니까?");
+    if (confirmed) {
+      try {
+        await itemDelete(item.idx);
+        alert("삭제되었습니다.");
+      } catch (error) {
+        console.error("아이템 삭제 실패", error);
+        alert("아이템 삭제에 실패했습니다.");
+      }
+    }
   };
 
   return (
@@ -27,9 +66,9 @@ export default function ItemListElement({ item }: { item: itemListInfo }) {
         <SItem>
           <StopIcon style={StopIconStyle} />
         </SItem>
-        <SItem>{item.itemName}</SItem>
+        <SItem>{item.name}</SItem>
         <SItem>
-          {item.status === "success" ? (
+          {item.status === "SUCCESS" ? (
             <CheckCircleOutlineIcon style={checkStyle} />
           ) : (
             <HighlightOffIcon style={HighlightOffIconStyle} />
@@ -38,10 +77,13 @@ export default function ItemListElement({ item }: { item: itemListInfo }) {
         <SItem>
           {item.portNumber1} , {item.portNumber2}
         </SItem>
-        <SItem>{item.lastSuccessDate}</SItem>
-        <SItem>{item.lastFailedDate}</SItem>
+        <STimeItem>{timeTransfrom(item.lastSuccessDate)}</STimeItem>
+        <STimeItem>{timeTransfrom(item.lastFailureDate)}</STimeItem>
         <SItem>
-          <DeleteOutlineIcon style={DeleteOutlineIconStyle} />
+          <DeleteOutlineIcon
+            style={DeleteOutlineIconStyle}
+            onClick={handleDeleteClick}
+          />
         </SItem>
         <SItem>
           <SButton onClick={handleItemClick}>상세보기</SButton>
@@ -50,6 +92,15 @@ export default function ItemListElement({ item }: { item: itemListInfo }) {
     </SItemList>
   );
 }
+
+const STimeItem = styled.div`
+  flex: 2;
+  font-size: 1.9rem;
+  font-weight: ${theme.fontWeight.medium};
+  color: ${theme.colors.primary};
+  margin-right: 1rem;
+  margin-left: 1rem;
+`;
 
 const SItem = styled.div`
   flex: 2;

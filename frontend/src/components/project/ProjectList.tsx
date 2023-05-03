@@ -8,33 +8,39 @@ import { fetchProjectList } from "../../api/projectApi";
 import ProjectListItem from "./ProjectListItem";
 import { projectListInfo } from "@/types/project";
 
-export default function ProjectList(): JSX.Element {
+export default function ProjectList() {
   const navigate = useNavigate();
 
   const handleItemClick = () => {
     navigate(`/step`);
   };
-  const [status, setStatus] = useState(0);
+  const [result, setResult] = useState([]);
   const [visibleProjects, setVisibleProjects] = useState<projectListInfo[]>([]);
 
   useEffect(() => {
     async function fetchProjects() {
-      const projects = await fetchProjectList();
-      if (status <= 2) {
-        setVisibleProjects(projects.slice(0, 3));
-      } else {
-        setVisibleProjects(projects);
+      try {
+        const {
+          data: { result },
+        } = await fetchProjectList();
+        if (result.length <= 2) {
+          setVisibleProjects(result);
+        } else {
+          setVisibleProjects(result);
+        }
+      } catch (error) {
+        console.error(error);
       }
     }
     fetchProjects();
-  }, [status]);
+  }, [result]);
 
   return (
     <>
       {visibleProjects.map((project) => (
         <ProjectListItem key={project.idx} project={project} />
       ))}
-      {status <= 2 && visibleProjects.length < 3 && (
+      {result.length <= 2 && visibleProjects.length < 3 && (
         <SEmptyDiv onClick={handleItemClick}>
           <AddCircleIcon style={styles} />
         </SEmptyDiv>
