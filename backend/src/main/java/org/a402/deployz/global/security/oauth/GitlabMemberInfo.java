@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class GitlabMemberInfo extends OAuth2MemberInfo {
 	public static final String REGISTRATION_ID = "registrationId";
-	public static final String PUBLIC_EMAIL = "public_email";
+	public static final String EMAIL = "email";
 
 	public GitlabMemberInfo(final Map<String, Object> attributes) {
 		super(attributes);
@@ -17,7 +17,7 @@ public class GitlabMemberInfo extends OAuth2MemberInfo {
 
 	@Override
 	public String getEmail() {
-		return String.valueOf(attributes.get(PUBLIC_EMAIL));
+		return String.valueOf(attributes.get(EMAIL));
 	}
 
 }
