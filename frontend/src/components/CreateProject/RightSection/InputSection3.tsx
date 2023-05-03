@@ -1,12 +1,18 @@
+import { useState } from "react";
 import { theme } from "@/styles/theme";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { itemListState } from "@/recoil/step";
 import SdCardAlertIcon from "@mui/icons-material/SdCardAlert";
 import MouseIcon from "@mui/icons-material/Mouse";
+import Modal from "@mui/material/Modal";
+import WebhookGuideModal from "@components/modal/WebhookGuideModal";
 
 export default function InputSection2() {
   const itemList = useRecoilValue<IItem[]>(itemListState);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const itemName = itemList.map((item: IItem) => {
     return [item.itemName, item.secretToken];
@@ -26,10 +32,15 @@ export default function InputSection2() {
           <SectionGuide>
             <p>방법을 잘 모르시겠다면,</p>
             {"  "}
-            <GuildButton>
+            <GuildButton onClick={handleOpen}>
               가이드 보러가기{" "}
               <MouseIcon sx={{ fontSize: 18, marginLeft: 0.3 }} />
             </GuildButton>
+            <Modal open={open} onClose={handleClose}>
+              <>
+                <WebhookGuideModal handleClose={handleClose} />
+              </>
+            </Modal>
           </SectionGuide>
         </Section>
         <Section>

@@ -12,7 +12,7 @@ export default function SSLGuideModal({ handleClose }: Props) {
     <>
       <ModalContainer>
         <Title>
-          SSL 인증서 발급 가이드{" "}
+          SSL 인증서 발급 가이드
           <CloseIcon sx={{ fontSize: 50 }} onClick={handleClose} />
         </Title>
         <br />
@@ -31,10 +31,11 @@ export default function SSLGuideModal({ handleClose }: Props) {
             <br />
             SSL을 무료로 발급해주는 CA(Certificate Authority) 비영리 기관
             <br />
-            Standalone <br />
+            <br />
+            📌Standalone
             <br />• 사이트 작동을 멈추고 이 사이트의 네크워킹을 이용해 사이트
-            유효성을 확인해 Let’s Encrypt SSL 인증서를 발급하는 방식 • 80 포트로
-            가상 standalone 웹서버를 띄워 인증서를 발급{" "}
+            유효성을 확인해 Let’s Encrypt SSL 인증서를 발급하는 방식
+            <br />• 80 포트로 가상 standalone 웹서버를 띄워 인증서를 발급{" "}
           </p>
         </ColorContainer>
         <br />
