@@ -24,8 +24,10 @@ public class ItemListResponse {
 	private LocalDateTime lastFailureDate;
 	@NotNull
 	private String status;
+	@NotNull
+	private String projectName;
 
-	public ItemListResponse(Item item, String status){
+	public ItemListResponse(Item item, String status,String projectName){
 		this.idx=item.getIdx();
 		this.name=item.getName();
 		this.portNumber1=item.getPortNumber1();
@@ -33,5 +35,6 @@ public class ItemListResponse {
 		this.lastSuccessDate=item.getLastSuccessDate();
 		this.lastFailureDate=item.getLastFailureDate();
 		this.status=status;
+		this.projectName=projectName;
 	}
 }
