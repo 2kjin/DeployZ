@@ -11,7 +11,7 @@ import {
 } from "@/recoil/step";
 import { requestCreateProject } from "@/api/projectCreate";
 import Modal from '@mui/material/Modal';
-import InfraGuideModal from '@components/modal/InfraGuideModal';
+import InfraGuideModal from '@components/Guide/InfraGuideModal';
 import { success } from "@components/common/Toast/notify";
 
 export default function FooterNav() {

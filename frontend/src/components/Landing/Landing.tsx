@@ -4,7 +4,7 @@ import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
 import { theme } from "@/styles/theme";
 import Modal from "@mui/material/Modal";
-import InfraGuideModal from "@components/modal/InfraGuideModal";
+import InfraGuideModal from "@components/Guide/InfraGuideModal";
 
 export default function Landing1() {
   const [open, setOpen] = useState(false);

@@ -6,7 +6,6 @@ export default function SignupPage() {
   
   return (
     <>
-    <Header type="standard" />
     <Container>
       <PersonalToken/>
     </Container>
@@ -15,6 +14,6 @@ export default function SignupPage() {
 }
 
 const Container = styled.div`
-  height: 93vh;
+  height: 100vh;
   overflow: auto;
 `;

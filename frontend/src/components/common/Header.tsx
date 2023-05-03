@@ -43,7 +43,7 @@ export default function Header({ type }: { type: String }) {
       {isLogin && (
       <NavStyle to="/project" >Project List</NavStyle> )}
       {isLogin && (
-      <NavStyle to="/step" >Infra Guide</NavStyle> )}
+      <NavStyle to="/infraguide" >Infra Guide</NavStyle> )}
       {isLogin ? (
       <Loginbtn onClick={() => logout()}>
         <Gitlab alt="gitlab" src={GitlabPic} />

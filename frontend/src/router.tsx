@@ -9,11 +9,13 @@ import Page404 from "./pages/Page404";
 import SignupPage from "./pages/SignupPage";
 import OauthLogin from "@components/Auth/OauthLogin";
 import OauthSignup from "@components/Auth/OauthSignup";
+import InfraGuidePage from "./pages/InfraGuidePage";
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
   { path: "/intro", element: <IntroPage /> },
   { path: "/signup", element: <SignupPage /> },
+  { path: "/infraguide", element: <InfraGuidePage /> },
   { path: "/step", element: <ProjectStepPage /> },
   { path: "/project", element: <ProjectListPage /> },
   { path: "/project/detail/:idx", element: <ItemListPage /> },
