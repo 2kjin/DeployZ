@@ -29,7 +29,6 @@ const ItemList = () => {
   return (
     <>
       {projectDetail.map((item) => (
-        //수정 필요
         <ItemListElement key={item.idx} item={item} />
       ))}
     </>

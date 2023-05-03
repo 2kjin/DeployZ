@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
@@ -14,6 +15,7 @@ import { itemDelete } from "@/api/itemApi";
 
 export default function ItemListElement({ item }: { item: itemListInfo }) {
   const navigate = useNavigate();
+  const [items, setItems] = useState<itemListInfo[]>([]);
 
   const handleItemClick = () => {
     navigate(`/item/detail/${item.idx}`);
@@ -50,6 +52,7 @@ export default function ItemListElement({ item }: { item: itemListInfo }) {
       try {
         await itemDelete(item.idx);
         alert("삭제되었습니다.");
+        window.location.reload();
       } catch (error) {
         console.error("아이템 삭제 실패", error);
         alert("아이템 삭제에 실패했습니다.");
