@@ -18,14 +18,12 @@ export const gitlabInstance = axios.create({
  * 동시에 api 재요청이 새로운 acess 토큰으로 가야함
  */
 
-const ex_token = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGt3ZW4wOTk2QG5hdmVyLmNvbSIsIkF1dGhvcml6YXRpb24iOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiaWF0IjoxNjgzMDExODE1LCJleHAiOjE2ODMwOTgyMTV9.pFSMTTBxmht-z-s_LLIJme6P4LsZ_kmOlgw7jrawFUg`;
 // interceptors를 통해
 instance.interceptors.request.use(
   function (config) {
-    // const accessToken = localStorage.getItem("accessToken");
+    const accessToken = localStorage.getItem("accessToken");
     // 요청 바로 직전
-    // config.headers["Authorization"] = `Bearer ${accessToken}`;
-    config.headers["Authorization"] = `Bearer ${ex_token}`;
+    config.headers["Authorization"] = `Bearer ${accessToken}`;
     return config;
   },
   function (error) {
