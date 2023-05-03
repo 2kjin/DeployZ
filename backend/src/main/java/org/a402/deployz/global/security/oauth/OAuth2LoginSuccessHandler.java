@@ -85,7 +85,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 //			.path(LOGIN_SERVER_REDIRECT_URL)
 			.scheme("http")
 			.host("localhost:5173")
-			.path(SIGNUP_SERVER_REDIRECT_URL)
+			.path(LOGIN_SERVER_REDIRECT_URL)
 			.queryParam(ACCESS_TOKEN, accessToken)
 			.queryParam(REFRESH_TOKEN, refreshToken)
 			.queryParam(REGISTRATION_ID, registrationId)
