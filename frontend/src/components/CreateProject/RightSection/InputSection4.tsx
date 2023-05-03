@@ -9,7 +9,7 @@ import Proxypass from "./Step4/Porxypass";
 import { useRecoilState } from "recoil";
 import { NginxState } from "@/recoil/step";
 import Modal from "@mui/material/Modal";
-import SSLGuideModal from "@components/modal/SSLGuideModal";
+import SSLGuideModal from "@components/Guide/SSLGuideModal";
 
 export default function InputSection2() {
   const [open, setOpen] = useState(false);
