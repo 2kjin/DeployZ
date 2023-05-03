@@ -23,9 +23,6 @@ export default function ItemDetail() {
   const initialContainerIdx = parseInt(idx as string, 10);
   const [containerIdx, setContainerIdx] = useState<number>(initialContainerIdx);
   const [itemDetail, setItemDetail] = useState<itemDetailInfo | null>(null);
-
-  // Header type 설정
-  const [type, setType] = useState<string>("standard");
   const [selectedMessage, setSelectedMessage] = useState("");
 
   const handleItemClick = (message: string) => {
@@ -66,7 +63,7 @@ export default function ItemDetail() {
 
   return (
     <SWrap>
-      <Header type={type} />
+      <Header type= "standard" />
       {itemDetail && (
         <>
           <SFrameMainDiv>

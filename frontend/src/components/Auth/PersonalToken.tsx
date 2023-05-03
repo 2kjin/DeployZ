@@ -3,30 +3,46 @@ import { theme } from "@/styles/theme"
 import { FormControl, InputBase, InputLabel } from "@mui/material";
 import { alpha, styled as mstyled } from "@mui/material/styles";
 import { requestPersonalToken } from "@/api/auth";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { error, warning } from "@components/common/Toast/notify";
 import { IPersoanlToken } from "@/types/auth";
-import { useState } from "react";
+
 
 export default function PersonalToken() {
-  const [personalToken, setPersonalToken] = useState<IPersoanlToken>({
-    personalAccessToken: "",
-  });
+  const navigate = useNavigate();
+  const [personalToken, setPersonalToken] = useState<string>("");
   
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPersonalToken({
-      ...personalToken,
-      personalAccessToken: event.target.value,
-    });
+    setPersonalToken(event.target.value);
   };
   
   const createPersonalToken = async () => {
-    const personalTokenInfo = {
-      personalAccessToken: personalToken.personalAccessToken,
-    };
-    await requestPersonalToken(personalTokenInfo);
+    if (personalToken === ""){
+      warning("Personal access token을 입력해주세요");
+    }
+    else{
+    const url = `https://lab.ssafy.com/api/v4/projects/?access_token=${personalToken}`;
+    console.log(url)
+    try {
+      const response = await axios.get(url);
+      if (response.status === 200) {
+        const body: IPersoanlToken = {personalAccessToken: personalToken};
+        await requestPersonalToken(body);
+        navigate("/project");
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        error("Personal access token 이 아닙니다. 토큰 정보를 확인해주세요.");
+      }
+    }
+    console.log(personalToken)
+    }
   };
+
   
-  console.log(personalToken)
-  
+
   return (
   <Container>
     <Box>
