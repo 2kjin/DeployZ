@@ -14,21 +14,25 @@ export const stepState = atom<IStepItem[]>({
       number: 1,
       desc: "Project 설정 정보 입력",
       status: "now",
+      isValid: false,
     },
     {
       number: 2,
       desc: "Item 정보 입력",
       status: "before",
+      isValid: false,
     },
     {
       number: 3,
       desc: "Git 정보 입력",
       status: "before",
+      isValid: true,
     },
     {
       number: 4,
       desc: "Nginx 설정 정보 입력",
       status: "before",
+      isValid: false,
     },
   ],
 });
@@ -39,7 +43,7 @@ const defaultProjectConfig: IProjectConfig = {
   projectId: "319668",
   projectName: "",
   description: "",
-  imageUrl: "",
+  imageUrl: "not yet",
 };
 
 const defaultItem1: IItem = {
@@ -47,7 +51,7 @@ const defaultItem1: IItem = {
   portNumber1: "",
   portNumber2: "",
   branchName: "none",
-  secretToken: "생성 버튼을 눌러주세요.",
+  secretToken: "",
   targetFolder: "",
   frameworkType: "none",
   buildVersion: "none",
@@ -58,7 +62,7 @@ const defaultItem2: IItem = {
   portNumber1: "",
   portNumber2: "",
   branchName: "none",
-  secretToken: "생성 버튼을 눌러주세요.",
+  secretToken: "",
   targetFolder: "",
   frameworkType: "none",
   buildVersion: "none",

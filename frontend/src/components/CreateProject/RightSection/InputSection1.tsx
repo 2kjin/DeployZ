@@ -2,15 +2,51 @@ import { theme } from "@/styles/theme";
 import styled from "styled-components";
 import { FormControl, InputBase, InputLabel } from "@mui/material";
 import { alpha, styled as mstyled } from "@mui/material/styles";
-import { useRecoilState } from "recoil";
-import { projectConfigState } from "@/recoil/step";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { chapterState, projectConfigState, stepState } from "@/recoil/step";
 import { useEffect, useState } from "react";
 import { requestGitlabInfo } from "@/api/projectCreate";
 
-export default function InputSection2() {
+export default function InputSection1() {
   const [projectConfig, setProjectConfig] =
     useRecoilState<IProjectConfig>(projectConfigState);
   const [repoInfo, setRepoInfo] = useState<IProjectInfoById>(INIT_PROJECTINFO);
+  const nowChapter = useRecoilValue(chapterState);
+  const [steps, setSteps] = useRecoilState(stepState);
+
+  useEffect(() => {
+    checkIsValid();
+  }, [projectConfig]);
+
+  // 스텝 바꿀때 체크
+  const checkIsValid = () => {
+    if (
+      projectConfig.hostUrl === "" ||
+      projectConfig.projectId === "" ||
+      projectConfig.projectName === "" ||
+      projectConfig.description === ""
+    ) {
+      const updatedSteps = steps.map((step) => {
+        if (step.number === nowChapter) {
+          return { ...step, isValid: false };
+        } else {
+          return step;
+        }
+      });
+
+      setSteps(updatedSteps);
+    } else {
+      const updatedSteps = steps.map((step) => {
+        if (step.number === nowChapter) {
+          return { ...step, isValid: true };
+        } else {
+          return step;
+        }
+      });
+
+      setSteps(updatedSteps);
+    }
+  };
 
   // 컴포넌트 state의 change handler
   const handleItemData = (e: React.SyntheticEvent) => {

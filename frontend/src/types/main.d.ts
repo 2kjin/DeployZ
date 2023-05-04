@@ -1,7 +1,8 @@
 interface IStepItem {
   number: number;
-  desc: String;
-  status: String;
+  desc: string;
+  status: string;
+  isValid: boolean;
 }
 
 interface IProjectInfoById {

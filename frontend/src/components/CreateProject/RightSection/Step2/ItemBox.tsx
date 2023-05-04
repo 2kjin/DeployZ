@@ -86,6 +86,23 @@ export default function ItemBox({
     }
   };
 
+  // 각각 아이템 체크
+  const itemValidCheck = () => {
+    console.log(item);
+    if (
+      item.portNumber1 === "" ||
+      item.portNumber2 === "" ||
+      item.branchName === "none" ||
+      item.targetFolder === "" ||
+      item.frameworkType === "none" ||
+      item.buildVersion === "none"
+    ) {
+      error(`${itemName}의 모든 값을 입력해주세요.`);
+    } else {
+      handlePortValid(item.portNumber1, item.portNumber2);
+    }
+  };
+
   // itemName같으면 새로 추가하고 다르다면 뒤에 추가
   const saveInfo = async () => {
     // recoil에 local state 저장
@@ -146,11 +163,7 @@ export default function ItemBox({
     <Container>
       <InputContainer>
         <Subject>{itemName}</Subject>
-        <SaveBtn
-          onClick={() => handlePortValid(item.portNumber1, item.portNumber2)}
-        >
-          저장
-        </SaveBtn>
+        <SaveBtn onClick={() => itemValidCheck()}>저장</SaveBtn>
       </InputContainer>
       {/* 첫번째 줄 */}
       <InputContainer>
@@ -196,19 +209,6 @@ export default function ItemBox({
       </InputContainer>
       {/* 2번째 줄 */}
       <InputContainer>
-        {/* <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
-            Branch Name
-          </InputLabel>
-          <InputBox
-            placeholder={`브랜치명을 입력하세요. ex) ${handlePlaceholder(
-              "BranchName"
-            )}`}
-            id="branchName"
-            value={item.branchName}
-            onChange={handleItemData}
-          />
-        </FormControl> */}
         <FormControl variant="standard">
           <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
             Branch Name
@@ -360,7 +360,7 @@ const Subject = styled.p`
 
 const SaveBtn = styled.div`
   width: 5rem;
-  background-color: ${theme.colors.primary};
+  background-color: ${theme.colors.secondary};
   color: white;
   display: flex;
   justify-content: center;
