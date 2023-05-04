@@ -9,11 +9,9 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 
 import org.a402.deployz.domain.member.entity.Member;
-import org.a402.deployz.domain.member.exception.TokenExpiredException;
 import org.a402.deployz.domain.member.service.MemberDetailService;
 import org.a402.deployz.global.error.GlobalErrorCode;
 import org.a402.deployz.global.security.redis.RedisRefreshTokenRepository;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -49,7 +47,7 @@ public class JwtTokenProvider {
 		final Claims claims = Jwts.claims().setSubject(member.getEmail());
 		claims.put(AUTHORIZATION, member.getAuthorities()); // 권한
 
-		//		final long accessTokenValidSecond = Duration.ofDays(1).toMillis(); //access토큰 유효시간
+//				final long accessTokenValidSecond = Duration.ofDays(1).toMillis(); //access토큰 유효시간
 		final long accessTokenValidSecond = Duration.ofSeconds(10).toMillis(); //test용 access토큰 유효시간
 		final Date now = new Date();
 
@@ -106,19 +104,19 @@ public class JwtTokenProvider {
 	}
 
 	// Jwt 토큰의 유효성 + 만료일자 확인
-	public boolean validAccessToken(final String token) {
+	public boolean validAccessToken(final String token) throws ExpiredJwtException {
 		Jws<Claims> claims;
 
-		try {
+//		try {
 			// 토큰에서 Claims 추출.
 			claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token);
 
 			return !claims.getBody().getExpiration().before(new Date());
-		} catch (final ExpiredJwtException expiredJwtException) {
-			throw new TokenExpiredException();
-		} catch (final Exception exception) {
-			throw new AccessDeniedException(GlobalErrorCode.ACCESS_DENIED.getMessage());
-		}
+//		} catch (final ExpiredJwtException expiredJwtException) {
+//			throw new TokenExpiredException(GlobalErrorCode.TOKEN_EXPIRED);
+//		} catch (final Exception exception) {
+//			throw new AccessDeniedException(GlobalErrorCode.ACCESS_DENIED.getMessage());
+//		}
 	}
 
 	public String splitToken(final String bearerToken) {
