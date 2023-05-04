@@ -12,6 +12,8 @@ import org.a402.deployz.domain.project.service.ProjectService;
 import org.a402.deployz.global.common.BaseResponse;
 import org.a402.deployz.global.error.GlobalErrorCode;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 //	| orderAdd() | 등록만 하는 유형의 controller 메서드 |
 //	| orderModify() | 수정만 하는 유형의 controller 메서드 |
 //	| orderRemove() | 삭제만 하는 유형의 controller 메서드 |
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/project")
@@ -70,12 +73,11 @@ public class ProjectController {
 	@Operation(description = "프로젝트 목록 조회 API", summary = "프로젝트 목록 조회 API")
 	@GetMapping
 	//일단은 멤버 Idx를 기준으로 프로젝트들 조회
-	public BaseResponse<List<ProjectResponse>> projectList() {
-		List<ProjectResponse> projectDtoList = projectService.findProjects(1);
+	public BaseResponse<List<ProjectResponse>> findProjectList(@AuthenticationPrincipal UserDetails userDetails) {
+		List<ProjectResponse> projectDtoList = projectService.findProjectList(userDetails.getUsername());
 
 		return new BaseResponse<>(projectDtoList);
 	}
-
 
 	@ApiResponse(responseCode = "200", description = "프레임워크 타입 조회 성공")
 	@Operation(description = "프레임워크 타입 조회 API", summary = "프레임워크 타입 조회 API")
