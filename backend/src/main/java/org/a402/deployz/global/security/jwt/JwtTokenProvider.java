@@ -47,8 +47,8 @@ public class JwtTokenProvider {
 		final Claims claims = Jwts.claims().setSubject(member.getEmail());
 		claims.put(AUTHORIZATION, member.getAuthorities()); // 권한
 
-//				final long accessTokenValidSecond = Duration.ofDays(1).toMillis(); //access토큰 유효시간
-		final long accessTokenValidSecond = Duration.ofSeconds(10).toMillis(); //test용 access토큰 유효시간
+				final long accessTokenValidSecond = Duration.ofDays(1).toMillis(); //access토큰 유효시간
+//		final long accessTokenValidSecond = Duration.ofSeconds(10).toMillis(); //test용 access토큰 유효시간
 		final Date now = new Date();
 
 		return Jwts.builder()
