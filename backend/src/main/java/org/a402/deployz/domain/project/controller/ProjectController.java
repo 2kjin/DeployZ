@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.a402.deployz.domain.project.entity.Project;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
 import org.a402.deployz.domain.project.response.ProjectResponse;
 import org.a402.deployz.domain.project.service.ProjectService;
@@ -72,7 +71,7 @@ public class ProjectController {
 	@GetMapping
 	//일단은 멤버 Idx를 기준으로 프로젝트들 조회
 	public BaseResponse<List<ProjectResponse>> projectList() {
-		List<ProjectResponse> projectDtoList = projectService.findProject(1);
+		List<ProjectResponse> projectDtoList = projectService.findProjects(1);
 
 		return new BaseResponse<>(projectDtoList);
 	}

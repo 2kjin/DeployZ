@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,15 +16,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.member.entity.Member;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -54,7 +53,8 @@ public class Project {
 	private String description;
 	@Column(name = "image_path", length = 100)
 	private String imagePath;
-	@OneToMany(mappedBy = "project", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	//	@OneToMany(mappedBy = "project", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "project", orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<Item> items = new ArrayList<>();
 	@OneToOne(mappedBy = "project", fetch = FetchType.LAZY)
 	private GitConfig gitConfig;
@@ -83,11 +83,8 @@ public class Project {
 		this.nginxConfig = nginxConfig;
 	}
 
-	public void setLastSuccessDate(LocalDateTime mostLastSuccessTime) {
-		this.lastSuccessDate=mostLastSuccessTime;
-	}
-
-	public void setLastFailureDate(LocalDateTime mostLastFailureTime) {
-		this.lastFailureDate=mostLastFailureTime;
+	public void updateLastDates(final LocalDateTime mostLastSuccessTime, final LocalDateTime mostLastFailureTime) {
+		this.lastFailureDate = mostLastFailureTime;
+		this.lastSuccessDate = mostLastSuccessTime;
 	}
 }

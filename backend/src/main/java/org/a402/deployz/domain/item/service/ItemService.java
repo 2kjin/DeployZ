@@ -38,24 +38,27 @@ public class ItemService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<ItemListResponse> findItem(long projectIdx, String projectName) {
-		List<ItemListResponse> result = new ArrayList<>();
+	public List<Item> getItemList(final Project project) {
+		return project.getItems();
+	}
+
+	@Transactional
+	public List<ItemListResponse> updateStatusChangeTime(final Project project, final List<Item> itemList) {
+		final List<ItemListResponse> result = new ArrayList<>();
+
 		LocalDateTime mostLastSuccessTime = null;
 		LocalDateTime mostLastFailureTime = null;
 
 		try {
-			Project project = projectRepository.findByIdx(projectIdx).orElseThrow();
-			List<Item> items = project.getItems();
-
 			// 가장 최근 성공시간과 실패 시간을 확인하기 위함
-			mostLastSuccessTime = items.get(0).getLastSuccessDate();
-			mostLastFailureTime = items.get(0).getLastFailureDate();
+			mostLastSuccessTime = itemList.get(0).getLastSuccessDate();
+			mostLastFailureTime = itemList.get(0).getLastFailureDate();
 
-			for (Item item : items) {
+			for (Item item : itemList) {
 				String status = "";
 				// 최근 성공시간이 최근 실패시간 보다 이후 -> SUCCESS
-				LocalDateTime successDate = item.getLastSuccessDate();
-				LocalDateTime failureDate = item.getLastFailureDate();
+				final LocalDateTime successDate = item.getLastSuccessDate();
+				final LocalDateTime failureDate = item.getLastFailureDate();
 
 				// failureDate가 더 이후: 음수값 반환 / successDate가 더 최근: 양수 반환
 				Duration duration = Duration.between(failureDate, successDate);
@@ -80,7 +83,7 @@ public class ItemService {
 					}
 				}
 				if(!item.isDeletedFlag()) {
-					result.add(new ItemListResponse(item, status,projectName));
+					result.add(new ItemListResponse(item, status,project.getProjectName()));
 				}
 			}
 		} catch (Exception e) {
@@ -89,7 +92,8 @@ public class ItemService {
 			// 혹은 throw new CustomException("오류 메시지");
 		}
 
-		//projectService.modifyProject(mostLastSuccessTime, mostLastFailureTime, projectIdx);
+		projectService.modifyProject(mostLastSuccessTime, mostLastFailureTime, project);
+
 		return result;
 	}
 
