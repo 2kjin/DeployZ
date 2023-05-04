@@ -59,7 +59,7 @@ export default function ItemListElement({ item }: { item: itemListInfo }) {
         <SItem>
           <DeleteOutlineIcon
             style={DeleteOutlineIconStyle}
-            onClick={handleDeleteClick}
+            // onClick={handleDeleteClick}
           />
         </SItem>
         <SItem>
