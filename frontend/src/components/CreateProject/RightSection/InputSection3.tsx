@@ -15,7 +15,7 @@ export default function InputSection2() {
   const handleClose = () => setOpen(false);
 
   const itemName = itemList.map((item: IItem) => {
-    return [item.itemName, item.secretToken];
+    return [item.branchName, item.secretToken];
   });
 
   return (

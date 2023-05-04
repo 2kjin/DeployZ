@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { theme } from "@/styles/theme";
 import { FormControl, InputLabel } from "@mui/material";
 import { alpha, styled as mstyled } from "@mui/material/styles";
@@ -6,8 +6,8 @@ import InputBase from "@mui/material/InputBase";
 import styled from "styled-components";
 import MouseIcon from "@mui/icons-material/Mouse";
 import Proxypass from "./Step4/Porxypass";
-import { useRecoilState } from "recoil";
-import { NginxState } from "@/recoil/step";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { NginxState, chapterState, stepState } from "@/recoil/step";
 import Modal from "@mui/material/Modal";
 import SSLGuideModal from "@components/Guide/SSLGuideModal";
 
@@ -18,6 +18,44 @@ export default function InputSection2() {
 
   const [nginxConfig, setNginxConfig] =
     useRecoilState<INginxConfig>(NginxState);
+
+  const nowChapter = useRecoilValue(chapterState);
+  const [steps, setSteps] = useRecoilState(stepState);
+
+  useEffect(() => {
+    checkIsValid();
+  }, [nginxConfig]);
+
+  // 스텝 바꿀때 체크
+  const checkIsValid = () => {
+    if (
+      nginxConfig.domainUrl === "" ||
+      nginxConfig.proxyPathList[0].pathName === "" ||
+      nginxConfig.proxyPathList[0].pathUrl === "" ||
+      nginxConfig.sslCertificate === "" ||
+      nginxConfig.sslCertificateKey === ""
+    ) {
+      const updatedSteps = steps.map((step) => {
+        if (step.number === nowChapter) {
+          return { ...step, isValid: false };
+        } else {
+          return step;
+        }
+      });
+
+      setSteps(updatedSteps);
+    } else {
+      const updatedSteps = steps.map((step) => {
+        if (step.number === nowChapter) {
+          return { ...step, isValid: true };
+        } else {
+          return step;
+        }
+      });
+
+      setSteps(updatedSteps);
+    }
+  };
 
   const handleItemData = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;

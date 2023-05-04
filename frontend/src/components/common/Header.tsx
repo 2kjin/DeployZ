@@ -11,7 +11,7 @@ export default function Header({ type }: { type: String }) {
   const navigate = useNavigate();
   const uselocation = useLocation();
   const [isLogin, setIsLogin] = useState(false);
-  const token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
     if (token) {
@@ -35,26 +35,24 @@ export default function Header({ type }: { type: String }) {
   return (
     <Container type={type}>
       {isLogin ? (
-      <Logo alt="logo" src={LogoPic} onClick={() => navigate("/project")}/>
+        <Logo alt="logo" src={LogoPic} onClick={() => navigate("/project")} />
       ) : (
-      <Logo alt="logo" src={LogoPic} onClick={() => navigate("/")}/>
+        <Logo alt="logo" src={LogoPic} onClick={() => navigate("/")} />
       )}
       <div className="nav-container">
-      {isLogin && (
-      <NavStyle to="/project" >Project List</NavStyle> )}
-      {isLogin && (
-      <NavStyle to="/infraguide" >Infra Guide</NavStyle> )}
-      {isLogin ? (
-      <Loginbtn onClick={() => logout()}>
-        <Gitlab alt="gitlab" src={GitlabPic} />
-        LOGOUT
-      </Loginbtn>
-      ) : (
-      <Loginbtn href="https://deployz.co.kr/oauth2/authorization/gitlab">
-      <Gitlab alt="gitlab" src={GitlabPic} />
-      LOGIN
-      </Loginbtn>
-      )}
+        {isLogin && <NavStyle to="/project">Project List</NavStyle>}
+        {isLogin && <NavStyle to="/infraguide">Infra Guide</NavStyle>}
+        {isLogin ? (
+          <Loginbtn onClick={() => logout()}>
+            <Gitlab alt="gitlab" src={GitlabPic} />
+            LOGOUT
+          </Loginbtn>
+        ) : (
+          <Loginbtn href="https://deployz.co.kr/oauth2/authorization/gitlab">
+            <Gitlab alt="gitlab" src={GitlabPic} />
+            LOGIN
+          </Loginbtn>
+        )}
       </div>
     </Container>
   );
@@ -98,7 +96,7 @@ const Logo = styled.img`
   :hover {
     cursor: pointer;
   }
-`
+`;
 const Loginbtn = styled.a`
   display: flex;
   justify-content: center;

@@ -10,15 +10,15 @@ import {
   stepState,
 } from "@/recoil/step";
 import { requestCreateProject } from "@/api/projectCreate";
-import Modal from '@mui/material/Modal';
-import InfraGuideModal from '@components/Guide/InfraGuideModal';
-import { success } from "@components/common/Toast/notify";
+import Modal from "@mui/material/Modal";
+import InfraGuideModal from "@components/Guide/InfraGuideModal";
+import { error, success } from "@components/common/Toast/notify";
 
 export default function FooterNav() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  
+
   const projectConfig = useRecoilValue<IProjectConfig>(projectConfigState);
   const itemList = useRecoilValue<IItem[]>(itemListState);
   const nginxConfig = useRecoilValue<INginxConfig>(NginxState);
@@ -55,47 +55,61 @@ export default function FooterNav() {
   };
 
   const toBack = () => {
-    handleStatusChangeBack(currentChapter - 1);
-    setCurrentChapter(currentChapter - 1);
-    checkProject();
+    if (stepInfo[currentChapter - 1].isValid) {
+      handleStatusChangeBack(currentChapter - 1);
+      setCurrentChapter(currentChapter - 1);
+    } else {
+      error("모든 값을 입력하세요.");
+    }
+
+    // checkProject();
   };
 
   const toNext = () => {
-    handleStatusChangeNext(currentChapter - 1);
-    setCurrentChapter(currentChapter + 1);
-    checkProject();
+    if (stepInfo[currentChapter - 1].isValid) {
+      handleStatusChangeNext(currentChapter - 1);
+      setCurrentChapter(currentChapter + 1);
+    } else {
+      if (currentChapter === 2) error("모든 아이템을 저장해주세요.");
+      else error("모든 값을 입력하세요.");
+    }
+    // checkProject();
   };
 
   const checkProject = () => {
+    console.log(stepInfo);
     console.log("STEP 1 :", projectConfig);
     console.log("STEP 2 :", itemList);
     console.log("STEP 4 :", nginxConfig);
   };
 
   const createProject = async () => {
-    const projectInfo = {
-      projectConfig: projectConfig,
-      itemList: itemList,
-      nginxConfig: nginxConfig,
-    };
-    const { data } = await requestCreateProject(projectInfo);
-    if (data.status === 200) {
-      success("프로젝트 생성 완료!");
+    if (stepInfo[currentChapter - 1].isValid) {
+      const projectInfo = {
+        projectConfig: projectConfig,
+        itemList: itemList,
+        nginxConfig: nginxConfig,
+      };
+      const { data } = await requestCreateProject(projectInfo);
+      if (data.status === 200) {
+        success("프로젝트 생성 완료!");
+      } else {
+        error("프로젝트 생성 오류");
+      }
+    } else {
+      error("모든 값을 입력하세요.");
     }
   };
 
   return (
     <Container>
       <Left>
-        <NavBtn className="Infra" onClick={handleOpen}>인프라 가이드 보러가기</NavBtn>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          >
+        <NavBtn className="Infra" onClick={handleOpen}>
+          인프라 가이드 보러가기
+        </NavBtn>
+        <Modal open={open} onClose={handleClose}>
           <>
-            <InfraGuideModal
-            handleClose = {handleClose}
-            />
+            <InfraGuideModal handleClose={handleClose} />
           </>
         </Modal>
       </Left>
