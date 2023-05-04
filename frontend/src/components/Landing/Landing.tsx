@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
 import { theme } from "@/styles/theme";
+import LandingPic from "@/assets/landing.png";
 import Modal from "@mui/material/Modal";
 import InfraGuideModal from "@components/Guide/InfraGuideModal";
 
@@ -14,6 +15,7 @@ export default function Landing1() {
 
   return (
     <Container>
+      <TitleContainer>
       <Title>
         그동안
         <span style={{ fontWeight: `${theme.fontWeight.extrabold}` }}>
@@ -21,15 +23,25 @@ export default function Landing1() {
         </span>
         너무 어려우셨나요?
       </Title>
+      <Title> 배포를 쉽게, <span style={{ fontWeight: `${theme.fontWeight.extrabold}`, }}>
+          &nbsp;DeployZ &nbsp;
+        </span></Title>
+      {/* <Title>
+        
+        = Depoly + easy
+      </Title> */}
+      </TitleContainer>
       <div className="btn-container">
-        <Guidebtn onClick={handleOpen}>Infra Guide</Guidebtn>
+        {/* <Guidebtn onClick={handleOpen}>Infra Guide</Guidebtn>
         <Modal open={open} onClose={handleClose}>
           <>
             <InfraGuideModal handleClose={handleClose} />
           </>
-        </Modal>
-        <Guidebtn onClick={() => navigate("/intro")}>Start Now</Guidebtn>
+        </Modal> */}
+        <Guidebtn onClick={() => navigate("/intro")}>Start</Guidebtn>
       </div>
+      <ImgPage alt="logo" src={LandingPic}/>
+      <Underbar></Underbar>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -62,38 +74,57 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 93vh;
+  height: 100%;
   width: 100%;
   background-color: ${theme.colors.primary};
   .btn-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 10%;
+    padding-bottom: 5%;
   }
 `;
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 15rem;
+`
 const Title = styled.div`
   color: ${theme.colors.white};
   font-size: 4rem;
+  padding : 1rem;
 `;
 const Guidebtn = styled.div`
-  background: none;
   border-radius: 15rem;
-  border: 0.3rem solid ${theme.colors.white};
-  color: ${theme.colors.white};
-  padding: 1rem 4rem;
+  background: ${theme.colors.white};
+  color: ${theme.colors.primary};
+  padding: 1.1rem 7rem;
   font-size: 2.5rem;
-  margin: 5rem;
+  margin-top: 6rem;
   font-weight: 700;
   :hover {
-    background: ${theme.colors.white};
-    border-color: ${theme.colors.white};
-    color: ${theme.colors.primary};
+    background: ${theme.colors.secondary};
+    color: ${theme.colors.white};
     transition: all 0.4s ease-out;
     cursor: pointer;
   }
 `;
-
+const ImgPage = styled.img`
+  height: 30vh;
+  z-index: 2;
+  position: relative;
+  top: 3vh
+`
+const Underbar = styled.div`
+  width : 60vh;
+  height : 5vh;
+  border-radius : 5rem;
+  background: #fff;
+  box-shadow: 1px 2px 4px #474747;
+  z-index: 1;
+`
 const animatePath = keyframes`
   0% {
     d: path("M 0,400 C 0,400 0,200 0,200 C 52.417038818275515,195.67777396083818 104.83407763655103,191.3555479216764 170,177 C 235.16592236344897,162.6444520783236 313.08072827207144,138.25558227413262 393,167 C 472.91927172792856,195.74441772586738 554.8430092751631,277.62212298179315 629,267 C 703.1569907248369,256.37787701820685 769.547234627276,153.25592579869465 826,126 C 882.452765372724,98.74407420130537 928.9680522157335,147.35417382342837 991,164 C 1053.0319477842665,180.64582617657163 1130.5805565097903,165.32737890759188 1208,166 C 1285.4194434902097,166.67262109240812 1362.7097217451048,183.33631054620406 1440,200 C 1440,200 1440,400 1440,400 Z");

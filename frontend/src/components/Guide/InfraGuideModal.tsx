@@ -126,7 +126,7 @@ const Img = styled.img`
 const timelineData = [
   {
     icon: <Filter1Rounded />,
-    title: "EC2 인스턴스 생성 및 설정",
+    title: "1. EC2 인스턴스 생성 및 설정",
     content: (
       <Contentdiv>
         <Text>
@@ -139,7 +139,7 @@ const timelineData = [
   },
   {
     icon: <Filter2Rounded />,
-    title: "Docker 설치 및 권한 설정",
+    title: "2. Docker 설치 및 권한 설정",
     content: (
       <Text>
         EC2 인스턴스에 Docker를 설치하고, 도커 그룹에 현재 사용자를 추가하여
@@ -148,17 +148,8 @@ const timelineData = [
     ),
   },
   {
-    icon: <Filter3Rounded />,
-    title: "프로젝트 소스코드 가져오기",
-    content: (
-      <Text>
-        Git을 사용하여 프로젝트의 소스코드를 EC2 인스턴스로 복사합니다.
-      </Text>
-    ),
-  },
-  {
     icon: <Filter4Rounded />,
-    title: "프론트엔드 및 백엔드 도커라이징",
+    title: "3. 프론트엔드 및 백엔드 도커라이징",
     content: (
       <div>
         <Text>
@@ -174,27 +165,27 @@ const timelineData = [
   },
   {
     icon: <Filter5Rounded />,
-    title: "Jenkins 설치 및 설정",
+    title: "4. CI/CD 툴 설치 및 설정",
     content: (
       <Text>
-        EC2 인스턴스에 Jenkins를 설치하고, Jenkins 플러그인 및 권한을
+        EC2 인스턴스에 CI/CD 툴을 설치하고, CI/CD 툴에 맞는 플러그인 및 권한을
         설정합니다.
       </Text>
     ),
   },
   {
     icon: <Filter6Rounded />,
-    title: "CI/CD 파이프라인 구축",
+    title: "5. CI/CD 파이프라인 구축",
     content: (
       <Text>
-        Jenkins에서 프로젝트를 가져와서 빌드, 테스트, 배포 과정을 자동화하는
+        설치한 CI/CD 툴에 프로젝트를 가져와서 빌드, 테스트, 배포 과정을 자동화하는
         CI/CD 파이프라인을 구축합니다.
       </Text>
     ),
   },
   {
     icon: <Filter7Rounded />,
-    title: "Nginx 설치 및 설정",
+    title: "6. Nginx 설치 및 설정",
     content: (
       <Text>
         Nginx를 설치하고, 프론트엔드 및 백엔드 컨테이너에 대한 리버스 프록시
@@ -204,7 +195,7 @@ const timelineData = [
   },
   {
     icon: <Filter8Rounded />,
-    title: "무중단 배포 설정",
+    title: "7. 무중단 배포 설정",
     content: (
       <Text>
         블루-그린 배포 또는 카나리 배포와 같은 무중단 배포 전략을 선택하고,
@@ -214,7 +205,7 @@ const timelineData = [
   },
   {
     icon: <Filter9Rounded />,
-    title: "최종 테스트 및 모니터링",
+    title: "8. 최종 테스트 및 모니터링",
     content: (
       <Text>
         애플리케이션의 정상 작동 여부를 확인하고, 로그 및 모니터링 도구를
