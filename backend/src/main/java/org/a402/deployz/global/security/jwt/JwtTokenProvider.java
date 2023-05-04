@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 
 import org.a402.deployz.domain.member.entity.Member;
+import org.a402.deployz.domain.member.exception.TokenExpiredException;
 import org.a402.deployz.domain.member.service.MemberDetailService;
 import org.a402.deployz.global.error.GlobalErrorCode;
 import org.a402.deployz.global.security.redis.RedisRefreshTokenRepository;
@@ -48,7 +49,7 @@ public class JwtTokenProvider {
 		final Claims claims = Jwts.claims().setSubject(member.getEmail());
 		claims.put(AUTHORIZATION, member.getAuthorities()); // 권한
 
-//		final long accessTokenValidSecond = Duration.ofDays(1).toMillis(); //access토큰 유효시간
+		//		final long accessTokenValidSecond = Duration.ofDays(1).toMillis(); //access토큰 유효시간
 		final long accessTokenValidSecond = Duration.ofSeconds(10).toMillis(); //test용 access토큰 유효시간
 		final Date now = new Date();
 
@@ -114,7 +115,7 @@ public class JwtTokenProvider {
 
 			return !claims.getBody().getExpiration().before(new Date());
 		} catch (final ExpiredJwtException expiredJwtException) {
-			throw new JwtException(GlobalErrorCode.TOKEN_EXPIRED.getMessage());
+			throw new TokenExpiredException();
 		} catch (final Exception exception) {
 			throw new AccessDeniedException(GlobalErrorCode.ACCESS_DENIED.getMessage());
 		}
