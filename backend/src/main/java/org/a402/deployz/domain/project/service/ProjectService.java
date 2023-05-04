@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
 import org.a402.deployz.domain.git.entity.GitConfig;
@@ -44,7 +43,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class ProjectService {
-
 	private final ProjectRepository projectRepository;
 	private final MemberRepository memberRepository;
 	private final GitConfigRepository gitConfigRepository;
@@ -53,7 +51,6 @@ public class ProjectService {
 	private final ItemRepository itemRepository;
 	private final GitTokenRepository gitTokenRepository;
 	private final PasswordEncoder passwordEncoder;
-	private final EntityManager entityManager;
 
 	@Transactional
 	public void addProject(TotalProjectConfigRequest request, String userEmail) {
@@ -146,20 +143,22 @@ public class ProjectService {
 
 	// staus를 확인하기 위한 코드
 	@Transactional(readOnly = true)
-	public List<ProjectResponse> findProjects(long memberIdx) {
+	public List<ProjectResponse> findProjectList(final String email) {
+		final Member member = memberRepository.findMemberByEmail(email).orElseThrow(MemberNotFoundException::new);
 		List<Project> tmp;
+
 		try {
-			tmp = projectRepository.findByMemberIdx(memberIdx);
+			tmp = projectRepository.findProjectsByMemberIdx(member.getIdx());
 		} catch (Exception e) {
-			log.error("Error finding projects for member with ID {}: {}", memberIdx, e.getMessage());
+			log.error("Error finding projects for member with ID {}: {}", member.getIdx(), e.getMessage());
 			throw new RuntimeException("Failed to find projects for member", e);
 		}
 
-		Long itemCnt = null;
-		List<ProjectResponse> result = new ArrayList<>();
+		long itemCnt;
+		final List<ProjectResponse> result = new ArrayList<>();
 
 		for (Project project : tmp) {
-			String status = null;
+			String status;
 
 			try {
 				//최근 성공시간이 최근 실패시간 보다 이후 -> SUCCESS
@@ -167,10 +166,9 @@ public class ProjectService {
 				LocalDateTime failureDate = project.getLastFailureDate();
 
 				//failureDate가 더 이후: 음수값 반환 / successDate가 더 최근: 양수 반환
-
 				Duration duration = Duration.between(failureDate, successDate);
 				// 초 단위 차이
-				long diffInSeconds = duration.getSeconds();
+				final long diffInSeconds = duration.getSeconds();
 				if (diffInSeconds >= 0)
 					status = "SUCCESS";
 
@@ -185,10 +183,12 @@ public class ProjectService {
 				status = "ERROR";
 				itemCnt = 0L;
 			}
+
 			if (!project.isDeletedFlag()) {
 				result.add(new ProjectResponse(project, status, itemCnt));
 			}
 		}
+
 		return result;
 	}
 
