@@ -10,9 +10,6 @@ import { fetchProjectDetail } from "@/api/projectApi";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
-//import images
-import logo from "../assets/logo.png";
-
 export default function ItemListPage() {
   // Header type 설정
   const { idx } = useParams<{ idx: string }>();
@@ -39,7 +36,6 @@ export default function ItemListPage() {
       <STitleBox>
         <SEditButton>설정</SEditButton>
         <SDiv>
-          <SImg src={logo} />
           <STitle>
             {projectDetail &&
               projectDetail.length > 0 &&

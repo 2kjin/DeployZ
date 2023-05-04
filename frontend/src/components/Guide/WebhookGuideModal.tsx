@@ -95,13 +95,13 @@ const SImg1 = styled.img`
 `;
 
 const SImg2 = styled.img`
-  width: 70rem;
-  height: 80rem;
+  width: 60rem;
+  height: 50rem;
 `;
 
 const SImg3 = styled.img`
-  width: 70rem;
-  height: 80rem;
+  width: 60rem;
+  height: 50rem;
 `;
 
 const ModalContainer = styled.div`
