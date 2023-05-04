@@ -3,6 +3,7 @@ package org.a402.deployz.global.security.config;
 import java.util.Arrays;
 import java.util.List;
 
+import org.a402.deployz.global.security.jwt.JwtAuthenticationEntryPoint;
 import org.a402.deployz.global.security.jwt.JwtAuthenticationFilter;
 import org.a402.deployz.global.security.jwt.JwtTokenProvider;
 import org.a402.deployz.global.security.oauth.CustomOAuth2UserService;
@@ -44,6 +45,7 @@ public class SecurityConfig {
 	private final HttpCookieOAuthAuthorizationRequestRepository httpCookieOAuthAuthorizationRequestRepository;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final CustomOAuth2UserService customOAuth2UserService;
+	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -56,9 +58,11 @@ public class SecurityConfig {
 			.and()
 			.cors().configurationSource(corsConfigurationSource());
 
+		httpSecurity.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
+
 		httpSecurity.authorizeRequests()
 			//HttpServletRequest를 사용하는 요청에 대한 권한체크
-			.antMatchers("*").permitAll();
+			.antMatchers("/").permitAll().anyRequest().authenticated();
 
 		httpSecurity.authorizeRequests()// PERMIT_URL_ARRAY 에서 지정한 인증없이 권한 허가.
 			.and()
