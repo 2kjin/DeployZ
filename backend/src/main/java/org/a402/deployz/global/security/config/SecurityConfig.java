@@ -62,7 +62,7 @@ public class SecurityConfig {
 
 		httpSecurity.authorizeRequests()
 			//HttpServletRequest를 사용하는 요청에 대한 권한체크
-			.antMatchers("/").permitAll().anyRequest().authenticated();
+			.antMatchers("/", "/actuator/health").permitAll().anyRequest().authenticated();
 
 		httpSecurity.authorizeRequests()// PERMIT_URL_ARRAY 에서 지정한 인증없이 권한 허가.
 			.and()
