@@ -32,7 +32,7 @@ export default function ProjectList() {
   }, [result]);
 
   return (
-    <>
+    <Container>
       {visibleProjects.map((project) => (
         <ProjectListItem key={project.idx} project={project} />
       ))}
@@ -41,7 +41,7 @@ export default function ProjectList() {
           <AddCircleIcon style={styles} />
         </SEmptyDiv>
       )}
-    </>
+    </Container>
   );
 }
 
@@ -51,10 +51,14 @@ const styles = {
   color: theme.colors.primary,
 };
 
+const Container = styled.div`
+  height: 45vh;
+`;
+
 const SEmptyDiv = styled.div`
   display: flex;
-  width: 78vw;
-  height: 15vh;
+  width: 30vw;
+  height: 45vh;
   background: ${theme.colors.lightgray};
   overflow: hidden;
   margin: auto;

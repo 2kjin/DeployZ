@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import ItemListPage from "./pages/ItemListPage";
-import ProjectListPage from "./pages/ProjectListPage";
+import ItemListMain from "@/components/item/ItemListMain";
+import ProjectItemPage from "./pages/ProjectItemPage";
 import IntroPage from "./pages/IntroPage";
 import ProjectStepPage from "./pages/ProjectStepPage";
 import ItemDetail from "@components/item/ItemDetail";
@@ -17,10 +17,10 @@ const router = createBrowserRouter([
   { path: "/signup", element: <SignupPage /> },
   { path: "/infraguide", element: <InfraGuidePage /> },
   { path: "/step", element: <ProjectStepPage /> },
-  { path: "/project", element: <ProjectListPage /> },
-  { path: "/project/detail/:idx", element: <ItemListPage /> },
+  { path: "/project", element: <ProjectItemPage /> },
+  { path: "/project/detail/:idx", element: <ItemListMain /> },
   { path: "/item/detail/:idx", element: <ItemDetail /> },
-  
+
   { path: "/loginRedirect", element: <OauthLogin /> },
   { path: "/signupRedirect", element: <OauthSignup /> },
   { path: "*", element: <Page404 /> },

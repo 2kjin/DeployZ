@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import Header from "@components/common/Header";
 import ItemList from "@components/item/ItemList";
 import { projectDetailInfo } from "@/types/project";
 import { fetchProjectDetail } from "@/api/projectApi";
@@ -10,7 +9,7 @@ import { fetchProjectDetail } from "@/api/projectApi";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
-export default function ItemListPage() {
+export default function ItemListMain() {
   // Header type 설정
   const { idx } = useParams<{ idx: string }>();
   const projectIdx = parseInt(idx as string, 10);
@@ -31,35 +30,26 @@ export default function ItemListPage() {
   }, [projectIdx]);
 
   return (
-    <>
-      <Header type="standard" />
-      <STitleBox>
-        <SEditButton>설정</SEditButton>
-        <SDiv>
-          <STitle>
-            {projectDetail &&
-              projectDetail.length > 0 &&
-              projectDetail[0].projectName}
-          </STitle>
-        </SDiv>
-      </STitleBox>
-      <SListBox>
-        <SListTitleDiv>
-          <SItem></SItem>
-          <SItem></SItem>
-          <SItem>이름</SItem>
-          <SItem>상태</SItem>
-          <SItem>포트</SItem>
-          <SItem>최근 성공</SItem>
-          <SItem>최근 실패</SItem>
-          <SItem></SItem>
-          <SItem></SItem>
-        </SListTitleDiv>
-        <ItemList />
-      </SListBox>
-    </>
+    <SListBox>
+      <SListTitleDiv>
+        <SItem></SItem>
+        <SItem></SItem>
+        <SItem>이름</SItem>
+        <SItem>상태</SItem>
+        <SItem>포트</SItem>
+        <SItem>최근 성공</SItem>
+        <SItem>최근 실패</SItem>
+        <SItem></SItem>
+        <SItem></SItem>
+      </SListTitleDiv>
+      <ItemList />
+    </SListBox>
   );
 }
+
+const Container = styled.div`
+  height: 48vh;
+`;
 
 const SItem = styled.div`
   flex: 2;
@@ -105,11 +95,11 @@ const STitle = styled.span`
 `;
 
 const SListBox = styled.div`
-  width: 80vw;
-  height: 70vh;
+  width: 90vw;
+  height: 45vh;
   background-color: ${theme.colors.white};
-  border-radius: 2rem;
-  margin: auto;
+  border-radius: 1rem;
+  margin;
   flex-direction: column;
   justify-content: center;
   align-items: center;

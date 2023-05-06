@@ -73,13 +73,13 @@ const SDiv = styled.div`
 
 const SProjectList = styled.div`
   display: flex;
-  flex-direction: column;
-  width: 78vw;
-  height: 15vh;
+  width: 30vw;
+  height: 45vh;
   background: ${theme.colors.lightgray};
   overflow: hidden;
   margin: auto;
   border-radius: 1rem;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-bottom: 4rem;
