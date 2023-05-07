@@ -131,12 +131,12 @@ public class ProjectService {
 		HashMap<String, Boolean> portCheck = new HashMap<>();
 
 		//true: 사용 가능, false: 사용 불가
-		if (!itemRepository.existsByPortNumber1(port1) &&!itemRepository.existsByPortNumber2(port1)){
+		if (itemRepository.existsByPortNumber1(port1) && itemRepository.existsByPortNumber2(port1)){
 			portCheck.put("port1",true);
 		}
 		else portCheck.put("port1",false);
 
-		if (!itemRepository.existsByPortNumber1(port2) &&!itemRepository.existsByPortNumber2(port2)){
+		if (itemRepository.existsByPortNumber1(port2) && itemRepository.existsByPortNumber2(port2)){
 			portCheck.put("port2",true);
 		}
 		else portCheck.put("port2",false);
@@ -200,7 +200,6 @@ public class ProjectService {
 
 		return result;
 	}
-
 	@Transactional
 	public void modifyProject(LocalDateTime mostLastSuccessTime, LocalDateTime mostLastFailureTime,
 		Project project) {

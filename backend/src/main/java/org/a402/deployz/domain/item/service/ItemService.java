@@ -3,11 +3,15 @@ package org.a402.deployz.domain.item.service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.a402.deployz.domain.item.entity.BuildHistory;
 import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.item.exception.ItemNotFoundException;
 import org.a402.deployz.domain.item.repository.ItemRepository;
+import org.a402.deployz.domain.item.response.ItemBuildHistoryResponse;
 import org.a402.deployz.domain.item.response.ItemListResponse;
 import org.a402.deployz.domain.project.entity.Project;
 import org.a402.deployz.domain.project.repository.ProjectRepository;
@@ -97,4 +101,35 @@ public class ItemService {
 		return result;
 	}
 
+	@Transactional
+	public List<ItemBuildHistoryResponse> findBuildHistories(Long itemIdx) {
+		Item item = itemRepository.findItemByIdx(itemIdx)
+			.orElseThrow(() -> new ItemNotFoundException(GlobalErrorCode.ITEM_NOT_FOUND));
+
+		return item.getItemHistories()
+			.stream()
+			.sorted(Comparator.comparing(BuildHistory::getIdx).reversed())
+			.map(history -> new ItemBuildHistoryResponse(
+				history.getIdx(),
+				history.getStatus(),
+				history.getMessage(),
+				history.getRegisterTime()))
+			.collect(Collectors.toList());
+	}
+	@Transactional
+	public ItemListResponse findItemInfo(Long itemIdx, String nowState, String projectName) {
+		Item item = itemRepository.findItemByIdx(itemIdx)
+			.orElseThrow(() -> new ItemNotFoundException(GlobalErrorCode.ITEM_NOT_FOUND));
+		return new ItemListResponse(item,nowState, projectName);
+	}
+	// @Transactional
+	// public String findNowItemStep(Long itemIdx) {
+	// 	//현재 아이템이 3단계 중에서 어떤 상태인지쉬벌
+	// 	Item item = itemRepository.findItemByIdx(itemIdx);
+	// 	List<ItemState> itemStates = item.getItemStates();
+	// 	ItemState itemState = itemStates.get(itemStates.size()-1);
+	//
+	// 	itemState.get
+	//
+	// }
 }

@@ -49,7 +49,7 @@ public class Item {
 	@OneToMany(mappedBy = "item", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<BuildHistory> itemHistories;
 	@OneToMany(mappedBy = "item", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	private List<ItemState> itemStates;
+	private List<BuildStep> deploys;
 
 	@Builder
 	public Item(final Long idx, final String name, final Long portNumber1, final Long portNumber2,
@@ -58,7 +58,7 @@ public class Item {
 		final LocalDateTime lastSuccessDate,
 		final LocalDateTime lastFailureDate, final boolean deletedFlag, final Project project,
 		final List<BuildHistory> itemHistories,
-		final List<ItemState> itemStates) {
+		final List<BuildStep> deploys) {
 		this.idx = idx;
 		this.name = name;
 		this.portNumber1 = portNumber1;
@@ -72,7 +72,7 @@ public class Item {
 		this.deletedFlag = deletedFlag;
 		this.project = project;
 		this.itemHistories = itemHistories;
-		this.itemStates = itemStates;
+		this.deploys = deploys;
 	}
 
 	//deleted_flag 변경
