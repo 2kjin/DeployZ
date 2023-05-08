@@ -118,8 +118,8 @@ public class ItemService {
 	}
 
 	@Transactional
-	public String findProjectName(Long containerIdx) {
-		Item item = itemRepository.findById(containerIdx).orElseThrow(() -> new ItemNotFoundException(GlobalErrorCode.ITEM_NOT_FOUND));
+	public String findProjectName(Long itemIdx) {
+		Item item = itemRepository.findById(itemIdx).orElseThrow(() -> new ItemNotFoundException(GlobalErrorCode.ITEM_NOT_FOUND));
 		Project project = item.getProject();
 		return project.getProjectName();
 	}
