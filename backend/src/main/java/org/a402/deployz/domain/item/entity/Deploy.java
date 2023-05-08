@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.a402.deployz.domain.item.entity.Item;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +21,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "build_step")
-public class BuildStep {
+@Table(name = "deploy")
+public class Deploy {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "idx", nullable = false)
@@ -36,7 +38,7 @@ public class BuildStep {
 	private Item item;
 
 	@Builder
-	public BuildStep(final Long idx, final String status, final LocalDateTime registerTime,
+	public Deploy(final Long idx, final String status, final LocalDateTime registerTime,
 		final LocalDateTime lastUpdatedDate, final Item item) {
 		this.idx = idx;
 		this.status = status;
@@ -45,4 +47,7 @@ public class BuildStep {
 		this.item = item;
 	}
 
+	public void updateStatus(final String status) {
+		this.status = status;
+	}
 }

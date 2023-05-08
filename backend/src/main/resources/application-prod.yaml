@@ -44,3 +44,7 @@ springdoc:
     path: /api/swagger-ui.html
   api-docs:
     path: /api/post-docs
+deployz:
+  rootPath: "/projects"
+  logPath: "logs"
+  configPath: "config"

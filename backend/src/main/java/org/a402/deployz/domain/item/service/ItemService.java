@@ -102,8 +102,8 @@ public class ItemService {
 	}
 
 	@Transactional
-	public List<ItemBuildHistoryResponse> findBuildHistories(Long itemIdx) {
-		Item item = itemRepository.findItemByIdx(itemIdx)
+	public List<ItemBuildHistoryResponse> findBuildHistories(Long containerIdx) {
+		Item item = itemRepository.findItemByIdx(containerIdx)
 			.orElseThrow(() -> new ItemNotFoundException(GlobalErrorCode.ITEM_NOT_FOUND));
 
 		return item.getItemHistories()
@@ -116,6 +116,14 @@ public class ItemService {
 				history.getRegisterTime()))
 			.collect(Collectors.toList());
 	}
+
+	@Transactional
+	public String findProjectName(Long containerIdx) {
+		Item item = itemRepository.findById(containerIdx).orElseThrow(() -> new ItemNotFoundException(GlobalErrorCode.ITEM_NOT_FOUND));
+		Project project = item.getProject();
+		return project.getProjectName();
+	}
+
 	@Transactional
 	public ItemListResponse findItemInfo(Long itemIdx, String nowState, String projectName) {
 		Item item = itemRepository.findItemByIdx(itemIdx)

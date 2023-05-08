@@ -14,28 +14,29 @@ public class ItemDetailListResponse {
 	@NotNull
 	private Long itemIdx;
 	@NotNull
-	private Long portNumber;
+	private Long portNumber1;
 	@NotNull
-	private String buildStep;
+	private Long portNumber2;
 	@NotNull
 	private String itemName;
 	@NotNull
 	private String frameworkType;
 
-	private String consol;
+	private String status;
 	private LocalDateTime lastSuccessDate;
 	private LocalDateTime lastFailureDate;
-	private List<BuildHistory> buildHistoryList;
+	private List<ItemBuildHistoryResponse> buildHistories;
 
-	public ItemDetailListResponse(Long itemIdx, Long portNumber, String buildStep, String itemName, String frameworkType, String consol, LocalDateTime lastSuccessDate, LocalDateTime lastFailureDate,  List<BuildHistory> buildHistoryList){
-		this.itemIdx=itemIdx;
-		this.portNumber=portNumber;
-		this.buildStep=buildStep;
-		this.itemName=itemName;
-		this.frameworkType=frameworkType;
-		this.consol=consol;
-		this.lastSuccessDate=lastSuccessDate;
-		this.lastFailureDate=lastFailureDate;
-		this.buildHistoryList=buildHistoryList;
+	public ItemDetailListResponse(List<ItemBuildHistoryResponse> buildHistories, ItemListResponse itemInfo) {
+		this.buildHistories=buildHistories;
+		this.itemIdx=itemInfo.getIdx();
+		this.itemName=itemInfo.getName();
+		this.status=itemInfo.getStatus();
+		this.frameworkType= itemInfo.getFramworkType();
+		this.lastSuccessDate=itemInfo.getLastSuccessDate();
+		this.lastFailureDate=itemInfo.getLastFailureDate();
+		this.portNumber1=itemInfo.getPortNumber1();
+		this.portNumber2=itemInfo.getPortNumber2();
+
 	}
 }

@@ -29,7 +29,7 @@ public class ItemListResponse {
 	@NotNull
 	private String projectName;
 
-	public ItemListResponse(Item item, String status,String projectName){
+	public ItemListResponse(Item item, String status, String projectName){
 		this.idx=item.getIdx();
 		this.framworkType=item.getFrameworkType();
 		this.name=item.getName();
@@ -38,7 +38,6 @@ public class ItemListResponse {
 		this.lastSuccessDate=item.getLastSuccessDate();
 		this.lastFailureDate=item.getLastFailureDate();
 		this.status=status;
-		this.projectName=projectName;
 	}
 
 }
