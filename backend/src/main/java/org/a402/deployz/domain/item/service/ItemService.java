@@ -130,14 +130,4 @@ public class ItemService {
 			.orElseThrow(() -> new ItemNotFoundException(GlobalErrorCode.ITEM_NOT_FOUND));
 		return new ItemListResponse(item,nowState, projectName);
 	}
-	// @Transactional
-	// public String findNowItemStep(Long itemIdx) {
-	// 	//현재 아이템이 3단계 중에서 어떤 상태인지쉬벌
-	// 	Item item = itemRepository.findItemByIdx(itemIdx);
-	// 	List<ItemState> itemStates = item.getItemStates();
-	// 	ItemState itemState = itemStates.get(itemStates.size()-1);
-	//
-	// 	itemState.get
-	//
-	// }
 }
