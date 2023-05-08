@@ -35,17 +35,17 @@ public class ProjectState {
 	private String step;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "project_idx")
-	private Project projects;
+	private Project project;
 
 	@Builder
 	public ProjectState(final Long idx, final String status, final LocalDateTime registerTime,
-		final LocalDateTime lastFailureDate, final String step, final Project projects) {
+		final LocalDateTime lastFailureDate, final String step, final Project project) {
 		this.idx = idx;
 		this.status = status;
 		this.registerTime = registerTime;
 		this.lastFailureDate = lastFailureDate;
 		this.step = step;
-		this.projects = projects;
+		this.project = project;
 	}
 
 }
