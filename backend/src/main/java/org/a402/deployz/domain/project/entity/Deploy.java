@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.a402.deployz.domain.item.entity.ItemState;
+import org.a402.deployz.domain.item.entity.Item;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -34,17 +34,20 @@ public class Deploy {
 	@Column(name = "last_modified_date")
 	private LocalDateTime lastUpdatedDate;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "item_state_idx")
-	private ItemState itemState;
+	@JoinColumn(name = "item_idx")
+	private Item item;
 
 	@Builder
 	public Deploy(final Long idx, final String status, final LocalDateTime registerTime,
-		final LocalDateTime lastUpdatedDate, final ItemState itemState) {
+		final LocalDateTime lastUpdatedDate, final Item item) {
 		this.idx = idx;
 		this.status = status;
 		this.registerTime = registerTime;
 		this.lastUpdatedDate = lastUpdatedDate;
-		this.itemState = itemState;
+		this.item = item;
 	}
 
+	public void updateStatus(final String status) {
+		this.status = status;
+	}
 }
