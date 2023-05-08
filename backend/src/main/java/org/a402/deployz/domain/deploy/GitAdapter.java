@@ -10,13 +10,13 @@ import org.a402.deployz.domain.git.entity.GitToken;
 public class GitAdapter {
 	public static final String REGEX = "/";
 
-	public static String getCloneCommand(final GitToken gitToken) {
-		StringBuilder stringBuilder = writeGitCloneCommand(gitToken);
+	public static String getCloneCommand(final GitToken gitToken, final String personalAccessToken) {
+		StringBuilder stringBuilder = writeGitCloneCommand(gitToken, personalAccessToken);
 
 		return stringBuilder.toString();
 	}
 
-	private static StringBuilder writeGitCloneCommand(final GitToken gitToken) {
+	private static StringBuilder writeGitCloneCommand(final GitToken gitToken, final String personalAccessToken) {
 		final GitConfig gitConfig = gitToken.getGitConfig();
 		final List<String> splitUrlUnits = parseUrl(gitConfig.getRepositoryUrl());
 		final StringBuilder stringBuilder = new StringBuilder();
@@ -28,9 +28,9 @@ public class GitAdapter {
 		return stringBuilder.append("git clone -b ").append(gitToken.getBranchName())
 			.append(" --single-branch ")
 			.append(splitUrlUnits.get(0)).append(splitUrlUnits.get(2)) // protocol, username
-			.append(":").append(gitConfig.getGitAccessToken())
-			.append("@").append(splitUrlUnits.get(1)).append(splitUrlUnits.get(2)) // hosturl, username
-			.append(splitUrlUnits.get(3)); // branch 이름
+			.append(":").append(personalAccessToken)
+			.append("@").append(splitUrlUnits.get(1)).append("/").append(splitUrlUnits.get(2)) // hosturl, username
+			.append("/").append(splitUrlUnits.get(3)); // branch 이름
 	}
 
 	public static List<String> parseUrl(final String url) {
