@@ -85,15 +85,20 @@ export default function FooterNav() {
 
   const createProject = async () => {
     if (stepInfo[currentChapter - 1].isValid) {
-      const projectInfo = {
-        projectConfig: projectConfig,
-        itemList: itemList,
-        nginxConfig: nginxConfig,
-      };
-      const { data } = await requestCreateProject(projectInfo);
-      if (data.status === 200) {
-        success("프로젝트 생성 완료!");
-      } else {
+      try {
+        const projectInfo = {
+          projectConfig: projectConfig,
+          itemList: itemList,
+          nginxConfig: nginxConfig,
+        };
+        const { data } = await requestCreateProject(projectInfo);
+        if (data.status === 200) {
+          success("프로젝트 생성 완료!");
+        } else {
+          error("프로젝트 생성 오류");
+        }
+      } catch (e) {
+        console.log(e);
         error("프로젝트 생성 오류");
       }
     } else {
@@ -105,7 +110,7 @@ export default function FooterNav() {
     <Container>
       <Left>
         <NavBtn className="Infra" onClick={handleOpen}>
-          인프라 가이드 보러가기
+          인프라 가이드 보기
         </NavBtn>
         <Modal open={open} onClose={handleClose}>
           <>
@@ -143,7 +148,7 @@ const Left = styled.div`
   padding: 0;
 
   .Infra {
-    width: 17rem;
+    width: 14rem;
     background-color: ${theme.colors.pending};
     color: ${theme.colors.primary};
     font-weight: bold;
@@ -171,8 +176,8 @@ const Right = styled.div<{ chapter: number | undefined }>`
 const NavBtn = styled.div`
   background-color: ${theme.colors.darkgray};
   border-radius: 10px;
-  padding: 1rem;
-  width: 10rem;
+  padding: 1rem 1.8rem;
+  /* width: 10rem; */
   height: 45%;
   color: white;
   font-size: 1.7rem;
