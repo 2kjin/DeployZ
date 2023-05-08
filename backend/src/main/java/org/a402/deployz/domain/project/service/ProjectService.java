@@ -12,6 +12,10 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.a402.deployz.domain.deploy.CommandInterpreter;
+import org.a402.deployz.domain.deploy.FileManager;
+import org.a402.deployz.domain.deploy.GitAdapter;
+import org.a402.deployz.domain.deploy.PathParser;
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
 import org.a402.deployz.domain.item.entity.Item;
@@ -31,7 +35,6 @@ import org.a402.deployz.domain.project.repository.ProxyConfigRepository;
 import org.a402.deployz.domain.project.request.NginxConfigRequest;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
 import org.a402.deployz.domain.project.response.ProjectResponse;
-import org.a402.deployz.global.error.GlobalErrorCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,35 +54,50 @@ public class ProjectService {
 	private final ItemRepository itemRepository;
 	private final GitTokenRepository gitTokenRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final PathParser pathParser;
+
+	public static final String CLONE = "Clone";
 
 	@Transactional
-	public void addProject(TotalProjectConfigRequest request, String userEmail) {
+	public void addProject(final TotalProjectConfigRequest request, final String userEmail) {
 		// Project 저장
-		Member member = memberRepository.findMemberByEmail(userEmail).orElseThrow(MemberNotFoundException::new);
-		Project project = projectRepository.save(
+		final Member member = memberRepository.findMemberByEmail(userEmail).orElseThrow(MemberNotFoundException::new);
+		final Project project = projectRepository.save(
 			request.getProjectConfig().toEntity(member));
 
 		// GitConfig 저장
-		GitConfig gitConfig = gitConfigRepository.save(request.getProjectConfig().toGEntity(project));
+		final GitConfig gitConfig = gitConfigRepository.save(request.getProjectConfig().toGEntity(project));
+
+		// Path 설정
+		final String projectPath = pathParser.getProjectPath(project.getProjectName()).toString();
+		final String logPath = pathParser.getLogPath(project.getProjectName()).toString();
 
 		// Item 저장
 		for (int i = 0; i < request.getItemList().size(); i++) {
-			ItemConfigRequest itemConfigRequest = request.getItemList().get(i);
+			final ItemConfigRequest itemConfigRequest = request.getItemList().get(i);
 			itemRepository.save(itemConfigRequest.toEntity(project));
 
 			// GitToken 저장
-			GitToken gitToken = GitToken.builder()
+			final GitToken gitToken = GitToken.builder()
 				.secretToken(passwordEncoder.encode(itemConfigRequest.getSecretToken()))
 				.branchName(itemConfigRequest.getBranchName())
 				.gitConfig(gitConfig)
 				.build();
 
 			gitTokenRepository.save(gitToken);
+
+			// git clone
+			log.info("GitClone Start");
+			final String cloneCommand = GitAdapter.getCloneCommand(gitToken);
+			CommandInterpreter.runDestinationPath(projectPath, logPath, CLONE, cloneCommand);
+
+			FileManager.checkAndCreateDirectory(projectPath);
+			FileManager.checkAndCreateDirectory(logPath);
 		}
 
 		// NginxConfig 저장
-		NginxConfigRequest nginxConfigRequest = request.getNginxConfig();
-		NginxConfig nginxConfig = nginxConfigRepository.save(nginxConfigRequest.toEntity(project));
+		final NginxConfigRequest nginxConfigRequest = request.getNginxConfig();
+		final NginxConfig nginxConfig = nginxConfigRepository.save(nginxConfigRequest.toEntity(project));
 
 		// ProxyConfig 저장
 		for (int i = 0; i < nginxConfigRequest.getProxyPathList().size(); i++) {
@@ -91,13 +109,12 @@ public class ProjectService {
 	public void removeProject(@Valid long projectIdx) {
 		try {
 			projectRepository.findProjectByIdx(projectIdx)
-				.orElseThrow(() -> new ProjectNotFoundException(GlobalErrorCode.PROJECT_NOT_FOUND))
+				.orElseThrow(ProjectNotFoundException::new)
 				.updateDeletedFlag();
 
 			//해당 projectIdx의 item들도 삭제
 			List<Item> items = projectRepository.findProjectByIdx(projectIdx)
-				.orElseThrow(() -> new ProjectNotFoundException(GlobalErrorCode.PROJECT_NOT_FOUND))
-				.getItems();
+				.orElseThrow(ProjectNotFoundException::new).getItems();
 
 			for (Item item : items) {
 				item.updateDeletedFlag();
@@ -131,15 +148,15 @@ public class ProjectService {
 		HashMap<String, Boolean> portCheck = new HashMap<>();
 
 		//true: 사용 가능, false: 사용 불가
-		if (!itemRepository.existsByPortNumber1(port1) &&!itemRepository.existsByPortNumber2(port1)){
-			portCheck.put("port1",true);
-		}
-		else portCheck.put("port1",false);
+		if (!itemRepository.existsByPortNumber1(port1) && !itemRepository.existsByPortNumber2(port1)) {
+			portCheck.put("port1", true);
+		} else
+			portCheck.put("port1", false);
 
-		if (!itemRepository.existsByPortNumber1(port2) &&!itemRepository.existsByPortNumber2(port2)){
-			portCheck.put("port2",true);
-		}
-		else portCheck.put("port2",false);
+		if (!itemRepository.existsByPortNumber1(port2) && !itemRepository.existsByPortNumber2(port2)) {
+			portCheck.put("port2", true);
+		} else
+			portCheck.put("port2", false);
 
 		return portCheck;
 	}
@@ -147,7 +164,7 @@ public class ProjectService {
 	@Transactional(readOnly = true)
 	public Project findProject(final long projectIdx) {
 		return projectRepository.findProjectByIdx(projectIdx)
-			.orElseThrow(() -> new ProjectNotFoundException(GlobalErrorCode.PROJECT_NOT_FOUND));
+			.orElseThrow(ProjectNotFoundException::new);
 	}
 
 	// staus를 확인하기 위한 코드
