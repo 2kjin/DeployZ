@@ -1,17 +1,17 @@
 import styled from "styled-components";
-import Landing from "@components/Landing/Landing";
+import VideoLanding from "@components/Landing/VideoLanding";
 
 export default function LandingPage() {
   return (
     <>
     <Container>
-      <Landing />
+      <VideoLanding />
     </Container>
     </>
   );
 }
 
 const Container = styled.div`
-  height: 93vh;
+  height: 100vh;
   overflow: auto;
 `;
