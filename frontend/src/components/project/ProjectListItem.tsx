@@ -1,85 +1,112 @@
-import { useNavigate } from "react-router-dom";
-
 //import css
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
+//import icons
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
+//import components and api
 import { projectListInfo } from "@/types/project";
 import { changeTime } from "@/api/projectApi";
+import BuildChart from "./Chart/BuildChart";
 
 export default function ProjectListItem({
   project,
 }: {
   project: projectListInfo;
 }) {
-  const navigate = useNavigate();
-
-  const handleItemClick = () => {
-    navigate(`/project/detail/${project.idx}`);
-  };
-
   return (
     <SProjectList>
-      <SDiv>
-        <SItem>
-          {project.status === "SUCCESS" ? (
-            <CheckCircleOutlineIcon style={checkStyle} />
-          ) : (
-            <HighlightOffIcon style={HighlightOffIconStyle} />
-          )}
-        </SItem>
-        <SItem>{project.projectName}</SItem>
-        <SItem>{project.itemCnt}</SItem>
-        <STimeItem>
-          {changeTime(project.lastSuccessDate)}
-          <SContainerButton>{project.itemName}</SContainerButton>
-        </STimeItem>
-        <STimeItem>
-          {changeTime(project.lastFailureDate)}
-          <SContainerButton>{project.itemName}</SContainerButton>
-        </STimeItem>
-        <SItem>
-          <SButton onClick={handleItemClick}>상세보기</SButton>
-        </SItem>
-      </SDiv>
+      <STitleDiv>
+        <STitle>{project.projectName}</STitle>
+        {project.status === "SUCCESS" ? (
+          <CheckCircleOutlineIcon style={checkStyle} />
+        ) : (
+          <HighlightOffIcon style={HighlightOffIconStyle} />
+        )}
+      </STitleDiv>
+      <SDesc>{project.projectDesc}</SDesc>
+      <SChartDiv>
+        <BuildChart itemBuildData={project.itemBuildCnt} />
+      </SChartDiv>
+      <STimeContainer>
+        <STimeDiv>
+          <SSItem>최근 빌드 성공</SSItem>
+          <STimeItem>{changeTime(project.lastSuccessDate)}</STimeItem>
+        </STimeDiv>
+        <STimeDiv>
+          <SSItem>최근 빌드 실패</SSItem>
+          <STimeItem>{changeTime(project.lastFailureDate)}</STimeItem>
+        </STimeDiv>
+      </STimeContainer>
     </SProjectList>
   );
 }
 
-const STimeItem = styled.div`
-  flex: 2;
-  font-size: 2.5rem;
-  font-weight: ${theme.fontWeight.medium};
-  color: ${theme.colors.primary};
-`;
-
-const SItem = styled.div`
-  flex: 2;
-  font-size: 2.5rem;
-  font-weight: ${theme.fontWeight.medium};
-  color: ${theme.colors.primary};
-`;
-
-const SDiv = styled.div`
+const STimeContainer = styled.div`
   display: flex;
-  width: 100%;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   text-align: center;
+  gap: 5rem;
+`;
+
+const STimeDiv = styled.div`
+  flex: 1;
+`;
+
+const SChartDiv = styled.div`
+  width: 28rem;
+  height: 18rem;
+  font-size: 5rem;
+  margin-left: 2rem;
+`;
+
+const STitleDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-left: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  gap: 1rem;
+`;
+
+const STitle = styled.div`
+  font-size: 5rem;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.primary};
+`;
+
+const SSItem = styled.span`
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.medium};
+  color: ${theme.colors.primary};
+`;
+
+const STimeItem = styled.div`
+  font-size: 2.5rem;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.primary};
+  margin-top: 0.5rem;
+`;
+
+const SDesc = styled.div`
+  font-size: 2.2rem;
+  font-weight: ${theme.fontWeight.medium};
+  color: ${theme.colors.primary};
+  margin-left: 2rem;
 `;
 
 const SProjectList = styled.div`
-  width: 29vw;
-  height: 40vh;
+  width: 26vw;
+  height: 37vh;
   background: ${theme.colors.lightgray};
   border-radius: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin-right: 2rem;
+  margin-left: 2rem;
+  padding: 2rem;
 `;
 
 const HighlightOffIconStyle = {
@@ -91,27 +118,3 @@ const checkStyle = {
   fontSize: "5rem",
   color: theme.colors.checkgreen,
 };
-
-const SContainerButton = styled.button`
-  border: none;
-  border-radius: 0.5rem;
-  background: ${theme.colors.darkgray};
-  color: ${theme.colors.primary};
-  font-size: 1.7rem;
-  font-weight: ${theme.fontWeight.medium};
-  width: 6vh;
-  height: 3vh;
-  margin-left: 1rem;
-  overflow: hidden;
-`;
-
-const SButton = styled.button`
-  border: 0.5rem solid ${theme.colors.secondary};
-  border-radius: 5rem;
-  background: ${theme.colors.secondary};
-  color: ${theme.colors.white};
-  font-size: 2rem;
-  font-weight: ${theme.fontWeight.medium};
-  cursor: pointer;
-  padding: 0.8rem 1.5rem;
-`;

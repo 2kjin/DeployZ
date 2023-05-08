@@ -56,7 +56,7 @@ const SItem = styled.div`
 
 const SListBox = styled.div`
   width: 89vw;
-  height: 43vh;
+  height: 45vh;
   background-color: ${theme.colors.white};
   border-radius: 1rem;
   flex-direction: column;
@@ -70,5 +70,5 @@ const SListTitleDiv = styled.div`
   align-items: center;
   text-align: center;
   width: 78vw;
-  height: 12vh;
+  height: 10vh;
 `;
