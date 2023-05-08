@@ -1,29 +1,36 @@
+import * as THREE from "three";
 import { useEffect } from "react";
 import styled from "styled-components";
-import * as THREE from "three";
 import { theme } from "@/styles/theme";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 export default function Intro1Compo({size} : {size: React.MutableRefObject<HTMLDivElement>}) {
   useEffect(() => {
-    let scene: THREE.Scene, camera: THREE.Camera, renderer: THREE.WebGLRenderer;
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color(`${theme.colors.container}`);
-    // scene.background.setAlpha(0);
-    camera = new THREE.PerspectiveCamera(
-      75,
+    const loader = new GLTFLoader();
+
+    // camera
+    const camera = new THREE.PerspectiveCamera(
+      70,
       size.current.clientWidth / size.current.clientHeight,
       0.1,
-      1000
+      1000,
     );
-    camera.position.z = 5;
-    renderer = new THREE.WebGLRenderer({ antialias: true });
+    camera.position.z = 100;
+
+    // scene
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(`${theme.colors.container}`);
+    // scene.background.setAlpha(0);
+
+    //renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(size.current.clientWidth,size.current.clientHeight);
     document.getElementById("container").appendChild(renderer.domElement);
 
-    let geometry, material, mesh;
-    geometry = new THREE.BoxGeometry(2, 1, 1);
-    material = new THREE.MeshBasicMaterial({ color: `${theme.colors.primary}` });
-    mesh = new THREE.Mesh(geometry, material);
+    // set mesh
+    const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+    const material = new THREE.MeshBasicMaterial({ color: `${theme.colors.primary}` });
+    const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
     function animate() {
