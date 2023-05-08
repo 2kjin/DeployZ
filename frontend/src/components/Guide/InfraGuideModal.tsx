@@ -5,17 +5,15 @@ import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
-import {
-  Filter1Rounded,
-  Filter2Rounded,
-  Filter3Rounded,
-  Filter4Rounded,
-  Filter5Rounded,
-  Filter6Rounded,
-  Filter7Rounded,
-  Filter8Rounded,
-  Filter9Rounded,
-} from "@mui/icons-material";
+import { 
+  RiNumber1,
+  RiNumber2,
+  RiNumber3,
+  RiNumber4,
+  RiNumber5,
+  RiNumber6,
+  RiNumber7,
+  RiNumber8, } from 'react-icons/ri';
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { styled as mstyled } from "@mui/material/styles";
 import Guide1 from "@/assets/guide2.png";
@@ -125,7 +123,7 @@ const Img = styled.img`
 `;
 const timelineData = [
   {
-    icon: <Filter1Rounded />,
+    icon: <RiNumber1 />,
     title: "1. EC2 인스턴스 생성 및 설정",
     content: (
       <Contentdiv>
@@ -138,7 +136,7 @@ const timelineData = [
     ),
   },
   {
-    icon: <Filter2Rounded />,
+    icon: <RiNumber2 />,
     title: "2. Docker 설치 및 권한 설정",
     content: (
       <Text>
@@ -148,7 +146,7 @@ const timelineData = [
     ),
   },
   {
-    icon: <Filter4Rounded />,
+    icon: <RiNumber3 />,
     title: "3. 프론트엔드 및 백엔드 도커라이징",
     content: (
       <div>
@@ -164,7 +162,7 @@ const timelineData = [
     ),
   },
   {
-    icon: <Filter5Rounded />,
+    icon: <RiNumber4 />,
     title: "4. CI/CD 툴 설치 및 설정",
     content: (
       <Text>
@@ -174,7 +172,7 @@ const timelineData = [
     ),
   },
   {
-    icon: <Filter6Rounded />,
+    icon: <RiNumber5 />,
     title: "5. CI/CD 파이프라인 구축",
     content: (
       <Text>
@@ -184,7 +182,7 @@ const timelineData = [
     ),
   },
   {
-    icon: <Filter7Rounded />,
+    icon: <RiNumber6 />,
     title: "6. Nginx 설치 및 설정",
     content: (
       <Text>
@@ -194,7 +192,7 @@ const timelineData = [
     ),
   },
   {
-    icon: <Filter8Rounded />,
+    icon: <RiNumber7 />,
     title: "7. 무중단 배포 설정",
     content: (
       <Text>
@@ -204,7 +202,7 @@ const timelineData = [
     ),
   },
   {
-    icon: <Filter9Rounded />,
+    icon: <RiNumber8 />,
     title: "8. 최종 테스트 및 모니터링",
     content: (
       <Text>
