@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -53,12 +54,13 @@ public class Project {
 	private String description;
 	@Column(name = "image_path", length = 100)
 	private String imagePath;
-	//	@OneToMany(mappedBy = "project", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@OneToMany(mappedBy = "project", orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "project", orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Item> items = new ArrayList<>();
-	@OneToOne(mappedBy = "project", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "project", orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<ProjectState> projectStates = new ArrayList<>();
+	@OneToOne(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private GitConfig gitConfig;
-	@OneToOne(mappedBy = "project", fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private NginxConfig nginxConfig;
 
 	//deleted_flag 변경
@@ -67,9 +69,10 @@ public class Project {
 	}
 
 	@Builder
-	public Project(Long idx, Member member, boolean deletedFlag, String projectName, LocalDateTime lastSuccessDate,
-		LocalDateTime lastFailureDate, String description, String imagePath, List<Item> items, GitConfig gitConfig,
-		NginxConfig nginxConfig) {
+	public Project(final Long idx, final Member member, final boolean deletedFlag, final String projectName,
+		final LocalDateTime lastSuccessDate,
+		final LocalDateTime lastFailureDate, final String description, final String imagePath, final List<Item> items,
+		final List<ProjectState> projectStates, final GitConfig gitConfig, final NginxConfig nginxConfig) {
 		this.idx = idx;
 		this.member = member;
 		this.deletedFlag = deletedFlag;
@@ -79,6 +82,7 @@ public class Project {
 		this.description = description;
 		this.imagePath = imagePath;
 		this.items = items;
+		this.projectStates = projectStates;
 		this.gitConfig = gitConfig;
 		this.nginxConfig = nginxConfig;
 	}

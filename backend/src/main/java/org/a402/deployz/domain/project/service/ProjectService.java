@@ -12,6 +12,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.a402.deployz.domain.deploy.CommandInterpreter;
+import org.a402.deployz.domain.deploy.FileManager;
+import org.a402.deployz.domain.deploy.GitAdapter;
 import org.a402.deployz.domain.deploy.PathParser;
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
@@ -59,15 +62,14 @@ public class ProjectService {
 	public void addProject(final TotalProjectConfigRequest request, final String userEmail) {
 		// Project 저장
 		final Member member = memberRepository.findMemberByEmail(userEmail).orElseThrow(MemberNotFoundException::new);
-		final Project project = projectRepository.save(
-			request.getProjectConfig().toEntity(member));
+		final Project project = projectRepository.save(request.getProjectConfig().toEntity(member));
 
 		// GitConfig 저장
 		final GitConfig gitConfig = gitConfigRepository.save(request.getProjectConfig().toGEntity(project));
 
 		// Path 설정
-//		final String projectPath = pathParser.getProjectPath(project.getProjectName()).toString();
-//		final String logPath = pathParser.getLogPath(project.getProjectName()).toString();
+		final String projectPath = pathParser.getProjectPath(project.getProjectName()).toString();
+		final String logPath = pathParser.getLogPath(project.getProjectName()).toString();
 
 		// Item 저장
 		for (int i = 0; i < request.getItemList().size(); i++) {
@@ -85,11 +87,12 @@ public class ProjectService {
 
 			// git clone
 			log.info("GitClone Start");
-//			final String cloneCommand = GitAdapter.getCloneCommand(gitToken);
-//			CommandInterpreter.runDestinationPath(projectPath, logPath, CLONE, cloneCommand);
-//
-//			FileManager.checkAndCreateDirectory(projectPath);
-//			FileManager.checkAndCreateDirectory(logPath);
+			final String cloneCommand = GitAdapter.getCloneCommand(gitToken, member.getPersonalAccessToken());
+			log.info("{}", cloneCommand);
+			CommandInterpreter.runDestinationPath(projectPath, logPath, CLONE, cloneCommand);
+
+			FileManager.checkAndCreateDirectory(projectPath);
+			FileManager.checkAndCreateDirectory(logPath);
 		}
 
 		// NginxConfig 저장
