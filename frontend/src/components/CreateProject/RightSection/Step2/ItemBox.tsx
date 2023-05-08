@@ -99,7 +99,9 @@ export default function ItemBox({
     ) {
       error(`${itemName}의 모든 값을 입력해주세요.`);
     } else {
-      handlePortValid(item.portNumber1, item.portNumber2);
+      if (item.portNumber1 === item.portNumber2) {
+        error("두 포트 번호가 동일합니다.");
+      } else handlePortValid(item.portNumber1, item.portNumber2);
     }
   };
 
