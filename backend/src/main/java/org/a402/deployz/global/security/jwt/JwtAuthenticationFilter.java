@@ -7,14 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.a402.deployz.domain.member.exception.TokenExpiredException;
-import org.a402.deployz.global.error.GlobalErrorCode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -39,17 +36,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			accessToken = jwtTokenProvider.splitToken(header);
 		}
 
-		try {
-			if (accessToken != null && jwtTokenProvider.validAccessToken(accessToken)) {
-				// Authentication 객체 받아오기.
-				final Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
-				// SecurityContextHolder에 저장.
-				SecurityContextHolder.getContext().setAuthentication(authentication);
-				filterChain.doFilter(request, response);
-			}
-		} catch (ExpiredJwtException expiredJwtException) {
-			throw new TokenExpiredException(GlobalErrorCode.TOKEN_EXPIRED);
+		if (accessToken != null && jwtTokenProvider.validAccessToken(accessToken)) {
+			// Authentication 객체 받아오기.
+			final Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+			// SecurityContextHolder에 저장.
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
+
+		filterChain.doFilter(request, response);
 	}
 
 }
