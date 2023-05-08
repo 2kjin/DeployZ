@@ -1,9 +1,10 @@
 package org.a402.deployz.domain.project.response;
 import lombok.Getter;
 import org.a402.deployz.domain.project.entity.Project;
-import org.a402.deployz.domain.project.entity.ProjectState;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -23,9 +24,10 @@ public class ProjectResponse {
 	private String status;
 	@NotNull
 	private Long itemCnt;
+	private HashMap<String, Integer>branches;
 
 
-	public ProjectResponse (Project project, String status, Long itemCnt) {
+	public ProjectResponse (Project project, String status, Long itemCnt, HashMap<String, Integer> branches) {
 		this.idx = project.getIdx();
 		this.memberIdx= project.getMember().getIdx();
 		this.projectName=project.getProjectName();
@@ -33,6 +35,7 @@ public class ProjectResponse {
 		this.lastFailureDate=project.getLastFailureDate();
 		this.status=status;
 		this.itemCnt=itemCnt;
+		this.branches=branches;
 	}
 
 }
