@@ -72,17 +72,14 @@ const SDiv = styled.div`
 `;
 
 const SProjectList = styled.div`
-  display: flex;
-  width: 30vw;
-  height: 45vh;
+  width: 29vw;
+  height: 40vh;
   background: ${theme.colors.lightgray};
-  overflow: hidden;
-  margin: auto;
   border-radius: 1rem;
-  flex-direction: column;
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 4rem;
+  margin-right: 2rem;
 `;
 
 const HighlightOffIconStyle = {

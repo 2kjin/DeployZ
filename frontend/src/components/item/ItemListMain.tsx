@@ -47,59 +47,18 @@ export default function ItemListMain() {
   );
 }
 
-const Container = styled.div`
-  height: 48vh;
-`;
-
 const SItem = styled.div`
   flex: 2;
-  font-size: 2.8rem;
+  font-size: 2.5rem;
   font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.primary};
-`;
-
-const SDiv = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 3rem;
-`;
-
-const SEditButton = styled.button`
-  border: 0.5rem solid ${theme.colors.secondary};
-  border-radius: 5rem;
-  background: ${theme.colors.secondary};
-  color: ${theme.colors.white};
-  font-size: 2.1rem;
-  font-weight: ${theme.fontWeight.bold};
-  cursor: pointer;
-  padding: 1rem 1.5rem;
-  margin-left: 3rem;
-`;
-
-const STitleBox = styled.div`
-  width: 80vw;
-  height: 15vh;
-  background-color: ${theme.colors.white};
-  border-radius: 2rem;
-  margin: 2vh auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const STitle = styled.span`
-  color: ${theme.colors.primary};
-  font-weight: ${theme.fontWeight.extraBold};
-  font-size: 4.5rem;
-  padding-left: 6rem;
 `;
 
 const SListBox = styled.div`
-  width: 90vw;
-  height: 45vh;
+  width: 89vw;
+  height: 43vh;
   background-color: ${theme.colors.white};
   border-radius: 1rem;
-  margin;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -112,9 +71,4 @@ const SListTitleDiv = styled.div`
   text-align: center;
   width: 78vw;
   height: 12vh;
-`;
-
-const SImg = styled.img`
-  width: 13vh;
-  height: 4vh;
 `;

@@ -14,6 +14,7 @@ export default function ProjectList() {
   const handleItemClick = () => {
     navigate(`/step`);
   };
+
   const [result, setResult] = useState([]);
   const [visibleProjects, setVisibleProjects] = useState<projectListInfo[]>([]);
 
@@ -31,16 +32,25 @@ export default function ProjectList() {
     fetchProjects();
   }, [result]);
 
+  const emptyDivCount =
+    result.length === 0
+      ? 3
+      : (result.length === 1 || result.length === 2) &&
+        visibleProjects.length < 3
+      ? 3 - visibleProjects.length
+      : 0;
+
   return (
     <Container>
       {visibleProjects.map((project) => (
         <ProjectListItem key={project.idx} project={project} />
       ))}
-      {result.length <= 2 && visibleProjects.length < 3 && (
-        <SEmptyDiv onClick={handleItemClick}>
-          <AddCircleIcon style={styles} />
-        </SEmptyDiv>
-      )}
+      {emptyDivCount > 0 &&
+        Array.from({ length: emptyDivCount }).map((_, index) => (
+          <SEmptyDiv key={index} onClick={handleItemClick}>
+            <AddCircleIcon style={styles} />
+          </SEmptyDiv>
+        ))}
     </Container>
   );
 }
@@ -52,19 +62,17 @@ const styles = {
 };
 
 const Container = styled.div`
+  display: flex;
   height: 45vh;
 `;
 
 const SEmptyDiv = styled.div`
-  display: flex;
-  width: 30vw;
-  height: 45vh;
+  width: 29vw;
+  height: 40vh;
   background: ${theme.colors.lightgray};
-  overflow: hidden;
-  margin: auto;
   border-radius: 1rem;
-  flex-direction: column;
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 4rem;
+  margin-right: 2rem;
 `;
