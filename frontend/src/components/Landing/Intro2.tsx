@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import { theme } from "@/styles/theme"
+import Intro2Compo from "./Intro2Compo";
+import { useRef } from "react";
 
 export default function Intro2() {
+  const size = useRef<HTMLDivElement>(null);
   return (
     <Container>
-      <div className="left-container">
-        <h1>이미지</h1>
+      <div ref={size} className="left-container">
+        <Intro2Compo size={size} />
       </div>
       <div className="right-container"></div>
     </Container>
@@ -19,14 +22,12 @@ const Container = styled.div`
   width: 100%;
   background-color: ${theme.colors.container};
   .left-container {
-    height: 100%;
     width: 65%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
   .right-container {
-    height: 100%;
     width: 35%;
     display: flex;
     justify-content: center;

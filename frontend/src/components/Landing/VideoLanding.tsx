@@ -28,8 +28,7 @@ export default function VideoLanding() {
       <Title> 배포를 쉽게, <span style={{ fontWeight: `${theme.fontWeight.extrabold}`, }}>
           &nbsp;DeployZ &nbsp;
         </span></Title>
-        <Guidebtn onClick={() => navigate("/intro")} 
-        onMouseEnter={onHover} onMouseLeave={onHover}>
+        <Guidebtn onClick={() => navigate("/intro")} onMouseEnter={onHover} onMouseLeave={onHover}>
           Start {hover ? <ArrowForward sx={{ fontSize: "2rem" }}/> : <ArrowRight sx={{ fontSize: "2rem" }}/>}</Guidebtn>
       </Content>
     </Container>

@@ -54,13 +54,6 @@ export default function Steps({ scrollIndex }: { scrollIndex: number }) {
             </Title>
             <Step className={scrollIndex === 3 ? "active" : ""} />
           </div>
-          {/* <div className="sub-container">
-      <Line/>
-      </div>
-
-      <div className="step-container">
-      <Step className={scrollIndex === 4 ? 'active' : ""} />
-      </div> */}
         </Container>
       )}
     </>
