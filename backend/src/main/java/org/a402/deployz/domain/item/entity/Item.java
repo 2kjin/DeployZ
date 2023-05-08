@@ -3,14 +3,25 @@ package org.a402.deployz.domain.item.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.a402.deployz.domain.project.entity.Deploy;
+import org.a402.deployz.domain.project.entity.Project;
+import org.hibernate.annotations.ColumnDefault;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import org.a402.deployz.domain.project.entity.Project;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -49,7 +60,7 @@ public class Item {
 	@OneToMany(mappedBy = "item", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<BuildHistory> itemHistories;
 	@OneToMany(mappedBy = "item", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	private List<ItemState> itemStates;
+	private List<Deploy> deploys;
 
 	@Builder
 	public Item(final Long idx, final String name, final Long portNumber1, final Long portNumber2,
@@ -58,7 +69,7 @@ public class Item {
 		final LocalDateTime lastSuccessDate,
 		final LocalDateTime lastFailureDate, final boolean deletedFlag, final Project project,
 		final List<BuildHistory> itemHistories,
-		final List<ItemState> itemStates) {
+		final List<Deploy> deploys) {
 		this.idx = idx;
 		this.name = name;
 		this.portNumber1 = portNumber1;
@@ -72,7 +83,7 @@ public class Item {
 		this.deletedFlag = deletedFlag;
 		this.project = project;
 		this.itemHistories = itemHistories;
-		this.itemStates = itemStates;
+		this.deploys = deploys;
 	}
 
 	//deleted_flag 변경
