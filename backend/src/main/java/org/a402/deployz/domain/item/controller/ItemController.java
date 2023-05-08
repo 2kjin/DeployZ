@@ -4,7 +4,10 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.a402.deployz.domain.item.entity.BuildHistory;
 import org.a402.deployz.domain.item.entity.Item;
+import org.a402.deployz.domain.item.response.ItemBuildHistoryResponse;
+import org.a402.deployz.domain.item.response.ItemDetailListResponse;
 import org.a402.deployz.domain.item.response.ItemListResponse;
 import org.a402.deployz.domain.item.service.ItemService;
 import org.a402.deployz.domain.project.entity.Project;
@@ -41,16 +44,12 @@ public class ItemController {
 
 	@ApiResponse(responseCode = "200", description = "컨테이너 삭제 성공")
 	@Operation(description = "컨테이너 삭제 API", summary = "컨테이너 삭제 API")
-	@DeleteMapping("/{containerIdx}")
-	public BaseResponse<Void> ItemRemove(@Valid @PathVariable Long containerIdx) {
-		itemService.removeItem(containerIdx);
+	@DeleteMapping("/{itemIdx}")
+	public BaseResponse<Void> ItemRemove(@Valid @PathVariable Long itemIdx) {
+		itemService.removeItem(itemIdx);
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 
-	/*
-	 * 1. 아이템 목록을 불러온다
-	 * 2. 아이템들 중에서 가장 최근 성공과 가장 최근 실패를 가져온다 -> itemName, time
-	 * */
 	@ApiResponse(responseCode = "200", description = "컨테이너 리스트 조회 성공")
 	@Operation(description = "컨테이너 리스트 조회 API", summary = "컨테이너 리스트 조회 API")
 	@GetMapping("/{projectIdx}")
@@ -60,5 +59,28 @@ public class ItemController {
 		final List<ItemListResponse> itemListResponses = itemService.updateStatusChangeTime(project, itemList);
 
 		return new BaseResponse<>(itemListResponses);
+	}
+
+	@ApiResponse(responseCode = "200", description = "컨테이너 상세 조회 성공")
+	@Operation(description = "컨테이너 상세 조회 API", summary = "컨테이너 상세 조회 API")
+	@GetMapping("/detail/{itemIdx}")
+	public BaseResponse<ItemDetailListResponse> findDetailItem (@Valid @PathVariable Long itemIdx) {
+		ItemDetailListResponse itemDetailListRespons = null;
+		// 1. 빌드 내역 조회 : List<BuildHistory>
+		final List<ItemBuildHistoryResponse> buildHistories = itemService.findBuildHistories(itemIdx);
+
+		// 2. 포트번호, 빌드상태, 최근 성공, 최근 실패 리스트 조회, 아이템 이름: ItemListResponse
+		// 2-1. 빌드 상태의 경우 -> buildHistories의 가장 최근값의 status를 반환
+		final String nowState = buildHistories.get(0).getStatus();
+		// 2-2. 해당 itemIdx를 가진 프로젝트 이름 반환
+		String projectName = itemService.findProjectName(itemIdx);
+		// 2-3. 아이템의 정보들을 ItemListResponse Dto에 넣음
+		final ItemListResponse itemInfo = itemService.findItemInfo(itemIdx,nowState,projectName);
+
+		// 3. 현재 해당 아이템의 빌드-배포-실행 중 어느 상태인지 반환 -> 추후 개발
+		itemDetailListRespons = new ItemDetailListResponse(buildHistories, itemInfo);
+
+
+		return new BaseResponse<>(itemDetailListRespons);
 	}
 }

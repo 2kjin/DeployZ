@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.a402.deployz.domain.project.entity.Deploy;
 import org.a402.deployz.domain.project.entity.Project;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -69,6 +68,7 @@ public class Item {
 		final LocalDateTime lastSuccessDate,
 		final LocalDateTime lastFailureDate, final boolean deletedFlag, final Project project,
 		final List<BuildHistory> itemHistories,
+
 		final List<Deploy> deploys) {
 		this.idx = idx;
 		this.name = name;

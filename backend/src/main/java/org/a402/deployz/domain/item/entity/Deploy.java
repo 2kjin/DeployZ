@@ -1,4 +1,4 @@
-package org.a402.deployz.domain.project.entity;
+package org.a402.deployz.domain.item.entity;
 
 import java.time.LocalDateTime;
 
