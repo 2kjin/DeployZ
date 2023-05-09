@@ -20,19 +20,19 @@ export default function ItemListElement({ item }: { item: itemListInfo }) {
     navigate(`/item/detail/${item.idx}`);
   };
 
-  const handleDeleteClick = async () => {
-    const confirmed = window.confirm("정말로 삭제하시겠습니까?");
-    if (confirmed) {
-      try {
-        await itemDelete(item.idx);
-        alert("삭제되었습니다.");
-        window.location.reload();
-      } catch (error) {
-        console.error("아이템 삭제 실패", error);
-        alert("아이템 삭제에 실패했습니다.");
-      }
-    }
-  };
+  // const handleDeleteClick = async () => {
+  //   const confirmed = window.confirm("정말로 삭제하시겠습니까?");
+  //   if (confirmed) {
+  //     try {
+  //       await itemDelete(item.idx);
+  //       alert("삭제되었습니다.");
+  //       window.location.reload();
+  //     } catch (error) {
+  //       console.error("아이템 삭제 실패", error);
+  //       alert("아이템 삭제에 실패했습니다.");
+  //     }
+  //   }
+  // };
 
   return (
     <SItemList>

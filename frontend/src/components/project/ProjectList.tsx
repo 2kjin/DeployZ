@@ -9,34 +9,34 @@ import ProjectListItem from "./ProjectListItem";
 import { projectListInfo } from "@/types/project";
 
 export default function ProjectList() {
-  const dummyData: projectListInfo[] = [
-    {
-      idx: 1,
-      itemBuildCnt: [
-        { itemName: "fe-develop", itemCnt: 4 },
-        { itemName: "be-develop", itemCnt: 1 },
-        { itemName: "django", itemCnt: 5 },
-      ],
-      lastSuccessDate: "2022-01-01",
-      lastFailureDate: "2022-01-03",
-      projectName: "Project 1",
-      projectDesc: "This is a sample project",
-      status: "SUCCESS",
-    },
-    {
-      idx: 2,
-      itemBuildCnt: [
-        { itemName: "fe-develop", itemCnt: 2 },
-        { itemName: "be-develop", itemCnt: 6 },
-        { itemName: "django", itemCnt: 8 },
-      ],
-      lastSuccessDate: "2022-02-02",
-      lastFailureDate: "2022-02-05",
-      projectName: "Project 2",
-      projectDesc: "This is another sample project",
-      status: "FAIL",
-    },
-  ];
+  // const dummyData: projectListInfo[] = [
+  //   {
+  //     idx: 1,
+  //     itemBuildCnt: [
+  //       { itemName: "fe-develop", itemCnt: 4 },
+  //       { itemName: "be-develop", itemCnt: 1 },
+  //       { itemName: "django", itemCnt: 5 },
+  //     ],
+  //     lastSuccessDate: "2022-01-01",
+  //     lastFailureDate: "2022-01-03",
+  //     projectName: "Project 1",
+  //     projectDesc: "This is a sample project",
+  //     status: "SUCCESS",
+  //   },
+  //   {
+  //     idx: 2,
+  //     itemBuildCnt: [
+  //       { itemName: "fe-develop", itemCnt: 2 },
+  //       { itemName: "be-develop", itemCnt: 6 },
+  //       { itemName: "django", itemCnt: 8 },
+  //     ],
+  //     lastSuccessDate: "2022-02-02",
+  //     lastFailureDate: "2022-02-05",
+  //     projectName: "Project 2",
+  //     projectDesc: "This is another sample project",
+  //     status: "FAIL",
+  //   },
+  // ];
 
   const navigate = useNavigate();
 
@@ -44,11 +44,11 @@ export default function ProjectList() {
     navigate(`/step`);
   };
 
-  // const [result, setResult] = useState([]);
-  // const [visibleProjects, setVisibleProjects] = useState<projectListInfo[]>([]);
+  const [result, setResult] = useState([]);
+  const [visibleProjects, setVisibleProjects] = useState<projectListInfo[]>([]);
 
-  const [result, setResult] = useState(dummyData);
-  const [visibleProjects, setVisibleProjects] = useState(dummyData);
+  // const [result, setResult] = useState(dummyData);
+  // const [visibleProjects, setVisibleProjects] = useState(dummyData);
 
   useEffect(() => {
     async function fetchProjects() {

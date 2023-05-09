@@ -10,7 +10,6 @@ import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
 export default function ItemListMain() {
-  // Header type 설정
   const { idx } = useParams<{ idx: string }>();
   const projectIdx = parseInt(idx as string, 10);
   const [projectDetail, setProjectDetail] = useState<projectDetailInfo[]>();

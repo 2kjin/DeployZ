@@ -6,9 +6,14 @@ export const fetchProjectList = async () => {
 };
 
 //하나의 프로젝트에 대한 상세 정보 api->
-//아이템 리스트 화면으로 렌딩
+//프로젝트 클릭 시 아이템 리스트 렌더링
 export const fetchProjectDetail = async (projectIdx: number) => {
   return instance.get(`/item/${projectIdx}`);
+};
+
+//프로젝트 삭제 api
+export const projectDelete = async (projectIdx: number) => {
+  return instance.delete(`/project/${projectIdx}`);
 };
 
 //최근 빌드 시간 구하기

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { itemListInfo } from "@/types/item";
 import ItemListElement from "./ItemListElement";
 
 import { fetchProjectDetail } from "@/api/projectApi";
