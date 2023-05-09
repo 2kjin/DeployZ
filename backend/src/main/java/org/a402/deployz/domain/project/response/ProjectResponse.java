@@ -17,6 +17,8 @@ public class ProjectResponse {
 	@NotNull
 	private Long memberIdx;
 	@NotNull
+	private String description;
+	@NotNull
 	private String projectName;
 	@NotNull
 	private LocalDateTime lastSuccessDate;
@@ -38,6 +40,7 @@ public class ProjectResponse {
 		this.status=status;
 		this.itemCnt=itemCnt;
 		this.branches=branches;
+		this.description=project.getDescription();
 	}
 
 }
