@@ -12,8 +12,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.a402.deployz.domain.deploy.CommandInterpreter;
-import org.a402.deployz.domain.deploy.GitAdapter;
 import org.a402.deployz.domain.deploy.PathParser;
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
@@ -90,10 +88,10 @@ public class ProjectService {
 			log.info("itemPath: {}", itemPath);
 
 			// git clone
-			log.info("GitClone Start");
-			final String cloneCommand = GitAdapter.getCloneCommand(gitToken, member.getPersonalAccessToken());
-			log.info("Clone Command: {}", cloneCommand);
-			CommandInterpreter.runDestinationPath(projectPath, itemPath, logPath, CLONE, cloneCommand);
+//			log.info("GitClone Start");
+//			final String cloneCommand = GitAdapter.getCloneCommand(gitToken, member.getPersonalAccessToken());
+//			log.info("Clone Command: {}", cloneCommand);
+//			CommandInterpreter.runDestinationPath(projectPath, itemPath, logPath, CLONE, cloneCommand);
 		}
 
 		// NginxConfig 저장
