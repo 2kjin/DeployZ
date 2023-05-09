@@ -14,16 +14,18 @@ import lombok.extern.slf4j.Slf4j;
 public class CommandInterpreter {
 	public static final char NEW_LINE = '\n';
 
-	public static void runDestinationPath(final String projectPath, final String logPath, final String logName, final String command) {
+	public static void runDestinationPath(final String projectPath, final String itemPath, final String logPath,
+		final String logName, final String command) {
 		log.info("runPath Start : projectPath = {} , logPath = {} , logName = {}", projectPath, logPath, logName);
 
 		final String logFilePath = logPath + '/' + logName;
 
 		FileManager.checkAndCreateDirectory(projectPath);
+		FileManager.checkAndCreateDirectory(itemPath);
 		FileManager.checkAndCreateDirectory(logPath);
 
 		final File file = new File(logFilePath);
-		final File destinationFile = new File(projectPath);
+		final File destinationFile = new File(itemPath);
 
 		final DefaultExecutor executor = new DefaultExecutor();
 
