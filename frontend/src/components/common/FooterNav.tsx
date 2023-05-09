@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { theme } from "@/styles/theme";
 import styled from "styled-components";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import {
   NginxState,
   chapterState,
@@ -13,8 +13,10 @@ import { requestCreateProject } from "@/api/projectCreate";
 import Modal from "@mui/material/Modal";
 import InfraGuideModal from "@components/Guide/InfraGuideModal";
 import { error, success } from "@components/common/Toast/notify";
+import { useNavigate } from "react-router-dom";
 
 export default function FooterNav() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -26,6 +28,22 @@ export default function FooterNav() {
   const [stepInfo, setStepInfo] = useRecoilState<IStepItem[]>(stepState);
   const [currentChapter, setCurrentChapter] =
     useRecoilState<number>(chapterState);
+
+  // 프로젝트 생성 완료 후, recoil 초기화
+  const resetStepInfo = useResetRecoilState(stepState);
+  const resetChapter = useResetRecoilState(chapterState);
+  const resetProjectConfig = useResetRecoilState(projectConfigState);
+  const resetItemList = useResetRecoilState(itemListState);
+  const resetNginxConfig = useResetRecoilState(NginxState);
+
+  // 전체 초기화
+  const resetRecoilAfterCreate = () => {
+    resetStepInfo();
+    resetChapter();
+    resetProjectConfig();
+    resetItemList();
+    resetNginxConfig();
+  };
 
   // stepInfo의 status 변경
   const handleStatusChangeBack = (value: number) => {
@@ -76,12 +94,12 @@ export default function FooterNav() {
     // checkProject();
   };
 
-  const checkProject = () => {
-    console.log(stepInfo);
-    console.log("STEP 1 :", projectConfig);
-    console.log("STEP 2 :", itemList);
-    console.log("STEP 4 :", nginxConfig);
-  };
+  // const checkProject = () => {
+  //   console.log(stepInfo);
+  //   console.log("STEP 1 :", projectConfig);
+  //   console.log("STEP 2 :", itemList);
+  //   console.log("STEP 4 :", nginxConfig);
+  // };
 
   const createProject = async () => {
     if (stepInfo[currentChapter - 1].isValid) {
@@ -94,6 +112,8 @@ export default function FooterNav() {
         const { data } = await requestCreateProject(projectInfo);
         if (data.status === 200) {
           success("프로젝트 생성 완료!");
+          navigate("/project", { replace: true });
+          resetRecoilAfterCreate();
         } else {
           error("프로젝트 생성 오류");
         }
