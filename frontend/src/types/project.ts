@@ -1,13 +1,11 @@
-import { itemBuildCount } from "./item";
-
 //프로젝트 목록 조회 type
 export interface projectListInfo {
   idx: number;
-  itemBuildCnt: itemBuildCount[];
+  branches: { [key: string]: number };
   lastSuccessDate: string;
   lastFailureDate: string;
   projectName: string;
-  projectDesc: string;
+  description: string;
   status: string;
 }
 

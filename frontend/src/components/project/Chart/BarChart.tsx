@@ -8,7 +8,7 @@ interface BarChartProps {
 
 export default function BarChart({ data, labels }: BarChartProps) {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
-  Chart.defaults.font.size = 15;
+  Chart.defaults.font.size = 13;
 
   useEffect(() => {
     if (chartRef.current) {
@@ -32,6 +32,8 @@ export default function BarChart({ data, labels }: BarChartProps) {
                 "#FFCE56",
               ],
               borderWidth: 1,
+              // 바의 크기를 조절하는 속성
+              barThickness: 35,
             },
           ],
         },
@@ -52,16 +54,21 @@ export default function BarChart({ data, labels }: BarChartProps) {
               beginAtZero: true,
             },
           },
+
           //가로 차트로 변경
           indexAxis: "y",
           //차트 크기 변경 시 자동 조정
           responsive: true,
           //가로 세로 비율 유지 설정
-          maintainAspectRatio: false,
+          maintainAspectRatio: true,
         },
       });
+      return () => {
+        // clean up 함수
+        myChart.destroy();
+      };
     }
-  }, [chartRef, data, labels]);
+  }, [chartRef]);
 
   return <canvas ref={chartRef} />;
 }

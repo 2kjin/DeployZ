@@ -1,14 +1,13 @@
 import styled from "styled-components";
 import BarChart from "./BarChart";
-import { itemBuildCount } from "@/types/item";
 
-interface Props {
-  itemBuildData: itemBuildCount[];
-}
-
-export default function BuildChart({ itemBuildData }: Props) {
-  const data = itemBuildData.map((item) => item.itemCnt);
-  const labels = itemBuildData.map((item) => item.itemName);
+export default function BuildChart({
+  branches,
+}: {
+  branches: { [key: string]: number };
+}) {
+  const labels = Object.keys(branches);
+  const data = Object.values(branches);
 
   return (
     <ChartWrapper>
@@ -18,6 +17,6 @@ export default function BuildChart({ itemBuildData }: Props) {
 }
 
 const ChartWrapper = styled.div`
-  width: 28rem;
+  width: 100%;
   height: 18rem;
 `;

@@ -15,17 +15,20 @@ export default function ItemListMain() {
   const [projectDetail, setProjectDetail] = useState<projectDetailInfo[]>();
 
   useEffect(() => {
-    async function fetchItems(projectIdx: number) {
-      try {
-        const {
-          data: { result },
-        } = await fetchProjectDetail(projectIdx);
-        setProjectDetail(result);
-      } catch (error) {
-        console.error(error);
+    if (projectIdx === 0) {
+    } else {
+      async function fetchItems(projectIdx: number) {
+        try {
+          const {
+            data: { result },
+          } = await fetchProjectDetail(projectIdx);
+          setProjectDetail(result);
+        } catch (error) {
+          console.error(error);
+        }
       }
+      fetchItems(projectIdx);
     }
-    fetchItems(projectIdx);
   }, [projectIdx]);
 
   return (
@@ -62,13 +65,14 @@ const SItem = styled.div`
 `;
 
 const SListBox = styled.div`
-  width: 89vw;
-  height: 45vh;
+  width: 85vw;
+  height: 42vh;
   background-color: ${theme.colors.white};
   border-radius: 1rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
 `;
 
 const SListTitleDiv = styled.div`

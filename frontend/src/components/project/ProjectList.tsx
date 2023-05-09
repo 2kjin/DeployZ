@@ -34,9 +34,9 @@ export default function ProjectList() {
 
   let emptyDivCount = 0;
 
-  if (result.length < 3) {
-    emptyDivCount = 3 - result.length;
-  } else if (result.length === 3 && visibleProjects.length < 3) {
+  if (visibleProjects.length < 3) {
+    emptyDivCount = 3 - visibleProjects.length;
+  } else if (visibleProjects.length === 3 && visibleProjects.length < 3) {
     emptyDivCount = 1;
   }
 
@@ -47,18 +47,25 @@ export default function ProjectList() {
       ))}
       {Array.from({ length: emptyDivCount }).map((_, index) => (
         <SEmptyDiv key={index}>
-          <AddCircleIcon onClick={handleEmptyClick} style={styles} />
+          <AddCircleIcon
+            onClick={handleEmptyClick}
+            sx={{
+              fontSize: "6rem",
+              cursor: "pointer",
+              color: theme.colors.primary,
+              transition: "color 0.3s ease-in-out",
+              "&:hover": {
+                transform: "scale(1.05)",
+                transition: "transform 0.3s ease-in-out",
+                color: "#3e4bbd",
+              },
+            }}
+          />
         </SEmptyDiv>
       ))}
     </Container>
   );
 }
-
-const styles = {
-  fontSize: "6rem",
-  cursor: "pointer",
-  color: theme.colors.primary,
-};
 
 const Container = styled.div`
   display: flex;
@@ -67,7 +74,7 @@ const Container = styled.div`
 
 const SEmptyDiv = styled.div`
   width: 26vw;
-  height: 37vh;
+  height: 36vh;
   background: ${theme.colors.lightgray};
   display: flex;
   justify-content: center;
@@ -75,5 +82,5 @@ const SEmptyDiv = styled.div`
   border-radius: 1rem;
   margin-right: 2rem;
   margin-left: 2rem;
-  padding: 2rem;
+  padding: 1rem;
 `;

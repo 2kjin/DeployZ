@@ -1,5 +1,7 @@
 import { useSetRecoilState } from "recoil";
+import { useState } from "react";
 import { projectIdxState } from "@/recoil/project";
+import { projectDelete } from "@/api/projectApi";
 //import css
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
@@ -7,7 +9,7 @@ import { theme } from "@/styles/theme";
 //import icons
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-// import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 //import components and api
 import { projectListInfo } from "@/types/project";
@@ -19,28 +21,31 @@ export default function ProjectListItem({
 }: {
   project: projectListInfo;
 }) {
-  // const handleDeleteClick = async () => {
-  //   const confirmed = window.confirm("정말로 삭제하시겠습니까?");
-  //   if (confirmed) {
-  //     try {
-  //       await itemDelete(item.idx);
-  //       alert("삭제되었습니다.");
-  //       window.location.reload();
-  //     } catch (error) {
-  //       console.error("아이템 삭제 실패", error);
-  //       alert("아이템 삭제에 실패했습니다.");
-  //     }
-  //   }
-  // };
+  const [isSelected, setIsSelected] = useState<boolean>(false);
+
+  const handleDeleteClick = async () => {
+    const confirmed = window.confirm("정말로 삭제하시겠습니까?");
+    if (confirmed) {
+      try {
+        await projectDelete(project.idx);
+        alert("삭제되었습니다.");
+        window.location.reload();
+      } catch (error) {
+        console.error("아이템 삭제 실패", error);
+        alert("아이템 삭제에 실패했습니다.");
+      }
+    }
+  };
 
   const setProjectIdx = useSetRecoilState(projectIdxState);
 
   const handleProjectClick = () => {
+    setIsSelected(!isSelected);
     setProjectIdx(project.idx);
   };
 
   return (
-    <SProjectList onClick={handleProjectClick}>
+    <SProjectList isSelected={isSelected} onClick={handleProjectClick}>
       <STitleDiv>
         <STitle>{project.projectName}</STitle>
         {project.status === "SUCCESS" ? (
@@ -48,10 +53,14 @@ export default function ProjectListItem({
         ) : (
           <HighlightOffIcon style={HighlightOffIconStyle} />
         )}
+        <DeleteOutlineIcon
+          style={DeleteOutlineIconStyle}
+          onClick={handleDeleteClick}
+        />
       </STitleDiv>
-      <SDesc>{project.projectDesc}</SDesc>
+      <SDesc>프로젝트 설명 : {project.description}</SDesc>
       <SChartDiv>
-        <BuildChart itemBuildData={project.itemBuildCnt} />
+        <BuildChart branches={project.branches} />
       </SChartDiv>
       <STimeContainer>
         <STimeDiv>
@@ -63,18 +72,16 @@ export default function ProjectListItem({
           <STimeItem>{changeTime(project.lastFailureDate)}</STimeItem>
         </STimeDiv>
       </STimeContainer>
-      {/* <DeleteOutlineIcon
-            style={DeleteOutlineIconStyle}
-            // onClick={handleDeleteClick}
-          /> */}
     </SProjectList>
   );
 }
-// const DeleteOutlineIconStyle = {
-//   fontSize: "6rem",
-//   cursor: "pointer",
-//   color: theme.colors.error,
-// };
+
+const DeleteOutlineIconStyle = {
+  fontSize: "6rem",
+  cursor: "pointer",
+  color: theme.colors.error,
+  marginLeft: "auto",
+};
 
 const STimeContainer = styled.div`
   display: flex;
@@ -89,20 +96,18 @@ const STimeDiv = styled.div`
 `;
 
 const SChartDiv = styled.div`
-  width: 28rem;
-  height: 18rem;
-  font-size: 5rem;
-  margin-left: 2rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const STitleDiv = styled.div`
   display: flex;
   align-items: center;
-  justify-content: start;
-  margin-left: 2rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  justify-content: space-between;
   gap: 1rem;
+  margin-left: 2rem;
 `;
 
 const STitle = styled.div`
@@ -129,16 +134,25 @@ const SDesc = styled.div`
   font-weight: ${theme.fontWeight.medium};
   color: ${theme.colors.primary};
   margin-left: 2rem;
+  margin-top: 1rem;
 `;
 
-const SProjectList = styled.div`
+const SProjectList = styled.div<{ isSelected: boolean }>`
   width: 26vw;
-  height: 37vh;
-  background: ${theme.colors.lightgray};
+  height: 36vh;
+  background: ${({ isSelected }) =>
+    isSelected ? theme.colors.secondary : theme.colors.lightgray};
   border-radius: 1rem;
   margin-right: 2rem;
   margin-left: 2rem;
-  padding: 2rem;
+  padding: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease-in-out;
+    background-color: ${theme.colors.complete};
+  }
 `;
 
 const HighlightOffIconStyle = {

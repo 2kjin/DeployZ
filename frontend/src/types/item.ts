@@ -16,13 +16,6 @@ export interface itemDetailInfo {
   };
 }
 
-//하나의 프로젝트 디테일에서 보여줄
-//아이템 별 빌드 횟수
-export interface itemBuildCount {
-  itemName: string;
-  itemCnt: number;
-}
-
 export interface itemHistory {
   idx: number;
   status: string;
