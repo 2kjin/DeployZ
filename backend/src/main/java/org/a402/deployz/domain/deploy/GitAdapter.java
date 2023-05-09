@@ -10,6 +10,10 @@ import org.a402.deployz.domain.git.entity.GitToken;
 public class GitAdapter {
 	public static final String REGEX = "/";
 
+	public static String getPullCommand(final String branchName) {
+		return "git pull origin " + branchName;
+	}
+
 	public static String getCloneCommand(final GitToken gitToken, final String personalAccessToken) {
 		StringBuilder stringBuilder = writeGitCloneCommand(gitToken, personalAccessToken);
 

@@ -12,9 +12,6 @@ public class PathParser {
 	@Value("${deployz.logPath}")
 	private String log;
 
-	@Value("${deployz.configPath}")
-	private String config;
-
 	public StringBuilder getRootPath() {
 		final StringBuilder stringBuilder = new StringBuilder();
 
@@ -29,8 +26,12 @@ public class PathParser {
 		return getProjectPath(projectName).append(SEPERATOR).append(log);
 	}
 
-	public StringBuilder getRepositoryPath(final String projectName, final Long projectId) {
-		return getProjectPath(projectName).append(SEPERATOR).append(projectId);
+	public StringBuilder getRepositoryPath(final String projectName, final String branchName,
+		final String repositoryName) {
+		return getProjectPath(projectName).append(SEPERATOR)
+			.append(branchName)
+			.append(SEPERATOR)
+			.append(repositoryName);
 	}
 
 	public StringBuilder getItemPath(final String projectName, final String branchName) {
