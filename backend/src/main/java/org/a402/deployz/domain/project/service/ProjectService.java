@@ -85,7 +85,7 @@ public class ProjectService {
 			gitTokenRepository.save(gitToken);
 
 			// itemPath (targetFolder 경로)생성
-			final String itemPath = pathParser.getItemPath(project.getProjectName(), itemConfigRequest.getTargetFolder())
+			final String itemPath = pathParser.getItemPath(project.getProjectName(), itemConfigRequest.getBranchName())
 				.toString();
 			log.info("itemPath: {}", itemPath);
 
