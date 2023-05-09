@@ -50,6 +50,7 @@ public class ProjectController {
 	@PostMapping()
 	public BaseResponse<Void> projectAdd(@Valid @RequestBody TotalProjectConfigRequest request, Principal principal) {
 		projectService.addProject(request, principal.getName());
+
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 
@@ -58,6 +59,7 @@ public class ProjectController {
 	@GetMapping("/git/secret-token")
 	public BaseResponse<String> secretTokenCreate(@RequestParam String branchName) {
 		String randomStr = RandomStringUtils.randomAlphanumeric(30);
+
 		return new BaseResponse<>(randomStr);
 	}
 
@@ -66,13 +68,13 @@ public class ProjectController {
 	@DeleteMapping("/{projectIdx}")
 	public BaseResponse<Void> projectRemove(@Valid @PathVariable Long projectIdx) {
 		projectService.removeProject(projectIdx);
+
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 
 	@ApiResponse(responseCode = "200", description = "프로젝트 목록 조회 성공")
 	@Operation(description = "프로젝트 목록 조회 API", summary = "프로젝트 목록 조회 API")
 	@GetMapping
-	//일단은 멤버 Idx를 기준으로 프로젝트들 조회
 	public BaseResponse<List<ProjectResponse>> findProjectList(@AuthenticationPrincipal UserDetails userDetails) {
 		List<ProjectResponse> projectDtoList = projectService.findProjectList(userDetails.getUsername());
 
