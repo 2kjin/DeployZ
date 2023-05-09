@@ -73,21 +73,21 @@ const NavStyle = styled(NavLink)`
   display: flex;
   align-items: center;
   color: white;
-  padding: 2rem;
-  font-size: 2rem;
+  padding: 0 2rem;
+  font-size: 1.7rem;
   &:link {
-    transition: 0.5s;
+    transition: 1s;
     text-decoration: none;
   }
   &:hover {
     color: ${theme.colors.secondary};
-    filter: drop-shadow(0.6vh 0.6vh 0.3vh rgb(0 0 0 / 0.6));
+    filter: drop-shadow(0.6rem 0.6rem 0.3rem rgb(0 0 0 / 0.6));
   }
   &.active {
-    filter: drop-shadow(0.6vh 0.6vh 0.3vh rgb(0 0 0 / 0.6));
+    filter: drop-shadow(0.6rem 0.6rem 0.3rem rgb(0 0 0 / 0.6));
     color: ${theme.colors.secondary};
     position: relative;
-    bottom: 0.2rem;
+    bottom: 0.1rem;
     border-bottom: 0.2rem solid ${theme.colors.secondary};
   }
 `;

@@ -39,8 +39,6 @@ export default function PersonalToken() {
     }
   };
 
-  
-
   return (
   <Container>
     <Box>
@@ -67,7 +65,7 @@ export default function PersonalToken() {
         <InputLabel
           shrink
           sx={{
-            fontSize: "2.6rem",
+            fontSize: "2.5rem",
             fontWeight: "700",
             color: "#151649",
           }}
@@ -75,8 +73,8 @@ export default function PersonalToken() {
           Personal Access Token
         </InputLabel>
         <InputBox
-          widthnum={"50rem"}
-          fontnum={"2rem"}
+          widthnum={"40rem"}
+          fontnum={"1.8rem"}
           spacingnum={4}
           placeholder={`ex) RIiCysmWxzLKJyETfaqf`}
           onChange={handleInputChange}
@@ -141,32 +139,32 @@ const InputBox = mstyled(InputBase)<{
   })
 );
 const Title = styled.div`
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: ${theme.fontWeight.extraBold};
   color: ${theme.colors.primary};
-  padding: 3rem;
+  padding-bottom: 3rem;
 `
 const Text = styled.div`
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: ${theme.fontWeight.semibold};
   color: ${theme.colors.primary};
-  padding: 1rem;
+  padding: .8rem;
 `
 const Text1 = styled.div`
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: ${theme.fontWeight.semibold};
   color: ${theme.colors.primary};
-  padding-bottom: 5rem;
+  padding-bottom: 3rem;
 `
 const SaveBtn = styled.div`
   padding: 1rem 2rem;
-  margin:2rem;
+  margin-top: 2rem;
   background-color: ${theme.colors.primary};
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
+  font-size: 1.8rem;
   border-radius: 0.5rem;
   cursor: pointer;
   :hover {

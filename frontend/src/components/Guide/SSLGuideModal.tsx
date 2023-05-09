@@ -3,6 +3,9 @@ import { theme } from "@/styles/theme";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { styled as mstyled } from "@mui/material/styles";
 
+import ssl1 from "@/assets/img/ssl1.png";
+import ssl2 from "@/assets/img/ssl2.png";
+
 type Props = {
   handleClose: () => void;
 };
@@ -74,6 +77,7 @@ export default function SSLGuideModal({ handleClose }: Props) {
             <br />
           </p>
         </NumSub>
+        <Img1 src={ssl1} />
         <br />
         <br />
         <NumTitle>4. 발급 경로 확인</NumTitle>
@@ -86,6 +90,7 @@ export default function SSLGuideModal({ handleClose }: Props) {
           </p>
         </ColorContainer>
         <br />
+        <Img2 src={ssl2} />
         <Ex>
           <p>
             • cert.pem : 도메인 인증서
@@ -106,7 +111,12 @@ export default function SSLGuideModal({ handleClose }: Props) {
     </>
   );
 }
-
+const Img1 = styled.img`
+  width: 40vw;
+`;
+const Img2 = styled.img`
+  height: 10vh;
+`;
 const ModalContainer = styled.div`
   position: absolute;
   top: 50%;
@@ -141,31 +151,31 @@ const CloseIcon = mstyled(CancelRoundedIcon)({
 const Title = styled.div`
   color: ${theme.colors.primary};
   font-weight: ${theme.fontWeight.extrabold};
-  font-size: 4rem;
+  font-size: 3.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 const SubTitle = styled.div`
-  font-weight: ${theme.fontWeight.extrabold};
+  font-weight: ${theme.fontWeight.semibold};
   font-size: 2rem;
 `;
 const ColorContainer = styled.div`
   background-color: ${theme.colors.textbg};
-  font-weight: ${theme.fontWeight.extrabold};
-  font-size: 2rem;
+  font-weight: ${theme.fontWeight.semibold};
+  font-size: 1.8rem;
   padding: 1.5rem;
   border-radius: 1rem;
 `;
 const NumTitle = styled.div`
   color: ${theme.colors.primary};
   font-weight: ${theme.fontWeight.extrabold};
-  font-size: 3rem;
+  font-size: 2.3rem;
 `;
 const Ex = styled.div`
-  font-size: 2rem;
+  font-size: 1.5rem;
 `;
 const NumSub = styled.div`
-  font-weight: ${theme.fontWeight.extrabold};
-  font-size: 2rem;
+  font-weight: ${theme.fontWeight.semibold};
+  font-size: 1.8rem;
 `;
