@@ -13,7 +13,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.a402.deployz.domain.deploy.CommandInterpreter;
-import org.a402.deployz.domain.deploy.FileManager;
 import org.a402.deployz.domain.deploy.GitAdapter;
 import org.a402.deployz.domain.deploy.PathParser;
 import org.a402.deployz.domain.git.entity.GitConfig;
@@ -85,14 +84,16 @@ public class ProjectService {
 
 			gitTokenRepository.save(gitToken);
 
+			// itemPath 생성
+			final String itemPath = pathParser.getItemPath(project.getProjectName(), itemConfigRequest.getBranchName())
+				.toString();
+			log.info("itemPath: {}", itemPath);
+
 			// git clone
 			log.info("GitClone Start");
 			final String cloneCommand = GitAdapter.getCloneCommand(gitToken, member.getPersonalAccessToken());
-			log.info("{}", cloneCommand);
-			CommandInterpreter.runDestinationPath(projectPath, logPath, CLONE, cloneCommand);
-
-			FileManager.checkAndCreateDirectory(projectPath);
-			FileManager.checkAndCreateDirectory(logPath);
+			log.info("Clone Command: {}", cloneCommand);
+			CommandInterpreter.runDestinationPath(projectPath, itemPath, logPath, CLONE, cloneCommand);
 		}
 
 		// NginxConfig 저장
@@ -148,15 +149,15 @@ public class ProjectService {
 		HashMap<String, Boolean> portCheck = new HashMap<>();
 
 		//true: 사용 가능, false: 사용 불가
-		if (!itemRepository.existsByPortNumber1(port1) && !itemRepository.existsByPortNumber2(port1)){
-			portCheck.put("port1",true);
-		}
-		else portCheck.put("port1",false);
+		if (!itemRepository.existsByPortNumber1(port1) && !itemRepository.existsByPortNumber2(port1)) {
+			portCheck.put("port1", true);
+		} else
+			portCheck.put("port1", false);
 
-		if (!itemRepository.existsByPortNumber1(port2) && !itemRepository.existsByPortNumber2(port2)){
-			portCheck.put("port2",true);
-		}
-		else portCheck.put("port2",false);
+		if (!itemRepository.existsByPortNumber1(port2) && !itemRepository.existsByPortNumber2(port2)) {
+			portCheck.put("port2", true);
+		} else
+			portCheck.put("port2", false);
 
 		return portCheck;
 	}
@@ -217,6 +218,7 @@ public class ProjectService {
 
 		return result;
 	}
+
 	@Transactional
 	public void modifyProject(LocalDateTime mostLastSuccessTime, LocalDateTime mostLastFailureTime,
 		Project project) {

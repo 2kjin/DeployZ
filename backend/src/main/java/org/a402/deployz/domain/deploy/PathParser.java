@@ -32,4 +32,8 @@ public class PathParser {
 	public StringBuilder getRepositoryPath(final String projectName, final Long projectId) {
 		return getProjectPath(projectName).append(SEPERATOR).append(projectId);
 	}
+
+	public StringBuilder getItemPath(final String projectName, final String branchName) {
+		return getProjectPath(projectName).append(SEPERATOR).append(branchName);
+	}
 }
