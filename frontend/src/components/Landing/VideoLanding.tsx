@@ -67,7 +67,8 @@ const Title = styled.div`
 `
 const Guidebtn = styled.div`
   border-radius: 15rem;
-  background: ${theme.colors.white};
+  background: ${theme.colors.secondary};
+  color: ${theme.colors.white};
   padding: 1.1rem 7rem;
   font-size: 2.5rem;
   margin-top: 6rem;
@@ -76,8 +77,8 @@ const Guidebtn = styled.div`
   justify-content: center;
   align-items: center;
   :hover {
-    background: ${theme.colors.secondary};
-    color: ${theme.colors.white};
+    background: ${theme.colors.white};
+    color: ${theme.colors.primary};
     transition: all 0.4s ease-out;
     cursor: pointer;
   }

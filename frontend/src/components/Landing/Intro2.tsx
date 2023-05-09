@@ -24,13 +24,9 @@ const Container = styled.div`
   .left-container {
     width: 65%;
     display: flex;
-    justify-content: center;
-    align-items: center;
   }
   .right-container {
     width: 35%;
     display: flex;
-    justify-content: center;
-    align-items: center;
   }
 `;
