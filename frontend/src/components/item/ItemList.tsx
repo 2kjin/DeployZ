@@ -11,9 +11,9 @@ export default function ItemList({
   return (
     <>
       {projectDetail &&
-        projectDetail.map((item) => (
-          <ItemListElement key={item.idx} projectIdx={projectIdx} item={item} />
-        ))}
+        projectDetail
+          .filter((item) => item.idx === projectIdx)
+          .map((item) => <ItemListElement key={item.idx} item={item} />)}
     </>
   );
 }

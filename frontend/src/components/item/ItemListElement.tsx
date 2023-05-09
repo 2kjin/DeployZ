@@ -11,18 +11,14 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { projectDetailInfo } from "@/types/project";
 import { changeTime } from "@/api/projectApi";
 
-export default function ItemListElement({
-  item,
-  projectIdx,
-}: {
-  item: projectDetailInfo;
-  projectIdx: number;
-}) {
+export default function ItemListElement({ item }: { item: projectDetailInfo }) {
   const navigate = useNavigate();
 
   const handleItemClick = () => {
     navigate(`/item/detail/${item.idx}`);
   };
+
+  console.log("들어옴 ????");
 
   return (
     <SItemList>

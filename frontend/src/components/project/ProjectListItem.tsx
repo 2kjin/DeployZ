@@ -22,6 +22,7 @@ export default function ProjectListItem({
   project: projectListInfo;
 }) {
   const [isSelected, setIsSelected] = useState<boolean>(false);
+  const setProjectIdx = useSetRecoilState(projectIdxState);
 
   const handleDeleteClick = async () => {
     const confirmed = window.confirm("정말로 삭제하시겠습니까?");
@@ -37,12 +38,12 @@ export default function ProjectListItem({
     }
   };
 
-  const setProjectIdx = useSetRecoilState(projectIdxState);
-
   const handleProjectClick = () => {
     setIsSelected(!isSelected);
     setProjectIdx(project.idx);
   };
+
+  //클릭 시 글자색도 변경해야함
 
   return (
     <SProjectList isSelected={isSelected} onClick={handleProjectClick}>
