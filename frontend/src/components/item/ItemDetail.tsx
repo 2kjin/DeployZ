@@ -121,9 +121,7 @@ export default function ItemDetail() {
             <SDetailInfo>
               <SItemContainer>
                 <SItem>포트번호</SItem>
-                <SItemValue>
-                  {itemDetail.portNumber1} | {itemDetail.portNumber2}
-                </SItemValue>
+                <SItemValue>{itemDetail.portNumber}</SItemValue>
               </SItemContainer>
               <SItemContainer>
                 <SItem>빌드 상태</SItem>

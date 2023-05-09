@@ -11,9 +11,10 @@ import { projectListInfo } from "@/types/project";
 export default function ProjectList() {
   const navigate = useNavigate();
 
-  const handleItemClick = () => {
+  const handleEmptyClick = () => {
     navigate(`/step`);
   };
+
   const [result, setResult] = useState([]);
   const [visibleProjects, setVisibleProjects] = useState<projectListInfo[]>([]);
 
@@ -31,36 +32,55 @@ export default function ProjectList() {
     fetchProjects();
   }, [result]);
 
+  let emptyDivCount = 0;
+
+  if (visibleProjects.length < 3) {
+    emptyDivCount = 3 - visibleProjects.length;
+  } else if (visibleProjects.length === 3 && visibleProjects.length < 3) {
+    emptyDivCount = 1;
+  }
+
   return (
-    <>
+    <Container>
       {visibleProjects.map((project) => (
         <ProjectListItem key={project.idx} project={project} />
       ))}
-      {result.length <= 2 && visibleProjects.length < 3 && (
-        <SEmptyDiv onClick={handleItemClick}>
-          <AddCircleIcon style={styles} />
+      {Array.from({ length: emptyDivCount }).map((_, index) => (
+        <SEmptyDiv key={index}>
+          <AddCircleIcon
+            onClick={handleEmptyClick}
+            sx={{
+              fontSize: "6rem",
+              cursor: "pointer",
+              color: theme.colors.primary,
+              transition: "color 0.3s ease-in-out",
+              "&:hover": {
+                transform: "scale(1.05)",
+                transition: "transform 0.3s ease-in-out",
+                color: "#3e4bbd",
+              },
+            }}
+          />
         </SEmptyDiv>
-      )}
-    </>
+      ))}
+    </Container>
   );
 }
 
-const styles = {
-  fontSize: "6rem",
-  cursor: "pointer",
-  color: theme.colors.primary,
-};
+const Container = styled.div`
+  display: flex;
+  height: 43vh;
+`;
 
 const SEmptyDiv = styled.div`
-  display: flex;
-  width: 78vw;
-  height: 15vh;
+  width: 26vw;
+  height: 36vh;
   background: ${theme.colors.lightgray};
-  overflow: hidden;
-  margin: auto;
-  border-radius: 1rem;
-  flex-direction: column;
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 4rem;
+  border-radius: 1rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
+  padding: 1rem;
 `;

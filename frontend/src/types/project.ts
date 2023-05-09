@@ -1,15 +1,12 @@
-import { itemListInfo } from "./item";
-
 //프로젝트 목록 조회 type
 export interface projectListInfo {
   idx: number;
-  itemCnt: number;
+  branches: { [key: string]: number };
   lastSuccessDate: string;
   lastFailureDate: string;
-  memberIdx: number;
   projectName: string;
+  description: string;
   status: string;
-  itemName: string;
 }
 
 //하나의 프로젝트에 속한 아이템 목록 조회 type

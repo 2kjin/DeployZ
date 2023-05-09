@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-export const projectNameState = atom<String>({
-  key: "projectName",
-  default: "",
+export const projectIdxState = atom<number>({
+  key: "projectIdxState",
+  default: 0,
 });

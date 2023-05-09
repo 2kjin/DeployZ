@@ -1,88 +1,159 @@
-import { useNavigate } from "react-router-dom";
-
+import { useSetRecoilState } from "recoil";
+import { useState } from "react";
+import { projectIdxState } from "@/recoil/project";
+import { projectDelete } from "@/api/projectApi";
 //import css
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
+//import icons
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
+//import components and api
 import { projectListInfo } from "@/types/project";
 import { changeTime } from "@/api/projectApi";
+import BuildChart from "./Chart/BuildChart";
 
 export default function ProjectListItem({
   project,
 }: {
   project: projectListInfo;
 }) {
-  const navigate = useNavigate();
+  const [isSelected, setIsSelected] = useState<boolean>(false);
+  const setProjectIdx = useSetRecoilState(projectIdxState);
 
-  const handleItemClick = () => {
-    navigate(`/project/detail/${project.idx}`);
+  const handleDeleteClick = async () => {
+    const confirmed = window.confirm("정말로 삭제하시겠습니까?");
+    if (confirmed) {
+      try {
+        await projectDelete(project.idx);
+        alert("삭제되었습니다.");
+        window.location.reload();
+      } catch (error) {
+        console.error("아이템 삭제 실패", error);
+        alert("아이템 삭제에 실패했습니다.");
+      }
+    }
   };
 
+  const handleProjectClick = () => {
+    setIsSelected(!isSelected);
+    setProjectIdx(project.idx);
+  };
+
+  //클릭 시 글자색도 변경해야함
+
   return (
-    <SProjectList>
-      <SDiv>
-        <SItem>
-          {project.status === "SUCCESS" ? (
-            <CheckCircleOutlineIcon style={checkStyle} />
-          ) : (
-            <HighlightOffIcon style={HighlightOffIconStyle} />
-          )}
-        </SItem>
-        <SItem>{project.projectName}</SItem>
-        <SItem>{project.itemCnt}</SItem>
-        <STimeItem>
-          {changeTime(project.lastSuccessDate)}
-          <SContainerButton>{project.itemName}</SContainerButton>
-        </STimeItem>
-        <STimeItem>
-          {changeTime(project.lastFailureDate)}
-          <SContainerButton>{project.itemName}</SContainerButton>
-        </STimeItem>
-        <SItem>
-          <SButton onClick={handleItemClick}>상세보기</SButton>
-        </SItem>
-      </SDiv>
+    <SProjectList isSelected={isSelected} onClick={handleProjectClick}>
+      <STitleDiv>
+        <STitle>{project.projectName}</STitle>
+        {project.status === "SUCCESS" ? (
+          <CheckCircleOutlineIcon style={checkStyle} />
+        ) : (
+          <HighlightOffIcon style={HighlightOffIconStyle} />
+        )}
+        <DeleteOutlineIcon
+          style={DeleteOutlineIconStyle}
+          onClick={handleDeleteClick}
+        />
+      </STitleDiv>
+      <SDesc>프로젝트 설명 : {project.description}</SDesc>
+      <SChartDiv>
+        <BuildChart branches={project.branches} />
+      </SChartDiv>
+      <STimeContainer>
+        <STimeDiv>
+          <SSItem>최근 빌드 성공</SSItem>
+          <STimeItem>{changeTime(project.lastSuccessDate)}</STimeItem>
+        </STimeDiv>
+        <STimeDiv>
+          <SSItem>최근 빌드 실패</SSItem>
+          <STimeItem>{changeTime(project.lastFailureDate)}</STimeItem>
+        </STimeDiv>
+      </STimeContainer>
     </SProjectList>
   );
 }
 
-const STimeItem = styled.div`
-  flex: 2;
-  font-size: 2.5rem;
-  font-weight: ${theme.fontWeight.medium};
-  color: ${theme.colors.primary};
-`;
+const DeleteOutlineIconStyle = {
+  fontSize: "6rem",
+  cursor: "pointer",
+  color: theme.colors.error,
+  marginLeft: "auto",
+};
 
-const SItem = styled.div`
-  flex: 2;
-  font-size: 2.5rem;
-  font-weight: ${theme.fontWeight.medium};
-  color: ${theme.colors.primary};
-`;
-
-const SDiv = styled.div`
+const STimeContainer = styled.div`
   display: flex;
-  width: 100%;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   text-align: center;
+  gap: 5rem;
 `;
 
-const SProjectList = styled.div`
+const STimeDiv = styled.div`
+  flex: 1;
+`;
+
+const SChartDiv = styled.div`
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  width: 78vw;
-  height: 15vh;
-  background: ${theme.colors.lightgray};
-  overflow: hidden;
-  margin: auto;
-  border-radius: 1rem;
-  justify-content: center;
   align-items: center;
-  margin-bottom: 4rem;
+  justify-content: center;
+`;
+
+const STitleDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-left: 2rem;
+`;
+
+const STitle = styled.div`
+  font-size: 5rem;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.primary};
+`;
+
+const SSItem = styled.span`
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.medium};
+  color: ${theme.colors.primary};
+`;
+
+const STimeItem = styled.div`
+  font-size: 2.5rem;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.primary};
+  margin-top: 0.5rem;
+`;
+
+const SDesc = styled.div`
+  font-size: 2.2rem;
+  font-weight: ${theme.fontWeight.medium};
+  color: ${theme.colors.primary};
+  margin-left: 2rem;
+  margin-top: 1rem;
+`;
+
+const SProjectList = styled.div<{ isSelected: boolean }>`
+  width: 26vw;
+  height: 36vh;
+  background: ${({ isSelected }) =>
+    isSelected ? theme.colors.secondary : theme.colors.lightgray};
+  border-radius: 1rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
+  padding: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease-in-out;
+    background-color: ${theme.colors.complete};
+  }
 `;
 
 const HighlightOffIconStyle = {
@@ -94,27 +165,3 @@ const checkStyle = {
   fontSize: "5rem",
   color: theme.colors.checkgreen,
 };
-
-const SContainerButton = styled.button`
-  border: none;
-  border-radius: 0.5rem;
-  background: ${theme.colors.darkgray};
-  color: ${theme.colors.primary};
-  font-size: 1.7rem;
-  font-weight: ${theme.fontWeight.medium};
-  width: 6vh;
-  height: 3vh;
-  margin-left: 1rem;
-  overflow: hidden;
-`;
-
-const SButton = styled.button`
-  border: 0.5rem solid ${theme.colors.secondary};
-  border-radius: 5rem;
-  background: ${theme.colors.secondary};
-  color: ${theme.colors.white};
-  font-size: 2rem;
-  font-weight: ${theme.fontWeight.medium};
-  cursor: pointer;
-  padding: 0.8rem 1.5rem;
-`;

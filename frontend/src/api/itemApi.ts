@@ -4,8 +4,3 @@ import { instance } from "./api";
 export const fetchItemDetail = async (containerIdx: number) => {
   return instance.get(`/item/detail/${containerIdx}`);
 };
-
-//아이템 삭제 api
-export const itemDelete = async (containerIdx: number) => {
-  return instance.delete(`/item/${containerIdx}`);
-};
