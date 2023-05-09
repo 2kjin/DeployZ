@@ -1,37 +1,19 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-
 import ItemListElement from "./ItemListElement";
-
-import { fetchProjectDetail } from "@/api/projectApi";
 import { projectDetailInfo } from "@/types/project";
 
-const ItemList = () => {
-  const { idx } = useParams<{ idx: string }>();
-  const projectIdx = parseInt(idx as string, 10);
-  const [projectDetail, setProjectDetail] = useState<projectDetailInfo[]>([]);
-
-  useEffect(() => {
-    async function fetchItems(projectIdx: number) {
-      try {
-        const {
-          data: { result },
-        } = await fetchProjectDetail(projectIdx);
-        setProjectDetail(result);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchItems(projectIdx);
-  }, [projectIdx]);
-
+export default function ItemList({
+  projectIdx,
+  projectDetail,
+}: {
+  projectIdx: number;
+  projectDetail: projectDetailInfo[] | undefined;
+}) {
   return (
     <>
-      {projectDetail.map((item) => (
-        <ItemListElement key={item.idx} item={item} />
-      ))}
+      {projectDetail &&
+        projectDetail.map((item) => (
+          <ItemListElement key={item.idx} projectIdx={projectIdx} item={item} />
+        ))}
     </>
   );
-};
-
-export default ItemList;
+}

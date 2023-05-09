@@ -7,32 +7,22 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-import { itemListInfo } from "@/types/item";
-import { itemDelete } from "@/api/itemApi";
+import { projectDetailInfo } from "@/types/project";
 import { changeTime } from "@/api/projectApi";
 
-export default function ItemListElement({ item }: { item: itemListInfo }) {
+export default function ItemListElement({
+  item,
+  projectIdx,
+}: {
+  item: projectDetailInfo;
+  projectIdx: number;
+}) {
   const navigate = useNavigate();
 
   const handleItemClick = () => {
     navigate(`/item/detail/${item.idx}`);
   };
-
-  // const handleDeleteClick = async () => {
-  //   const confirmed = window.confirm("정말로 삭제하시겠습니까?");
-  //   if (confirmed) {
-  //     try {
-  //       await itemDelete(item.idx);
-  //       alert("삭제되었습니다.");
-  //       window.location.reload();
-  //     } catch (error) {
-  //       console.error("아이템 삭제 실패", error);
-  //       alert("아이템 삭제에 실패했습니다.");
-  //     }
-  //   }
-  // };
 
   return (
     <SItemList>
@@ -56,12 +46,7 @@ export default function ItemListElement({ item }: { item: itemListInfo }) {
         </SItem>
         <STimeItem>{changeTime(item.lastSuccessDate)}</STimeItem>
         <STimeItem>{changeTime(item.lastFailureDate)}</STimeItem>
-        <SItem>
-          <DeleteOutlineIcon
-            style={DeleteOutlineIconStyle}
-            // onClick={handleDeleteClick}
-          />
-        </SItem>
+        <SItem></SItem>
         <SItem>
           <SButton onClick={handleItemClick}>상세보기</SButton>
         </SItem>
@@ -106,11 +91,6 @@ const StopIconStyle = {
   cursor: "pointer",
   color: theme.colors.error,
 };
-const DeleteOutlineIconStyle = {
-  fontSize: "6rem",
-  cursor: "pointer",
-  color: theme.colors.error,
-};
 
 const HighlightOffIconStyle = {
   fontSize: "5rem",
@@ -147,22 +127,22 @@ const SItemList = styled.div`
   margin-bottom: 2rem;
 `;
 
-const SProjectName = styled.span`
-  font-size: 2rem;
-  font-weight: ${theme.fontWeight.bold};
-`;
+// const SProjectName = styled.span`
+//   font-size: 2rem;
+//   font-weight: ${theme.fontWeight.bold};
+// `;
 
-const SItemCount = styled.span`
-  font-size: 2rem;
-  font-weight: ${theme.fontWeight.bold};
-`;
+// const SItemCount = styled.span`
+//   font-size: 2rem;
+//   font-weight: ${theme.fontWeight.bold};
+// `;
 
-const SLastSuccessTime = styled.span`
-  font-size: 2rem;
-  font-weight: ${theme.fontWeight.bold};
-`;
+// const SLastSuccessTime = styled.span`
+//   font-size: 2rem;
+//   font-weight: ${theme.fontWeight.bold};
+// `;
 
-const SLastFailureTime = styled.span`
-  font-size: 2rem;
-  font-weight: ${theme.fontWeight.bold};
-`;
+// const SLastFailureTime = styled.span`
+//   font-size: 2rem;
+//   font-weight: ${theme.fontWeight.bold};
+// `;

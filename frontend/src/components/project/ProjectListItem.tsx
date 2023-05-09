@@ -1,3 +1,5 @@
+import { useSetRecoilState } from "recoil";
+import { projectIdxState } from "@/recoil/project";
 //import css
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
@@ -5,6 +7,7 @@ import { theme } from "@/styles/theme";
 //import icons
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+// import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 //import components and api
 import { projectListInfo } from "@/types/project";
@@ -16,8 +19,28 @@ export default function ProjectListItem({
 }: {
   project: projectListInfo;
 }) {
+  // const handleDeleteClick = async () => {
+  //   const confirmed = window.confirm("정말로 삭제하시겠습니까?");
+  //   if (confirmed) {
+  //     try {
+  //       await itemDelete(item.idx);
+  //       alert("삭제되었습니다.");
+  //       window.location.reload();
+  //     } catch (error) {
+  //       console.error("아이템 삭제 실패", error);
+  //       alert("아이템 삭제에 실패했습니다.");
+  //     }
+  //   }
+  // };
+
+  const setProjectIdx = useSetRecoilState(projectIdxState);
+
+  const handleProjectClick = () => {
+    setProjectIdx(project.idx);
+  };
+
   return (
-    <SProjectList>
+    <SProjectList onClick={handleProjectClick}>
       <STitleDiv>
         <STitle>{project.projectName}</STitle>
         {project.status === "SUCCESS" ? (
@@ -40,9 +63,18 @@ export default function ProjectListItem({
           <STimeItem>{changeTime(project.lastFailureDate)}</STimeItem>
         </STimeDiv>
       </STimeContainer>
+      {/* <DeleteOutlineIcon
+            style={DeleteOutlineIconStyle}
+            // onClick={handleDeleteClick}
+          /> */}
     </SProjectList>
   );
 }
+// const DeleteOutlineIconStyle = {
+//   fontSize: "6rem",
+//   cursor: "pointer",
+//   color: theme.colors.error,
+// };
 
 const STimeContainer = styled.div`
   display: flex;

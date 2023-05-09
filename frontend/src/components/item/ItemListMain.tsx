@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { projectIdxState } from "@/recoil/project";
 
 import ItemList from "@components/item/ItemList";
 import { projectDetailInfo } from "@/types/project";
@@ -10,8 +11,7 @@ import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
 export default function ItemListMain() {
-  const { idx } = useParams<{ idx: string }>();
-  const projectIdx = parseInt(idx as string, 10);
+  const projectIdx = useRecoilValue(projectIdxState);
   const [projectDetail, setProjectDetail] = useState<projectDetailInfo[]>();
 
   useEffect(() => {
@@ -29,20 +29,28 @@ export default function ItemListMain() {
   }, [projectIdx]);
 
   return (
-    <SListBox>
-      <SListTitleDiv>
-        <SItem></SItem>
-        <SItem></SItem>
-        <SItem>이름</SItem>
-        <SItem>상태</SItem>
-        <SItem>포트</SItem>
-        <SItem>최근 성공</SItem>
-        <SItem>최근 실패</SItem>
-        <SItem></SItem>
-        <SItem></SItem>
-      </SListTitleDiv>
-      <ItemList />
-    </SListBox>
+    <>
+      {projectIdx === 0 ? (
+        <SListBox>
+          <SItem>프로젝트를 클릭해주세요</SItem>
+        </SListBox>
+      ) : (
+        <SListBox>
+          <SListTitleDiv>
+            <SItem></SItem>
+            <SItem></SItem>
+            <SItem>이름</SItem>
+            <SItem>상태</SItem>
+            <SItem>포트</SItem>
+            <SItem>최근 성공</SItem>
+            <SItem>최근 실패</SItem>
+            <SItem></SItem>
+            <SItem></SItem>
+          </SListTitleDiv>
+          <ItemList projectIdx={projectIdx} projectDetail={projectDetail} />
+        </SListBox>
+      )}
+    </>
   );
 }
 

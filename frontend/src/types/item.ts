@@ -15,6 +15,7 @@ export interface itemDetailInfo {
     runs: itemProgress[];
   };
 }
+
 //하나의 프로젝트 디테일에서 보여줄
 //아이템 별 빌드 횟수
 export interface itemBuildCount {
