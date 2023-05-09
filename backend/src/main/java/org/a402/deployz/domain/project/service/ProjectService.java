@@ -211,13 +211,32 @@ public class ProjectService {
 				itemCnt = 0L;
 			}
 
+			//브랜치명-> HashMap으로 반환
+			HashMap<String, Integer> branches= findItemListByProjectIdx(project.getIdx());
+
 			if (!project.isDeletedFlag()) {
-				result.add(new ProjectResponse(project, status, itemCnt));
+				result.add(new ProjectResponse(project, status, itemCnt,branches));
 			}
 		}
 
 		return result;
 	}
+
+	private HashMap<String, Integer> findItemListByProjectIdx(Long projectIdx) {
+		HashMap<String, Integer> branches = new HashMap<>();
+
+		Project  project = projectRepository.findProjectByIdx(projectIdx).orElseThrow(ProjectNotFoundException::new);
+		List<Item> items=project.getItems();
+
+		for (Item item: items){
+			String branchName= item.getBranchName();
+			Integer branchBuildCnt =item.getItemHistories().size();
+
+			branches.put(branchName,branchBuildCnt);
+		}
+		return branches;
+	}
+
 
 	@Transactional
 	public void modifyProject(LocalDateTime mostLastSuccessTime, LocalDateTime mostLastFailureTime,
@@ -226,5 +245,4 @@ public class ProjectService {
 		project.updateLastDates(mostLastSuccessTime, mostLastFailureTime);
 		projectRepository.save(project);
 	}
-
 }
