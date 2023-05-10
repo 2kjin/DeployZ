@@ -46,11 +46,11 @@ public class JwtTokenProvider {
 	public String createAccessToken(final Member member) {
 		// Claim이란 JWT의 Payload에 들어가는 데이터 단위.
 		// Map<String, Object>를 상속하고 있기 때문에 key, value 형식으로 값을 넣을 수 있다.
-		final Claims claims = Jwts.claims().setSubject(member.getEmail());
+		final Claims claims = Jwts.claims().setSubject(member.getAccount());
 		claims.put(AUTHORIZATION, member.getAuthorities()); // 권한
 
-				final long accessTokenValidSecond = Duration.ofDays(1).toMillis(); //access토큰 유효시간
-//		final long accessTokenValidSecond = Duration.ofSeconds(10).toMillis(); //test용 access토큰 유효시간
+		final long accessTokenValidSecond = Duration.ofDays(1).toMillis(); //access토큰 유효시간
+		//		final long accessTokenValidSecond = Duration.ofSeconds(10).toMillis(); //test용 access토큰 유효시간
 		final Date now = new Date();
 
 		return Jwts.builder()

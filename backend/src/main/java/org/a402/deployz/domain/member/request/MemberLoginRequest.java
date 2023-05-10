@@ -8,8 +8,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class RegisterTokenRequest {
+public class MemberLoginRequest {
 	@NotNull
-	@Schema(description = "유저 개인 access token")
-	private final String personalAccessToken;
+	@Schema(description = "계정")
+	private final String account;
+	@NotNull
+	@Schema(description = "비밀번호")
+	private final String password;
 }
+

@@ -8,12 +8,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class MemberInformationResponse {
+public class SignUpResponse {
 	@NotNull
-	@Schema(description = "이메일")
-	private final String email;
+	@Schema(description = "access 토큰")
+	private final String accessToken;
 	@NotNull
-	@Schema(description = "프로필 이미지")
-	private final String profileImage;
-
+	@Schema(description = "refresh 토큰")
+	private final String refreshToken;
 }
