@@ -54,61 +54,6 @@ public class ItemService {
 	}
 
 	@Transactional
-	public List<ItemListResponse> updateStatusChangeTime(final Project project, final List<Item> itemList) {
-		final List<ItemListResponse> result = new ArrayList<>();
-
-		LocalDateTime mostLastSuccessTime = null;
-		LocalDateTime mostLastFailureTime = null;
-
-		try {
-			// 가장 최근 성공시간과 실패 시간을 확인하기 위함
-			mostLastSuccessTime = itemList.get(0).getLastSuccessDate();
-			mostLastFailureTime = itemList.get(0).getLastFailureDate();
-
-			for (Item item : itemList) {
-				String status = "";
-				// 최근 성공시간이 최근 실패시간 보다 이후 -> SUCCESS
-				final LocalDateTime successDate = item.getLastSuccessDate();
-				final LocalDateTime failureDate = item.getLastFailureDate();
-
-				// failureDate가 더 이후: 음수값 반환 / successDate가 더 최근: 양수 반환
-				Duration duration = Duration.between(failureDate, successDate);
-
-				// 초 단위 차이
-				long diffInSeconds = duration.getSeconds();
-
-				if (diffInSeconds >= 0) {
-					status = "SUCCESS";
-
-					// 성공한 시간들 중에서 가장 최근에 성공한 시간을 저장
-					if (successDate.isAfter(mostLastSuccessTime)) {
-						mostLastSuccessTime = successDate;
-
-					}
-				} else {
-					status = "FAIL";
-
-					//실패한 시간들 중에서 가장 최근에 실패한 시간을 저장
-					if (successDate.isAfter(mostLastFailureTime)) {
-						mostLastFailureTime = successDate;
-					}
-				}
-				if (!item.isDeletedFlag()) {
-					result.add(new ItemListResponse(item, status, project.getProjectName()));
-				}
-			}
-		} catch (Exception e) {
-			// 예외 발생 시 처리
-			e.printStackTrace();
-			// 혹은 throw new CustomException("오류 메시지");
-		}
-
-		projectService.modifyProject(mostLastSuccessTime, mostLastFailureTime, project);
-
-		return result;
-	}
-
-	@Transactional
 	public List<ItemBuildHistoryResponse> findBuildHistories(Long containerIdx) {
 		final Item item = itemRepository.findItemByIdx(containerIdx).orElseThrow(ItemNotFoundException::new);
 
@@ -136,6 +81,45 @@ public class ItemService {
 		Item item = itemRepository.findItemByIdx(itemIdx)
 			.orElseThrow(ItemNotFoundException::new);
 		return new ItemListResponse(item, nowState, projectName);
+	}
+
+	@Transactional
+	public List<ItemListResponse> findItemListByProjectIdx(final Long projectIdx) {
+		Project project = projectRepository.findProjectByIdx(projectIdx).orElseThrow(ProjectNotFoundException::new);
+		List<Item> items = project.getItems();
+		final List<ItemListResponse> result = new ArrayList<>();
+
+		// 가장 최근 성공 및 실패시간 -> 업데이트
+		// LocalDateTime mostLastSuccessTime = itemList.get(0).getLastSuccessDate();
+		// LocalDateTime mostLastFailureTime = itemList.get(0).getLastFailureDate();
+
+		if (items.size() > 0){
+			for (Item item : items) {
+				String status = "";
+				// 최근 성공시간이 최근 실패시간 보다 이후 -> SUCCESS
+				final LocalDateTime successDate = item.getLastSuccessDate();
+				final LocalDateTime failureDate = item.getLastFailureDate();
+
+				// failureDate가 더 이후: 음수값 반환 / successDate가 더 최근: 양수 반환
+				Duration duration = Duration.between(failureDate, successDate);
+
+				// 초 단위 차이
+				long diffInSeconds = duration.getSeconds();
+
+				if (diffInSeconds >= 0) {
+					status = "SUCCESS";
+				} else {
+					status = "FAIL";
+				}
+				if (!item.isDeletedFlag()) {
+					String projectName =findProjectName(item.getIdx());
+					result.add(new ItemListResponse(item, status, projectName));
+				}
+			}
+			// 가장 최근 성공 및 실패시간 -> 업데이트
+			//projectService.modifyProject(mostLastSuccessTime, mostLastFailureTime, project);
+		}
+		return result;
 	}
 
 	@Transactional

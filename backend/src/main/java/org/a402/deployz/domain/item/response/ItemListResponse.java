@@ -38,6 +38,7 @@ public class ItemListResponse {
 		this.lastSuccessDate=item.getLastSuccessDate();
 		this.lastFailureDate=item.getLastFailureDate();
 		this.status=status;
+		this.projectName=projectName;
 	}
 
 }
