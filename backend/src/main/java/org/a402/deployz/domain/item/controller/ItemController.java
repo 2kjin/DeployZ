@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.a402.deployz.domain.item.entity.BuildHistory;
+import org.a402.deployz.domain.item.entity.BuildItemRequest;
 import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.item.response.ItemBuildHistoryResponse;
 import org.a402.deployz.domain.item.response.ItemDetailListResponse;
@@ -17,6 +17,8 @@ import org.a402.deployz.global.error.GlobalErrorCode;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,17 +56,14 @@ public class ItemController {
 	@Operation(description = "컨테이너 리스트 조회 API", summary = "컨테이너 리스트 조회 API")
 	@GetMapping("/{projectIdx}")
 	public BaseResponse<List<ItemListResponse>> findItemList(@Valid @PathVariable Long projectIdx) {
-		final Project project = projectService.findProject(projectIdx);
-		final List<Item> itemList = itemService.getItemList(project);
-		final List<ItemListResponse> itemListResponses = itemService.updateStatusChangeTime(project, itemList);
-
+		final List<ItemListResponse> itemListResponses = itemService.findItemListByProjectIdx(projectIdx);
 		return new BaseResponse<>(itemListResponses);
 	}
 
 	@ApiResponse(responseCode = "200", description = "컨테이너 상세 조회 성공")
 	@Operation(description = "컨테이너 상세 조회 API", summary = "컨테이너 상세 조회 API")
 	@GetMapping("/detail/{itemIdx}")
-	public BaseResponse<ItemDetailListResponse> findDetailItem (@Valid @PathVariable Long itemIdx) {
+	public BaseResponse<ItemDetailListResponse> findDetailItem(@Valid @PathVariable Long itemIdx) {
 		ItemDetailListResponse itemDetailListRespons = null;
 		// 1. 빌드 내역 조회 : List<BuildHistory>
 		final List<ItemBuildHistoryResponse> buildHistories = itemService.findBuildHistories(itemIdx);
@@ -75,12 +74,22 @@ public class ItemController {
 		// 2-2. 해당 itemIdx를 가진 프로젝트 이름 반환
 		String projectName = itemService.findProjectName(itemIdx);
 		// 2-3. 아이템의 정보들을 ItemListResponse Dto에 넣음
-		final ItemListResponse itemInfo = itemService.findItemInfo(itemIdx,nowState,projectName);
+		final ItemListResponse itemInfo = itemService.findItemInfo(itemIdx, nowState, projectName);
 
 		// 3. 현재 해당 아이템의 빌드-배포-실행 중 어느 상태인지 반환 -> 추후 개발
 		itemDetailListRespons = new ItemDetailListResponse(buildHistories, itemInfo);
 
-
 		return new BaseResponse<>(itemDetailListRespons);
+	}
+
+	@Operation(description = "프로젝트 빌드하기 API", summary = "프로젝트 빌드하기 API")
+	@ApiResponse(responseCode = "200", description = "프로젝트 빌드하기 성공")
+	@ApiResponse(responseCode = "400", description = "프로젝트 빌드 실패")
+	@PostMapping("/build")
+	public BaseResponse<String> buildItem(@RequestBody BuildItemRequest buildItemRequest) {
+		log.info("API Request received : projectId = {} ", buildItemRequest.getProjectIdx());
+		itemService.pullItem(buildItemRequest);
+
+		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 }

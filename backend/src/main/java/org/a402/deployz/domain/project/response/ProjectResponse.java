@@ -17,14 +17,13 @@ public class ProjectResponse {
 	@NotNull
 	private Long memberIdx;
 	@NotNull
+	private String description;
+	@NotNull
 	private String projectName;
-	@NotNull
+
 	private LocalDateTime lastSuccessDate;
-	@NotNull
 	private LocalDateTime lastFailureDate;
-	@NotNull
 	private String status;
-	@NotNull
 	private Long itemCnt;
 	private HashMap<String, Integer>branches;
 
@@ -38,6 +37,7 @@ public class ProjectResponse {
 		this.status=status;
 		this.itemCnt=itemCnt;
 		this.branches=branches;
+		this.description=project.getDescription();
 	}
 
 }
