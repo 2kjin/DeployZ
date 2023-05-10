@@ -2,18 +2,18 @@ import axios from "axios";
 import { getPersonalToken, requestLogout, requestReCreate } from "./auth";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_DOMAIN;
-const MINSU = "http://70.12.247.126:8080/api";
+// const MINSU = "http://70.12.247.126:8080/api";
 
 // JWT 토큰이 필요한 instance
 export const instance = axios.create({
   // withCredentials: true,
   // baseURL: SERVER_URL,
-  baseURL: MINSU,
+  baseURL: SERVER_URL,
 });
 
 // JWT 토큰이 필요없는 instance
 export const noValidInstance = axios.create({
-  baseURL: MINSU,
+  baseURL: SERVER_URL,
 });
 
 // gitlab instance
