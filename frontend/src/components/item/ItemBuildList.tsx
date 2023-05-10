@@ -42,14 +42,14 @@ export default function ItemBuildList({
             <SBuildTitle>
               <SBuildStatus>{item.status}</SBuildStatus>
               <SBuildState>
-                {item.state === "success" ? (
+                {item.status === "SUCCESS" ? (
                   <CheckCircleOutlineIcon style={checkStyle} />
                 ) : (
                   <HighlightOffIcon style={HighlightOffIconStyle} />
                 )}
               </SBuildState>
             </SBuildTitle>
-            <SBuildRegisterTime>{item.registerTime}</SBuildRegisterTime>
+            <SBuildRegisterTime>{item.registerDate}</SBuildRegisterTime>
           </SBuildItem>
         ))}
       </SBuildList>
@@ -61,7 +61,7 @@ export default function ItemBuildList({
           </SStatusP>
         </SBuildName>
         <SBuildMessageContent>
-          {itemHistoryLists.find((item) => item.idx === selectedIdx)?.message}
+          {itemHistoryLists.find((item) => item.idx === selectedIdx)?.console}
         </SBuildMessageContent>
       </SBuildMessage>
     </SDetailBuild>

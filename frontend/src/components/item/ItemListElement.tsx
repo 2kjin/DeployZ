@@ -20,31 +20,30 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
 
   return (
     <SItemList>
-      <SDiv>
-        <SItem>
-          <PlayArrowIcon style={PlayArrowIconStyle} />
-        </SItem>
-        <SItem>
-          <StopIcon style={StopIconStyle} />
-        </SItem>
-        <SItem>{item.name}</SItem>
-        <SItem>
-          {item.status === "SUCCESS" ? (
-            <CheckCircleOutlineIcon style={checkStyle} />
-          ) : (
-            <HighlightOffIcon style={HighlightOffIconStyle} />
-          )}
-        </SItem>
-        <SItem>
-          {item.portNumber1} , {item.portNumber2}
-        </SItem>
-        <STimeItem>{changeTime(item.lastSuccessDate)}</STimeItem>
-        <STimeItem>{changeTime(item.lastFailureDate)}</STimeItem>
-        <SItem></SItem>
-        <SItem>
-          <SButton onClick={handleItemClick}>상세보기</SButton>
-        </SItem>
-      </SDiv>
+      <SItem>
+        <PlayArrowIcon style={PlayArrowIconStyle} />
+      </SItem>
+      <SItem>
+        <StopIcon style={StopIconStyle} />
+      </SItem>
+      <SItem>{item.name}</SItem>
+      <SItem>
+        {item.status === "SUCCESS" ? (
+          <CheckCircleOutlineIcon style={checkStyle} />
+        ) : (
+          <HighlightOffIcon style={HighlightOffIconStyle} />
+        )}
+      </SItem>
+      <SItem>
+        {item.portNumber1} , {item.portNumber2}
+      </SItem>
+      <STimeItem>{changeTime(item.lastSuccessDate)}</STimeItem>
+      <STimeItem>{changeTime(item.lastFailureDate)}</STimeItem>
+      <SItem></SItem>
+      <SItem></SItem>
+      <SItem>
+        <SButton onClick={handleItemClick}>상세보기</SButton>
+      </SItem>
     </SItemList>
   );
 }
@@ -64,14 +63,6 @@ const SItem = styled.div`
   font-weight: ${theme.fontWeight.medium};
   color: ${theme.colors.primary};
   margin-right: 3rem;
-`;
-
-const SDiv = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
 `;
 
 const PlayArrowIconStyle = {
@@ -109,34 +100,14 @@ const SButton = styled.button`
 
 const SItemList = styled.div`
   display: flex;
-  flex-direction: column;
-  width: 75vw;
-  height: 12vh;
-  background: ${theme.colors.lightgray};
-  overflow: hidden;
-  margin: auto;
-  border-radius: 1rem;
   justify-content: center;
   align-items: center;
+  flex-direction: row;
+  width: 80vw;
+  height: 8vh;
+  padding: 1em;
+  background: ${theme.colors.lightgray};
+  overflow: hidden;
+  border-radius: 1rem;
   margin-bottom: 2rem;
 `;
-
-// const SProjectName = styled.span`
-//   font-size: 2rem;
-//   font-weight: ${theme.fontWeight.bold};
-// `;
-
-// const SItemCount = styled.span`
-//   font-size: 2rem;
-//   font-weight: ${theme.fontWeight.bold};
-// `;
-
-// const SLastSuccessTime = styled.span`
-//   font-size: 2rem;
-//   font-weight: ${theme.fontWeight.bold};
-// `;
-
-// const SLastFailureTime = styled.span`
-//   font-size: 2rem;
-//   font-weight: ${theme.fontWeight.bold};
-// `;

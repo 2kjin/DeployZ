@@ -76,9 +76,9 @@ export default function ItemDetail() {
             <SFrame>
               <SFrameName>{itemDetail.itemName}</SFrameName>
               <SFrameImg>
-                {itemDetail.frameworkType === "react" ? (
+                {itemDetail.frameworkType === "React" ? (
                   <Icon icon="mdi:react" fontSize="250" color="white" />
-                ) : itemDetail.frameworkType === "springBoot" ? (
+                ) : itemDetail.frameworkType === "SpringBoot" ? (
                   <Icon
                     icon="simple-icons:springboot"
                     fontSize="250"
@@ -121,12 +121,14 @@ export default function ItemDetail() {
             <SDetailInfo>
               <SItemContainer>
                 <SItem>포트번호</SItem>
-                <SItemValue>{itemDetail.portNumber}</SItemValue>
+                <SItemValue>
+                  {itemDetail.portNumber1} | {itemDetail.portNumber2}
+                </SItemValue>
               </SItemContainer>
               <SItemContainer>
                 <SItem>빌드 상태</SItem>
                 <SItemStatus>
-                  {itemDetail.itemStates ? (
+                  {itemDetail.status === "SUCCESS" ? (
                     <CheckCircleOutlineIcon style={checkStyle} />
                   ) : (
                     <HighlightOffIcon style={HighlightOffIconStyle} />
@@ -142,7 +144,7 @@ export default function ItemDetail() {
                 <SItemValue>{itemDetail.lastFailureDate}</SItemValue>
               </SItemContainer>
             </SDetailInfo>
-            <ItemBuildList itemHistoryLists={itemDetail.itemHistories} />
+            <ItemBuildList itemHistoryLists={itemDetail.buildHistories} />
           </SDetailDiv>
         </>
       )}

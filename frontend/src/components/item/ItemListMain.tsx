@@ -44,13 +44,16 @@ export default function ItemListMain() {
             <SItem></SItem>
             <SItem>이름</SItem>
             <SItem>상태</SItem>
+            <SItem></SItem>
             <SItem>포트</SItem>
+            <SItem></SItem>
             <SItem>최근 성공</SItem>
             <SItem>최근 실패</SItem>
             <SItem></SItem>
-            <SItem></SItem>
           </SListTitleDiv>
-          <ItemList projectIdx={projectIdx} projectDetail={projectDetail} />
+          <SListContent>
+            <ItemList projectDetail={projectDetail} />
+          </SListContent>
         </SListBox>
       )}
     </>
@@ -72,10 +75,15 @@ const SEmptyListBox = styled.div`
 `;
 
 const SItem = styled.div`
-  flex: 2;
+  flex: 1;
   font-size: 2.5rem;
-  font-weight: ${theme.fontWeight.bold};
+  font-weight: ${theme.fontWeight.extraBold};
   color: ${theme.colors.primary};
+`;
+
+const SListContent = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const SListBox = styled.div`
@@ -86,14 +94,15 @@ const SListBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 1em;
 `;
 
 const SListTitleDiv = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 78vw;
-  height: 10vh;
+  width: 80vw;
+  height: 8vh;
 `;
