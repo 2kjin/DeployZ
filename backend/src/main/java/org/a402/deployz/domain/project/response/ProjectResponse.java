@@ -20,13 +20,10 @@ public class ProjectResponse {
 	private String description;
 	@NotNull
 	private String projectName;
-	@NotNull
+
 	private LocalDateTime lastSuccessDate;
-	@NotNull
 	private LocalDateTime lastFailureDate;
-	@NotNull
 	private String status;
-	@NotNull
 	private Long itemCnt;
 	private HashMap<String, Integer>branches;
 
