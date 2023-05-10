@@ -1,11 +1,10 @@
 import { useSetRecoilState } from "recoil";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { projectIdxState } from "@/recoil/project";
 import { projectDelete } from "@/api/projectApi";
 //import css
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
-import { success, error } from "@components/common/Toast/notify";
 
 //import icons
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -19,8 +18,12 @@ import BuildChart from "./Chart/BuildChart";
 
 export default function ProjectListItem({
   project,
+  nowSelected,
+  handleNowSelected,
 }: {
   project: projectListInfo;
+  nowSelected: number;
+  handleNowSelected: (value: number) => void;
 }) {
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const setProjectIdx = useSetRecoilState(projectIdxState);
@@ -40,9 +43,17 @@ export default function ProjectListItem({
   };
 
   const handleProjectClick = () => {
-    setIsSelected(!isSelected);
     setProjectIdx(project.idx);
+    handleNowSelected(project.idx);
   };
+
+  useEffect(() => {
+    if (nowSelected === project.idx) {
+      setIsSelected(true);
+    } else {
+      setIsSelected(false);
+    }
+  }, [nowSelected, project.idx]);
 
   return (
     <SProjectList isSelected={isSelected} onClick={handleProjectClick}>

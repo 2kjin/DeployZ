@@ -10,6 +10,11 @@ import { projectListInfo } from "@/types/project";
 
 export default function ProjectList() {
   const navigate = useNavigate();
+  const [nowSelected, setNowSelected] = useState<number>(-1);
+
+  const handleNowSelected = (value: number) => {
+    setNowSelected(value);
+  };
 
   const handleEmptyClick = () => {
     navigate(`/step`);
@@ -43,7 +48,12 @@ export default function ProjectList() {
   return (
     <Container>
       {visibleProjects.map((project) => (
-        <ProjectListItem key={project.idx} project={project} />
+        <ProjectListItem
+          key={project.idx}
+          project={project}
+          nowSelected={nowSelected}
+          handleNowSelected={handleNowSelected}
+        />
       ))}
       {Array.from({ length: emptyDivCount }).map((_, index) => (
         <SEmptyDiv key={index}>
