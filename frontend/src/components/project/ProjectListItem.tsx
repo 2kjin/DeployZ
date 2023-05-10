@@ -5,6 +5,7 @@ import { projectDelete } from "@/api/projectApi";
 //import css
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
+import { success, error } from "@components/common/Toast/notify";
 
 //import icons
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -43,12 +44,10 @@ export default function ProjectListItem({
     setProjectIdx(project.idx);
   };
 
-  //클릭 시 글자색도 변경해야함
-
   return (
     <SProjectList isSelected={isSelected} onClick={handleProjectClick}>
       <STitleDiv>
-        <STitle>{project.projectName}</STitle>
+        <STitle isSelected={isSelected}>{project.projectName}</STitle>
         {project.status === "SUCCESS" ? (
           <CheckCircleOutlineIcon style={checkStyle} />
         ) : (
@@ -59,18 +58,24 @@ export default function ProjectListItem({
           onClick={handleDeleteClick}
         />
       </STitleDiv>
-      <SDesc>프로젝트 설명 : {project.description}</SDesc>
+      <SDesc isSelected={isSelected}>
+        프로젝트 설명 : {project.description}
+      </SDesc>
       <SChartDiv>
         <BuildChart branches={project.branches} />
       </SChartDiv>
       <STimeContainer>
         <STimeDiv>
-          <SSItem>최근 빌드 성공</SSItem>
-          <STimeItem>{changeTime(project.lastSuccessDate)}</STimeItem>
+          <SSItem isSelected={isSelected}>최근 빌드 성공</SSItem>
+          <STimeItem isSelected={isSelected}>
+            {changeTime(project.lastSuccessDate)}
+          </STimeItem>
         </STimeDiv>
         <STimeDiv>
-          <SSItem>최근 빌드 실패</SSItem>
-          <STimeItem>{changeTime(project.lastFailureDate)}</STimeItem>
+          <SSItem isSelected={isSelected}>최근 빌드 실패</SSItem>
+          <STimeItem isSelected={isSelected}>
+            {changeTime(project.lastFailureDate)}
+          </STimeItem>
         </STimeDiv>
       </STimeContainer>
     </SProjectList>
@@ -78,7 +83,7 @@ export default function ProjectListItem({
 }
 
 const DeleteOutlineIconStyle = {
-  fontSize: "6rem",
+  fontSize: "6em",
   cursor: "pointer",
   color: theme.colors.error,
   marginLeft: "auto",
@@ -89,7 +94,7 @@ const STimeContainer = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 5rem;
+  gap: 5em;
 `;
 
 const STimeDiv = styled.div`
@@ -107,35 +112,39 @@ const STitleDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  margin-left: 2rem;
+  gap: 1em;
+  margin-left: 2em;
 `;
 
-const STitle = styled.div`
-  font-size: 5rem;
+const STitle = styled.div<{ isSelected: boolean }>`
+  font-size: 5em;
   font-weight: ${theme.fontWeight.extraBold};
-  color: ${theme.colors.primary};
+  color: ${({ isSelected }) =>
+    isSelected ? theme.colors.white : theme.colors.primary};
 `;
 
-const SSItem = styled.span`
-  font-size: 2rem;
-  font-weight: ${theme.fontWeight.medium};
-  color: ${theme.colors.primary};
+const SSItem = styled.span<{ isSelected: boolean }>`
+  font-size: 2em;
+  font-weight: ${theme.fontWeight.bold};
+  color: ${({ isSelected }) =>
+    isSelected ? theme.colors.white : theme.colors.primary};
 `;
 
-const STimeItem = styled.div`
-  font-size: 2.5rem;
+const STimeItem = styled.div<{ isSelected: boolean }>`
+  font-size: 2.5em;
   font-weight: ${theme.fontWeight.extraBold};
-  color: ${theme.colors.primary};
-  margin-top: 0.5rem;
+  color: ${({ isSelected }) =>
+    isSelected ? theme.colors.white : theme.colors.primary};
+  margin-top: 0.5em;
 `;
 
-const SDesc = styled.div`
-  font-size: 2.2rem;
+const SDesc = styled.div<{ isSelected: boolean }>`
+  font-size: 2.2em;
   font-weight: ${theme.fontWeight.medium};
-  color: ${theme.colors.primary};
-  margin-left: 2rem;
-  margin-top: 1rem;
+  color: ${({ isSelected }) =>
+    isSelected ? theme.colors.white : theme.colors.primary};
+  margin-left: 1em;
+  margin-top: 0.5em;
 `;
 
 const SProjectList = styled.div<{ isSelected: boolean }>`
@@ -144,24 +153,21 @@ const SProjectList = styled.div<{ isSelected: boolean }>`
   background: ${({ isSelected }) =>
     isSelected ? theme.colors.secondary : theme.colors.lightgray};
   border-radius: 1rem;
-  margin-right: 2rem;
-  margin-left: 2rem;
-  padding: 1rem;
+  padding: 2em;
   cursor: pointer;
 
   &:hover {
     transform: scale(1.02);
     transition: transform 0.3s ease-in-out;
-    background-color: ${theme.colors.complete};
   }
 `;
 
 const HighlightOffIconStyle = {
-  fontSize: "5rem",
+  fontSize: "5em",
   color: theme.colors.error,
 };
 
 const checkStyle = {
-  fontSize: "5rem",
+  fontSize: "5em",
   color: theme.colors.checkgreen,
 };

@@ -70,6 +70,7 @@ export default function ProjectList() {
 const Container = styled.div`
   display: flex;
   height: 43vh;
+  gap: 2rem;
 `;
 
 const SEmptyDiv = styled.div`
@@ -80,7 +81,5 @@ const SEmptyDiv = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 1rem;
-  margin-right: 2rem;
-  margin-left: 2rem;
-  padding: 1rem;
+  padding: 2em;
 `;

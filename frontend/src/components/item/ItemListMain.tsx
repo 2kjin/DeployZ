@@ -34,9 +34,9 @@ export default function ItemListMain() {
   return (
     <>
       {projectIdx === 0 ? (
-        <SListBox>
-          <SItem>프로젝트를 클릭해주세요</SItem>
-        </SListBox>
+        <SEmptyListBox>
+          프로젝트를 클릭하시면 아이템들이 보여요 📃
+        </SEmptyListBox>
       ) : (
         <SListBox>
           <SListTitleDiv>
@@ -57,6 +57,20 @@ export default function ItemListMain() {
   );
 }
 
+const SEmptyListBox = styled.div`
+  width: 86vw;
+  height: 42vh;
+  background-color: ${theme.colors.white};
+  font-weight: ${theme.fontWeight.bold};
+  font-size: 6rem;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+`;
+
 const SItem = styled.div`
   flex: 2;
   font-size: 2.5rem;
@@ -65,7 +79,7 @@ const SItem = styled.div`
 `;
 
 const SListBox = styled.div`
-  width: 85vw;
+  width: 86vw;
   height: 42vh;
   background-color: ${theme.colors.white};
   border-radius: 1rem;

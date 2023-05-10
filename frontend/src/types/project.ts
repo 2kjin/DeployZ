@@ -15,8 +15,7 @@ export interface projectDetailInfo {
   lastFailureDate: string;
   lastSuccessDate: string;
   name: string;
-  portNumber1: number;
-  portNumber2: number;
+  portNumber: number;
   projectName: string;
   status: string;
 }

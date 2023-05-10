@@ -18,8 +18,6 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
     navigate(`/item/detail/${item.idx}`);
   };
 
-  console.log("들어옴 ????");
-
   return (
     <SItemList>
       <SDiv>
@@ -37,9 +35,7 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
             <HighlightOffIcon style={HighlightOffIconStyle} />
           )}
         </SItem>
-        <SItem>
-          {item.portNumber1} , {item.portNumber2}
-        </SItem>
+        <SItem>{item.portNumber}</SItem>
         <STimeItem>{changeTime(item.lastSuccessDate)}</STimeItem>
         <STimeItem>{changeTime(item.lastFailureDate)}</STimeItem>
         <SItem></SItem>
