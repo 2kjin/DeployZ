@@ -10,8 +10,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MemberInformationResponse {
 	@NotNull
-	@Schema(description = "이메일")
-	private final String email;
+	@Schema(description = "계정")
+	private final String account;
 	@NotNull
 	@Schema(description = "프로필 이미지")
 	private final String profileImage;
