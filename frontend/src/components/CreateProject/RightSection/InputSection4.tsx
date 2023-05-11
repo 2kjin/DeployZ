@@ -100,21 +100,12 @@ export default function InputSection2() {
       {/* <p className="subject">Nginx 설정 정보 입력</p> */}
       <InputContainer>
         <FormControl variant="standard">
-          <InputLabel
-            shrink
-            sx={{
-              fontSize: "2.6rem",
-              fontWeight: "700",
-              color: "#151649",
-            }}
-          >
-            EC2 도메인 주소
-          </InputLabel>
+          <CustomInputLabel shrink>도메인 주소</CustomInputLabel>
           <InputBox
-            widthnum={"50rem"}
+            widthnum={"70rem"}
             fontnum={"1.5rem"}
             spacingnum={4}
-            placeholder={`도메인 주소를 입력하세요.`}
+            placeholder={`도메인 주소를 입력하세요. ex) k8a402.p.ssafy.io, deployz.co.kr`}
             id="domainUrl"
             value={nginxConfig.domainUrl}
             onChange={handleItemData}
@@ -215,6 +206,13 @@ const AddBtn = styled.div`
   }
 `;
 
+const CustomInputLabel = mstyled(InputLabel)({
+  fontSize: "2.9rem",
+  fontWeight: "800",
+  color: "#151649",
+  fontFamily: "Pretendard",
+});
+
 const Container = styled.div`
   background-color: #fff;
   /* background-color: ${theme.colors.container}; */
@@ -264,7 +262,6 @@ const InputBox = mstyled(InputBase)<{
 }));
 
 const InputContainer = styled.div`
-  width: 82%;
   display: flex;
   justify-content: space-between;
   margin-bottom: 3%;

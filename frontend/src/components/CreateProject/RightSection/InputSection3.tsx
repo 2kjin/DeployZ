@@ -94,7 +94,7 @@ const InputContainer = styled.div`
 `;
 
 const Label = styled.h4`
-  font-size: 2rem;
+  font-size: 2.6rem;
   font-weight: 700;
   color: #151649;
   margin: 0;
@@ -152,14 +152,18 @@ const SecretSection = styled.div`
 `;
 
 const SecretLeft = styled.div`
-  flex: 0.8;
+  flex: 3;
   font-weight: bold;
   font-size: 1.7rem;
   padding: 1rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const SecretRight = styled.div`
   font-size: 1.5rem;
+  margin-left: 3%;
   flex: 2;
   display: flex;
   align-items: center;

@@ -203,7 +203,7 @@ const Right = styled.div<{ chapter: number | undefined }>`
 const NavBtn = styled.div`
   background-color: ${theme.colors.darkgray};
   border-radius: 10px;
-  padding: 1rem 1.8rem;
+  padding: 1rem 2.2rem;
   /* width: 10rem; */
   height: 45%;
   color: white;
