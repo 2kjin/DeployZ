@@ -1,6 +1,5 @@
 package org.a402.deployz.domain.project.controller;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,8 +47,9 @@ public class ProjectController {
 	@ApiResponse(responseCode = "200", description = "프로젝트 생성 성공")
 	@Operation(description = "프로젝트 생성 API", summary = "프로젝트 생성 API")
 	@PostMapping()
-	public BaseResponse<Void> projectAdd(@Valid @RequestBody TotalProjectConfigRequest request, Principal principal) {
-		projectService.addProject(request, principal.getName());
+	public BaseResponse<Void> projectAdd(@Valid @RequestBody TotalProjectConfigRequest request,
+		@AuthenticationPrincipal UserDetails userDetails) {
+		projectService.addProject(request, userDetails);
 
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}

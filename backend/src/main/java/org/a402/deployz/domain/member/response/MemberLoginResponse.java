@@ -1,4 +1,4 @@
-package org.a402.deployz.domain.member.request;
+package org.a402.deployz.domain.member.response;
 
 import javax.validation.constraints.NotNull;
 
@@ -8,7 +8,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ReCreateTokenRequest {
+public class MemberLoginResponse {
+	@NotNull
+	@Schema(description = "access 토큰")
+	private final String accessToken;
 	@NotNull
 	@Schema(description = "refresh 토큰")
 	private final String refreshToken;

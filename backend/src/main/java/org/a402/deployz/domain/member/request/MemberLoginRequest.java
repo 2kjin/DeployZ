@@ -5,13 +5,15 @@ import javax.validation.constraints.NotNull;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
-public class RegisterTokenRequest {
+public class MemberLoginRequest {
 	@NotNull
-	@Schema(description = "유저 개인 access token")
-	private String personalAccessToken;
+	@Schema(description = "계정")
+	private final String account;
+	@NotNull
+	@Schema(description = "비밀번호")
+	private final String password;
 }
+
