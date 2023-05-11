@@ -38,6 +38,7 @@ public class SecurityConfig {
 		"/api/member/login",
 		"/",
 		"/actuator/**",
+		"/api/actuator/**",
 	};
 
 	private final JwtTokenProvider jwtTokenProvider;
