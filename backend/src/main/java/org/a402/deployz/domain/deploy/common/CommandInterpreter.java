@@ -1,4 +1,4 @@
-package org.a402.deployz.domain.deploy;
+package org.a402.deployz.domain.deploy.common;
 
 import java.io.File;
 import java.io.FileOutputStream;

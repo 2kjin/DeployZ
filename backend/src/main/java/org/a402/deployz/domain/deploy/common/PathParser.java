@@ -1,4 +1,4 @@
-package org.a402.deployz.domain.deploy;
+package org.a402.deployz.domain.deploy.common;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
