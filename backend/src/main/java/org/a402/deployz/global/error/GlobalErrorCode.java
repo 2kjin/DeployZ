@@ -22,6 +22,7 @@ public enum GlobalErrorCode {
 	LOGIN_INFO_MISMATCH(401, "G600", "로그인 정보가 일치하지 않습니다."),
 	FILE_NOT_FOUND(400, "G400", "파일이 존재하지 않습니다."),
 	/* 회원 관련 에러 코드 */
+	INVALID_TOKEN(400, "M400", "유효하지 않은 토큰입니다."),
 	MISMATCH_PASSWORD(400, "M400", "로그인 정보가 일치하지 않습니다."),
 	MEMBER_NOT_FOUND(400, "M100", "존재하지 않는 사용자입니다."),
 	PERSONAL_TOKEN_NOT_FOUND(400, "M100", "사용자의 토큰이 존재하지 않습니다."),
