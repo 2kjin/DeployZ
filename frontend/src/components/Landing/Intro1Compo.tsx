@@ -5,7 +5,7 @@ import { theme } from "@/styles/theme";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import GlbFile from "@/assets/3dmodel/factory.glb";
+import GlbFile from "@/assets/3dmodel/scene_3_dark.glb";
 
 export default function Intro1Compo({
   size,
@@ -46,6 +46,25 @@ export default function Intro1Compo({
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath("jsm/libs/draco/gltf/"); // DRACO 디코더 파일의 경로
 
+    // 조명
+    const ambienttLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.4);
+    scene.add(ambienttLight);
+
+    const color = 0xffffff;
+    const intensity = 1.5;
+
+    const light1 = new THREE.DirectionalLight(color, intensity);
+    light1.position.set(-1, 2, 0);
+    scene.add(light1);
+
+    const light2 = new THREE.DirectionalLight(color, intensity);
+    light2.castShadow = true;
+    light2.position.set(1, 4, 0);
+    light2.shadow.mapSize.width = light2.shadow.mapSize.height = 1024 * 10;
+    light2.shadow.radius = 4;
+    light2.shadow.bias = 0.0001;
+    scene.add(light2);
+
     // 에셋 추가
     const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
@@ -55,7 +74,7 @@ export default function Intro1Compo({
       // 로드된 모델의 위치, 크기, 회전 설정
       model.position.set(0, 0, 0);
       model.scale.set(7, 7, 7);
-      model.rotation.set(0, -2, 0);
+      model.rotation.set(0, 0, 0);
 
       const bbox = new THREE.Box3().setFromObject(model);
       const center = new THREE.Vector3();

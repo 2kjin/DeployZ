@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { theme } from "@/styles/theme"
+import { theme } from "@/styles/theme";
 import Footer from "@components/common/Footer";
 
 export default function Intro4() {
@@ -20,7 +20,9 @@ export default function Intro4() {
             해보세요
           </Title>
         </div>
-        <Guidebtn href="https://deployz.co.kr/oauth2/authorization/gitlab">START</Guidebtn>
+        <Guidebtn href="https://deployz.co.kr/oauth2/authorization/gitlab">
+          START
+        </Guidebtn>
       </Container>
       <Footer />
     </>
@@ -32,9 +34,9 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 65vh;
+  height: 60vh;
   width: 100%;
-  z-index:9999;
+  z-index: 9999;
   background-color: ${theme.colors.primary};
   .title-container {
     display: flex;

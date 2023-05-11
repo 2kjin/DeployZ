@@ -29,8 +29,13 @@ export default function IntroPage() {
 
       const deltaY: number = e.deltaY;
       const scrollTop: number = introScrollRef.current.scrollTop; // 스크롤 위쪽 끝부분 위치
+      // const pageHeight: number =
+      //   introScrollRef.current.getBoundingClientRect().height; // 화면 세로길이
       const pageHeight: number =
-        introScrollRef.current.getBoundingClientRect().height; // 화면 세로길이
+        (introScrollRef.current.getBoundingClientRect().height *
+          window.innerHeight) /
+        introScrollRef.current.offsetHeight;
+
       const scrollToTop: number = Math.ceil(pageHeight); // 맨 위로 스크롤
 
       if (deltaY > 0) {
