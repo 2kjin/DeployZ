@@ -76,11 +76,11 @@ public class ItemController {
 			// 빌드 상태의 경우 -> buildHistories의 가장 최근값의 status를 반환
 			nowState = buildHistories.get(0).getStatus();
 		}
-			// 해당 itemIdx를 가진 프로젝트 이름 반환
-			String projectName = itemService.findProjectName(itemIdx);
+		// 해당 itemIdx를 가진 프로젝트 이름 반환
+		String projectName = itemService.findProjectName(itemIdx);
 
-			// 아이템의 정보들을 ItemListResponse Dto에 넣음
-			 itemInfo = itemService.findItemInfo(itemIdx, nowState, projectName);
+		// 아이템의 정보들을 ItemListResponse Dto에 넣음
+		itemInfo = itemService.findItemInfo(itemIdx, nowState, projectName);
 
 		itemDetailListRespons = new ItemDetailListResponse(buildHistories, itemInfo);
 		return new BaseResponse<>(itemDetailListRespons);
