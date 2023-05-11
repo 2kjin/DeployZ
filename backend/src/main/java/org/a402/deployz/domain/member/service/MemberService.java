@@ -31,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+	public static final String AUTH_KEY_FILE_PATH = "/home/conf/AuthKey";
 	private final MemberRepository memberRepository;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
@@ -85,7 +86,7 @@ public class MemberService {
 		String readLine;
 
 		final StringBuilder stringBuilder = new StringBuilder();
-		final String filepath = "\\home\\conf\\AuthKey";
+		final String filepath = AUTH_KEY_FILE_PATH;
 
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filepath))) {
 			while ((readLine = bufferedReader.readLine()) != null) {
