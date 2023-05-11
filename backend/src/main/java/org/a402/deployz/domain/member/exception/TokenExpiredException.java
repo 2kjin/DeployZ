@@ -5,7 +5,7 @@ import org.a402.deployz.global.error.GlobalErrorCode;
 
 public class TokenExpiredException extends GlobalBaseException {
 
-	public TokenExpiredException(final GlobalErrorCode errorCode) {
-		super(errorCode);
+	public TokenExpiredException() {
+		super(GlobalErrorCode.TOKEN_EXPIRED);
 	}
 }
