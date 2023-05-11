@@ -75,7 +75,6 @@ public class DeployService {
 		log.info("repositoryPath: {}", repositoryPath);
 
 		if (gitAction.equals("Clone")) {
-
 			// git clone
 			log.info("GitClone Start");
 			final String cloneCommand = GitAdapter.getCloneCommand(item, member.getPersonalAccessToken());
@@ -89,15 +88,11 @@ public class DeployService {
 				modifyBuildHistory(buildHistory, status);
 				return new ItemDeployResponse(status, "Git Clone 실패");
 			}
-
 		} else {
-
 			// git pull
 			log.info("GitPull Start");
 			final String pullCommand = GitAdapter.getPullCommand(item.getBranchName());
-
-			log.info("git pull path: {}", repositoryPath);
-
+			log.info("Pull Command: {}", pullCommand);
 			try {
 				CommandInterpreter.runDestinationPath(repositoryPath, logPath, gitAction, pullCommand);
 				log.info("Pull Success");
@@ -107,10 +102,9 @@ public class DeployService {
 				modifyBuildHistory(buildHistory, status);
 				return new ItemDeployResponse(status, "Git Pull 실패");
 			}
-
 		}
 
-		// 최종 build_history 저장 ("SUCCESS" | "FAIL")
+		// 최종 build_history 저장 ("Success" | "Fail")
 		modifyBuildHistory(buildHistory, status);
 
 		return new ItemDeployResponse(status, "배포 성공");
