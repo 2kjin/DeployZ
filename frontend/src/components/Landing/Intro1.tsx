@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { theme } from "@/styles/theme"
+import { theme } from "@/styles/theme";
 import Intro1Compo from "./Intro1Compo";
 import { useRef } from "react";
 
@@ -24,13 +24,9 @@ const Container = styled.div`
   .left-container {
     width: 65%;
     display: flex;
-    justify-content: center;
-    align-items: center;
   }
   .right-container {
     width: 35%;
     display: flex;
-    justify-content: center;
-    align-items: center;
   }
 `;
