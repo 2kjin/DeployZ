@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled, { ThemedStyledProps, DefaultTheme } from "styled-components";
 import { theme } from "@/styles/theme";
 import { itemHistory } from "@/types/item";
+import { changeBuildTime } from "@/api/itemApi";
 
 //import css icons
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -12,7 +13,6 @@ interface SBuildItemProps {
   key: number;
   onClick: () => void;
   selected: boolean;
-  // 기존의 props에 추가될 selected prop
 }
 
 export default function ItemBuildList({
@@ -21,6 +21,14 @@ export default function ItemBuildList({
   itemHistoryLists: itemHistory[];
 }) {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+
+  const selectedItem = selectedIdx
+    ? itemHistoryLists.find((item) => item.idx === selectedIdx)
+    : null;
+
+  useEffect(() => {
+    setSelectedIdx(selectedItem);
+  }, [selectedItem]);
 
   return (
     <SDetailBuild>
@@ -40,7 +48,7 @@ export default function ItemBuildList({
             selected={selectedIdx === item.idx}
           >
             <SBuildTitle>
-              <SBuildStatus>{item.status}</SBuildStatus>
+              <SBuildStatus># {item.idx}</SBuildStatus>
               <SBuildState>
                 {item.status === "SUCCESS" ? (
                   <CheckCircleOutlineIcon style={checkStyle} />
@@ -49,68 +57,65 @@ export default function ItemBuildList({
                 )}
               </SBuildState>
             </SBuildTitle>
-            <SBuildRegisterTime>{item.registerDate}</SBuildRegisterTime>
+            <SBuildRegisterTime>
+              {changeBuildTime(item.registerDate)}
+            </SBuildRegisterTime>
           </SBuildItem>
         ))}
       </SBuildList>
       <SBuildMessage>
         <SBuildName>
           <SP>콘솔 출력</SP>
-          <SStatusP>
-            {itemHistoryLists.find((item) => item.idx === selectedIdx)?.status}
-          </SStatusP>
+          {selectedItem && <SStatusP># {selectedItem.idx}</SStatusP>}
         </SBuildName>
         <SBuildMessageContent>
-          {itemHistoryLists.find((item) => item.idx === selectedIdx)?.console}
+          {selectedItem ? selectedItem.consol : selectedItem.consol}
         </SBuildMessageContent>
       </SBuildMessage>
     </SDetailBuild>
   );
 }
+
 const SStatusP = styled.span`
-  font-size: 2.8rem;
+  font-size: 2.9em;
   font-weight: ${theme.fontWeight.extraBold};
-  color: ${theme.colors.primary};
-  margin-left: 1.5rem;
+  color: ${theme.colors.secondary};
+  margin-left: 1em;
 `;
 
 const SBuildMessageContent = styled.div`
-  font-size: 2rem;
-  padding: 2rem;
+  font-size: 2em;
+  padding: 2em;
   font-weight: ${theme.fontWeight.medium};
   color: ${theme.colors.primary};
   background-color: ${theme.colors.lightgray};
-  border-radius: 3rem;
-  height: 80%;
+  border-radius: 0.2em;
+  height: 50vh;
   overflow-y: scroll;
 `;
 
-const SP = styled.p`
+const SP = styled.span`
   font-size: 2.5rem;
   font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.primary};
-  margin-left: 1rem;
+  margin-left: 0.5em;
 `;
 
-const SBuildName = styled.div`
-  display: flex;
-  align-items: center;
-`;
+const SBuildName = styled.div``;
 
 const SBuildMessage = styled.div`
-  height: 50vh;
+  height: 53vh;
   width: 80%;
-  margin-left: 4rem;
 `;
 
 const SDetailBuild = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
-  margin-right: 3rem;
-  margin-left: 3rem;
-  margin-top: 2rem;
-  flex-shrink: 0;
+  justify-content: center;
+  flex-direction: row;
+  width: 140vh;
+  height: 50vh;
+  padding: 1em;
 `;
 
 const SBuildTitle = styled.div`
@@ -133,11 +138,12 @@ const checkStyle = {
 };
 
 const SBuildList = styled.div`
-  height: 50vh;
   width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
   overflow-y: scroll;
-  margin-top: 10px;
-  cursor: pointer;
 `;
 
 const SBuildItem = styled.div<ThemedStyledProps<SBuildItemProps, DefaultTheme>>`

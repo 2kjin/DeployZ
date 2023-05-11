@@ -20,5 +20,5 @@ const SWrap = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 1.5rem;
+  padding-top: 2rem;
 `;

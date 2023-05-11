@@ -94,7 +94,7 @@ export default function ProjectListItem({
 }
 
 const DeleteOutlineIconStyle = {
-  fontSize: "6em",
+  fontSize: "4em",
   cursor: "pointer",
   color: theme.colors.error,
   marginLeft: "auto",
@@ -128,8 +128,8 @@ const STitleDiv = styled.div`
 `;
 
 const STitle = styled.div<{ isSelected: boolean }>`
-  font-size: 5em;
-  font-weight: ${theme.fontWeight.extraBold};
+  font-size: 4.3em;
+  font-weight: ${theme.fontWeight.bold};
   color: ${({ isSelected }) =>
     isSelected ? theme.colors.white : theme.colors.primary};
 `;
@@ -174,11 +174,11 @@ const SProjectList = styled.div<{ isSelected: boolean }>`
 `;
 
 const HighlightOffIconStyle = {
-  fontSize: "5em",
+  fontSize: "4em",
   color: theme.colors.error,
 };
 
 const checkStyle = {
-  fontSize: "5em",
+  fontSize: "4em",
   color: theme.colors.checkgreen,
 };

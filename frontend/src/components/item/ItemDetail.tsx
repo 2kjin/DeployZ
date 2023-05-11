@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 //import api
 import { fetchItemDetail } from "../../api/itemApi";
+import { changeTime } from "@/api/projectApi";
 
 //import css icons
 import styled from "styled-components";
@@ -68,8 +69,8 @@ export default function ItemDetail() {
           <SFrameMainDiv>
             <Icon
               icon="mdi:arrow-left-drop-circle-outline"
-              fontSize="65"
-              color="white"
+              fontSize="63"
+              color="#F3F4F3"
               cursor="pointer"
               onClick={handlePrevClick}
             />
@@ -77,75 +78,65 @@ export default function ItemDetail() {
               <SFrameName>{itemDetail.itemName}</SFrameName>
               <SFrameImg>
                 {itemDetail.frameworkType === "React" ? (
-                  <Icon icon="mdi:react" fontSize="250" color="white" />
+                  <Icon icon="mdi:react" fontSize="240" color="#F3F4F3" />
                 ) : itemDetail.frameworkType === "SpringBoot" ? (
                   <Icon
                     icon="simple-icons:springboot"
-                    fontSize="250"
-                    color="white"
+                    fontSize="240"
+                    color="#F3F4F3"
                   />
                 ) : (
                   <Icon
                     icon="tabler:brand-django"
-                    fontSize="250"
-                    color="white"
+                    fontSize="240"
+                    color="#F3F4F3"
                   />
                 )}
               </SFrameImg>
             </SFrame>
             <Icon
               icon="mdi:arrow-right-drop-circle-outline"
-              fontSize="65"
-              color="white"
+              fontSize="63"
+              color="#F3F4F3"
               cursor="pointer"
               onClick={handleNextClick}
             />
           </SFrameMainDiv>
-          <SCentered>
-            <SRadioLabel htmlFor="one">
-              <Icon icon="mdi:number-one-circle-outline" fontSize="70" />
-              <SSpan>빌드</SSpan>
-            </SRadioLabel>
-            <SLine />
-            <SRadioLabel htmlFor="two">
-              <Icon icon="mdi:number-two-circle-outline" fontSize="70" />
-              <SSpan>배포</SSpan>
-            </SRadioLabel>
-            <SLine />
-            <SRadioLabel htmlFor="three">
-              <Icon icon="mdi:number-three-circle-outline" fontSize="70" />
-              <SSpan>실행</SSpan>
-            </SRadioLabel>
-          </SCentered>
-          <SDetailDiv>
-            <SDetailInfo>
-              <SItemContainer>
-                <SItem>포트번호</SItem>
-                <SItemValue>
-                  {itemDetail.portNumber1} | {itemDetail.portNumber2}
-                </SItemValue>
-              </SItemContainer>
-              <SItemContainer>
-                <SItem>빌드 상태</SItem>
-                <SItemStatus>
-                  {itemDetail.status === "SUCCESS" ? (
-                    <CheckCircleOutlineIcon style={checkStyle} />
-                  ) : (
-                    <HighlightOffIcon style={HighlightOffIconStyle} />
-                  )}
-                </SItemStatus>
-              </SItemContainer>
-              <SItemContainer>
-                <SItem>최근성공</SItem>
-                <SItemValue>{itemDetail.lastSuccessDate}</SItemValue>
-              </SItemContainer>
-              <SItemContainer>
-                <SItem>최근실패</SItem>
-                <SItemValue>{itemDetail.lastFailureDate}</SItemValue>
-              </SItemContainer>
-            </SDetailInfo>
-            <ItemBuildList itemHistoryLists={itemDetail.buildHistories} />
-          </SDetailDiv>
+          <SDetailContainer>
+            <SDetailDiv>
+              <SDetailInfo>
+                <SItemContainer>
+                  <SItem>포트번호</SItem>
+                  <SItemValue>
+                    {itemDetail.portNumber1} | {itemDetail.portNumber2}
+                  </SItemValue>
+                </SItemContainer>
+                <SItemContainer>
+                  <SItem>빌드 상태</SItem>
+                  <SItemStatus>
+                    {itemDetail.status === "SUCCESS" ? (
+                      <CheckCircleOutlineIcon style={checkStyle} />
+                    ) : (
+                      <HighlightOffIcon style={HighlightOffIconStyle} />
+                    )}
+                  </SItemStatus>
+                </SItemContainer>
+                <SItemContainer>
+                  <SItem>최근 성공</SItem>
+                  <SItemValue>
+                    {changeTime(itemDetail.lastSuccessDate)}
+                  </SItemValue>
+                </SItemContainer>
+                <SItemContainer>
+                  <SItem>최근 실패</SItem>
+                  <SItemValue>
+                    {changeTime(itemDetail.lastFailureDate)}
+                  </SItemValue>
+                </SItemContainer>
+              </SDetailInfo>
+              <ItemBuildList itemHistoryLists={itemDetail.buildHistories} />
+            </SDetailDiv>
+          </SDetailContainer>
         </>
       )}
     </SWrap>
@@ -153,47 +144,40 @@ export default function ItemDetail() {
 }
 
 const HighlightOffIconStyle = {
-  fontSize: "4rem",
+  fontSize: "4.5rem",
   color: theme.colors.error,
 };
 
 const checkStyle = {
-  fontSize: "4rem",
+  fontSize: "4.5rem",
   color: theme.colors.checkgreen,
 };
 
 const SItemContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 
-const SItemValue = styled.span`
+const SItemValue = styled.div`
   font-size: 2.2rem;
   font-weight: ${theme.fontWeight.bold};
-  color: ${theme.colors.secondary};
-  margin-top: 3.5rem;
-`;
-
-const SItemStatus = styled.span`
-  margin-top: 1.5rem;
-`;
-
-const SP = styled.p`
-  font-size: 2.5rem;
-  font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.primary};
-  margin-left: 1rem;
+  margin-top: 2em;
+`;
+
+const SItemStatus = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2.5em;
 `;
 
 const SDetailInfo = styled.div`
   display: flex;
   flex-direction: row;
-  width: 80%;
-  flex-shrink: 0;
-  justify-content: space-between;
   align-items: center;
-  margin: 4rem auto 0;
+  justify-content: center;
+  gap: 20em;
 `;
 
 const SItem = styled.span`
@@ -213,15 +197,14 @@ const SFrameMainDiv = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-right: 2rem;
-  padding-left: 2rem;
+  padding: 2em;
 `;
 
 const SFrameName = styled.span`
-  font-size: 5rem;
+  font-size: 5em;
   font-weight: ${theme.fontWeight.bold};
-  color: ${theme.colors.container};
-  margin-bottom: 1rem;
+  color: ${theme.colors.lightgray};
+  margin-bottom: 0.3em;
 `;
 
 const SFrame = styled.div`
@@ -231,47 +214,24 @@ const SFrame = styled.div`
   align-items: center;
 `;
 
-const SSpan = styled.span`
-  font-size: 2.5rem;
-  margin-top: 0.5rem;
+const SWrap = styled.div`
+  height: 120vh;
+  background: linear-gradient(140deg, #151649 32.5%, #f3f4f3);
 `;
 
-const SWrap = styled.div`
-  width: 100%;
-  height: 135rem;
-  background: linear-gradient(140deg, #151649 32.5%, #f3f4f3);
+const SDetailContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const SDetailDiv = styled.div`
   width: 150vh;
-  height: 80vh;
-  background-color: ${theme.colors.white};
-  border-radius: 5rem;
-  margin: 5vh auto 5vh;
+  height: 70vh;
+  background-color: ${theme.colors.lightgray};
+  border-radius: 1em;
   display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-`;
-
-const SCentered = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
-`;
-
-const SRadioLabel = styled.label`
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  color: ${theme.colors.white};
-  font-size: 2.5rem;
-`;
-
-const SLine = styled.div`
-  width: 40rem;
-  margin-bottom: 2rem;
-  border: 0.5vh solid ${theme.colors.white};
+  flex-direction: column;
 `;

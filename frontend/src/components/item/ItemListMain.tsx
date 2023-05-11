@@ -44,11 +44,9 @@ export default function ItemListMain() {
             <SItem></SItem>
             <SItem>이름</SItem>
             <SItem>상태</SItem>
-            <SItem></SItem>
-            <SItem>포트</SItem>
-            <SItem></SItem>
-            <SItem>최근 성공</SItem>
-            <SItem>최근 실패</SItem>
+            <SSItem>포트</SSItem>
+            <SSItem>최근 성공</SSItem>
+            <SSItem>최근 실패</SSItem>
             <SItem></SItem>
           </SListTitleDiv>
           <SListContent>
@@ -61,21 +59,28 @@ export default function ItemListMain() {
 }
 
 const SEmptyListBox = styled.div`
-  width: 86vw;
-  height: 42vh;
+  width: 81vw;
+  height: 34vh;
   background-color: ${theme.colors.white};
   font-weight: ${theme.fontWeight.bold};
-  font-size: 6rem;
+  font-size: 5em;
   border-radius: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 1rem;
+  padding: 1em;
 `;
 
 const SItem = styled.div`
-  flex: 1;
+  flex: 2;
+  font-size: 2.6em;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.primary};
+`;
+
+const SSItem = styled.div`
+  flex: 3.2;
   font-size: 2.5rem;
   font-weight: ${theme.fontWeight.extraBold};
   color: ${theme.colors.primary};
@@ -87,12 +92,13 @@ const SListContent = styled.div`
 `;
 
 const SListBox = styled.div`
-  width: 86vw;
-  height: 42vh;
+  width: 85vw;
+  height: 43vh;
   background-color: ${theme.colors.white};
   border-radius: 1rem;
+  display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   padding: 1em;
 `;

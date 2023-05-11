@@ -20,9 +20,9 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
 
   return (
     <SItemList>
-      <SItem>
+      <SButtonItem>
         <PlayArrowIcon style={PlayArrowIconStyle} />
-      </SItem>
+      </SButtonItem>
       <SItem>
         <StopIcon style={StopIconStyle} />
       </SItem>
@@ -34,13 +34,11 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
           <HighlightOffIcon style={HighlightOffIconStyle} />
         )}
       </SItem>
-      <SItem>
+      <SSItem>
         {item.portNumber1} , {item.portNumber2}
-      </SItem>
+      </SSItem>
       <STimeItem>{changeTime(item.lastSuccessDate)}</STimeItem>
       <STimeItem>{changeTime(item.lastFailureDate)}</STimeItem>
-      <SItem></SItem>
-      <SItem></SItem>
       <SItem>
         <SButton onClick={handleItemClick}>상세보기</SButton>
       </SItem>
@@ -48,21 +46,29 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
   );
 }
 
-const STimeItem = styled.div`
+const SButtonItem = styled.div`
+  flex: 1;
+`;
+
+const SSItem = styled.div`
   flex: 2;
-  font-size: 2rem;
+  font-size: 2.3em;
   font-weight: ${theme.fontWeight.medium};
   color: ${theme.colors.primary};
-  margin-right: 1rem;
-  margin-left: 1rem;
+`;
+
+const STimeItem = styled.div`
+  flex: 2;
+  font-size: 2.3em;
+  font-weight: ${theme.fontWeight.medium};
+  color: ${theme.colors.primary};
 `;
 
 const SItem = styled.div`
-  flex: 2;
+  flex: 1.5;
   font-size: 2.3rem;
   font-weight: ${theme.fontWeight.medium};
   color: ${theme.colors.primary};
-  margin-right: 3rem;
 `;
 
 const PlayArrowIconStyle = {
@@ -100,14 +106,15 @@ const SButton = styled.button`
 
 const SItemList = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  flex-direction: row;
+  text-align: center;
   width: 80vw;
   height: 8vh;
   padding: 1em;
   background: ${theme.colors.lightgray};
   overflow: hidden;
   border-radius: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5em;
 `;

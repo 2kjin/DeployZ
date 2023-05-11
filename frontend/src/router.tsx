@@ -29,6 +29,7 @@ const router = createBrowserRouter([
   { path: "/loginRedirect", element: <OauthLogin /> },
   { path: "/signupRedirect", element: <OauthSignup /> },
   { path: "*", element: <Page404 /> },
+  ,
 ]);
 
 export default router;

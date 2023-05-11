@@ -79,8 +79,9 @@ export default function ProjectList() {
 
 const Container = styled.div`
   display: flex;
+  width: 86vw;
   height: 43vh;
-  gap: 2rem;
+  gap: 2.5rem;
 `;
 
 const SEmptyDiv = styled.div`

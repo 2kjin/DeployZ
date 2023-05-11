@@ -9,21 +9,11 @@ export interface itemDetailInfo {
   lastSuccessDate: string;
   lastFailureDate: string;
   buildHistories: itemHistory[];
-  // itemProgresses: {
-  //   builds: itemProgress[];
-  //   deploys: itemProgress[];
-  //   runs: itemProgress[];
-  // };
 }
 
 export interface itemHistory {
   idx: number;
   status: string;
-  console: string;
+  consol: string;
   registerDate: string;
 }
-
-// export interface itemProgress {
-//   idx: number;
-//   status: string;
-// }
