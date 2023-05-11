@@ -42,13 +42,13 @@ import lombok.extern.slf4j.Slf4j;
 public class ItemController {
 
 	private final ItemService itemService;
-	private final ProjectService projectService;
 
 	@ApiResponse(responseCode = "200", description = "컨테이너 삭제 성공")
 	@Operation(description = "컨테이너 삭제 API", summary = "컨테이너 삭제 API")
 	@DeleteMapping("/{itemIdx}")
 	public BaseResponse<Void> ItemRemove(@Valid @PathVariable Long itemIdx) {
 		itemService.removeItem(itemIdx);
+
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 
@@ -56,9 +56,7 @@ public class ItemController {
 	@Operation(description = "컨테이너 리스트 조회 API", summary = "컨테이너 리스트 조회 API")
 	@GetMapping("/{projectIdx}")
 	public BaseResponse<List<ItemListResponse>> findItemList(@Valid @PathVariable Long projectIdx) {
-		final Project project = projectService.findProject(projectIdx);
-		final List<Item> itemList = itemService.getItemList(project);
-		final List<ItemListResponse> itemListResponses = itemService.updateStatusChangeTime(project, itemList);
+		final List<ItemListResponse> itemListResponses = itemService.findItemListByProjectIdx(projectIdx);
 
 		return new BaseResponse<>(itemListResponses);
 	}

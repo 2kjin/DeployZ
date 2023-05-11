@@ -227,14 +227,17 @@ public class ProjectService {
 	private HashMap<String, Integer> findItemListByProjectIdx(Long projectIdx) {
 		HashMap<String, Integer> branches = new HashMap<>();
 
-		Project project = projectRepository.findProjectByIdx(projectIdx).orElseThrow(ProjectNotFoundException::new);
+		Project  project = projectRepository.findProjectByIdx(projectIdx).orElseThrow(ProjectNotFoundException::new);
 		List<Item> items = project.getItems();
 
-		for (Item item : items) {
-			String branchName = item.getBranchName();
-			Integer branchBuildCnt = item.getItemHistories().size();
+		if (items != null){
 
-			branches.put(branchName, branchBuildCnt);
+			for (Item item: items) {
+				String branchName = item.getBranchName();
+				Integer branchBuildCnt = item.getItemHistories().size();
+
+				branches.put(branchName, branchBuildCnt);
+			}
 		}
 		return branches;
 	}
