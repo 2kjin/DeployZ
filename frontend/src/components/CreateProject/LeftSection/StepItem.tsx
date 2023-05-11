@@ -95,4 +95,5 @@ const StatusSection = styled.div<{ status: String }>`
       : theme.colors.darkgray};
   border-radius: 1rem;
   font-size: 1.2rem;
+  font-family: "Pretendard";
 `;

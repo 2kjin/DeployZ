@@ -162,146 +162,137 @@ export default function ItemBox({
   }, []);
 
   return (
-    <Container>
+    <>
       <InputContainer>
-        <Subject>{itemName}</Subject>
+        <Subject>| {itemName}</Subject>
         <SaveBtn onClick={() => itemValidCheck()}>저장</SaveBtn>
       </InputContainer>
-      {/* 첫번째 줄 */}
-      <InputContainer>
-        <CustomFormControl variant="standard">
-          <CustomInputLabel
-            shrink
-            sx={{ fontSize: "1.9rem", color: "#151649" }}
-          >
-            Item Name
-          </CustomInputLabel>
-          <InputBox
-            placeholder={`컨테이너 명을 입력세요. ex) ${handlePlaceholder(
-              "ItemName"
-            )}`}
-            id="itemName"
-            value={item.itemName}
-            // onChange={handleItemData}
-          />
-        </CustomFormControl>
-        <CustomFormControl variant="standard">
-          <CustomInputLabel shrink>Port Number 1</CustomInputLabel>
-          <InputBox
-            placeholder={`할당할 포트번호를 입력하세요. ex) ${handlePlaceholder(
-              "Port1"
-            )}`}
-            id="portNumber1"
-            value={item.portNumber1}
-            onChange={handleItemData}
-          />
-        </CustomFormControl>
-        <CustomFormControl variant="standard">
-          <CustomInputLabel shrink>Port Number 2</CustomInputLabel>
-          <InputBox
-            placeholder={`할당할 포트번호를 입력하세요. ex) ${handlePlaceholder(
-              "Port2"
-            )}`}
-            id="portNumber2"
-            value={item.portNumber2}
-            onChange={handleItemData}
-          />
-        </CustomFormControl>
-      </InputContainer>
-      {/* 2번째 줄 */}
-      <InputContainer>
-        <CustomFormControl variant="standard">
-          <CustomInputLabel shrink>Branch Name</CustomInputLabel>
-          <CustomSelect
-            name="branchName"
-            defaultValue={"none"}
-            value={item.branchName}
-            onChange={handleSelectChange}
-          >
-            <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
-              <em>선택하세요.</em>
-            </MenuItem>
-            {branchList.map((branch, idx) => (
-              <MenuItem key={idx} value={branch} sx={{ fontSize: "1.4rem" }}>
-                {branch}
-              </MenuItem>
-            ))}
-          </CustomSelect>
-        </CustomFormControl>
-        <CustomFormControl variant="standard">
-          <CustomInputLabel shrink>Target Folder</CustomInputLabel>
-          <InputBox
-            placeholder={`해당 폴더를 입력하세요. ex) ${handlePlaceholder(
-              "TargetFolder"
-            )}`}
-            id="targetFolder"
-            value={item.targetFolder}
-            onChange={handleItemData}
-          />
-        </CustomFormControl>
-        <CustomFormControl sx={{ visibility: "hidden" }}>
-          <InputLabel>EMPTY</InputLabel>
-          <Select
-            sx={{
-              width: "28.5rem",
-            }}
-          />
-        </CustomFormControl>
-      </InputContainer>
-
-      {/* 3번째 줄 */}
-      <InputContainer>
-        <CustomFormControl variant="standard">
-          <CustomInputLabel shrink>Framework</CustomInputLabel>
-          <CustomSelect
-            name="frameworkType"
-            value={item.frameworkType}
-            onChange={handleSelectChange}
-          >
-            <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
-              <em>선택하세요.</em>
-            </MenuItem>
-            <MenuItem
-              value={handlePlaceholder("Framework")}
-              sx={{ fontSize: "1.4rem" }}
+      <Container>
+        {/* 첫번째 줄 */}
+        <InputContainer>
+          <CustomFormControl variant="standard">
+            <CustomInputLabel shrink>Item Name</CustomInputLabel>
+            <InputBox
+              placeholder={`컨테이너 명을 입력세요. ex) ${handlePlaceholder(
+                "ItemName"
+              )}`}
+              id="itemName"
+              value={item.itemName}
+              // onChange={handleItemData}
+            />
+          </CustomFormControl>
+          <CustomFormControl variant="standard">
+            <CustomInputLabel shrink>Port Number 1</CustomInputLabel>
+            <InputBox
+              placeholder={`ex) ${handlePlaceholder("Port1")}`}
+              id="portNumber1"
+              value={item.portNumber1}
+              onChange={handleItemData}
+            />
+          </CustomFormControl>
+          <CustomFormControl variant="standard">
+            <CustomInputLabel shrink>Port Number 2</CustomInputLabel>
+            <InputBox
+              placeholder={`ex) ${handlePlaceholder("Port2")}`}
+              id="portNumber2"
+              value={item.portNumber2}
+              onChange={handleItemData}
+            />
+          </CustomFormControl>
+        </InputContainer>
+        {/* 2번째 줄 */}
+        <InputContainer>
+          <CustomFormControl variant="standard">
+            <CustomInputLabel shrink>Branch Name</CustomInputLabel>
+            <CustomSelect
+              name="branchName"
+              defaultValue={"none"}
+              value={item.branchName}
+              onChange={handleSelectChange}
             >
-              {handlePlaceholder("Framework")}
-            </MenuItem>
-          </CustomSelect>
-        </CustomFormControl>
-        <CustomFormControl variant="standard">
-          <CustomInputLabel shrink>Build Version</CustomInputLabel>
-          <CustomSelect
-            name="buildVersion"
-            value={item.buildVersion}
-            onChange={handleSelectChange}
-            defaultValue={item.buildVersion}
-            MenuProps={{
-              style: {
-                maxHeight: "300px",
-              },
-            }}
-          >
-            <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
-              <em>선택하세요.</em>
-            </MenuItem>
-            {versionList.map((version, idx) => (
-              <MenuItem key={idx} value={version} sx={{ fontSize: "1.4rem" }}>
-                {version}
+              <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
+                <em>선택하세요.</em>
               </MenuItem>
-            ))}
-          </CustomSelect>
-        </CustomFormControl>
-        <CustomFormControl sx={{ visibility: "hidden" }}>
-          <InputLabel>EMPTY</InputLabel>
-          <Select
-            sx={{
-              width: "28.5rem",
-            }}
-          />
-        </CustomFormControl>
-      </InputContainer>
-    </Container>
+              {branchList.map((branch, idx) => (
+                <MenuItem key={idx} value={branch} sx={{ fontSize: "1.4rem" }}>
+                  {branch}
+                </MenuItem>
+              ))}
+            </CustomSelect>
+          </CustomFormControl>
+          <CustomFormControl variant="standard">
+            <CustomInputLabel shrink>Target Folder</CustomInputLabel>
+            <InputBox
+              placeholder={`ex) ${handlePlaceholder("TargetFolder")}`}
+              id="targetFolder"
+              value={item.targetFolder}
+              onChange={handleItemData}
+            />
+          </CustomFormControl>
+          <CustomFormControl sx={{ visibility: "hidden" }}>
+            <InputLabel>EMPTY</InputLabel>
+            <Select
+              sx={{
+                width: "28.5rem",
+              }}
+            />
+          </CustomFormControl>
+        </InputContainer>
+
+        {/* 3번째 줄 */}
+        <InputContainer>
+          <CustomFormControl variant="standard">
+            <CustomInputLabel shrink>Framework</CustomInputLabel>
+            <CustomSelect
+              name="frameworkType"
+              value={item.frameworkType}
+              onChange={handleSelectChange}
+            >
+              <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
+                <em>선택하세요.</em>
+              </MenuItem>
+              <MenuItem
+                value={handlePlaceholder("Framework")}
+                sx={{ fontSize: "1.4rem" }}
+              >
+                {handlePlaceholder("Framework")}
+              </MenuItem>
+            </CustomSelect>
+          </CustomFormControl>
+          <CustomFormControl variant="standard">
+            <CustomInputLabel shrink>Build Version</CustomInputLabel>
+            <CustomSelect
+              name="buildVersion"
+              value={item.buildVersion}
+              onChange={handleSelectChange}
+              defaultValue={item.buildVersion}
+              MenuProps={{
+                style: {
+                  maxHeight: "300px",
+                },
+              }}
+            >
+              <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
+                <em>선택하세요.</em>
+              </MenuItem>
+              {versionList.map((version, idx) => (
+                <MenuItem key={idx} value={version} sx={{ fontSize: "1.4rem" }}>
+                  {version}
+                </MenuItem>
+              ))}
+            </CustomSelect>
+          </CustomFormControl>
+          <CustomFormControl sx={{ visibility: "hidden" }}>
+            <InputLabel>EMPTY</InputLabel>
+            <Select
+              sx={{
+                width: "28.5rem",
+              }}
+            />
+          </CustomFormControl>
+        </InputContainer>
+      </Container>
+    </>
   );
 }
 
@@ -312,9 +303,10 @@ const CustomSelect = mstyled(Select)({
 });
 
 const CustomInputLabel = mstyled(InputLabel)({
-  fontSize: "1.9rem",
+  fontSize: "2rem",
   color: "#151649",
   fontFamily: "Pretendard",
+  fontWeight: "bold",
 });
 
 const CustomFormControl = mstyled(FormControl)({
@@ -343,18 +335,17 @@ const InputBox = mstyled(InputBase)(({ theme }) => ({
 }));
 
 const Container = styled.div`
-  height: 50%;
   background-color: ${theme.colors.container};
   padding: 1rem 1.2rem;
   border-radius: 1rem;
-  margin-bottom: 2%;
+  margin-bottom: 4%;
 `;
 
 const Subject = styled.p`
   font-weight: bold;
   margin: 0;
   margin-bottom: 0.7%;
-  font-size: 2rem;
+  font-size: 2.5rem;
 `;
 
 const SaveBtn = styled.div`
@@ -375,7 +366,7 @@ const SaveBtn = styled.div`
 const InputContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1.5%;
+  margin-bottom: 2%;
 `;
 
 interface InputForm {
