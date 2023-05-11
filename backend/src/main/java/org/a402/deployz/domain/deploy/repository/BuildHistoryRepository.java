@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BuildHistoryRepository extends JpaRepository<BuildHistory, Long> {
-	Optional<BuildHistory> findBuildHistoryByIdx(long itemIdx);
+	Optional<BuildHistory> findBuildHistoryByItemIdx(long itemIdx);
 }

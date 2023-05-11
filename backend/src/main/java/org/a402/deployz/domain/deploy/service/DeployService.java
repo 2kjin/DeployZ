@@ -50,7 +50,7 @@ public class DeployService {
 		final Project project = item.getProject();
 
 		// Git Clone, Pull 검사
-		if (buildHistoryRepository.findBuildHistoryByIdx(itemIdx).isPresent()) {
+		if (buildHistoryRepository.findBuildHistoryByItemIdx(itemIdx).isPresent()) {
 			// 초기 상태가 아니면 Git Pull
 			gitAction = "Pull";
 		}
