@@ -50,7 +50,7 @@ public class DeployService {
 		final Project project = item.getProject();
 
 		// Git Clone, Pull 검사
-		if (buildHistoryRepository.findBuildHistoryByItemIdx(itemIdx).isPresent()) {
+		if (buildHistoryRepository.findBuildHistoryByItemIdx(itemIdx).size() > 0) {
 			// 초기 상태가 아니면 Git Pull
 			gitAction = "Pull";
 		}
@@ -70,7 +70,7 @@ public class DeployService {
 
 		final String repositoryUrl = project.getGitConfig().getRepositoryUrl();
 		final String repositoryName = GitAdapter.parseUrl(repositoryUrl).get(3).split("\\.")[0];
-		final String repositoryPath = pathParser.getRepositoryPath(project.getProjectName(), item.getBranchName(),
+		final String repositoryPath = pathParser.getRepositoryPath(project.getProjectName(), item.getName(),
 			repositoryName).toString();
 		log.info("repositoryPath: {}", repositoryPath);
 
