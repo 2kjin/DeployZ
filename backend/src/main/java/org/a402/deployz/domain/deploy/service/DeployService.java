@@ -35,7 +35,7 @@ public class DeployService {
 	private final ItemRepository itemRepository;
 	private final PathParser pathParser;
 
-	@Transactional(readOnly = true)
+	@Transactional
 	public ItemDeployResponse itemDeploy(final Long itemIdx) {
 		String gitAction = "Clone";
 		String status = "Waiting";
