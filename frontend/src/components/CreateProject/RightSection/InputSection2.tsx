@@ -24,13 +24,6 @@ export default function InputSection2() {
     checkIsValid();
   }, [itemList]);
 
-  const checkIsSave = () => {
-    itemList.map((item) => {
-      if (item.secretToken === "") return false;
-    });
-    return true;
-  };
-
   // 스텝 바꿀때 체크
   const checkIsValid = () => {
     itemList.map((item) => {
@@ -56,6 +49,14 @@ export default function InputSection2() {
         setSteps(updatedSteps);
       }
     });
+
+    // const checkIsSave = () => {
+    //   itemList.map((item) => {
+    //     if (item.secretToken === "") return false;
+    //   });
+    //   return true;
+    // };
+
     // if (!checkIsSave()) {
     //   const updatedSteps = steps.map((step) => {
     //     if (step.number === nowChapter) {
@@ -94,13 +95,12 @@ export default function InputSection2() {
 
   return (
     <Container>
-      <SubjectContainer>
-        {/* <p className="subject">Item 정보 입력</p> */}
+      {/* <SubjectContainer>
         <p className="desc">
           <ModeIcon sx={{ fontSize: "2rem" }} />
           Item별로 정보 입력후 저장을 해주세요.
         </p>
-      </SubjectContainer>
+      </SubjectContainer> */}
       {itemList.map((item: IItem, idx) => (
         <ItemBox key={idx} itemName={item.itemName} branchList={branchList} />
       ))}

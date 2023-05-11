@@ -169,10 +169,13 @@ export default function ItemBox({
       </InputContainer>
       {/* 첫번째 줄 */}
       <InputContainer>
-        <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
+        <CustomFormControl variant="standard">
+          <CustomInputLabel
+            shrink
+            sx={{ fontSize: "1.9rem", color: "#151649" }}
+          >
             Item Name
-          </InputLabel>
+          </CustomInputLabel>
           <InputBox
             placeholder={`컨테이너 명을 입력세요. ex) ${handlePlaceholder(
               "ItemName"
@@ -181,11 +184,9 @@ export default function ItemBox({
             value={item.itemName}
             // onChange={handleItemData}
           />
-        </FormControl>
-        <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
-            Port Number 1
-          </InputLabel>
+        </CustomFormControl>
+        <CustomFormControl variant="standard">
+          <CustomInputLabel shrink>Port Number 1</CustomInputLabel>
           <InputBox
             placeholder={`할당할 포트번호를 입력하세요. ex) ${handlePlaceholder(
               "Port1"
@@ -194,11 +195,9 @@ export default function ItemBox({
             value={item.portNumber1}
             onChange={handleItemData}
           />
-        </FormControl>
-        <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
-            Port Number 2
-          </InputLabel>
+        </CustomFormControl>
+        <CustomFormControl variant="standard">
+          <CustomInputLabel shrink>Port Number 2</CustomInputLabel>
           <InputBox
             placeholder={`할당할 포트번호를 입력하세요. ex) ${handlePlaceholder(
               "Port2"
@@ -207,20 +206,13 @@ export default function ItemBox({
             value={item.portNumber2}
             onChange={handleItemData}
           />
-        </FormControl>
+        </CustomFormControl>
       </InputContainer>
       {/* 2번째 줄 */}
       <InputContainer>
-        <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
-            Branch Name
-          </InputLabel>
-          <Select
-            sx={{
-              width: "28.5rem",
-              fontSize: "1.4rem",
-              padding: "0.7rem 0",
-            }}
+        <CustomFormControl variant="standard">
+          <CustomInputLabel shrink>Branch Name</CustomInputLabel>
+          <CustomSelect
             name="branchName"
             defaultValue={"none"}
             value={item.branchName}
@@ -234,12 +226,10 @@ export default function ItemBox({
                 {branch}
               </MenuItem>
             ))}
-          </Select>
-        </FormControl>
-        <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
-            Target Folder
-          </InputLabel>
+          </CustomSelect>
+        </CustomFormControl>
+        <CustomFormControl variant="standard">
+          <CustomInputLabel shrink>Target Folder</CustomInputLabel>
           <InputBox
             placeholder={`해당 폴더를 입력하세요. ex) ${handlePlaceholder(
               "TargetFolder"
@@ -248,24 +238,22 @@ export default function ItemBox({
             value={item.targetFolder}
             onChange={handleItemData}
           />
-        </FormControl>
-        <FormControl variant="standard" sx={{ visibility: "hidden" }}>
+        </CustomFormControl>
+        <CustomFormControl sx={{ visibility: "hidden" }}>
           <InputLabel>EMPTY</InputLabel>
-          <InputBox />
-        </FormControl>
-      </InputContainer>
-      {/* 3번째 줄 */}
-      <InputContainer>
-        <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
-            Framework
-          </InputLabel>
           <Select
             sx={{
               width: "28.5rem",
-              fontSize: "1.4rem",
-              padding: "0.7rem 0",
             }}
+          />
+        </CustomFormControl>
+      </InputContainer>
+
+      {/* 3번째 줄 */}
+      <InputContainer>
+        <CustomFormControl variant="standard">
+          <CustomInputLabel shrink>Framework</CustomInputLabel>
+          <CustomSelect
             name="frameworkType"
             value={item.frameworkType}
             onChange={handleSelectChange}
@@ -279,18 +267,11 @@ export default function ItemBox({
             >
               {handlePlaceholder("Framework")}
             </MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl variant="standard">
-          <InputLabel shrink sx={{ fontSize: "1.9rem", color: "#151649" }}>
-            Build Version
-          </InputLabel>
-          <Select
-            sx={{
-              width: "28.5rem",
-              fontSize: "1.4rem",
-              padding: "0.7rem 0",
-            }}
+          </CustomSelect>
+        </CustomFormControl>
+        <CustomFormControl variant="standard">
+          <CustomInputLabel shrink>Build Version</CustomInputLabel>
+          <CustomSelect
             name="buildVersion"
             value={item.buildVersion}
             onChange={handleSelectChange}
@@ -309,20 +290,37 @@ export default function ItemBox({
                 {version}
               </MenuItem>
             ))}
-          </Select>
-        </FormControl>
-        <FormControl sx={{ visibility: "hidden" }}>
+          </CustomSelect>
+        </CustomFormControl>
+        <CustomFormControl sx={{ visibility: "hidden" }}>
           <InputLabel>EMPTY</InputLabel>
           <Select
             sx={{
               width: "28.5rem",
             }}
           />
-        </FormControl>
+        </CustomFormControl>
       </InputContainer>
     </Container>
   );
 }
+
+const CustomSelect = mstyled(Select)({
+  fontSize: "1.4rem",
+  padding: "0.7rem 0",
+  marginLeft: "0.5rem",
+});
+
+const CustomInputLabel = mstyled(InputLabel)({
+  fontSize: "1.9rem",
+  color: "#151649",
+  fontFamily: "Pretendard",
+});
+
+const CustomFormControl = mstyled(FormControl)({
+  marginRight: "1rem",
+  width: "31%",
+});
 
 const InputBox = mstyled(InputBase)(({ theme }) => ({
   "label + &": {
