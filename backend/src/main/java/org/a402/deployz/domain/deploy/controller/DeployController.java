@@ -37,9 +37,14 @@ public class DeployController {
 	@ApiResponse(responseCode = "200", description = "배포 처리 성공")
 	@Operation(description = "아이템 배포 API", summary = "아이템 배포 API")
 	@PostMapping("/{itemIdx}")
-	public BaseResponse<ItemDeployResponse> itemDeploy(@Valid @PathVariable final Long itemIdx,
-		@AuthenticationPrincipal UserDetails userDetails) {
-		ItemDeployResponse itemDeployResponse = deployService.itemDeploy(itemIdx, userDetails);
+	// public BaseResponse<ItemDeployResponse> itemDeploy(@Valid @PathVariable final Long itemIdx,
+	// 	@AuthenticationPrincipal UserDetails userDetails) {
+	// 	ItemDeployResponse itemDeployResponse = deployService.itemDeploy(itemIdx, userDetails);
+	// 	return new BaseResponse<>(itemDeployResponse);
+	// }
+	// 테스트용 컨트롤러
+	public BaseResponse<ItemDeployResponse> itemDeploy(@Valid @PathVariable final Long itemIdx) {
+		ItemDeployResponse itemDeployResponse = deployService.itemDeploy(itemIdx);
 		return new BaseResponse<>(itemDeployResponse);
 	}
 

@@ -36,12 +36,13 @@ public class DeployService {
 	private final PathParser pathParser;
 
 	@Transactional(readOnly = true)
-	public ItemDeployResponse itemDeploy(final Long itemIdx, final UserDetails userDetails) {
+	public ItemDeployResponse itemDeploy(final Long itemIdx) {
 		String gitAction = "Clone";
 		String status = "Waiting";
 
 		// 회원 정보 조회
-		final Member member = memberRepository.findMemberByAccount(userDetails.getUsername())
+		// @FIXME: to use Authentication
+		final Member member = memberRepository.findMemberByIdx(2L)
 			.orElseThrow(MemberNotFoundException::new);
 		// 아이템 조회
 		final Item item = itemRepository.findItemByIdx(itemIdx).orElseThrow(ItemNotFoundException::new);

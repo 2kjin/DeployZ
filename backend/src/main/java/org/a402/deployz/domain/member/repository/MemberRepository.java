@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
 	Optional<Member> findMemberByAccount(final String account);
+
+	// @FIXME: remove later
+	Optional<Member> findMemberByIdx(final Long idx);
 }
