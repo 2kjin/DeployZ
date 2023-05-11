@@ -75,7 +75,9 @@ export default function LoginSection() {
       </CustomForm>
       <TextBox>
         <NavText>비밀번호를 잊으셨나요?</NavText>
-        <NavText onClick={() => navigate("/signup")}>회원가입 하러가기</NavText>
+        <NavText onClick={() => navigate("/signup")}>
+          사용자 등록 하러가기
+        </NavText>
       </TextBox>
     </Container>
   );

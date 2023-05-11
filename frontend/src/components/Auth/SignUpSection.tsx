@@ -180,7 +180,7 @@ export default function SignupPage() {
         onChange={handlePasswordValid}
         helperText={showValidHelperText ? "비밀번호와 일치하지 않습니다." : ""}
       />
-      <SignUpButton onClick={sendSignUpData}>회원가입</SignUpButton>
+      <SignUpButton onClick={sendSignUpData}>등 록</SignUpButton>
     </Container>
   );
 }

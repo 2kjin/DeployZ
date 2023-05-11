@@ -261,7 +261,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: 3rem;
+    font-size: 2.6rem;
 
     p {
       font-size: 3rem;

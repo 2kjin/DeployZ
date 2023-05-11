@@ -205,6 +205,7 @@ const NavBtn = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  word-break: nowrap;
   :hover {
     transform: scale(1.03);
   }
