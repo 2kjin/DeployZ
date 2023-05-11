@@ -9,11 +9,11 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 
 import org.a402.deployz.domain.member.entity.Member;
+import org.a402.deployz.domain.member.exception.InvalidTokenException;
 import org.a402.deployz.domain.member.exception.TokenExpiredException;
 import org.a402.deployz.domain.member.service.MemberDetailService;
 import org.a402.deployz.global.error.GlobalErrorCode;
 import org.a402.deployz.global.security.redis.RedisRefreshTokenRepository;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,9 +24,13 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
@@ -50,7 +54,6 @@ public class JwtTokenProvider {
 		claims.put(AUTHORIZATION, member.getAuthorities()); // 권한
 
 		final long accessTokenValidSecond = Duration.ofDays(1).toMillis(); //access토큰 유효시간
-		//		final long accessTokenValidSecond = Duration.ofSeconds(10).toMillis(); //test용 access토큰 유효시간
 		final Date now = new Date();
 
 		return Jwts.builder()
@@ -62,12 +65,12 @@ public class JwtTokenProvider {
 	}
 
 	// refreshToken 생성.
-	public String createRefreshToken(final String accessToken, final String email) {
+	public String createRefreshToken(final String accessToken, final String account) {
 		final long refreshTokenValidSecond = Duration.ofDays(14).toMillis(); //refresh토큰 유효시간
 		final Date now = new Date();
 
 		final String refreshToken = Jwts.builder()
-			.setSubject(email)
+			.setSubject(account)
 			.setIssuedAt(now)  // 토큰 발행 일자
 			.setExpiration(new Date(now.getTime() + refreshTokenValidSecond)) // 토큰 만료시간 설정.
 			.signWith(SignatureAlgorithm.HS256, key) // 사용할 암호화 알고리즘, secret key값 설정
@@ -80,24 +83,25 @@ public class JwtTokenProvider {
 
 	// Jwt 토큰으로 인증 정보 조회
 	public Authentication getAuthentication(final String accessToken) {
-		final String userEmail = getUserEmail(accessToken);
+		final String userAccount = getUserAccount(accessToken);
 		String saveToken = accessToken;
 		UserDetails userDetails;
 
-		if (userEmail == null) {
+		if (userAccount == null) {
 			final RefreshToken refreshToken = redisRefreshTokenRepository.findById(accessToken)
 				.orElseThrow(() -> new JwtException(GlobalErrorCode.TOKEN_EXPIRED.getMessage()));
 
 			saveToken = refreshToken.getAccessToken();
 		}
 
-		userDetails = memberDetailService.loadUserByUsername(getUserEmail(saveToken));
+		final String userAccount1 = getUserAccount(saveToken);
+		userDetails = memberDetailService.loadUserByUsername(userAccount1);
 
 		return new UsernamePasswordAuthenticationToken(userDetails, accessToken, userDetails.getAuthorities());
 	}
 
-	// Jwt 토큰에서 회원 구별 정보 추출(email).
-	public String getUserEmail(final String token) {
+	// Jwt 토큰에서 회원 구별 정보 추출(account).
+	public String getUserAccount(final String token) {
 		return Jwts.parser()
 			.setSigningKey(key)
 			.parseClaimsJws(token)
@@ -106,7 +110,7 @@ public class JwtTokenProvider {
 	}
 
 	// Jwt 토큰의 유효성 + 만료일자 확인
-	public boolean validAccessToken(final String token) throws ExpiredJwtException, AccessDeniedException {
+	public boolean validAccessToken(final String token) throws ExpiredJwtException {
 		Jws<Claims> claims;
 
 		try {
@@ -114,10 +118,10 @@ public class JwtTokenProvider {
 			claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token);
 
 			return !claims.getBody().getExpiration().before(new Date());
-		} catch (final ExpiredJwtException expiredJwtException) {
-			throw new TokenExpiredException(GlobalErrorCode.TOKEN_EXPIRED);
-		} catch (final Exception exception) {
-			throw new AccessDeniedException(GlobalErrorCode.ACCESS_DENIED.getMessage());
+		} catch (ExpiredJwtException expiredJwtException) {
+			throw new TokenExpiredException();
+		} catch (MalformedJwtException | SignatureException exception) {
+			throw new InvalidTokenException();
 		}
 	}
 

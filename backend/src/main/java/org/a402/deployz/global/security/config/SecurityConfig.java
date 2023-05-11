@@ -53,6 +53,11 @@ public class SecurityConfig {
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS); // jwt Token으로 인증하므로 session 생성하지 않는다.
 
+		// 에러 핸들링
+		httpSecurity
+			.exceptionHandling()
+			.authenticationEntryPoint(jwtAuthenticationEntryPoint);
+
 		httpSecurity
 			.authorizeRequests()
 			.antMatchers("/api/project/**", "/api/item/**", "/api/git/**")
