@@ -78,11 +78,11 @@ public class ItemController {
 		}
 		// 해당 itemIdx를 가진 프로젝트 이름 반환
 		String projectName = itemService.findProjectName(itemIdx);
-
 		// 아이템의 정보들을 ItemListResponse Dto에 넣음
 		itemInfo = itemService.findItemInfo(itemIdx, nowState, projectName);
 
 		itemDetailListRespons = new ItemDetailListResponse(buildHistories, itemInfo);
+
 		return new BaseResponse<>(itemDetailListRespons);
 	}
 
