@@ -96,20 +96,23 @@ public class ItemService {
 		if (items.size() > 0){
 			for (Item item : items) {
 				String status = "";
+
 				// 최근 성공시간이 최근 실패시간 보다 이후 -> SUCCESS
 				final LocalDateTime successDate = item.getLastSuccessDate();
 				final LocalDateTime failureDate = item.getLastFailureDate();
 
-				// failureDate가 더 이후: 음수값 반환 / successDate가 더 최근: 양수 반환
-				Duration duration = Duration.between(failureDate, successDate);
+				if (successDate !=null && failureDate !=null ) {
+					// failureDate가 더 이후: 음수값 반환 / successDate가 더 최근: 양수 반환
+					Duration duration = Duration.between(failureDate, successDate);
 
-				// 초 단위 차이
-				long diffInSeconds = duration.getSeconds();
+					// 초 단위 차이
+					long diffInSeconds = duration.getSeconds();
 
-				if (diffInSeconds >= 0) {
-					status = "SUCCESS";
-				} else {
-					status = "FAIL";
+					if (diffInSeconds >= 0) {
+						status = "SUCCESS";
+					} else {
+						status = "FAIL";
+					}
 				}
 				if (!item.isDeletedFlag()) {
 					String projectName =findProjectName(item.getIdx());
