@@ -24,7 +24,8 @@ export default function InputSection1() {
       projectConfig.hostUrl === "" ||
       projectConfig.projectId === "" ||
       projectConfig.projectName === "" ||
-      projectConfig.description === ""
+      projectConfig.description === "" ||
+      repoInfo.name === "none"
     ) {
       const updatedSteps = steps.map((step) => {
         if (step.number === nowChapter) {
@@ -105,30 +106,25 @@ export default function InputSection1() {
         repositoryUrl: data.http_url_to_repo,
       }));
     } catch (error) {
-      console.log("error");
+      setProjectConfig((cur) => ({
+        ...cur,
+        repositoryUrl: "",
+      }));
       setRepoInfo(NONE_PROJECTINFO);
     }
   };
+
   useEffect(() => {
     getGitlabInfo();
   }, [projectConfig.projectId, projectConfig.hostUrl]);
 
   return (
     <Container>
-      <p className="subject">Project 설정 정보 입력</p>
+      {/* <p className="subject">Project 설정 정보 입력</p> */}
       {/* 첫째 줄 */}
       <InputContainer>
-        <FormControl variant="standard">
-          <InputLabel
-            shrink
-            sx={{
-              fontSize: "2.6rem",
-              fontWeight: "700",
-              color: "#151649",
-            }}
-          >
-            Host URL
-          </InputLabel>
+        <CustomFormControl variant="standard" sx={{ marginRight: "1rem" }}>
+          <CustomInputLabel shrink>Host URL</CustomInputLabel>
           <InputBox
             widthnum={"30rem"}
             fontnum={"1.4rem"}
@@ -138,18 +134,9 @@ export default function InputSection1() {
             value={projectConfig.hostUrl}
             onChange={handleItemData}
           />
-        </FormControl>
-        <FormControl variant="standard">
-          <InputLabel
-            shrink
-            sx={{
-              fontSize: "2.6rem",
-              fontWeight: "700",
-              color: "#151649",
-            }}
-          >
-            Project ID
-          </InputLabel>
+        </CustomFormControl>
+        <CustomFormControl variant="standard">
+          <CustomInputLabel shrink>Project ID</CustomInputLabel>
           <InputBox
             widthnum={"30rem"}
             fontnum={"1.4rem"}
@@ -159,22 +146,13 @@ export default function InputSection1() {
             value={projectConfig.projectId}
             onChange={handleItemData}
           />
-        </FormControl>
+        </CustomFormControl>
       </InputContainer>
 
       {/* 둘째 줄 */}
       <InputContainer>
-        <FormControl variant="standard">
-          <InputLabel
-            shrink
-            sx={{
-              fontSize: "2.6rem",
-              fontWeight: "700",
-              color: "#151649",
-            }}
-          >
-            Project Name
-          </InputLabel>
+        <CustomFormControl variant="standard">
+          <CustomInputLabel shrink>Project Name</CustomInputLabel>
           <InputBox
             widthnum={"30rem"}
             fontnum={"1.4rem"}
@@ -184,18 +162,9 @@ export default function InputSection1() {
             value={projectConfig.projectName}
             onChange={handleItemData}
           />
-        </FormControl>
-        <FormControl variant="standard">
-          <InputLabel
-            shrink
-            sx={{
-              fontSize: "2.6rem",
-              fontWeight: "700",
-              color: "#151649",
-            }}
-          >
-            Project Description
-          </InputLabel>
+        </CustomFormControl>
+        <CustomFormControl variant="standard">
+          <CustomInputLabel shrink>Project Description</CustomInputLabel>
           <InputBox
             widthnum={"30rem"}
             fontnum={"1.4rem"}
@@ -205,7 +174,7 @@ export default function InputSection1() {
             value={projectConfig.description}
             onChange={handleItemData}
           />
-        </FormControl>
+        </CustomFormControl>
       </InputContainer>
       {projectConfig.projectId == "" ? (
         <ProjectContainer className="none">
@@ -249,6 +218,9 @@ export default function InputSection1() {
 }
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-color: #fff;
   /* background-color: ${theme.colors.container}; */
   flex: 4;
@@ -280,6 +252,17 @@ const Container = styled.div`
     display: none;
   }
 `;
+
+const CustomInputLabel = mstyled(InputLabel)({
+  fontSize: "2.8rem",
+  fontWeight: "700",
+  color: "#151649",
+  fontFamily: "Pretendard",
+});
+
+const CustomFormControl = mstyled(FormControl)({
+  marginRight: "1rem",
+});
 
 const InputBox = mstyled(InputBase)<{
   widthnum: string;
@@ -318,15 +301,15 @@ const InputBox = mstyled(InputBase)<{
 );
 
 const InputContainer = styled.div`
-  width: 63%;
+  width: 80%;
   display: flex;
   justify-content: space-between;
   margin-bottom: 3%;
 `;
 
 const ProjectContainer = styled.div`
-  width: 63%;
-  height: 45%;
+  width: 80%;
+  height: 55%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

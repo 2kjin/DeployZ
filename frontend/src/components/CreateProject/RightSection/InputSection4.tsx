@@ -97,7 +97,7 @@ export default function InputSection2() {
 
   return (
     <Container>
-      <p className="subject">Nginx 설정 정보 입력</p>
+      {/* <p className="subject">Nginx 설정 정보 입력</p> */}
       <InputContainer>
         <FormControl variant="standard">
           <InputLabel

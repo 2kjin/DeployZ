@@ -17,7 +17,7 @@ export default function StepSection() {
 
 const Container = styled.div`
   background-color: #fff;
-  flex: 1.2;
+  flex: 1.7;
   margin: 2rem 1.5rem;
   border-radius: 1rem;
   padding: 0.5%;

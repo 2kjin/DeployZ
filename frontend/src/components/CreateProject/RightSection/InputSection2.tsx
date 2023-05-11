@@ -95,7 +95,7 @@ export default function InputSection2() {
   return (
     <Container>
       <SubjectContainer>
-        <p className="subject">Item 정보 입력</p>
+        {/* <p className="subject">Item 정보 입력</p> */}
         <p className="desc">
           <ModeIcon sx={{ fontSize: "2rem" }} />
           Item별로 정보 입력후 저장을 해주세요.
@@ -134,7 +134,7 @@ const SubjectContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: end;
-  width: 82%;
+  width: 80%;
 
   .desc {
     font-size: 1.7rem;

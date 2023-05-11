@@ -20,7 +20,7 @@ export default function InputSection2() {
 
   return (
     <Container>
-      <p className="subject">Git 정보 입력</p>
+      {/* <p className="subject">Git 정보 입력</p> */}
       {/* 둘째 줄 */}
       <InputContainer>
         <Section>
@@ -88,6 +88,7 @@ const Container = styled.div`
 const InputContainer = styled.div`
   width: 82%;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   margin-bottom: 3%;
 `;
@@ -121,6 +122,7 @@ const GuildButton = styled.div`
 
 const Section = styled.div`
   width: 42rem;
+  margin-bottom: 5%;
 
   .alert {
     font-size: 1.5rem;

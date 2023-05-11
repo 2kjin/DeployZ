@@ -345,12 +345,11 @@ const InputBox = mstyled(InputBase)(({ theme }) => ({
 }));
 
 const Container = styled.div`
-  width: 80%;
   height: 50%;
   background-color: ${theme.colors.container};
   padding: 1rem 1.2rem;
   border-radius: 1rem;
-  margin-bottom: 1%;
+  margin-bottom: 2%;
 `;
 
 const Subject = styled.p`

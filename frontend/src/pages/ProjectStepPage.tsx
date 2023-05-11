@@ -32,4 +32,5 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   height: 85vh;
+  padding: 0 7%;
 `;

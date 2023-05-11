@@ -72,7 +72,9 @@ export default function FooterNav() {
     setStepInfo(updatedStepInfo);
   };
 
+  // 이전 단계
   const toBack = () => {
+    // 현재 단계의 isValid(유효성 검사)가 true면
     if (stepInfo[currentChapter - 1].isValid) {
       handleStatusChangeBack(currentChapter - 1);
       setCurrentChapter(currentChapter - 1);
@@ -83,12 +85,16 @@ export default function FooterNav() {
     // checkProject();
   };
 
+  // 다음 단계
   const toNext = () => {
+    // 현재 단계의 isValid(유효성 검사)가 true면
     if (stepInfo[currentChapter - 1].isValid) {
       handleStatusChangeNext(currentChapter - 1);
       setCurrentChapter(currentChapter + 1);
     } else {
       if (currentChapter === 2) error("모든 아이템을 저장해주세요.");
+      else if (currentChapter === 1 && projectConfig.repositoryUrl === "")
+        error("유효한 레포지토리 정보를 입력하세요.");
       else error("모든 값을 입력하세요.");
     }
     // checkProject();
@@ -129,14 +135,14 @@ export default function FooterNav() {
   return (
     <Container>
       <Left>
-        <NavBtn className="Infra" onClick={handleOpen}>
+        {/* <NavBtn className="Infra" onClick={handleOpen}>
           인프라 가이드 보기
         </NavBtn>
         <Modal open={open} onClose={handleClose}>
           <>
             <InfraGuideModal handleClose={handleClose} />
           </>
-        </Modal>
+        </Modal> */}
       </Left>
       <Right chapter={currentChapter}>
         <NavBtn className="back" onClick={toBack}>
@@ -160,6 +166,7 @@ export default function FooterNav() {
 const Container = styled.div`
   display: flex;
   height: 8vh;
+  padding: 0 7%;
 `;
 
 const Left = styled.div`
@@ -176,7 +183,7 @@ const Left = styled.div`
 `;
 
 const Right = styled.div<{ chapter: number | undefined }>`
-  flex: 4;
+  flex: 2.93;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
