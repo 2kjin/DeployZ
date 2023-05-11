@@ -34,6 +34,7 @@ import org.a402.deployz.domain.project.repository.ProxyConfigRepository;
 import org.a402.deployz.domain.project.request.NginxConfigRequest;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
 import org.a402.deployz.domain.project.response.ProjectResponse;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,9 +59,10 @@ public class ProjectService {
 	public static final String CLONE = "Clone";
 
 	@Transactional
-	public void addProject(final TotalProjectConfigRequest request, final String userEmail) {
+	public void addProject(final TotalProjectConfigRequest request, final UserDetails userDetails) {
 		// Project 저장
-		final Member member = memberRepository.findMemberByEmail(userEmail).orElseThrow(MemberNotFoundException::new);
+		final Member member = memberRepository.findMemberByAccount(userDetails.getUsername())
+			.orElseThrow(MemberNotFoundException::new);
 		final Project project = projectRepository.save(request.getProjectConfig().toEntity(member));
 
 		// GitConfig 저장
@@ -170,8 +172,8 @@ public class ProjectService {
 
 	// staus를 확인하기 위한 코드
 	@Transactional(readOnly = true)
-	public List<ProjectResponse> findProjectList(final String email) {
-		final Member member = memberRepository.findMemberByEmail(email).orElseThrow(MemberNotFoundException::new);
+	public List<ProjectResponse> findProjectList(final String account) {
+		final Member member = memberRepository.findMemberByAccount(account).orElseThrow(MemberNotFoundException::new);
 		List<Project> tmp;
 
 		try {
@@ -212,10 +214,10 @@ public class ProjectService {
 			}
 
 			//브랜치명-> HashMap으로 반환
-			HashMap<String, Integer> branches= findItemListByProjectIdx(project.getIdx());
+			HashMap<String, Integer> branches = findItemListByProjectIdx(project.getIdx());
 
 			if (!project.isDeletedFlag()) {
-				result.add(new ProjectResponse(project, status, itemCnt,branches));
+				result.add(new ProjectResponse(project, status, itemCnt, branches));
 			}
 		}
 
