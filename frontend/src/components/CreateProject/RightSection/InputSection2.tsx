@@ -20,16 +20,16 @@ export default function InputSection2() {
   const [steps, setSteps] = useRecoilState(stepState);
 
   useEffect(() => {
-    // console.log(itemList);
     checkIsValid();
   }, [itemList]);
 
   // 스텝 바꿀때 체크
   const checkIsValid = () => {
-    itemList.map((item) => {
-      if (item.secretToken === "") {
+    for (const item of itemList) {
+      if (item.secretToken === "" || item.secretToken === undefined) {
         const updatedSteps = steps.map((step) => {
           if (step.number === nowChapter) {
+            console.log("here");
             return { ...step, isValid: false };
           } else {
             return step;
@@ -37,7 +37,10 @@ export default function InputSection2() {
         });
 
         setSteps(updatedSteps);
-      } else {
+        break;
+      }
+
+      if (item.secretToken !== "") {
         const updatedSteps = steps.map((step) => {
           if (step.number === nowChapter) {
             return { ...step, isValid: true };
@@ -48,7 +51,7 @@ export default function InputSection2() {
 
         setSteps(updatedSteps);
       }
-    });
+    }
 
     // const checkIsSave = () => {
     //   itemList.map((item) => {

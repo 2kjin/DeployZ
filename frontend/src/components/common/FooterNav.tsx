@@ -92,9 +92,9 @@ export default function FooterNav() {
       handleStatusChangeNext(currentChapter - 1);
       setCurrentChapter(currentChapter + 1);
     } else {
-      if (currentChapter === 2) error("모든 아이템을 저장해주세요.");
-      else if (currentChapter === 1 && projectConfig.repositoryUrl === "")
+      if (currentChapter === 1 && projectConfig.repositoryUrl === "")
         error("유효한 레포지토리 정보를 입력하세요.");
+      else if (currentChapter === 2) error("모든 아이템을 저장해주세요.");
       else error("모든 값을 입력하세요.");
     }
     // checkProject();
@@ -135,14 +135,14 @@ export default function FooterNav() {
   return (
     <Container>
       <Left>
-        {/* <NavBtn className="Infra" onClick={handleOpen}>
+        <NavBtn className="Infra" onClick={handleOpen}>
           인프라 가이드 보기
         </NavBtn>
         <Modal open={open} onClose={handleClose}>
           <>
             <InfraGuideModal handleClose={handleClose} />
           </>
-        </Modal> */}
+        </Modal>
       </Left>
       <Right chapter={currentChapter}>
         <NavBtn className="back" onClick={toBack}>

@@ -69,6 +69,7 @@ export default function ItemBox({
     }));
   };
 
+  // api를 통한 포트번호 중복 체크
   const handlePortValid = async (port1: string, port2: string) => {
     try {
       const {
@@ -125,6 +126,7 @@ export default function ItemBox({
     });
   };
 
+  // bulid type별 버전 api
   const getVersion = async (value: string) => {
     const {
       data: { result },
@@ -132,8 +134,8 @@ export default function ItemBox({
     setVersionList(result);
   };
 
+  // 시크릿 토큰 발급
   const getSercretToken = async (value: string) => {
-    // 시크릿 토큰 발급
     try {
       const {
         data: { result },
@@ -242,7 +244,7 @@ export default function ItemBox({
         {/* 3번째 줄 */}
         <InputContainer>
           <CustomFormControl variant="standard">
-            <CustomInputLabel shrink>Framework</CustomInputLabel>
+            <CustomInputLabel shrink>Build Type</CustomInputLabel>
             <CustomSelect
               name="frameworkType"
               value={item.frameworkType}
