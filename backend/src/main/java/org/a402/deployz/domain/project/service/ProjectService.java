@@ -152,7 +152,7 @@ public class ProjectService {
 
 		for (char c : port.toCharArray()){
 			if (!Character.isDigit(c)){
-				portCheck.put("port", "Please enter a number");
+				portCheck.put("port", "포트 번호는 숫자만 넣어주세요.");
 				return portCheck;
 			}
 		}
@@ -160,13 +160,13 @@ public class ProjectService {
 		int portByInt = Integer.parseInt(port);
 
 		if (portByInt < 0 || portByInt > 65535 || portByInt ==80 || portByInt == 8080 || portByInt ==443 ) {
-				portCheck.put("port", "Please check the port range");
+				portCheck.put("port", "포트 번호의 범위를 확인해주세요. (0~65535)");
 				return portCheck;
 		}
 		if (!itemRepository.existsByPortNumber((long)portByInt)){
-			portCheck.put("port", "true");
+			portCheck.put("port", "해당 포트 번호는 사용할 수 있습니다!");
 		} else {
-			portCheck.put("port", "false");
+			portCheck.put("port", "중복된 포트 번호가 있습니다.");
 		}
 
 		return portCheck;
