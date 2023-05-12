@@ -40,13 +40,13 @@ export default function ItemListMain() {
       ) : (
         <SListBox>
           <SListTitleDiv>
-            <SItem></SItem>
-            <SItem></SItem>
-            <SItem>이름</SItem>
-            <SItem>상태</SItem>
-            <SSItem>포트</SSItem>
-            <SSItem>최근 성공</SSItem>
-            <SSItem>최근 실패</SSItem>
+            <SButtonItem></SButtonItem>
+            <SButtonItem></SButtonItem>
+            <SNameItem>이름</SNameItem>
+            <SStatusItem>상태</SStatusItem>
+            <SPortItem>포트</SPortItem>
+            <SSuccessItem>최근 성공</SSuccessItem>
+            <SFailItem>최근 실패</SFailItem>
             <SItem></SItem>
           </SListTitleDiv>
           <SListContent>
@@ -58,30 +58,74 @@ export default function ItemListMain() {
   );
 }
 
+const SFailItem = styled.div`
+  flex: 2;
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.primary};
+`;
+
+const SSuccessItem = styled.div`
+  flex: 2;
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.primary};
+`;
+
+const SPortItem = styled.div`
+  flex: 1;
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.primary};
+`;
+
+const SStatusItem = styled.div`
+  flex: 0.8;
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.primary};
+`;
+
+const SNameItem = styled.div`
+  flex: 2;
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.primary};
+`;
+
+const SButtonItem = styled.div`
+  flex: 0.8;
+`;
+
 const SEmptyListBox = styled.div`
-  width: 81vw;
-  height: 34vh;
+  width: 177vh;
+  height: 40vh;
   background-color: ${theme.colors.white};
   font-weight: ${theme.fontWeight.bold};
-  font-size: 5em;
+  font-size: 3.8rem;
   border-radius: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 1em;
+  padding: 1rem;
+`;
+
+const SListBox = styled.div`
+  width: 177vh;
+  height: 40vh;
+  background-color: ${theme.colors.white};
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  padding: 1rem;
 `;
 
 const SItem = styled.div`
-  flex: 2;
-  font-size: 2.6em;
-  font-weight: ${theme.fontWeight.extraBold};
-  color: ${theme.colors.primary};
-`;
-
-const SSItem = styled.div`
-  flex: 3.2;
-  font-size: 2.5rem;
+  flex: 0.8;
+  font-size: 2rem;
   font-weight: ${theme.fontWeight.extraBold};
   color: ${theme.colors.primary};
 `;
@@ -91,24 +135,12 @@ const SListContent = styled.div`
   flex-direction: column;
 `;
 
-const SListBox = styled.div`
-  width: 85vw;
-  height: 43vh;
-  background-color: ${theme.colors.white};
-  border-radius: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
-  padding: 1em;
-`;
-
 const SListTitleDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 80vw;
-  height: 8vh;
+  width: 170vh;
+  height: 6vh;
 `;

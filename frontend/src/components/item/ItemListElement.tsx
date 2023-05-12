@@ -23,22 +23,23 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
       <SButtonItem>
         <PlayArrowIcon style={PlayArrowIconStyle} />
       </SButtonItem>
-      <SItem>
+      <SButtonItem>
         <StopIcon style={StopIconStyle} />
-      </SItem>
-      <SItem>{item.name}</SItem>
-      <SItem>
+      </SButtonItem>
+      <SNameItem>{item.name}</SNameItem>
+      <SStatusItem>
         {item.status === "SUCCESS" ? (
           <CheckCircleOutlineIcon style={checkStyle} />
         ) : (
           <HighlightOffIcon style={HighlightOffIconStyle} />
         )}
-      </SItem>
-      <SSItem>
-        {item.portNumber1} , {item.portNumber2}
-      </SSItem>
-      <STimeItem>{changeTime(item.lastSuccessDate)}</STimeItem>
-      <STimeItem>{changeTime(item.lastFailureDate)}</STimeItem>
+      </SStatusItem>
+      <SPortItem>
+        {item.portNumber1}
+        {/* , {item.portNumber2} */}
+      </SPortItem>
+      <SSuccessItem>{changeTime(item.lastSuccessDate)}</SSuccessItem>
+      <SFailItem>{changeTime(item.lastFailureDate)}</SFailItem>
       <SItem>
         <SButton onClick={handleItemClick}>상세보기</SButton>
       </SItem>
@@ -46,50 +47,58 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
   );
 }
 
-const SButtonItem = styled.div`
+const SFailItem = styled.div`
+  flex: 2;
+  font-size: 1.8rem;
+`;
+
+const SSuccessItem = styled.div`
+  flex: 2;
+  font-size: 1.8rem;
+`;
+
+const SPortItem = styled.div`
   flex: 1;
+  font-size: 1.8rem;
 `;
 
-const SSItem = styled.div`
-  flex: 2;
-  font-size: 2.3em;
-  font-weight: ${theme.fontWeight.medium};
-  color: ${theme.colors.primary};
+const SStatusItem = styled.div`
+  flex: 0.8;
+  font-size: 1.8rem;
 `;
 
-const STimeItem = styled.div`
+const SNameItem = styled.div`
   flex: 2;
-  font-size: 2.3em;
-  font-weight: ${theme.fontWeight.medium};
-  color: ${theme.colors.primary};
+  font-size: 1.8rem;
+`;
+
+const SButtonItem = styled.div`
+  flex: 0.8;
 `;
 
 const SItem = styled.div`
-  flex: 1.5;
-  font-size: 2.3rem;
-  font-weight: ${theme.fontWeight.medium};
-  color: ${theme.colors.primary};
+  flex: 0.8;
 `;
 
 const PlayArrowIconStyle = {
-  fontSize: "6rem",
+  fontSize: "4rem",
   cursor: "pointer",
   color: theme.colors.checkgreen,
 };
 
 const StopIconStyle = {
-  fontSize: "6rem",
+  fontSize: "4rem",
   cursor: "pointer",
   color: theme.colors.error,
 };
 
 const HighlightOffIconStyle = {
-  fontSize: "5rem",
+  fontSize: "4rem",
   color: theme.colors.error,
 };
 
 const checkStyle = {
-  fontSize: "5rem",
+  fontSize: "4rem",
   color: theme.colors.checkgreen,
 };
 
@@ -98,7 +107,7 @@ const SButton = styled.button`
   border-radius: 5rem;
   background: ${theme.colors.secondary};
   color: ${theme.colors.white};
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: ${theme.fontWeight.medium};
   cursor: pointer;
   padding: 0.8rem 1.5rem;
@@ -110,9 +119,9 @@ const SItemList = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 80vw;
-  height: 8vh;
-  padding: 1em;
+  width: 170vh;
+  height: 5.5vh;
+  padding: 1rem;
   background: ${theme.colors.lightgray};
   overflow: hidden;
   border-radius: 1rem;
