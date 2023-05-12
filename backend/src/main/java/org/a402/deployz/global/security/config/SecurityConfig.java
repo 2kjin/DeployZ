@@ -36,6 +36,7 @@ public class SecurityConfig {
 		"/api/member/validateServerKey",
 		"/api/member/signup",
 		"/api/member/login",
+		"/api/git/**",
 		"/",
 		"/actuator/**",
 		"/api/actuator/**",
@@ -61,7 +62,7 @@ public class SecurityConfig {
 
 		httpSecurity
 			.authorizeRequests()
-			.antMatchers("/api/project/**", "/api/item/**", "/api/git/**")
+			.antMatchers("/api/project/**", "/api/item/**")
 			.authenticated()
 			.antMatchers(PERMIT_URL_ARRAY)
 			.permitAll()
