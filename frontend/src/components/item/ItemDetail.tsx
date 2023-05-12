@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 
 //import api
 import { fetchItemDetail } from "../../api/itemApi";
 import { changeTime } from "@/api/projectApi";
+
+//import recoil
+import { itemCountState } from "@/recoil/project";
 
 //import css icons
 import styled from "styled-components";
@@ -34,11 +38,11 @@ export default function ItemDetail() {
     }
   };
 
-  //아이템 디테일 이동 가능한 idx 임시로 5로 지정
-  //수정해야함
+  const itemCount = useRecoilValue(itemCountState);
+
   const handleNextClick = () => {
     const nextIdx = containerIdx + 1;
-    if (nextIdx <= 5) {
+    if (nextIdx <= itemCount) {
       navigate(`/item/detail/${nextIdx}`);
     }
   };
