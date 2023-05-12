@@ -18,83 +18,87 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
     navigate(`/item/detail/${item.idx}`);
   };
 
-  console.log("들어옴 ????");
-
   return (
     <SItemList>
-      <SDiv>
-        <SItem>
-          <PlayArrowIcon style={PlayArrowIconStyle} />
-        </SItem>
-        <SItem>
-          <StopIcon style={StopIconStyle} />
-        </SItem>
-        <SItem>{item.name}</SItem>
-        <SItem>
-          {item.status === "SUCCESS" ? (
-            <CheckCircleOutlineIcon style={checkStyle} />
-          ) : (
-            <HighlightOffIcon style={HighlightOffIconStyle} />
-          )}
-        </SItem>
-        <SItem>
-          {item.portNumber1} , {item.portNumber2}
-        </SItem>
-        <STimeItem>{changeTime(item.lastSuccessDate)}</STimeItem>
-        <STimeItem>{changeTime(item.lastFailureDate)}</STimeItem>
-        <SItem></SItem>
-        <SItem>
-          <SButton onClick={handleItemClick}>상세보기</SButton>
-        </SItem>
-      </SDiv>
+      <SButtonItem>
+        <PlayArrowIcon style={PlayArrowIconStyle} />
+      </SButtonItem>
+      <SButtonItem>
+        <StopIcon style={StopIconStyle} />
+      </SButtonItem>
+      <SNameItem>{item.name}</SNameItem>
+      <SStatusItem>
+        {item.status === "SUCCESS" ? (
+          <CheckCircleOutlineIcon style={checkStyle} />
+        ) : (
+          <HighlightOffIcon style={HighlightOffIconStyle} />
+        )}
+      </SStatusItem>
+      <SPortItem>
+        {item.portNumber1}
+        {/* , {item.portNumber2} */}
+      </SPortItem>
+      <SSuccessItem>{changeTime(item.lastSuccessDate)}</SSuccessItem>
+      <SFailItem>{changeTime(item.lastFailureDate)}</SFailItem>
+      <SItem>
+        <SButton onClick={handleItemClick}>상세보기</SButton>
+      </SItem>
     </SItemList>
   );
 }
 
-const STimeItem = styled.div`
+const SFailItem = styled.div`
   flex: 2;
-  font-size: 2rem;
-  font-weight: ${theme.fontWeight.medium};
-  color: ${theme.colors.primary};
-  margin-right: 1rem;
-  margin-left: 1rem;
+  font-size: 1.8rem;
+`;
+
+const SSuccessItem = styled.div`
+  flex: 2;
+  font-size: 1.8rem;
+`;
+
+const SPortItem = styled.div`
+  flex: 1;
+  font-size: 1.8rem;
+`;
+
+const SStatusItem = styled.div`
+  flex: 0.8;
+  font-size: 1.8rem;
+`;
+
+const SNameItem = styled.div`
+  flex: 2;
+  font-size: 1.8rem;
+`;
+
+const SButtonItem = styled.div`
+  flex: 0.8;
 `;
 
 const SItem = styled.div`
-  flex: 2;
-  font-size: 2.3rem;
-  font-weight: ${theme.fontWeight.medium};
-  color: ${theme.colors.primary};
-  margin-right: 3rem;
-`;
-
-const SDiv = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  flex: 0.8;
 `;
 
 const PlayArrowIconStyle = {
-  fontSize: "6rem",
+  fontSize: "4rem",
   cursor: "pointer",
   color: theme.colors.checkgreen,
 };
 
 const StopIconStyle = {
-  fontSize: "6rem",
+  fontSize: "4rem",
   cursor: "pointer",
   color: theme.colors.error,
 };
 
 const HighlightOffIconStyle = {
-  fontSize: "5rem",
+  fontSize: "4rem",
   color: theme.colors.error,
 };
 
 const checkStyle = {
-  fontSize: "5rem",
+  fontSize: "4rem",
   color: theme.colors.checkgreen,
 };
 
@@ -103,7 +107,7 @@ const SButton = styled.button`
   border-radius: 5rem;
   background: ${theme.colors.secondary};
   color: ${theme.colors.white};
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: ${theme.fontWeight.medium};
   cursor: pointer;
   padding: 0.8rem 1.5rem;
@@ -111,34 +115,15 @@ const SButton = styled.button`
 
 const SItemList = styled.div`
   display: flex;
-  flex-direction: column;
-  width: 75vw;
-  height: 12vh;
-  background: ${theme.colors.lightgray};
-  overflow: hidden;
-  margin: auto;
-  border-radius: 1rem;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-bottom: 2rem;
+  text-align: center;
+  width: 170vh;
+  height: 5.5vh;
+  padding: 1rem;
+  background: ${theme.colors.lightgray};
+  overflow: hidden;
+  border-radius: 1rem;
+  margin-bottom: 1.5em;
 `;
-
-// const SProjectName = styled.span`
-//   font-size: 2rem;
-//   font-weight: ${theme.fontWeight.bold};
-// `;
-
-// const SItemCount = styled.span`
-//   font-size: 2rem;
-//   font-weight: ${theme.fontWeight.bold};
-// `;
-
-// const SLastSuccessTime = styled.span`
-//   font-size: 2rem;
-//   font-weight: ${theme.fontWeight.bold};
-// `;
-
-// const SLastFailureTime = styled.span`
-//   font-size: 2rem;
-//   font-weight: ${theme.fontWeight.bold};
-// `;

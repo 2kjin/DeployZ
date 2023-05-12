@@ -10,6 +10,11 @@ import { projectListInfo } from "@/types/project";
 
 export default function ProjectList() {
   const navigate = useNavigate();
+  const [nowSelected, setNowSelected] = useState<number>(-1);
+
+  const handleNowSelected = (value: number) => {
+    setNowSelected(value);
+  };
 
   const handleEmptyClick = () => {
     navigate(`/step`);
@@ -43,7 +48,12 @@ export default function ProjectList() {
   return (
     <Container>
       {visibleProjects.map((project) => (
-        <ProjectListItem key={project.idx} project={project} />
+        <ProjectListItem
+          key={project.idx}
+          project={project}
+          nowSelected={nowSelected}
+          handleNowSelected={handleNowSelected}
+        />
       ))}
       {Array.from({ length: emptyDivCount }).map((_, index) => (
         <SEmptyDiv key={index}>
@@ -70,17 +80,19 @@ export default function ProjectList() {
 const Container = styled.div`
   display: flex;
   height: 43vh;
+  gap: 3rem;
 `;
 
 const SEmptyDiv = styled.div`
-  width: 26vw;
+  width: 51vh;
   height: 36vh;
-  background: ${theme.colors.lightgray};
+  background: ${theme.colors.white};
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 1rem;
-  margin-right: 2rem;
-  margin-left: 2rem;
-  padding: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 `;

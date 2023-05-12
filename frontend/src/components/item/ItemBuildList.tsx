@@ -1,19 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled, { ThemedStyledProps, DefaultTheme } from "styled-components";
 import { theme } from "@/styles/theme";
 import { itemHistory } from "@/types/item";
+import { changeBuildTime } from "@/api/itemApi";
 
 //import css icons
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Icon } from "@iconify/react";
-
-interface SBuildItemProps {
-  key: number;
-  onClick: () => void;
-  selected: boolean;
-  // 기존의 props에 추가될 selected prop
-}
 
 export default function ItemBuildList({
   itemHistoryLists,
@@ -21,6 +15,16 @@ export default function ItemBuildList({
   itemHistoryLists: itemHistory[];
 }) {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const [selectedItem, setSelectedItem] = useState<itemHistory | null>(null);
+
+  //선택된 것이 없다면 item의idx와 같은selectedIdx를 찾기
+  useEffect(() => {
+    if (selectedIdx !== null) {
+      setSelectedItem(
+        itemHistoryLists.find((item) => item.idx === selectedIdx)
+      );
+    }
+  }, [selectedIdx]);
 
   return (
     <SDetailBuild>
@@ -28,89 +32,139 @@ export default function ItemBuildList({
         <SBuildName>
           <Icon
             icon="material-symbols:cloud-upload"
-            fontSize="55"
+            fontSize="35"
             color="#FEA51D"
           />
           <SP>빌드 내역</SP>
         </SBuildName>
-        {itemHistoryLists.map((item) => (
-          <SBuildItem
-            key={item.idx}
-            onClick={() => setSelectedIdx(item.idx)}
-            selected={selectedIdx === item.idx}
-          >
-            <SBuildTitle>
-              <SBuildStatus>{item.status}</SBuildStatus>
-              <SBuildState>
-                {item.state === "success" ? (
-                  <CheckCircleOutlineIcon style={checkStyle} />
-                ) : (
-                  <HighlightOffIcon style={HighlightOffIconStyle} />
-                )}
-              </SBuildState>
-            </SBuildTitle>
-            <SBuildRegisterTime>{item.registerTime}</SBuildRegisterTime>
-          </SBuildItem>
-        ))}
+        <SBuildListContainer>
+          {itemHistoryLists.map((item) => (
+            <SBuildItem
+              key={item.idx}
+              onClick={() => setSelectedIdx(item.idx)}
+              selected={selectedIdx === item.idx}
+            >
+              <SBuildTitle>
+                <SBuildStatus># {item.idx}</SBuildStatus>
+                <SBuildState>
+                  {item.status === "SUCCESS" ? (
+                    <CheckCircleOutlineIcon style={checkStyle} />
+                  ) : (
+                    <HighlightOffIcon style={HighlightOffIconStyle} />
+                  )}
+                </SBuildState>
+              </SBuildTitle>
+              <SBuildRegisterTime>
+                {changeBuildTime(item.registerDate)}
+              </SBuildRegisterTime>
+            </SBuildItem>
+          ))}
+        </SBuildListContainer>
       </SBuildList>
-      <SBuildMessage>
-        <SBuildName>
-          <SP>콘솔 출력</SP>
-          <SStatusP>
-            {itemHistoryLists.find((item) => item.idx === selectedIdx)?.status}
-          </SStatusP>
-        </SBuildName>
-        <SBuildMessageContent>
-          {itemHistoryLists.find((item) => item.idx === selectedIdx)?.message}
-        </SBuildMessageContent>
-      </SBuildMessage>
+      <>
+        {selectedItem === null ? (
+          <SEmptyMessageContent>
+            빌드내역을 클릭하시면 콘솔 확인이 가능해요 📃
+          </SEmptyMessageContent>
+        ) : (
+          <SBuildMessage>
+            {selectedIdx !== null && (
+              <div>
+                <SBuildName>
+                  <SP>콘솔 출력</SP>
+                  {selectedItem && <SStatusP># {selectedItem.idx}</SStatusP>}
+                </SBuildName>
+                <SBuildMessageContent>
+                  {selectedItem ? selectedItem.consol : ""}
+                </SBuildMessageContent>
+              </div>
+            )}
+          </SBuildMessage>
+        )}
+      </>
     </SDetailBuild>
   );
 }
-const SStatusP = styled.span`
-  font-size: 2.8rem;
-  font-weight: ${theme.fontWeight.extraBold};
+
+const SEmptyMessageContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.primary};
-  margin-left: 1.5rem;
+  border: 1px solid #d2d8df44;
+  background-color: ${theme.colors.white};
+  border-radius: 0.2rem;
+  height: 47vh;
+  width: 118vh;
+`;
+
+const SBuildListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+`;
+
+const SBuildItem = styled.div<{ selected: boolean }>`
+  text-align: start;
+  border-bottom: 2px solid ${theme.colors.darkgray};
+  background-color: ${(props) => (props.selected ? "#FEA51D" : "")};
+  color: ${(props) => (props.selected ? "#ffffff" : "black")};
+  cursor: pointer;
+  padding: 0.1rem;
+
+  :hover {
+    background-color: ${theme.colors.pending};
+    color: black;
+  }
+`;
+
+const SStatusP = styled.span`
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.secondary};
+  margin-left: 0.8rem;
 `;
 
 const SBuildMessageContent = styled.div`
   font-size: 2rem;
-  padding: 2rem;
+  padding: 1rem;
   font-weight: ${theme.fontWeight.medium};
   color: ${theme.colors.primary};
-  background-color: ${theme.colors.lightgray};
-  border-radius: 3rem;
-  height: 80%;
+  border: 1px solid #d2d8df44;
+  background-color: ${theme.colors.white};
+  border-radius: 0.2rem;
+  height: 40vh;
   overflow-y: scroll;
 `;
 
 const SP = styled.p`
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.primary};
-  margin-left: 1rem;
+  margin-left: 0.3rem;
 `;
 
 const SBuildName = styled.div`
   display: flex;
   align-items: center;
+  justify-content: start;
 `;
 
 const SBuildMessage = styled.div`
-  height: 50vh;
   width: 80%;
-  margin-left: 4rem;
 `;
 
 const SDetailBuild = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
-  margin-right: 3rem;
-  margin-left: 3rem;
-  margin-top: 2rem;
-  flex-shrink: 0;
+  justify-content: center;
+  flex-direction: row;
+  gap: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 `;
 
 const SBuildTitle = styled.div`
@@ -123,39 +177,28 @@ const SBuildState = styled.div`
 `;
 
 const HighlightOffIconStyle = {
-  fontSize: "3rem",
+  fontSize: "2.5rem",
   color: theme.colors.error,
 };
 
 const checkStyle = {
-  fontSize: "3rem",
+  fontSize: "2.5rem",
   color: theme.colors.checkgreen,
 };
 
 const SBuildList = styled.div`
-  height: 50vh;
   width: 20%;
-  overflow-y: scroll;
-  margin-top: 10px;
-  cursor: pointer;
-`;
-
-const SBuildItem = styled.div<ThemedStyledProps<SBuildItemProps, DefaultTheme>>`
-  display: flex;
+  height: 51vh;
   flex-direction: column;
-  text-align: start;
-  border-bottom: 2px solid ${theme.colors.darkgray};
-
-  & > div {
-    background-color: ${(props) => (props.selected ? "#FEA51D" : "#FFFFFF")};
-    border-radius: 1rem; /* 둥글게 만들기 */
-  }
+  overflow-y: scroll;
 `;
 
 const SBuildStatus = styled.span`
-  font-size: 2.5rem;
+  font-size: 1.9rem;
+  padding: 0.1rem;
 `;
 
 const SBuildRegisterTime = styled.span`
-  font-size: 2.5rem;
+  font-size: 1.9rem;
+  padding: 0.1em;
 `;

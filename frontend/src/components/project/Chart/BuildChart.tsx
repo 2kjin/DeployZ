@@ -18,5 +18,5 @@ export default function BuildChart({
 
 const ChartWrapper = styled.div`
   width: 100%;
-  height: 18rem;
+  height: 14.25rem;
 `;

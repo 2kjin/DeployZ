@@ -18,7 +18,7 @@ export const projectDelete = async (projectIdx: number) => {
 
 //최근 빌드 시간 구하기
 export const changeTime = (value: string) => {
-  if (value === "") return "";
+  if (value === "" || value === null) return `0days 0hr`;
   // 문자열에서 Date 객체 생성
   const ts = new Date(value);
   const today = new Date();

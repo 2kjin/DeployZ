@@ -1,5 +1,5 @@
 import { useSetRecoilState } from "recoil";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { projectIdxState } from "@/recoil/project";
 import { projectDelete } from "@/api/projectApi";
 //import css
@@ -18,8 +18,12 @@ import BuildChart from "./Chart/BuildChart";
 
 export default function ProjectListItem({
   project,
+  nowSelected,
+  handleNowSelected,
 }: {
   project: projectListInfo;
+  nowSelected: number;
+  handleNowSelected: (value: number) => void;
 }) {
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const setProjectIdx = useSetRecoilState(projectIdxState);
@@ -39,16 +43,22 @@ export default function ProjectListItem({
   };
 
   const handleProjectClick = () => {
-    setIsSelected(!isSelected);
     setProjectIdx(project.idx);
+    handleNowSelected(project.idx);
   };
 
-  //클릭 시 글자색도 변경해야함
+  useEffect(() => {
+    if (nowSelected === project.idx) {
+      setIsSelected(true);
+    } else {
+      setIsSelected(false);
+    }
+  }, [nowSelected, project.idx]);
 
   return (
     <SProjectList isSelected={isSelected} onClick={handleProjectClick}>
       <STitleDiv>
-        <STitle>{project.projectName}</STitle>
+        <STitle isSelected={isSelected}>{project.projectName}</STitle>
         {project.status === "SUCCESS" ? (
           <CheckCircleOutlineIcon style={checkStyle} />
         ) : (
@@ -59,18 +69,22 @@ export default function ProjectListItem({
           onClick={handleDeleteClick}
         />
       </STitleDiv>
-      <SDesc>프로젝트 설명 : {project.description}</SDesc>
+      <SDesc isSelected={isSelected}>{project.description}</SDesc>
       <SChartDiv>
         <BuildChart branches={project.branches} />
       </SChartDiv>
       <STimeContainer>
         <STimeDiv>
-          <SSItem>최근 빌드 성공</SSItem>
-          <STimeItem>{changeTime(project.lastSuccessDate)}</STimeItem>
+          <SSItem isSelected={isSelected}>최근 빌드 성공</SSItem>
+          <STimeItem isSelected={isSelected}>
+            {changeTime(project.lastSuccessDate)}
+          </STimeItem>
         </STimeDiv>
         <STimeDiv>
-          <SSItem>최근 빌드 실패</SSItem>
-          <STimeItem>{changeTime(project.lastFailureDate)}</STimeItem>
+          <SSItem isSelected={isSelected}>최근 빌드 실패</SSItem>
+          <STimeItem isSelected={isSelected}>
+            {changeTime(project.lastFailureDate)}
+          </STimeItem>
         </STimeDiv>
       </STimeContainer>
     </SProjectList>
@@ -78,7 +92,7 @@ export default function ProjectListItem({
 }
 
 const DeleteOutlineIconStyle = {
-  fontSize: "6rem",
+  fontSize: "4rem",
   cursor: "pointer",
   color: theme.colors.error,
   marginLeft: "auto",
@@ -94,10 +108,10 @@ const STimeContainer = styled.div`
 
 const STimeDiv = styled.div`
   flex: 1;
+  padding-top: 0.5rem;
 `;
 
 const SChartDiv = styled.div`
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,60 +122,66 @@ const STitleDiv = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-left: 2rem;
 `;
 
-const STitle = styled.div`
-  font-size: 5rem;
-  font-weight: ${theme.fontWeight.extraBold};
-  color: ${theme.colors.primary};
+const STitle = styled.div<{ isSelected: boolean }>`
+  font-size: 3rem;
+  font-weight: ${theme.fontWeight.bold};
+  color: ${({ isSelected }) =>
+    isSelected ? theme.colors.white : theme.colors.primary};
+  display: inline-block;
+  white-space: nowrap;
 `;
 
-const SSItem = styled.span`
-  font-size: 2rem;
+const SSItem = styled.span<{ isSelected: boolean }>`
+  font-size: 1.8rem;
   font-weight: ${theme.fontWeight.medium};
-  color: ${theme.colors.primary};
+  color: ${({ isSelected }) =>
+    isSelected ? theme.colors.white : theme.colors.primary};
 `;
 
-const STimeItem = styled.div`
-  font-size: 2.5rem;
+const STimeItem = styled.div<{ isSelected: boolean }>`
+  font-size: 1.9rem;
   font-weight: ${theme.fontWeight.extraBold};
-  color: ${theme.colors.primary};
-  margin-top: 0.5rem;
+  color: ${({ isSelected }) =>
+    isSelected ? theme.colors.white : theme.colors.primary};
+  margin-top: 0.4rem;
 `;
 
-const SDesc = styled.div`
-  font-size: 2.2rem;
+const SDesc = styled.div<{ isSelected: boolean }>`
+  font-size: 1.6rem;
   font-weight: ${theme.fontWeight.medium};
-  color: ${theme.colors.primary};
-  margin-left: 2rem;
-  margin-top: 1rem;
+  color: ${({ isSelected }) =>
+    isSelected ? theme.colors.white : theme.colors.primary};
+  margin-top: 0.3rem;
+  margin-left: 0.3rem;
 `;
 
 const SProjectList = styled.div<{ isSelected: boolean }>`
-  width: 26vw;
+  width: 51vh;
   height: 36vh;
   background: ${({ isSelected }) =>
-    isSelected ? theme.colors.secondary : theme.colors.lightgray};
+    isSelected ? theme.colors.secondary : theme.colors.white};
   border-radius: 1rem;
-  margin-right: 2rem;
-  margin-left: 2rem;
-  padding: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   cursor: pointer;
+  overflow: hidden;
 
   &:hover {
     transform: scale(1.02);
     transition: transform 0.3s ease-in-out;
-    background-color: ${theme.colors.complete};
   }
 `;
 
 const HighlightOffIconStyle = {
-  fontSize: "5rem",
+  fontSize: "4rem",
   color: theme.colors.error,
 };
 
 const checkStyle = {
-  fontSize: "5rem",
+  fontSize: "4rem",
   color: theme.colors.checkgreen,
 };
