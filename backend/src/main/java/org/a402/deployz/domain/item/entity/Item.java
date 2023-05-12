@@ -34,10 +34,8 @@ public class Item {
 	private Long idx;
 	@Column(name = "name", length = 20)
 	private String name;
-	@Column(name = "port_number1")
-	private Long portNumber1;
-	@Column(name = "port_number2")
-	private Long portNumber2;
+	@Column(name = "port_number")
+	private Long portNumber;
 	@Column(name = "branch_name", length = 50)
 	private String branchName;
 	@Column(name = "target_folder_path", length = 100)
@@ -62,7 +60,7 @@ public class Item {
 	private List<Deploy> deploys;
 
 	@Builder
-	public Item(final Long idx, final String name, final Long portNumber1, final Long portNumber2,
+	public Item(final Long idx, final String name, final Long portNumber,
 		final String branchName, final String targetFolderPath,
 		final String frameworkType, final String buildVersion,
 		final LocalDateTime lastSuccessDate,
@@ -72,8 +70,6 @@ public class Item {
 		final List<Deploy> deploys) {
 		this.idx = idx;
 		this.name = name;
-		this.portNumber1 = portNumber1;
-		this.portNumber2 = portNumber2;
 		this.branchName = branchName;
 		this.targetFolderPath = targetFolderPath;
 		this.frameworkType = frameworkType;
@@ -84,6 +80,7 @@ public class Item {
 		this.project = project;
 		this.itemHistories = itemHistories;
 		this.deploys = deploys;
+		this.portNumber=portNumber;
 	}
 
 	//deleted_flag 변경
