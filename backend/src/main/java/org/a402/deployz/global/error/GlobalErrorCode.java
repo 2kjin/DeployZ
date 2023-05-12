@@ -33,7 +33,12 @@ public enum GlobalErrorCode {
 	NGINX_CONFIG_NOT_FOUND(400, "P100", "해당 NGINX 설정 정보가 존재하지 않습니다."),
 	/* 컨테이너 관련 에러 코드*/
 	ITEM_NOT_FOUND(400, "I100", "해당 컨테이너가 존재하지 않습니다."),
-	URL_INVALID_FORMAT(400, "G100", "잘못된 URL 형식입니다.");
+	URL_INVALID_FORMAT(400, "G400", "잘못된 URL 형식입니다."),
+	/* 컨테이너 관련 에러 코드*/
+	NOT_SUPPORTED_EVENT_TYPE(400, "G400", "지원하지 않는 이벤트종류 입니다."),
+	/* 컨테이너 관련 에러 코드*/
+	GIT_TOKEN_NOT_FOUND(400, "G400", "존재하지 않는 토큰입니다."),
+	;
 
 	private final String code;
 	private final String message;

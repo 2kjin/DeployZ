@@ -17,6 +17,7 @@ import org.a402.deployz.domain.deploy.GitAdapter;
 import org.a402.deployz.domain.deploy.PathParser;
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
+import org.a402.deployz.domain.git.repository.GitTokenRepository;
 import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.item.repository.ItemRepository;
 import org.a402.deployz.domain.item.request.ItemConfigRequest;
@@ -27,7 +28,6 @@ import org.a402.deployz.domain.project.entity.NginxConfig;
 import org.a402.deployz.domain.project.entity.Project;
 import org.a402.deployz.domain.project.exception.ProjectNotFoundException;
 import org.a402.deployz.domain.project.repository.GitConfigRepository;
-import org.a402.deployz.domain.project.repository.GitTokenRepository;
 import org.a402.deployz.domain.project.repository.NginxConfigRepository;
 import org.a402.deployz.domain.project.repository.ProjectRepository;
 import org.a402.deployz.domain.project.repository.ProxyConfigRepository;
@@ -227,12 +227,12 @@ public class ProjectService {
 	private HashMap<String, Integer> findItemListByProjectIdx(Long projectIdx) {
 		HashMap<String, Integer> branches = new HashMap<>();
 
-		Project  project = projectRepository.findProjectByIdx(projectIdx).orElseThrow(ProjectNotFoundException::new);
+		Project project = projectRepository.findProjectByIdx(projectIdx).orElseThrow(ProjectNotFoundException::new);
 		List<Item> items = project.getItems();
 
-		if (items != null){
+		if (items != null) {
 
-			for (Item item: items) {
+			for (Item item : items) {
 				String branchName = item.getBranchName();
 				Integer branchBuildCnt = item.getItemHistories().size();
 
