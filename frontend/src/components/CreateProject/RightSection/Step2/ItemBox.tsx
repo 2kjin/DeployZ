@@ -18,6 +18,9 @@ import {
   requestVersion,
 } from "@/api/projectCreate";
 import { success, error } from "@components/common/Toast/notify";
+import GuidePic from "@/assets/projectCreate/TargetFolder.png";
+import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 export default function ItemBox({
   itemName,
@@ -92,7 +95,7 @@ export default function ItemBox({
     console.log(item);
     if (
       item.portNumber1 === "" ||
-      item.portNumber2 === "" ||
+      // item.portNumber2 === "" ||
       item.branchName === "none" ||
       item.targetFolder === "" ||
       item.frameworkType === "none" ||
@@ -101,9 +104,10 @@ export default function ItemBox({
     ) {
       error(`${itemName}의 모든 값을 입력해주세요.`);
     } else {
-      if (item.portNumber1 === item.portNumber2) {
-        error("두 포트 번호가 동일합니다.");
-      } else handlePortValid(item.portNumber1, item.portNumber2);
+      // if (item.portNumber1 === item.portNumber2) {
+      //   error("두 포트 번호가 동일합니다.");
+      // } else
+      handlePortValid(item.portNumber1, "-1");
     }
   };
 
@@ -196,8 +200,9 @@ export default function ItemBox({
           <CustomFormControl variant="standard">
             <CustomInputLabel shrink>Port Number 2</CustomInputLabel>
             <InputBox
-              placeholder={`ex) ${handlePlaceholder("Port2")}`}
+              placeholder={`Available Soon...`}
               id="portNumber2"
+              disabled
               value={item.portNumber2}
               onChange={handleItemData}
             />
@@ -224,7 +229,43 @@ export default function ItemBox({
             </CustomSelect>
           </CustomFormControl>
           <CustomFormControl variant="standard">
-            <CustomInputLabel shrink>Target Folder</CustomInputLabel>
+            <CustomInputLabel shrink>
+              Target Folder
+              <CustomTooltip
+                disableFocusListener
+                arrow
+                placement="right"
+                title={
+                  <>
+                    <img
+                      src={GuidePic}
+                      style={{
+                        borderRadius: "5px",
+                        width: "100%",
+                        marginBottom: "1rem",
+                      }}
+                    />
+                    <span
+                      style={{
+                        fontSize: "1.5rem",
+                        fontFamily: "Pretendard",
+                      }}
+                    >
+                      빌드할 소스가 있는 루트 폴더 경로를 적어주세요.
+                    </span>
+                  </>
+                }
+              >
+                <HelpOutlineIcon
+                  sx={{
+                    fontSize: "2.6rem",
+                    marginLeft: "0.5rem",
+                    color: `${theme.colors.secondary}`,
+                    cursor: "pointer",
+                  }}
+                />
+              </CustomTooltip>
+            </CustomInputLabel>
             <InputBox
               placeholder={`ex) ${handlePlaceholder("TargetFolder")}`}
               id="targetFolder"
@@ -335,10 +376,12 @@ const CustomSelect = mstyled(Select)({
 });
 
 const CustomInputLabel = mstyled(InputLabel)({
-  fontSize: "2rem",
+  fontSize: "2.2rem",
   color: "#151649",
   fontFamily: "Pretendard",
   fontWeight: "bold",
+  display: "flex",
+  alignItems: "center",
 });
 
 const CustomFormControl = mstyled(FormControl)({
@@ -348,7 +391,7 @@ const CustomFormControl = mstyled(FormControl)({
 
 const InputBox = mstyled(InputBase)(({ theme }) => ({
   "label + &": {
-    marginTop: theme.spacing(2.5),
+    marginTop: theme.spacing(3),
   },
   "& .MuiInputBase-input": {
     borderRadius: 4,
@@ -400,6 +443,21 @@ const InputContainer = styled.div`
   justify-content: space-between;
   margin-bottom: 2%;
 `;
+
+const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({}) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "#151649",
+    fontFamily: "Pretendard",
+    maxWidth: 220,
+    padding: "1.2rem",
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    fontSize: "2rem",
+    color: "#151649",
+  },
+}));
 
 interface InputForm {
   [key: string]: string | number;
