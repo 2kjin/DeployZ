@@ -55,6 +55,7 @@ const defaultItem1: IItem = {
   targetFolder: "",
   frameworkType: "none",
   buildVersion: "none",
+  javaVersion: "none",
 };
 
 const defaultItem2: IItem = {
@@ -66,6 +67,7 @@ const defaultItem2: IItem = {
   targetFolder: "",
   frameworkType: "none",
   buildVersion: "none",
+  javaVersion: "none",
 };
 
 const defaultProxyPath: IProxyPath = {

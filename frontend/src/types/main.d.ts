@@ -39,6 +39,7 @@ interface IItem {
   targetFolder: string;
   frameworkType: string;
   buildVersion: string;
+  javaVersion: string;
 }
 
 interface INginxConfig {
