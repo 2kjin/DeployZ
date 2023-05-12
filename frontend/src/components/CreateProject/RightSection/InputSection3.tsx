@@ -7,6 +7,8 @@ import SdCardAlertIcon from "@mui/icons-material/SdCardAlert";
 import MouseIcon from "@mui/icons-material/Mouse";
 import Modal from "@mui/material/Modal";
 import WebhookGuideModal from "@components/Guide/WebhookGuideModal";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 
 export default function InputSection2() {
   const itemList = useRecoilValue<IItem[]>(itemListState);
@@ -24,7 +26,40 @@ export default function InputSection2() {
       {/* 둘째 줄 */}
       <InputContainer>
         <Section>
-          <Label>Webhook 연결</Label>
+          <Label>
+            Webhook 연결
+            <CustomTooltip
+              disableFocusListener
+              arrow
+              placement="bottom-start"
+              title={
+                <div style={{ fontSize: "1.6rem" }}>
+                  <b style={{ fontSize: "2rem" }}>📌 Webhook이란?</b>
+                  <br />
+                  API의 일종으로 두 개의 시스템이 서로 상호 작용할 때 일어나는
+                  이벤트에 대한 자동 알림 매커니즘
+                  <br />
+                  <br />
+                  GitLab의 경우, 웹훅을 통해 이벤트가 발생할 때마다 특정 URL로
+                  POST 요청을 보내고, 해당 URL에서는 전송받은 데이터를 파싱하여
+                  이벤트에 대한 처리를 수행
+                  <br />
+                  <br />
+                  코드가 변경될 때마다 빌드 및 배포를 자동으로 수행하거나,
+                  이메일로 알림을 보내는 등의 작업을 자동화 가능
+                </div>
+              }
+            >
+              <HelpOutlineIcon
+                sx={{
+                  fontSize: "2.5rem",
+                  marginLeft: "1rem",
+                  color: `${theme.colors.secondary}`,
+                  cursor: "pointer",
+                }}
+              />
+            </CustomTooltip>
+          </Label>
           <p>
             자동 배포 기능을 사용하려면 레포지토리에 직접 Branch별로 Webhook을
             연결해야해요.
@@ -98,6 +133,8 @@ const Label = styled.h4`
   font-weight: 700;
   color: #151649;
   margin: 0;
+  display: flex;
+  align-items: center;
 `;
 
 const GuildButton = styled.div`
@@ -168,3 +205,18 @@ const SecretRight = styled.div`
   display: flex;
   align-items: center;
 `;
+
+const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({}) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "#151649",
+    maxWidth: 500,
+    padding: "1.2rem",
+    fontFamily: "Pretendard",
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    fontSize: "2rem",
+    color: "#151649",
+  },
+}));

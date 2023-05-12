@@ -10,6 +10,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { NginxState, chapterState, stepState } from "@/recoil/step";
 import Modal from "@mui/material/Modal";
 import SSLGuideModal from "@components/Guide/SSLGuideModal";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 
 export default function InputSection2() {
   const [open, setOpen] = useState(false);
@@ -114,7 +116,42 @@ export default function InputSection2() {
       </InputContainer>
       <InputContainer>
         <Section>
-          <Label>SSL 인증서 등록</Label>
+          <Label>
+            SSL 인증서 등록
+            <CustomTooltip
+              disableFocusListener
+              arrow
+              placement="bottom-start"
+              title={
+                <div style={{ fontSize: "1.6rem" }}>
+                  가이드는 HTTPS를 적용하기 위해 Let’s Encrypt의 Standalone
+                  방식을 이용해 SSL 인증서를 발급하는 방식을 안내하고있습니다.
+                  <br />
+                  <br />
+                  <b style={{ fontSize: "2rem" }}>📌Let’s Encrypt란?</b>
+                  <br />
+                  SSL을 무료로 발급해주는 CA(Certificate Authority) 비영리 기관
+                  <br />
+                  <br />
+                  <b style={{ fontSize: "2rem" }}>📌Standalone</b>
+                  <br />
+                  사이트 작동을 멈추고 이 사이트의 네트워킹을 이용해 사이트
+                  유효성을 확인해 Let’s Encrypt SSL 인증서를 발급하는 방식
+                  <br />
+                  80 포트로 가상 standalone 웹서버를 띄워 인증서를 발급{" "}
+                </div>
+              }
+            >
+              <HelpOutlineIcon
+                sx={{
+                  fontSize: "2.5rem",
+                  marginLeft: "1rem",
+                  color: `${theme.colors.secondary}`,
+                  cursor: "pointer",
+                }}
+              />
+            </CustomTooltip>
+          </Label>
           <p>보안을 위해 HTTPS를 사용하려면 SSL 인증서를 등록해야돼요!</p>
           <SectionGuide>
             <p>방법을 잘 모르시겠다면,</p>
@@ -272,6 +309,8 @@ const Label = styled.h4`
   font-weight: 700;
   color: #151649;
   margin: 0;
+  display: flex;
+  align-items: center;
 `;
 
 const GuildButton = styled.div`
@@ -324,3 +363,18 @@ const SectionCheck = styled.div`
   display: flex;
   align-items: center;
 `;
+
+const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({}) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "#151649",
+    maxWidth: 500,
+    padding: "1.2rem",
+    fontFamily: "Pretendard",
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    fontSize: "2rem",
+    color: "#151649",
+  },
+}));
