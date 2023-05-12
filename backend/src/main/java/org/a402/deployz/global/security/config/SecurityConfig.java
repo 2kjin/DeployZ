@@ -37,6 +37,7 @@ public class SecurityConfig {
 		"/api/member/signup",
 		"/api/member/login",
 		"/api/git/**",
+		"/git/**",
 		"/",
 		"/actuator/**",
 		"/api/actuator/**",
