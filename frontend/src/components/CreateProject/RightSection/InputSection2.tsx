@@ -10,7 +10,6 @@ import {
 } from "@/recoil/step";
 import { useEffect, useState } from "react";
 import { requestGitlabBranch } from "@/api/projectCreate";
-import ModeIcon from "@mui/icons-material/Mode";
 
 export default function InputSection2() {
   const projectConfig = useRecoilValue<IProjectConfig>(projectConfigState);
@@ -29,7 +28,6 @@ export default function InputSection2() {
       if (item.secretToken === "" || item.secretToken === undefined) {
         const updatedSteps = steps.map((step) => {
           if (step.number === nowChapter) {
-            console.log("here");
             return { ...step, isValid: false };
           } else {
             return step;
@@ -52,35 +50,6 @@ export default function InputSection2() {
         setSteps(updatedSteps);
       }
     }
-
-    // const checkIsSave = () => {
-    //   itemList.map((item) => {
-    //     if (item.secretToken === "") return false;
-    //   });
-    //   return true;
-    // };
-
-    // if (!checkIsSave()) {
-    //   const updatedSteps = steps.map((step) => {
-    //     if (step.number === nowChapter) {
-    //       return { ...step, isValid: false };
-    //     } else {
-    //       return step;
-    //     }
-    //   });
-
-    //   setSteps(updatedSteps);
-    // } else {
-    //   const updatedSteps = steps.map((step) => {
-    //     if (step.number === nowChapter) {
-    //       return { ...step, isValid: true };
-    //     } else {
-    //       return step;
-    //     }
-    //   });
-
-    //   setSteps(updatedSteps);
-    // }
   };
 
   useEffect(() => {
@@ -98,12 +67,6 @@ export default function InputSection2() {
 
   return (
     <Container>
-      {/* <SubjectContainer>
-        <p className="desc">
-          <ModeIcon sx={{ fontSize: "2rem" }} />
-          Item별로 정보 입력후 저장을 해주세요.
-        </p>
-      </SubjectContainer> */}
       {itemList.map((item: IItem, idx) => (
         <ItemBox key={idx} itemName={item.itemName} branchList={branchList} />
       ))}

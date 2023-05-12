@@ -96,7 +96,8 @@ export default function ItemBox({
       item.branchName === "none" ||
       item.targetFolder === "" ||
       item.frameworkType === "none" ||
-      item.buildVersion === "none"
+      item.buildVersion === "none" ||
+      (item.frameworkType === "SpringBoot" && item.javaVersion === "none")
     ) {
       error(`${itemName}의 모든 값을 입력해주세요.`);
     } else {
@@ -267,7 +268,6 @@ export default function ItemBox({
               name="buildVersion"
               value={item.buildVersion}
               onChange={handleSelectChange}
-              defaultValue={item.buildVersion}
               MenuProps={{
                 style: {
                   maxHeight: "300px",
@@ -284,14 +284,44 @@ export default function ItemBox({
               ))}
             </CustomSelect>
           </CustomFormControl>
-          <CustomFormControl sx={{ visibility: "hidden" }}>
-            <InputLabel>EMPTY</InputLabel>
-            <Select
-              sx={{
-                width: "28.5rem",
-              }}
-            />
-          </CustomFormControl>
+          {/* Springboot 사용시에만 Java Version 보이게 */}
+          {item.frameworkType === "SpringBoot" ? (
+            <CustomFormControl variant="standard">
+              <CustomInputLabel shrink>Java Version</CustomInputLabel>
+              <CustomSelect
+                name="javaVersion"
+                value={item.javaVersion}
+                onChange={handleSelectChange}
+                MenuProps={{
+                  style: {
+                    maxHeight: "300px",
+                  },
+                }}
+              >
+                <MenuItem value="none" sx={{ fontSize: "1.4rem" }}>
+                  <em>선택하세요.</em>
+                </MenuItem>
+                {javaVersionList.map((version, idx) => (
+                  <MenuItem
+                    key={idx}
+                    value={version}
+                    sx={{ fontSize: "1.4rem" }}
+                  >
+                    {version}
+                  </MenuItem>
+                ))}
+              </CustomSelect>
+            </CustomFormControl>
+          ) : (
+            <CustomFormControl sx={{ visibility: "hidden" }}>
+              <InputLabel>EMPTY</InputLabel>
+              <Select
+                sx={{
+                  width: "28.5rem",
+                }}
+              />
+            </CustomFormControl>
+          )}
         </InputContainer>
       </Container>
     </>
@@ -403,4 +433,17 @@ const defaultItem: IItem = {
   targetFolder: "",
   frameworkType: "",
   buildVersion: "",
+  javaVersion: "",
 };
+
+const javaVersionList: string[] = [
+  "8",
+  "9",
+  "10",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+];
