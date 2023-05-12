@@ -2,10 +2,13 @@ import { theme } from "@/styles/theme";
 import styled from "styled-components";
 import { FormControl, InputBase, InputLabel } from "@mui/material";
 import { alpha, styled as mstyled } from "@mui/material/styles";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { chapterState, projectConfigState, stepState } from "@/recoil/step";
 import { useEffect, useState } from "react";
 import { requestGitlabInfo } from "@/api/projectCreate";
+import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import ProjectIDIMG from "@/assets/projectCreate/ProjectID.png";
 
 export default function InputSection1() {
   const [projectConfig, setProjectConfig] =
@@ -124,7 +127,7 @@ export default function InputSection1() {
       {/* 첫째 줄 */}
       <InputContainer>
         <CustomFormControl variant="standard" sx={{ marginRight: "1rem" }}>
-          <CustomInputLabel shrink>Host URL</CustomInputLabel>
+          <CustomInputLabel shrink>Repository Host URL</CustomInputLabel>
           <InputBox
             widthnum={"30rem"}
             fontnum={"1.4rem"}
@@ -136,7 +139,44 @@ export default function InputSection1() {
           />
         </CustomFormControl>
         <CustomFormControl variant="standard">
-          <CustomInputLabel shrink>Project ID</CustomInputLabel>
+          <CustomInputLabel shrink>
+            Repository Project ID
+            <CustomTooltip
+              disableFocusListener
+              arrow
+              placement="right"
+              title={
+                <>
+                  <img
+                    src={ProjectIDIMG}
+                    style={{
+                      borderRadius: "5px",
+                      width: "100%",
+                      marginBottom: "1rem",
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontSize: "1.5rem",
+                      fontFamily: "Pretendard",
+                    }}
+                  >
+                    레포지토리 상세 정보의 프로젝트 이름 하단에서 확인할 수
+                    있어요.
+                  </span>
+                </>
+              }
+            >
+              <HelpOutlineIcon
+                sx={{
+                  fontSize: "3rem",
+                  marginLeft: "1rem",
+                  color: `${theme.colors.secondary}`,
+                  cursor: "pointer",
+                }}
+              />
+            </CustomTooltip>
+          </CustomInputLabel>
           <InputBox
             widthnum={"30rem"}
             fontnum={"1.4rem"}
@@ -258,6 +298,8 @@ const CustomInputLabel = mstyled(InputLabel)({
   fontWeight: "700",
   color: "#151649",
   fontFamily: "Pretendard",
+  display: "flex",
+  alignItems: "center",
 });
 
 const CustomFormControl = mstyled(FormControl)({
@@ -340,3 +382,19 @@ const NONE_PROJECTINFO: IProjectInfoById = {
   createdAt: "",
   lastActivityAt: "",
 };
+
+const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({}) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "#1516499f",
+    // color: "rgba(0, 0, 0, 0.7)",
+    maxWidth: 300,
+    // fontSize: theme.typography.pxToRem(12),
+    // border: "1px solid #dadde9",
+    padding: "1.2rem",
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    fontSize: "2rem",
+  },
+}));
