@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import { theme } from "@/styles/theme"
+import { theme } from "@/styles/theme";
 import Footer from "@components/common/Footer";
+import { useNavigate } from "react-router-dom";
 
 export default function Intro4() {
+  const navigate = useNavigate();
   return (
     <>
       <Container>
@@ -20,7 +22,7 @@ export default function Intro4() {
             해보세요
           </Title>
         </div>
-        <Guidebtn href="https://deployz.co.kr/oauth2/authorization/gitlab">START</Guidebtn>
+        <Guidebtn onClick={() => navigate("/login")}>START</Guidebtn>
       </Container>
       <Footer />
     </>
@@ -32,9 +34,9 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 65vh;
+  height: 60vh;
   width: 100%;
-  z-index:9999;
+  z-index: 9999;
   background-color: ${theme.colors.primary};
   .title-container {
     display: flex;
@@ -47,7 +49,7 @@ const Title = styled.div`
   color: ${theme.colors.white};
   font-size: 4rem;
 `;
-const Guidebtn = styled.a`
+const Guidebtn = styled.div`
   background: none;
   border-radius: 15rem;
   border: 0.3rem solid ${theme.colors.white};
