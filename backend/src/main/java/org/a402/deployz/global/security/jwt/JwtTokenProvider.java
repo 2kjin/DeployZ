@@ -83,8 +83,7 @@ public class JwtTokenProvider {
 	}
 
 	public String getBranchName(final String secretToken) {
-		final String originalToken = splitBearer(secretToken);
-		final Jws<Claims> claimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(originalToken);
+		final Jws<Claims> claimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(secretToken);
 
 		return String.valueOf(claimsJws.getBody().get(BRANCH_NAME));
 	}
