@@ -32,8 +32,8 @@ export default function InputSection2() {
   const checkIsValid = () => {
     if (
       nginxConfig.domainUrl === "" ||
-      nginxConfig.proxyPathList[0].pathName === "" ||
-      nginxConfig.proxyPathList[0].pathUrl === "" ||
+      // nginxConfig.proxyPathList[0].pathName === "" ||
+      // nginxConfig.proxyPathList[0].pathUrl === "" ||
       nginxConfig.sslCertificate === "" ||
       nginxConfig.sslCertificateKey === ""
     ) {
@@ -102,7 +102,9 @@ export default function InputSection2() {
       {/* <p className="subject">Nginx 설정 정보 입력</p> */}
       <InputContainer>
         <FormControl variant="standard">
-          <CustomInputLabel shrink>도메인 주소</CustomInputLabel>
+          <CustomInputLabel shrink>
+            도메인 주소<RequiredMark>*</RequiredMark>
+          </CustomInputLabel>
           <InputBox
             widthnum={"70rem"}
             fontnum={"1.5rem"}
@@ -172,9 +174,11 @@ export default function InputSection2() {
                 sx={{
                   fontSize: "2rem",
                   color: "#151649",
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                SSL Certificate
+                SSL Certificate<RequiredMark>*</RequiredMark>
               </InputLabel>
               <InputBox
                 widthnum={"30rem"}
@@ -194,9 +198,11 @@ export default function InputSection2() {
                 sx={{
                   fontSize: "2rem",
                   color: "#151649",
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                SSL Certificate Key
+                SSL Certificate Key<RequiredMark>*</RequiredMark>
               </InputLabel>
               <InputBox
                 widthnum={"30rem"}
@@ -227,6 +233,13 @@ export default function InputSection2() {
     </Container>
   );
 }
+
+const RequiredMark = styled.strong`
+  color: red;
+  font-size: 2rem;
+  margin-left: 0.2rem;
+`;
+
 const AddBtn = styled.div`
   background-color: ${theme.colors.secondary};
   color: white;

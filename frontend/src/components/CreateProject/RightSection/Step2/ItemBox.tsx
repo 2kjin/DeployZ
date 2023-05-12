@@ -73,11 +73,11 @@ export default function ItemBox({
   };
 
   // api를 통한 포트번호 중복 체크
-  const handlePortValid = async (port1: string, port2: string) => {
+  const handlePortValid = async (port1: string) => {
     try {
       const {
         data: { result },
-      } = await requestIsDuplicate(port1, port2);
+      } = await requestIsDuplicate(port1);
       // console.log(result);
       if (result.port1 === false || result.port2 === false) {
         error("포트 번호가 중복됩니다.");
@@ -107,7 +107,7 @@ export default function ItemBox({
       // if (item.portNumber1 === item.portNumber2) {
       //   error("두 포트 번호가 동일합니다.");
       // } else
-      handlePortValid(item.portNumber1, "-1");
+      handlePortValid(item.portNumber1);
     }
   };
 
@@ -178,7 +178,9 @@ export default function ItemBox({
         {/* 첫번째 줄 */}
         <InputContainer>
           <CustomFormControl variant="standard">
-            <CustomInputLabel shrink>Item Name</CustomInputLabel>
+            <CustomInputLabel shrink>
+              Item Name <RequiredMark>*</RequiredMark>
+            </CustomInputLabel>
             <InputBox
               placeholder={`컨테이너 명을 입력세요. ex) ${handlePlaceholder(
                 "ItemName"
@@ -189,7 +191,9 @@ export default function ItemBox({
             />
           </CustomFormControl>
           <CustomFormControl variant="standard">
-            <CustomInputLabel shrink>Port Number 1</CustomInputLabel>
+            <CustomInputLabel shrink>
+              Port Number 1<RequiredMark>*</RequiredMark>
+            </CustomInputLabel>
             <InputBox
               placeholder={`ex) ${handlePlaceholder("Port1")}`}
               id="portNumber1"
@@ -211,7 +215,9 @@ export default function ItemBox({
         {/* 2번째 줄 */}
         <InputContainer>
           <CustomFormControl variant="standard">
-            <CustomInputLabel shrink>Branch Name</CustomInputLabel>
+            <CustomInputLabel shrink>
+              Branch Name<RequiredMark>*</RequiredMark>
+            </CustomInputLabel>
             <CustomSelect
               name="branchName"
               defaultValue={"none"}
@@ -230,7 +236,7 @@ export default function ItemBox({
           </CustomFormControl>
           <CustomFormControl variant="standard">
             <CustomInputLabel shrink>
-              Target Folder
+              Target Folder<RequiredMark>*</RequiredMark>
               <CustomTooltip
                 disableFocusListener
                 arrow
@@ -286,7 +292,9 @@ export default function ItemBox({
         {/* 3번째 줄 */}
         <InputContainer>
           <CustomFormControl variant="standard">
-            <CustomInputLabel shrink>Build Type</CustomInputLabel>
+            <CustomInputLabel shrink>
+              Build Type<RequiredMark>*</RequiredMark>
+            </CustomInputLabel>
             <CustomSelect
               name="frameworkType"
               value={item.frameworkType}
@@ -304,7 +312,9 @@ export default function ItemBox({
             </CustomSelect>
           </CustomFormControl>
           <CustomFormControl variant="standard">
-            <CustomInputLabel shrink>Build Version</CustomInputLabel>
+            <CustomInputLabel shrink>
+              Build Version<RequiredMark>*</RequiredMark>
+            </CustomInputLabel>
             <CustomSelect
               name="buildVersion"
               value={item.buildVersion}
@@ -328,7 +338,9 @@ export default function ItemBox({
           {/* Springboot 사용시에만 Java Version 보이게 */}
           {item.frameworkType === "SpringBoot" ? (
             <CustomFormControl variant="standard">
-              <CustomInputLabel shrink>Java Version</CustomInputLabel>
+              <CustomInputLabel shrink>
+                Java Version<RequiredMark>*</RequiredMark>
+              </CustomInputLabel>
               <CustomSelect
                 name="javaVersion"
                 value={item.javaVersion}
@@ -368,6 +380,12 @@ export default function ItemBox({
     </>
   );
 }
+
+const RequiredMark = styled.strong`
+  color: red;
+  font-size: 1.8rem;
+  margin-left: 0.2rem;
+`;
 
 const CustomSelect = mstyled(Select)({
   fontSize: "1.4rem",
