@@ -86,7 +86,7 @@ export default function ItemDetail() {
                 ) : itemDetail.frameworkType === "SpringBoot" ? (
                   <Icon
                     icon="simple-icons:springboot"
-                    fontSize="240"
+                    fontSize="130"
                     color="#F3F4F3"
                   />
                 ) : (
@@ -201,14 +201,18 @@ const SFrameMainDiv = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 2em;
+  padding-left: 20em;
+  padding-right: 20em;
+  padding-bottom: 5em;
+  padding-top: 5em;
 `;
 
 const SFrameName = styled.span`
-  font-size: 5em;
+  font-size: 4.5em;
   font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.lightgray};
   margin-bottom: 0.3em;
+  text-shadow: 0 0 5px ${theme.colors.white};
 `;
 
 const SFrame = styled.div`

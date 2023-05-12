@@ -33,7 +33,7 @@ export default function BarChart({ data, labels }: BarChartProps) {
               ],
               borderWidth: 1,
               // 바의 크기를 조절하는 속성
-              barThickness: 35,
+              barThickness: 30,
             },
           ],
         },
