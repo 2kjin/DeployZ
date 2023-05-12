@@ -40,8 +40,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${theme.colors.container};
-  padding-top: 5rem;
-  padding-bottom: 1rem;
+  padding: 5rem 0;
 `;
 
 const ContentDiv = styled.div`
