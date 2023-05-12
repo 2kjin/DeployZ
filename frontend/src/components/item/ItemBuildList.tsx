@@ -32,7 +32,7 @@ export default function ItemBuildList({
         <SBuildName>
           <Icon
             icon="material-symbols:cloud-upload"
-            fontSize="50"
+            fontSize="35"
             color="#FEA51D"
           />
           <SP>빌드 내역</SP>
@@ -61,22 +61,44 @@ export default function ItemBuildList({
           ))}
         </SBuildListContainer>
       </SBuildList>
-      <SBuildMessage>
-        {selectedIdx !== null && (
-          <div>
-            <SBuildName>
-              <SP>콘솔 출력</SP>
-              {selectedItem && <SStatusP># {selectedItem.idx}</SStatusP>}
-            </SBuildName>
-            <SBuildMessageContent>
-              {selectedItem ? selectedItem.consol : ""}
-            </SBuildMessageContent>
-          </div>
+      <>
+        {selectedItem === null ? (
+          <SEmptyMessageContent>
+            빌드내역을 클릭하시면 콘솔 확인이 가능해요 📃
+          </SEmptyMessageContent>
+        ) : (
+          <SBuildMessage>
+            {selectedIdx !== null && (
+              <div>
+                <SBuildName>
+                  <SP>콘솔 출력</SP>
+                  {selectedItem && <SStatusP># {selectedItem.idx}</SStatusP>}
+                </SBuildName>
+                <SBuildMessageContent>
+                  {selectedItem ? selectedItem.consol : ""}
+                </SBuildMessageContent>
+              </div>
+            )}
+          </SBuildMessage>
         )}
-      </SBuildMessage>
+      </>
     </SDetailBuild>
   );
 }
+
+const SEmptyMessageContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: ${theme.fontWeight.bold};
+  color: ${theme.colors.primary};
+  border: 1px solid #d2d8df44;
+  background-color: ${theme.colors.white};
+  border-radius: 0.2rem;
+  height: 47vh;
+  width: 118vh;
+`;
 
 const SBuildListContainer = styled.div`
   display: flex;
@@ -86,43 +108,43 @@ const SBuildListContainer = styled.div`
 `;
 
 const SBuildItem = styled.div<{ selected: boolean }>`
-  flex: 5;
   text-align: start;
   border-bottom: 2px solid ${theme.colors.darkgray};
   background-color: ${(props) => (props.selected ? "#FEA51D" : "")};
   color: ${(props) => (props.selected ? "#ffffff" : "black")};
   cursor: pointer;
-  padding: 0.3em;
+  padding: 0.1rem;
 
   :hover {
     background-color: ${theme.colors.pending};
+    color: black;
   }
 `;
 
 const SStatusP = styled.span`
-  font-size: 2.9em;
+  font-size: 2rem;
   font-weight: ${theme.fontWeight.extraBold};
   color: ${theme.colors.secondary};
-  margin-left: 0.5em;
+  margin-left: 0.8rem;
 `;
 
 const SBuildMessageContent = styled.div`
-  font-size: 2em;
-  padding: 0.8em;
+  font-size: 2rem;
+  padding: 1rem;
   font-weight: ${theme.fontWeight.medium};
   color: ${theme.colors.primary};
-  border: 1px solid #73798044;
-  background-color: ${theme.colors.lightgray};
-  border-radius: 0.2em;
+  border: 1px solid #d2d8df44;
+  background-color: ${theme.colors.white};
+  border-radius: 0.2rem;
   height: 40vh;
   overflow-y: scroll;
 `;
 
 const SP = styled.p`
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.primary};
-  margin-left: 0.3em;
+  margin-left: 0.3rem;
 `;
 
 const SBuildName = styled.div`
@@ -132,7 +154,6 @@ const SBuildName = styled.div`
 `;
 
 const SBuildMessage = styled.div`
-  height: 48vh;
   width: 80%;
 `;
 
@@ -141,10 +162,9 @@ const SDetailBuild = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  width: 140vh;
-  height: 50vh;
-  padding: 1em;
-  gap: 2em;
+  gap: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 `;
 
 const SBuildTitle = styled.div`
@@ -157,28 +177,28 @@ const SBuildState = styled.div`
 `;
 
 const HighlightOffIconStyle = {
-  fontSize: "3rem",
+  fontSize: "2.5rem",
   color: theme.colors.error,
 };
 
 const checkStyle = {
-  fontSize: "3rem",
+  fontSize: "2.5rem",
   color: theme.colors.checkgreen,
 };
 
 const SBuildList = styled.div`
-  height: 48vh;
   width: 20%;
+  height: 51vh;
   flex-direction: column;
   overflow-y: scroll;
 `;
 
 const SBuildStatus = styled.span`
-  font-size: 2.3rem;
-  padding: 0.1em;
+  font-size: 1.9rem;
+  padding: 0.1rem;
 `;
 
 const SBuildRegisterTime = styled.span`
-  font-size: 2.3rem;
+  font-size: 1.9rem;
   padding: 0.1em;
 `;

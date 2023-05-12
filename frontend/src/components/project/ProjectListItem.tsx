@@ -125,7 +125,7 @@ const STitleDiv = styled.div`
 `;
 
 const STitle = styled.div<{ isSelected: boolean }>`
-  font-size: 3.3rem;
+  font-size: 3rem;
   font-weight: ${theme.fontWeight.bold};
   color: ${({ isSelected }) =>
     isSelected ? theme.colors.white : theme.colors.primary};
@@ -158,13 +158,13 @@ const SDesc = styled.div<{ isSelected: boolean }>`
 `;
 
 const SProjectList = styled.div<{ isSelected: boolean }>`
-  width: 53vh;
+  width: 51vh;
   height: 36vh;
   background: ${({ isSelected }) =>
-    isSelected ? theme.colors.secondary : theme.colors.lightgray};
+    isSelected ? theme.colors.secondary : theme.colors.white};
   border-radius: 1rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
   cursor: pointer;

@@ -70,125 +70,136 @@ export default function ItemDetail() {
       <Header type="standard" />
       {itemDetail && (
         <>
-          <SFrameMainDiv>
-            <Icon
-              icon="mdi:arrow-left-drop-circle-outline"
-              fontSize="65"
-              color="#F3F4F3"
-              cursor="pointer"
-              onClick={handlePrevClick}
-            />
-            <SFrame>
-              <SFrameName>{itemDetail.itemName}</SFrameName>
-              <SFrameImg>
-                {itemDetail.frameworkType === "React" ? (
-                  <Icon icon="mdi:react" fontSize="240" color="#F3F4F3" />
-                ) : itemDetail.frameworkType === "SpringBoot" ? (
-                  <Icon
-                    icon="simple-icons:springboot"
-                    fontSize="130"
-                    color="#F3F4F3"
-                  />
-                ) : (
-                  <Icon
-                    icon="tabler:brand-django"
-                    fontSize="240"
-                    color="#F3F4F3"
-                  />
-                )}
-              </SFrameImg>
-            </SFrame>
-            <Icon
-              icon="mdi:arrow-right-drop-circle-outline"
-              fontSize="65"
-              color="#F3F4F3"
-              cursor="pointer"
-              onClick={handleNextClick}
-            />
-          </SFrameMainDiv>
-          <SDetailContainer>
-            <SDetailDiv>
+          <SDiv>
+            <SFrameMainDiv>
+              <Icon
+                icon="mdi:arrow-left-drop-circle-outline"
+                fontSize="55"
+                color="#F3F4F3"
+                cursor="pointer"
+                onClick={handlePrevClick}
+              />
+              <SFrame>
+                <SFrameName>{itemDetail.itemName}</SFrameName>
+                <SFrameImg>
+                  {itemDetail.frameworkType === "React" ? (
+                    <Icon icon="mdi:react" fontSize="130" color="#F3F4F3" />
+                  ) : itemDetail.frameworkType === "SpringBoot" ? (
+                    <Icon
+                      icon="simple-icons:springboot"
+                      fontSize="130"
+                      color="#F3F4F3"
+                    />
+                  ) : (
+                    <Icon
+                      icon="tabler:brand-django"
+                      fontSize="130"
+                      color="#F3F4F3"
+                    />
+                  )}
+                </SFrameImg>
+              </SFrame>
+              <Icon
+                icon="mdi:arrow-right-drop-circle-outline"
+                fontSize="55"
+                color="#F3F4F3"
+                cursor="pointer"
+                onClick={handleNextClick}
+              />
+            </SFrameMainDiv>
+          </SDiv>
+          <SDiv>
+            <SDetailContainer>
+              <SNameDiv>
+                <SItem>포트번호</SItem>
+                <SItem>빌드 상태</SItem>
+                <SItem>최근 성공</SItem>
+                <SLastItem>최근 실패</SLastItem>
+              </SNameDiv>
               <SDetailInfo>
-                <SItemContainer>
-                  <SItem>포트번호</SItem>
-                  <SItemValue>
-                    {itemDetail.portNumber1} | {itemDetail.portNumber2}
-                  </SItemValue>
-                </SItemContainer>
-                <SItemContainer>
-                  <SItem>빌드 상태</SItem>
-                  <SItemStatus>
-                    {itemDetail.status === "SUCCESS" ? (
-                      <CheckCircleOutlineIcon style={checkStyle} />
-                    ) : (
-                      <HighlightOffIcon style={HighlightOffIconStyle} />
-                    )}
-                  </SItemStatus>
-                </SItemContainer>
-                <SItemContainer>
-                  <SItem>최근 성공</SItem>
-                  <SItemValue>
-                    {changeTime(itemDetail.lastSuccessDate)}
-                  </SItemValue>
-                </SItemContainer>
-                <SItemContainer>
-                  <SItem>최근 실패</SItem>
-                  <SItemValue>
-                    {changeTime(itemDetail.lastFailureDate)}
-                  </SItemValue>
-                </SItemContainer>
+                <SItemValue>{itemDetail.portNumber1}</SItemValue>
+                <SItemStatus>
+                  {itemDetail.status === "SUCCESS" ? (
+                    <CheckCircleOutlineIcon style={checkStyle} />
+                  ) : (
+                    <HighlightOffIcon style={HighlightOffIconStyle} />
+                  )}
+                </SItemStatus>
+                <SItemValue>
+                  {changeTime(itemDetail.lastSuccessDate)}
+                </SItemValue>
+                <SItemValue>
+                  {changeTime(itemDetail.lastFailureDate)}
+                </SItemValue>
               </SDetailInfo>
               <ItemBuildList itemHistoryLists={itemDetail.buildHistories} />
-            </SDetailDiv>
-          </SDetailContainer>
+            </SDetailContainer>
+          </SDiv>
         </>
       )}
     </SWrap>
   );
 }
 
-const HighlightOffIconStyle = {
-  fontSize: "4.5rem",
-  color: theme.colors.error,
-};
-
-const checkStyle = {
-  fontSize: "4.5rem",
-  color: theme.colors.checkgreen,
-};
-
-const SItemContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const SItemValue = styled.div`
-  font-size: 2.2rem;
-  font-weight: ${theme.fontWeight.bold};
-  color: ${theme.colors.primary};
-  margin-top: 2em;
-`;
-
-const SItemStatus = styled.div`
+const SDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 2.5em;
+`;
+
+const SNameDiv = styled.div`
+  display: flex;
+  margin-top: 2rem;
 `;
 
 const SDetailInfo = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 20em;
+  margin-top: 2rem;
+  border-bottom: 2px solid ${theme.colors.darkgray};
+  border-bottom-width: 0.2rem;
 `;
 
-const SItem = styled.span`
-  font-size: 2.5rem;
-  font-weight: ${theme.fontWeight.bold};
-  color: ${theme.colors.primary};
+const HighlightOffIconStyle = {
+  fontSize: "3.5rem",
+  color: theme.colors.error,
+};
+
+const checkStyle = {
+  fontSize: "3.5rem",
+  color: theme.colors.checkgreen,
+};
+
+const SItemValue = styled.div`
   flex: 1;
+  font-size: 1.9rem;
+  font-weight: ${theme.fontWeight.bold};
+  color: ${theme.colors.secondary};
+  text-align: center;
+`;
+
+const SItemStatus = styled.div`
+  flex: 1;
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.primary};
+  text-align: center;
+`;
+
+const SItem = styled.div`
+  flex: 1;
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.primary};
+  text-align: center;
+  border-right: 2px solid ${theme.colors.darkgray};
+  border-bottom-width: 0.3rem;
+`;
+
+const SLastItem = styled.div`
+  flex: 1;
+  font-size: 2rem;
+  font-weight: ${theme.fontWeight.extraBold};
+  color: ${theme.colors.primary};
   text-align: center;
 `;
 
@@ -201,8 +212,7 @@ const SFrameMainDiv = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-left: 20em;
-  padding-right: 20em;
+  width: 150vh;
   padding-bottom: 5em;
   padding-top: 5em;
 `;
@@ -212,7 +222,7 @@ const SFrameName = styled.span`
   font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.lightgray};
   margin-bottom: 0.3em;
-  text-shadow: 0 0 5px ${theme.colors.white};
+  text-shadow: 0 0 4px ${theme.colors.white};
 `;
 
 const SFrame = styled.div`
@@ -223,23 +233,15 @@ const SFrame = styled.div`
 `;
 
 const SWrap = styled.div`
-  height: 120vh;
+  height: 130vh;
   background: linear-gradient(140deg, #151649 32.5%, #f3f4f3);
 `;
 
 const SDetailContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const SDetailDiv = styled.div`
   width: 150vh;
   height: 70vh;
   background-color: ${theme.colors.lightgray};
-  border-radius: 1em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  border-radius: 0.8rem;
+  border: 0.1rem solid ${theme.colors.darkgray};
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 `;

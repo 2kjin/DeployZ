@@ -84,15 +84,15 @@ const Container = styled.div`
 `;
 
 const SEmptyDiv = styled.div`
-  width: 53vh;
+  width: 51vh;
   height: 36vh;
-  background: ${theme.colors.lightgray};
+  background: ${theme.colors.white};
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 1rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
 `;
