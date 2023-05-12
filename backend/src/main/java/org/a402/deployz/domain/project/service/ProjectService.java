@@ -147,19 +147,27 @@ public class ProjectService {
 	}
 
 	@Transactional
-	public HashMap<String, Boolean> findPortNumCheckList(Long port1, Long port2) {
-		HashMap<String, Boolean> portCheck = new HashMap<>();
+	public HashMap<String, String> findPortNumCheckList(String port) {
+		HashMap<String, String> portCheck = new HashMap<>();
 
-		//true: 사용 가능, false: 사용 불가
-		if (!itemRepository.existsByPortNumber1(port1) && !itemRepository.existsByPortNumber2(port1)) {
-			portCheck.put("port1", true);
-		} else
-			portCheck.put("port1", false);
+		for (char c : port.toCharArray()){
+			if (!Character.isDigit(c)){
+				portCheck.put("port", "Please enter a number");
+				return portCheck;
+			}
+		}
 
-		if (!itemRepository.existsByPortNumber1(port2) && !itemRepository.existsByPortNumber2(port2)) {
-			portCheck.put("port2", true);
-		} else
-			portCheck.put("port2", false);
+		int portByInt = Integer.parseInt(port);
+
+		if (portByInt < 0 || portByInt > 65535 || portByInt ==80 || portByInt == 8080 || portByInt ==443 ) {
+				portCheck.put("port", "Please check the port range");
+				return portCheck;
+		}
+		if (!itemRepository.existsByPortNumber((long)portByInt)){
+			portCheck.put("port", "true");
+		} else {
+			portCheck.put("port", "false");
+		}
 
 		return portCheck;
 	}
@@ -224,7 +232,8 @@ public class ProjectService {
 		return result;
 	}
 
-	private HashMap<String, Integer> findItemListByProjectIdx(Long projectIdx) {
+	@Transactional
+	public HashMap<String, Integer> findItemListByProjectIdx(Long projectIdx) {
 		HashMap<String, Integer> branches = new HashMap<>();
 
 		Project  project = projectRepository.findProjectByIdx(projectIdx).orElseThrow(ProjectNotFoundException::new);
@@ -249,4 +258,5 @@ public class ProjectService {
 		project.updateLastDates(mostLastSuccessTime, mostLastFailureTime);
 		projectRepository.save(project);
 	}
+
 }

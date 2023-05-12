@@ -16,11 +16,8 @@ public class ItemConfigRequest {
   private String itemName;
 
   @NotNull
-  @Schema(description = "포트 번호1")
-  private Long portNumber1;
-
-  @Schema(description = "포트 번호2")
-  private Long portNumber2;
+  @Schema(description = "포트 번호")
+  private Long portNumber;
 
   @NotNull
   @Schema(description = "브랜치 이름")
@@ -45,8 +42,7 @@ public class ItemConfigRequest {
   public Item toEntity(Project project) {
     return Item.builder()
         .name(itemName)
-        .portNumber1(portNumber1)
-        .portNumber2(portNumber2)
+        .portNumber(portNumber)
         .branchName(branchName)
         .targetFolderPath(targetFolder)
         .frameworkType(frameworkType)

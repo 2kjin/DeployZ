@@ -38,7 +38,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ItemService {
 	private final ItemRepository itemRepository;
 	private final ProjectRepository projectRepository;
-	private final ProjectService projectService;
 	private final PathParser pathParser;
 
 	@Transactional
