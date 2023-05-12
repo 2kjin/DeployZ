@@ -17,17 +17,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/git")
+@RequestMapping("/git")
 public class GitController {
 	private final GitService gitService;
 
 	@PostMapping("/webhook")
-	public BaseResponse<Void> detectWebHook(@RequestHeader(name = "X-Gitlab-Token") String gitlabToken,
-		@RequestBody Map<String, Object> requestParams) {
+	public BaseResponse<Void> detectWebHook(@RequestHeader(name = "X-Gitlab-Token") String secretToken, @RequestBody Map<String, Object> requestParams) {
 		log.info("webhook start");
-		log.info("webhook X-Gitlab-Token: {}", gitlabToken);
-		final GitWebHookRequest gitWebHookRequest = gitService.detectWebHook(requestParams);
+		final GitWebHookRequest gitWebHookRequest = gitService.detectWebHook(secretToken, requestParams);
 
+		log.info("webhook Done");
 		return new BaseResponse<>();
 	}
 }

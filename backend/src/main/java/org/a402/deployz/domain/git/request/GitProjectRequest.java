@@ -14,6 +14,7 @@ public class GitProjectRequest {
 	private String web_url;
 	private String git_http_url;
 	private String avatar_url;
+	private String ci_config_path;
 	private String git_ssh_url;
 	private String namespace;
 	private String visibility_level;
