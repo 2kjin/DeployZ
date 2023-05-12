@@ -69,7 +69,7 @@ export default function ItemDetail() {
           <SFrameMainDiv>
             <Icon
               icon="mdi:arrow-left-drop-circle-outline"
-              fontSize="63"
+              fontSize="65"
               color="#F3F4F3"
               cursor="pointer"
               onClick={handlePrevClick}
@@ -96,7 +96,7 @@ export default function ItemDetail() {
             </SFrame>
             <Icon
               icon="mdi:arrow-right-drop-circle-outline"
-              fontSize="63"
+              fontSize="65"
               color="#F3F4F3"
               cursor="pointer"
               onClick={handleNextClick}
