@@ -1,4 +1,4 @@
-package org.a402.deployz.domain.project.repository;
+package org.a402.deployz.domain.git.repository;
 
 import org.a402.deployz.domain.git.entity.GitToken;
 import org.springframework.data.jpa.repository.JpaRepository;

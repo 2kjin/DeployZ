@@ -37,6 +37,7 @@ public class JwtTokenProvider {
 	public static final String SPLIT_REGEX = " ";
 	private String key = "deployz";
 	public static final String BEARER = "Bearer ";
+	public static final String BRANCH_NAME = "branchName";
 
 	private final MemberDetailService memberDetailService;
 	private final RedisRefreshTokenRepository redisRefreshTokenRepository;
@@ -62,6 +63,29 @@ public class JwtTokenProvider {
 			.setExpiration(new Date(now.getTime() + accessTokenValidSecond)) // 토큰 만료시간 설정.
 			.signWith(SignatureAlgorithm.HS256, key) // 사용할 암호화 알고리즘, secret key값 설정
 			.compact();
+	}
+
+	// Jwt secret token 생성
+	public String createSecretToken(final Member member, final String branchName) {
+		// Claim이란 JWT의 Payload에 들어가는 데이터 단위.
+		// Map<String, Object>를 상속하고 있기 때문에 key, value 형식으로 값을 넣을 수 있다.
+		final Claims claims = Jwts.claims().setSubject(member.getAccount());
+		claims.put(AUTHORIZATION, member.getAuthorities()); // 권한
+		claims.put(BRANCH_NAME, branchName); // 권한
+
+		final Date now = new Date();
+
+		return Jwts.builder()
+			.setClaims(claims) // 데이터
+			.setIssuedAt(now)  // 토큰 발행 일자
+			.signWith(SignatureAlgorithm.HS256, key) // 사용할 암호화 알고리즘, secret key값 설정
+			.compact();
+	}
+
+	public String getBranchName(final String secretToken) {
+		final Jws<Claims> claimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(secretToken);
+
+		return String.valueOf(claimsJws.getBody().get(BRANCH_NAME));
 	}
 
 	// refreshToken 생성.

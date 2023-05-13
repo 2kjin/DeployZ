@@ -66,18 +66,21 @@ public class ItemController {
 	@GetMapping("/detail/{itemIdx}")
 	public BaseResponse<ItemDetailListResponse> findDetailItem(@Valid @PathVariable Long itemIdx) {
 		ItemDetailListResponse itemDetailListRespons = null;
-		// 1. 빌드 내역 조회 : List<BuildHistory>
+		String nowState = "";
+		ItemListResponse itemInfo = null;
+
 		final List<ItemBuildHistoryResponse> buildHistories = itemService.findBuildHistories(itemIdx);
 
-		// 2. 포트번호, 빌드상태, 최근 성공, 최근 실패 리스트 조회, 아이템 이름: ItemListResponse
-		// 2-1. 빌드 상태의 경우 -> buildHistories의 가장 최근값의 status를 반환
-		final String nowState = buildHistories.get(0).getStatus();
-		// 2-2. 해당 itemIdx를 가진 프로젝트 이름 반환
+		if (buildHistories != null) {
+			// 포트번호, 빌드상태, 최근 성공, 최근 실패 리스트 조회, 아이템 이름: ItemListResponse
+			// 빌드 상태의 경우 -> buildHistories의 가장 최근값의 status를 반환
+			nowState = buildHistories.get(0).getStatus();
+		}
+		// 해당 itemIdx를 가진 프로젝트 이름 반환
 		String projectName = itemService.findProjectName(itemIdx);
-		// 2-3. 아이템의 정보들을 ItemListResponse Dto에 넣음
-		final ItemListResponse itemInfo = itemService.findItemInfo(itemIdx, nowState, projectName);
+		// 아이템의 정보들을 ItemListResponse Dto에 넣음
+		itemInfo = itemService.findItemInfo(itemIdx, nowState, projectName);
 
-		// 3. 현재 해당 아이템의 빌드-배포-실행 중 어느 상태인지 반환 -> 추후 개발
 		itemDetailListRespons = new ItemDetailListResponse(buildHistories, itemInfo);
 
 		return new BaseResponse<>(itemDetailListRespons);

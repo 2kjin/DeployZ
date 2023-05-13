@@ -15,9 +15,7 @@ public class ItemListResponse {
 	@NotNull
 	private String name;
 	@NotNull
-	private Long portNumber1;
-	@NotNull
-	private Long portNumber2;
+	private Long portNumber;
 	@NotNull
 	private String framworkType;
 
@@ -33,8 +31,7 @@ public class ItemListResponse {
 		this.idx=item.getIdx();
 		this.framworkType=item.getFrameworkType();
 		this.name=item.getName();
-		this.portNumber1=item.getPortNumber1();
-		this.portNumber2=item.getPortNumber2();
+		this.portNumber=item.getPortNumber();
 		this.lastSuccessDate=item.getLastSuccessDate();
 		this.lastFailureDate=item.getLastFailureDate();
 		this.status=status;

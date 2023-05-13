@@ -11,8 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-	boolean existsByPortNumber1(Long port1);
-	boolean existsByPortNumber2(Long port2);
-	Optional<Item> findItemByIdx(Long itemIdx);
+	boolean existsByPortNumber(Long port);
+	Optional<Item>findItemByIdx(Long itemIdx);
 	long countItemsByProjectIdx(Long projectIdx);
 }

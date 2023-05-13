@@ -14,6 +14,7 @@ import javax.validation.Valid;
 
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
+import org.a402.deployz.domain.git.repository.GitTokenRepository;
 import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.item.repository.ItemRepository;
 import org.a402.deployz.domain.item.request.ItemConfigRequest;
@@ -24,7 +25,6 @@ import org.a402.deployz.domain.project.entity.NginxConfig;
 import org.a402.deployz.domain.project.entity.Project;
 import org.a402.deployz.domain.project.exception.ProjectNotFoundException;
 import org.a402.deployz.domain.project.repository.GitConfigRepository;
-import org.a402.deployz.domain.project.repository.GitTokenRepository;
 import org.a402.deployz.domain.project.repository.NginxConfigRepository;
 import org.a402.deployz.domain.project.repository.ProjectRepository;
 import org.a402.deployz.domain.project.repository.ProxyConfigRepository;
@@ -127,19 +127,27 @@ public class ProjectService {
 	}
 
 	@Transactional
-	public HashMap<String, Boolean> findPortNumCheckList(Long port1, Long port2) {
-		HashMap<String, Boolean> portCheck = new HashMap<>();
+	public HashMap<String, String> findPortNumCheckList(String port) {
+		HashMap<String, String> portCheck = new HashMap<>();
 
-		//true: 사용 가능, false: 사용 불가
-		if (!itemRepository.existsByPortNumber1(port1) && !itemRepository.existsByPortNumber2(port1)) {
-			portCheck.put("port1", true);
-		} else
-			portCheck.put("port1", false);
+		for (char c : port.toCharArray()){
+			if (!Character.isDigit(c)){
+				portCheck.put("port", "포트 번호는 숫자만 넣어주세요.");
+				return portCheck;
+			}
+		}
 
-		if (!itemRepository.existsByPortNumber1(port2) && !itemRepository.existsByPortNumber2(port2)) {
-			portCheck.put("port2", true);
-		} else
-			portCheck.put("port2", false);
+		int portByInt = Integer.parseInt(port);
+
+		if (portByInt < 0 || portByInt > 65535 || portByInt ==80 || portByInt == 8080 || portByInt ==443 ) {
+				portCheck.put("port", "포트 번호의 범위를 확인해주세요. (0~65535)");
+				return portCheck;
+		}
+		if (!itemRepository.existsByPortNumber((long)portByInt)){
+			portCheck.put("port", "해당 포트 번호는 사용할 수 있습니다!");
+		} else {
+			portCheck.put("port", "중복된 포트 번호가 있습니다.");
+		}
 
 		return portCheck;
 	}
@@ -204,15 +212,16 @@ public class ProjectService {
 		return result;
 	}
 
-	private HashMap<String, Integer> findItemListByProjectIdx(Long projectIdx) {
+	@Transactional
+	public HashMap<String, Integer> findItemListByProjectIdx(Long projectIdx) {
 		HashMap<String, Integer> branches = new HashMap<>();
 
-		Project  project = projectRepository.findProjectByIdx(projectIdx).orElseThrow(ProjectNotFoundException::new);
+		Project project = projectRepository.findProjectByIdx(projectIdx).orElseThrow(ProjectNotFoundException::new);
 		List<Item> items = project.getItems();
 
-		if (items != null){
+		if (items != null) {
 
-			for (Item item: items) {
+			for (Item item : items) {
 				String branchName = item.getBranchName();
 				Integer branchBuildCnt = item.getItemHistories().size();
 
@@ -229,4 +238,5 @@ public class ProjectService {
 		project.updateLastDates(mostLastSuccessTime, mostLastFailureTime);
 		projectRepository.save(project);
 	}
+
 }

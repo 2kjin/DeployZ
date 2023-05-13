@@ -35,12 +35,11 @@ import lombok.extern.slf4j.Slf4j;
 public class ItemService {
 	private final ItemRepository itemRepository;
 	private final ProjectRepository projectRepository;
-	private final ProjectService projectService;
 	private final PathParser pathParser;
 
 	@Transactional
-	public void removeItem(long idx) {
-		itemRepository.findItemByIdx(idx)
+	public void removeItem(long itemIdx) {
+		itemRepository.findItemByIdx(itemIdx)
 			.orElseThrow(ItemNotFoundException::new)
 			.updateDeletedFlag();
 	}
@@ -51,18 +50,21 @@ public class ItemService {
 	}
 
 	@Transactional
-	public List<ItemBuildHistoryResponse> findBuildHistories(Long containerIdx) {
-		final Item item = itemRepository.findItemByIdx(containerIdx).orElseThrow(ItemNotFoundException::new);
+	public List<ItemBuildHistoryResponse> findBuildHistories(Long itemIdx) {
+		final Item item = itemRepository.findItemByIdx(itemIdx).orElseThrow(ItemNotFoundException::new);
 
-		return item.getItemHistories()
-			.stream()
-			.sorted(Comparator.comparing(BuildHistory::getIdx).reversed())
-			.map(history -> new ItemBuildHistoryResponse(
-				history.getIdx(),
-				history.getStatus(),
-				history.getMessage(),
-				history.getRegisterTime()))
-			.collect(Collectors.toList());
+		if (item.getItemHistories().size() >0) {
+			return item.getItemHistories()
+				.stream()
+				.sorted(Comparator.comparing(BuildHistory::getIdx).reversed())
+				.map(history -> new ItemBuildHistoryResponse(
+					history.getIdx(),
+					history.getStatus(),
+					history.getMessage(),
+					history.getRegisterTime()))
+				.collect(Collectors.toList());
+		}
+		else return null;
 	}
 
 	@Transactional
