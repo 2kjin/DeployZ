@@ -31,7 +31,7 @@ public class BuildHistory {
 	private Long idx;
 	@Column(name = "status", length = 20)
 	private String status;
-	@Column(name = "message", length = 100)
+	@Column(name = "message", columnDefinition = "LONGTEXT")
 	private String message;
 	@CreationTimestamp
 	@Column(name = "register_Time")

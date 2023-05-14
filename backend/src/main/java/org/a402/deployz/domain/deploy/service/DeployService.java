@@ -33,9 +33,9 @@ public class DeployService {
 	private final PathParser pathParser;
 	private final static String CLONE = "Clone";
 	private final static String PULL = "Pull";
-	private final static String WAITING = "Waiting";
-	private final static String SUCCESS = "Success";
-	private final static String FAIL = "Fail";
+	private final static String WAITING = "WAITING";
+	private final static String SUCCESS = "SUCCESS";
+	private final static String FAIL = "FAIL";
 
 	@Transactional
 	public ItemDeployResponse itemDeploy(final Long itemIdx) {

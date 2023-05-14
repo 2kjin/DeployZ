@@ -37,7 +37,7 @@ public class FileManager {
 
 		try (BufferedReader br = new BufferedReader(new FileReader(FilePath))) {
 			while ((str = br.readLine()) != null) {
-				sb.append(str);
+				sb.append(str).append("\n");
 			}
 		} catch (FileNotFoundException f) {
 			log.info(FilePath + " does not exist");
