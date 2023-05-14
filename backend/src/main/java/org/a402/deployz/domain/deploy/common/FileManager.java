@@ -15,7 +15,6 @@ public class FileManager {
 	public static void writeFile(final String preFilePath, final String fileName, final String fileContent) {
 		StringBuilder sb = new StringBuilder();
 		String filePath = sb.append(preFilePath).append(REGEX).append(fileName).toString();
-		checkAndCreateDirectory(filePath);
 
 		try (FileWriter fw = new FileWriter(new File(filePath))) {
 			BufferedWriter writer = new BufferedWriter(fw);
