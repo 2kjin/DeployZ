@@ -161,7 +161,7 @@ export default function InputSection2() {
             </GuildButton>
             <Modal open={open} onClose={handleClose}>
               <>
-                <SSLGuideModal handleClose={handleClose} />
+                <SSLGuideModal />
               </>
             </Modal>
           </SectionGuide>

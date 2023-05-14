@@ -73,7 +73,7 @@ export default function InputSection2() {
             </GuildButton>
             <Modal open={open} onClose={handleClose}>
               <>
-                <WebhookGuideModal handleClose={handleClose} />
+                <WebhookGuideModal />
               </>
             </Modal>
           </SectionGuide>
