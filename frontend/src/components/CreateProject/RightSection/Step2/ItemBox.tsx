@@ -94,8 +94,7 @@ export default function ItemBox({
   const itemValidCheck = () => {
     console.log(item);
     if (
-      item.portNumber1 === "" ||
-      // item.portNumber2 === "" ||
+      item.portNumber === "" ||
       item.branchName === "none" ||
       item.targetFolder === "" ||
       item.frameworkType === "none" ||
@@ -107,7 +106,7 @@ export default function ItemBox({
       // if (item.portNumber1 === item.portNumber2) {
       //   error("두 포트 번호가 동일합니다.");
       // } else
-      handlePortValid(item.portNumber1);
+      handlePortValid(item.portNumber);
     }
   };
 
@@ -196,8 +195,8 @@ export default function ItemBox({
             </CustomInputLabel>
             <InputBox
               placeholder={`ex) ${handlePlaceholder("Port1")}`}
-              id="portNumber1"
-              value={item.portNumber1}
+              id="portNumber"
+              value={item.portNumber}
               onChange={handleItemData}
             />
           </CustomFormControl>
@@ -207,8 +206,6 @@ export default function ItemBox({
               placeholder={`Available Soon...`}
               id="portNumber2"
               disabled
-              value={item.portNumber2}
-              onChange={handleItemData}
             />
           </CustomFormControl>
         </InputContainer>
@@ -502,8 +499,7 @@ const INPUTFORM: InputForm[] = [
 
 const defaultItem: IItem = {
   itemName: "",
-  portNumber1: "",
-  portNumber2: "",
+  portNumber: "",
   branchName: "",
   secretToken: "",
   targetFolder: "",
@@ -516,6 +512,7 @@ const javaVersionList: string[] = [
   "8",
   "9",
   "10",
+  "11",
   "12",
   "13",
   "14",

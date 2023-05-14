@@ -30,10 +30,8 @@ interface IProjectConfig {
 }
 
 interface IItem {
-  [key: string]: string;
   itemName: string;
-  portNumber1: string;
-  portNumber2: string;
+  portNumber: string;
   branchName: string;
   secretToken: string;
   targetFolder: string;
