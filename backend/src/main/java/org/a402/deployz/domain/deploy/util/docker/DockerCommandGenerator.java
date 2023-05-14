@@ -19,7 +19,7 @@ public class DockerCommandGenerator {
 		StringBuilder sb = new StringBuilder();
 		sb.append("docker run --name ")
 			.append(item.getName().toLowerCase())
-			.append(" -d -p ")
+			.append(" -d --rm -p ")
 			.append(item.getPortNumber());
 		if (item.getFrameworkType().equals(SPRINGBOOT.getName())) {
 			sb.append(":8080 ");
@@ -33,9 +33,6 @@ public class DockerCommandGenerator {
 	public static String stop(final String containerName) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("docker stop ")
-			.append(containerName)
-			.append(" && ")
-			.append("docker rm ")
 			.append(containerName)
 			.append(" && ")
 			.append("docker rmi ")
