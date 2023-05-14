@@ -16,6 +16,7 @@ import org.a402.deployz.domain.member.entity.Member;
 import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.Project;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,13 +39,12 @@ public class DeployService {
 	private final static String FAIL = "FAIL";
 
 	@Transactional
-	public ItemDeployResponse itemDeploy(final Long itemIdx) {
+	public ItemDeployResponse itemDeploy(final Long itemIdx, final UserDetails userDetails) {
 		String gitAction = CLONE;
 		String status = WAITING;
 
 		// 회원 정보 조회
-		// @FIXME: to use Authentication
-		final Member member = memberRepository.findMemberByIdx(2L)
+		final Member member = memberRepository.findMemberByAccount(userDetails.getUsername())
 			.orElseThrow(MemberNotFoundException::new);
 		// 아이템 조회
 		final Item item = itemRepository.findItemByIdx(itemIdx).orElseThrow(ItemNotFoundException::new);
