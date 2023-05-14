@@ -48,8 +48,7 @@ const defaultProjectConfig: IProjectConfig = {
 
 const defaultItem1: IItem = {
   itemName: "Front-end",
-  portNumber1: "",
-  portNumber2: "",
+  portNumber: "",
   branchName: "none",
   secretToken: "",
   targetFolder: "",
@@ -60,8 +59,7 @@ const defaultItem1: IItem = {
 
 const defaultItem2: IItem = {
   itemName: "Back-end",
-  portNumber1: "",
-  portNumber2: "",
+  portNumber: "",
   branchName: "none",
   secretToken: "",
   targetFolder: "",
