@@ -3,9 +3,10 @@ package org.a402.deployz.domain.git.service;
 import java.util.Map;
 
 import org.a402.deployz.domain.git.exception.NotSupportedEventTypeException;
-import org.a402.deployz.domain.git.request.GitProjectRequest;
-import org.a402.deployz.domain.git.request.GitRepositoryRequest;
 import org.a402.deployz.domain.git.request.GitWebHookRequest;
+import org.a402.deployz.domain.item.entity.Item;
+import org.a402.deployz.domain.item.exception.ItemNotFoundException;
+import org.a402.deployz.domain.item.repository.ItemRepository;
 import org.a402.deployz.global.security.jwt.JwtTokenProvider;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +28,13 @@ public class GitService {
 	public static final String REPLACE_TARGET = "\"";
 	public static final String REPLACE_REPLACEMENT = "";
 	private final JwtTokenProvider jwtTokenProvider;
+	private final ItemRepository itemRepository;
 
 	public GitWebHookRequest detectWebHook(final String secretToken, final Map<String, Object> requestParams) {
 		final GitWebHookRequest gitWebHookRequest = parseBuildData(secretToken, requestParams);
 
-		log.info("GitWebHookHttpUrl: {}", gitWebHookRequest.getGitHttpUrl());
-		log.info("GitWebHookEventType: {}", gitWebHookRequest.getEventType());
-		log.info("GitWebHookRepositoryName: {}", gitWebHookRequest.getRepositoryName());
+		log.info("GitWebHook UserAccount: {}", gitWebHookRequest.getAccount());
+		log.info("GitWebHook ItemIdx: {}", gitWebHookRequest.getItemIdx());
 
 		return gitWebHookRequest;
 	}
@@ -42,39 +43,26 @@ public class GitService {
 		final ObjectMapper objectMapper = new ObjectMapper();
 
 		final String branchName = jwtTokenProvider.getBranchName(secretToken);
+		final String userAccount = jwtTokenProvider.getUserAccount(secretToken);
 		log.info("webhook X-Gitlab-Token branchName: {}", branchName);
 
+		final Item item = itemRepository.findItemByBranchName(branchName).orElseThrow(ItemNotFoundException::new);
+
 		try {
-			final String eventName = removeExclamationMark(objectMapper.writeValueAsString(requestParams.get(EVENT_NAME)));
+			final String eventName = removeExclamationMark(
+				objectMapper.writeValueAsString(requestParams.get(EVENT_NAME)));
 			log.info("webhook event type: {}", eventName);
 
 			if (eventName.equals(PUSH)) {
-				final String projectObject = objectMapper.writeValueAsString(requestParams.get(PROJECT));
-				final GitProjectRequest gitProjectRequest = objectMapper.readValue(projectObject, GitProjectRequest.class);
-				final String repository = objectMapper.writeValueAsString(requestParams.get(REPOSITORY));
-				final GitRepositoryRequest gitRepositoryRequest = objectMapper.readValue(repository, GitRepositoryRequest.class);
-
 				return GitWebHookRequest.builder()
-					.branchName(branchName)
-					.eventType(eventName)
-					.repositoryName(gitRepositoryRequest.getName())
-					.gitHttpUrl(gitProjectRequest.getGit_http_url())
-					.projectId(gitProjectRequest.getId())
+					.account(userAccount)
+					.itemIdx(item.getIdx())
 					.build();
 			} else if (eventName.equals(MERGE_REQUEST)) {
-				final String project = objectMapper.writeValueAsString(requestParams.get(PROJECT));
-				final GitProjectRequest gitProjectRequest = objectMapper.readValue(project, GitProjectRequest.class);
-				final String repository = objectMapper.writeValueAsString(requestParams.get(REPOSITORY));
-				final GitRepositoryRequest gitRepositoryRequest = objectMapper.readValue(repository,
-					GitRepositoryRequest.class);
-
 				return GitWebHookRequest
 					.builder()
-					.branchName(branchName)
-					.eventType(eventName)
-					.repositoryName(gitRepositoryRequest.getName())
-					.gitHttpUrl(gitProjectRequest.getGit_http_url())
-					.projectId(gitProjectRequest.getId())
+					.account(userAccount)
+					.itemIdx(item.getIdx())
 					.build();
 			} else {
 				throw new NotSupportedEventTypeException();
