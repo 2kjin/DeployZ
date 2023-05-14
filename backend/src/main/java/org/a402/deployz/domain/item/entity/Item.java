@@ -44,6 +44,8 @@ public class Item {
 	private String frameworkType;
 	@Column(name = "build_version", length = 50)
 	private String buildVersion;
+	@Column(name = "java_version", length = 10)
+	private String javaVersion;
 	@Column(name = "last_success_date")
 	private LocalDateTime lastSuccessDate;
 	@Column(name = "last_failure_date")
@@ -62,7 +64,7 @@ public class Item {
 	@Builder
 	public Item(final Long idx, final String name, final Long portNumber,
 		final String branchName, final String targetFolderPath,
-		final String frameworkType, final String buildVersion,
+		final String frameworkType, final String buildVersion, final String javaVersion,
 		final LocalDateTime lastSuccessDate,
 		final LocalDateTime lastFailureDate, final boolean deletedFlag, final Project project,
 		final List<BuildHistory> itemHistories,
@@ -74,6 +76,7 @@ public class Item {
 		this.targetFolderPath = targetFolderPath;
 		this.frameworkType = frameworkType;
 		this.buildVersion = buildVersion;
+		this.javaVersion = javaVersion;
 		this.lastSuccessDate = lastSuccessDate;
 		this.lastFailureDate = lastFailureDate;
 		this.deletedFlag = deletedFlag;

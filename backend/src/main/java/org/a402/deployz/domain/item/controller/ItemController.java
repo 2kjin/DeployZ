@@ -4,21 +4,15 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.a402.deployz.domain.item.entity.BuildItemRequest;
-import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.item.response.ItemBuildHistoryResponse;
 import org.a402.deployz.domain.item.response.ItemDetailListResponse;
 import org.a402.deployz.domain.item.response.ItemListResponse;
 import org.a402.deployz.domain.item.service.ItemService;
-import org.a402.deployz.domain.project.entity.Project;
-import org.a402.deployz.domain.project.service.ProjectService;
 import org.a402.deployz.global.common.BaseResponse;
 import org.a402.deployz.global.error.GlobalErrorCode;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -84,16 +78,5 @@ public class ItemController {
 		itemDetailListRespons = new ItemDetailListResponse(buildHistories, itemInfo);
 
 		return new BaseResponse<>(itemDetailListRespons);
-	}
-
-	@Operation(description = "프로젝트 빌드하기 API", summary = "프로젝트 빌드하기 API")
-	@ApiResponse(responseCode = "200", description = "프로젝트 빌드하기 성공")
-	@ApiResponse(responseCode = "400", description = "프로젝트 빌드 실패")
-	@PostMapping("/build")
-	public BaseResponse<String> buildItem(@RequestBody BuildItemRequest buildItemRequest) {
-		log.info("API Request received : projectId = {} ", buildItemRequest.getProjectIdx());
-		itemService.pullItem(buildItemRequest);
-
-		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 }
