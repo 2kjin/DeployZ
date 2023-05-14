@@ -26,8 +26,8 @@ export const requestCreateProject = async (projectInfo: IProject) => {
 };
 
 // 포트 중복 검사
-export const requestIsDuplicate = async (num1: string, num2: string) => {
-  return instance.get(`/project/container?port1=${num1}&port2=${num2}`);
+export const requestIsDuplicate = async (num1: string) => {
+  return instance.get(`/project/container?port=${num1}`);
 };
 
 // 시크릿 토큰 생성

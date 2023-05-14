@@ -27,7 +27,7 @@ export default function InputSection1() {
       projectConfig.hostUrl === "" ||
       projectConfig.projectId === "" ||
       projectConfig.projectName === "" ||
-      projectConfig.description === "" ||
+      // projectConfig.description === "" ||
       repoInfo.name === "none"
     ) {
       const updatedSteps = steps.map((step) => {
@@ -127,7 +127,9 @@ export default function InputSection1() {
       {/* 첫째 줄 */}
       <InputContainer>
         <CustomFormControl variant="standard" sx={{ marginRight: "1rem" }}>
-          <CustomInputLabel shrink>Repository Host URL</CustomInputLabel>
+          <CustomInputLabel shrink>
+            Repository Host URL <RequiredMark>*</RequiredMark>
+          </CustomInputLabel>
           <InputBox
             widthnum={"30rem"}
             fontnum={"1.4rem"}
@@ -140,7 +142,7 @@ export default function InputSection1() {
         </CustomFormControl>
         <CustomFormControl variant="standard">
           <CustomInputLabel shrink>
-            Repository Project ID
+            Repository Project ID<RequiredMark>*</RequiredMark>
             <CustomTooltip
               disableFocusListener
               arrow
@@ -192,7 +194,9 @@ export default function InputSection1() {
       {/* 둘째 줄 */}
       <InputContainer>
         <CustomFormControl variant="standard">
-          <CustomInputLabel shrink>Project Name</CustomInputLabel>
+          <CustomInputLabel shrink>
+            Project Name<RequiredMark>*</RequiredMark>
+          </CustomInputLabel>
           <InputBox
             widthnum={"30rem"}
             fontnum={"1.4rem"}
@@ -291,6 +295,12 @@ const Container = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
+`;
+
+const RequiredMark = styled.strong`
+  color: red;
+  font-size: 2.4rem;
+  margin-left: 0.2rem;
 `;
 
 const CustomInputLabel = mstyled(InputLabel)({
