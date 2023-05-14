@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import { useLocation, useNavigate } from "react-router-dom";
-import LogoPic from "@/assets/logo.png";
-import GitlabPic from "@/assets/gitlab.png";
+import LogoPic from "@/assets/logo/logo.png";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { requestLogout } from "@/api/auth";

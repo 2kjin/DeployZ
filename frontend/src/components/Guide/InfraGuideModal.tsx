@@ -16,7 +16,14 @@ import {
   RiNumber8, } from 'react-icons/ri';
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { styled as mstyled } from "@mui/material/styles";
-import Guide1 from "@/assets/guide2.png";
+import Guide1 from "@/assets/guide/guide_1.png";
+import Guide2 from "@/assets/guide/guide_2.png";
+import Guide3 from "@/assets/guide/guide_3.png";
+import Guide4 from "@/assets/guide/guide_4.png";
+import Guide5 from "@/assets/guide/guide_5.png";
+import Guide6 from "@/assets/guide/guide_6.png";
+import Guide7 from "@/assets/guide/guide_7.png";
+import Guide8 from "@/assets/guide/guide_8.png";
 
 type Props = {
   handleClose: () => void;
@@ -146,7 +153,7 @@ const timelineData = [
         · EC2 인스턴스에 Docker를 설치하고, 도커 그룹에 현재 사용자를 추가하여
         권한 문제를 해결합니다.
       </Text>
-      <Img alt="Guide1" src={Guide1}></Img>
+      <Img alt="Guide1" src={Guide2}></Img>
       </Contentdiv>
     ),
   },
@@ -161,7 +168,7 @@ const timelineData = [
           · Docker Compose를 사용하여 프론트엔드와 백엔드 컨테이너를 생성하고
           연결합니다.
         </Text>
-        <Img alt="Guide1" src={Guide1}></Img>
+        <Img alt="Guide1" src={Guide3}></Img>
       </Contentdiv>
     ),
   },
@@ -174,7 +181,7 @@ const timelineData = [
        · EC2 인스턴스에 CI/CD 툴을 설치하고, CI/CD 툴에 맞는 플러그인 및 권한을
         설정합니다.
       </Text>
-      <Img alt="Guide1" src={Guide1}></Img>
+      <Img alt="Guide1" src={Guide4}></Img>
       </Contentdiv>
     ),
   },
@@ -187,7 +194,7 @@ const timelineData = [
         · 설치한 CI/CD 툴에 프로젝트를 가져와서 빌드, 테스트, 배포 과정을 자동화하는
         CI/CD 파이프라인을 구축합니다.
       </Text>
-      <Img alt="Guide1" src={Guide1}></Img>
+      <Img alt="Guide1" src={Guide5}></Img>
       </Contentdiv>
     ),
   },
@@ -200,7 +207,7 @@ const timelineData = [
        · Nginx를 설치하고, 프론트엔드 및 백엔드 컨테이너에 대한 리버스 프록시
         설정을 추가합니다.
       </Text>
-      <Img alt="Guide1" src={Guide1}></Img>
+      <Img alt="Guide1" src={Guide6}></Img>
       </Contentdiv>
     ),
   },
@@ -213,7 +220,7 @@ const timelineData = [
        · 블루-그린 배포 또는 카나리 배포와 같은 무중단 배포 전략을 선택하고,
         Jenkins 파이프라인 및 Nginx 설정에 적용합니다.
       </Text>
-      <Img alt="Guide1" src={Guide1}></Img>
+      <Img alt="Guide1" src={Guide7}></Img>
       </Contentdiv>
     ),
   },
@@ -226,7 +233,7 @@ const timelineData = [
         · 애플리케이션의 정상 작동 여부를 확인하고, 로그 및 모니터링 도구를
         사용하여 애플리케이션의 성능 및 안정성을 관리합니다.
       </Text>
-      <Img alt="Guide1" src={Guide1}></Img>
+      <Img alt="Guide1" src={Guide8}></Img>
       </Contentdiv>
     ),
   },

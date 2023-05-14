@@ -7,6 +7,7 @@ import { useState } from "react";
 import { ILoginForm } from "@/types/auth";
 import { requestLogin } from "@/api/auth";
 import { error, success } from "@components/common/Toast/notify";
+import LoginLogo from "@/assets/logo/logo4.png";
 
 export default function LoginSection() {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ export default function LoginSection() {
 
   return (
     <Container>
-      <LoginImg />
+      <LoginImg alt="logo" src={LoginLogo} />
       <CustomForm onSubmit={sendLoginData}>
         <CustomTextField
           autoComplete="current-password"

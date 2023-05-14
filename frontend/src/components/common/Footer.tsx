@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
-import LogoPic from "@/assets/logo.png";
+import LogoPic from "@/assets/logo/logo3.png";
 
 export default function Footer() {
   return (
