@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.a402.deployz.domain.deploy.UrlInvalidFormatException;
+import org.a402.deployz.domain.deploy.exception.UrlInvalidFormatException;
 import org.a402.deployz.domain.item.entity.Item;
 
 public class GitAdapter {
