@@ -12,9 +12,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.a402.deployz.domain.deploy.CommandInterpreter;
-import org.a402.deployz.domain.deploy.GitAdapter;
-import org.a402.deployz.domain.deploy.PathParser;
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
 import org.a402.deployz.domain.git.repository.GitTokenRepository;
@@ -54,9 +51,6 @@ public class ProjectService {
 	private final ItemRepository itemRepository;
 	private final GitTokenRepository gitTokenRepository;
 	private final PasswordEncoder passwordEncoder;
-	private final PathParser pathParser;
-
-	public static final String CLONE = "Clone";
 
 	@Transactional
 	public void addProject(final TotalProjectConfigRequest request, final UserDetails userDetails) {
@@ -67,10 +61,6 @@ public class ProjectService {
 
 		// GitConfig 저장
 		final GitConfig gitConfig = gitConfigRepository.save(request.getProjectConfig().toGEntity(project));
-
-		// Path 설정
-		final String projectPath = pathParser.getProjectPath(project.getProjectName()).toString();
-		final String logPath = pathParser.getLogPath(project.getProjectName()).toString();
 
 		// Item 저장
 		for (int i = 0; i < request.getItemList().size(); i++) {
@@ -86,16 +76,6 @@ public class ProjectService {
 
 			gitTokenRepository.save(gitToken);
 
-			// itemPath (targetFolder 경로)생성
-			final String itemPath = pathParser.getItemPath(project.getProjectName(), itemConfigRequest.getBranchName())
-				.toString();
-			log.info("itemPath: {}", itemPath);
-
-			// git clone
-			log.info("GitClone Start");
-			final String cloneCommand = GitAdapter.getCloneCommand(gitToken, member.getPersonalAccessToken());
-			log.info("Clone Command: {}", cloneCommand);
-			CommandInterpreter.runDestinationPath(projectPath, itemPath, logPath, CLONE, cloneCommand);
 		}
 
 		// NginxConfig 저장

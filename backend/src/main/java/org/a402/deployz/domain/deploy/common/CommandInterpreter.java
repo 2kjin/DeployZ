@@ -1,4 +1,4 @@
-package org.a402.deployz.domain.deploy;
+package org.a402.deployz.domain.deploy.common;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,6 +13,37 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CommandInterpreter {
 	public static final char NEW_LINE = '\n';
+
+	public static void run(final String logPath, final String logName, final String command) {
+		log.info("command run Start : logPath = {} , logName = {}", logPath, logName);
+
+		final String logFilePath = logPath + '/' + logName;
+
+		final File file = new File(logFilePath);
+
+		final DefaultExecutor executor = new DefaultExecutor();
+
+		try (final FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+			final CommandLine commandLine = CommandLine.parse(command);
+			final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(fileOutputStream);
+
+			fileOutputStream.write(command.getBytes());
+			fileOutputStream.write(NEW_LINE);
+
+			executor.setStreamHandler(pumpStreamHandler);
+			executor.setExitValues(new int[] {0});
+
+			executor.execute(commandLine);
+			fileOutputStream.flush();
+
+			log.info("run Success");
+		} catch (IOException ioException) {
+			log.info("run Failure");
+			throw new RuntimeException(ioException);
+		}
+
+		log.info("run Done");
+	}
 
 	public static void runDestinationPath(final String projectPath, final String itemPath, final String logPath,
 		final String logName, final String command) {
@@ -52,8 +83,8 @@ public class CommandInterpreter {
 		log.info("runPath Done");
 	}
 
-	public static void runDestinationPath(final String repositoryPath, final String logPath,
-		final String logName, final String command) {
+	public static void runDestinationPath(final String repositoryPath, final String logPath, final String logName,
+		final String command) {
 		log.info("runPath Start : repositoryPath = {} , logPath = {} , logName = {}", repositoryPath, logPath, logName);
 
 		final String logFilePath = logPath + '/' + logName;

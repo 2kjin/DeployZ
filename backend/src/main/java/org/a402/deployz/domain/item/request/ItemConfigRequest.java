@@ -39,6 +39,10 @@ public class ItemConfigRequest {
   @Schema(description = "빌드 버전")
   private String buildVersion;
 
+  @NotNull
+  @Schema(description = "자바 버전")
+  private String javaVersion;
+
   public Item toEntity(Project project) {
     return Item.builder()
         .name(itemName)
@@ -47,6 +51,7 @@ public class ItemConfigRequest {
         .targetFolderPath(targetFolder)
         .frameworkType(frameworkType)
         .buildVersion(buildVersion)
+        .javaVersion(javaVersion)
         .project(project)
         .build();
   }

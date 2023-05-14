@@ -1,4 +1,4 @@
-package org.a402.deployz.domain.deploy;
+package org.a402.deployz.domain.deploy.common;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,15 +26,15 @@ public class PathParser {
 		return getProjectPath(projectName).append(SEPERATOR).append(log);
 	}
 
-	public StringBuilder getRepositoryPath(final String projectName, final String branchName,
+	public StringBuilder getRepositoryPath(final String projectName, final String itemName,
 		final String repositoryName) {
 		return getProjectPath(projectName).append(SEPERATOR)
-			.append(branchName)
+			.append(itemName)
 			.append(SEPERATOR)
 			.append(repositoryName);
 	}
 
-	public StringBuilder getItemPath(final String projectName, final String branchName) {
-		return getProjectPath(projectName).append(SEPERATOR).append(branchName);
+	public StringBuilder getItemPath(final String projectName, final String itemName) {
+		return getProjectPath(projectName).append(SEPERATOR).append(itemName);
 	}
 }

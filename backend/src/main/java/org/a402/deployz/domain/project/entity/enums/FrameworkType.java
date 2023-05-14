@@ -1,8 +1,5 @@
 package org.a402.deployz.domain.project.entity.enums;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

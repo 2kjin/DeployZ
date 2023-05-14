@@ -7,11 +7,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.a402.deployz.domain.deploy.CommandInterpreter;
-import org.a402.deployz.domain.deploy.GitAdapter;
-import org.a402.deployz.domain.deploy.PathParser;
+import org.a402.deployz.domain.deploy.common.PathParser;
 import org.a402.deployz.domain.item.entity.BuildHistory;
-import org.a402.deployz.domain.item.entity.BuildItemRequest;
 import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.item.exception.ItemNotFoundException;
 import org.a402.deployz.domain.item.repository.ItemRepository;
@@ -127,33 +124,4 @@ public class ItemService {
 		return result;
 	}
 
-	@Transactional
-	public void pullItem(final BuildItemRequest buildItemRequest) {
-		log.info("pullStart Start : projectId = {} ", buildItemRequest.getProjectIdx());
-
-		final Project project = projectRepository.findById(buildItemRequest.getProjectIdx())
-			.orElseThrow(ProjectNotFoundException::new);
-		final Item item = itemRepository.findById(buildItemRequest.getItemIdx())
-			.orElseThrow(ItemNotFoundException::new);
-
-		final String repositoryUrl = project.getGitConfig().getRepositoryUrl();
-		final List<String> splitRepositoryUrl = GitAdapter.parseUrl(repositoryUrl);
-		final String repositoryName = splitRepositoryUrl.get(3).split("\\.")[0];
-
-		final String repositoryPath = pathParser.getRepositoryPath(project.getProjectName(), item.getBranchName(),
-			repositoryName).toString();
-		final String logPath = pathParser.getLogPath(project.getProjectName()).toString();
-		final String command = GitAdapter.getPullCommand(item.getBranchName());
-
-		log.info("git pull path: {}", repositoryPath);
-
-		try {
-			CommandInterpreter.runDestinationPath(repositoryPath, logPath, "Pull", command);
-			log.info("Pull Success");
-		} catch (Exception exception) {
-			log.info("Pull Failure");
-		}
-
-		log.info("pullStart Done");
-	}
 }

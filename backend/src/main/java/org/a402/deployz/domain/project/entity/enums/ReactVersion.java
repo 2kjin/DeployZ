@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum ReactVersion {
-	NODE12("node 12"),
-	NODE14("node 14"),
-	NODE16("node 16"),
-	NODE17("node 17"),
-	NODE18("node 18");
+
+	NODE14("node:14"),
+	NODE16("node:16"),
+	NODE17("node:17"),
+	NODE18("node:18"),
+	NODE19("node:19"),
+	NODE20("node:20");
 	private final String name;
 
 	ReactVersion(String name) {
