@@ -14,15 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 public class CommandInterpreter {
 	public static final char NEW_LINE = '\n';
 
-	public static void run(final String repositoryPath, final String logPath, final String logName,
-		final String command) {
-		log.info("command run Start : repositoryPath = {} , logPath = {} , logName = {}", repositoryPath, logPath,
-			logName);
+	public static void run(final String logPath, final String logName, final String command) {
+		log.info("command run Start : logPath = {} , logName = {}", logPath, logName);
 
 		final String logFilePath = logPath + '/' + logName;
 
 		final File file = new File(logFilePath);
-		final File destinationFile = new File(repositoryPath);
 
 		final DefaultExecutor executor = new DefaultExecutor();
 
@@ -33,9 +30,8 @@ public class CommandInterpreter {
 			fileOutputStream.write(command.getBytes());
 			fileOutputStream.write(NEW_LINE);
 
-			executor.setWorkingDirectory(destinationFile);
 			executor.setStreamHandler(pumpStreamHandler);
-			executor.setExitValues(new int[] {0});  // 1 == error 하지만 network_bridge already 1
+			executor.setExitValues(new int[] {0});
 
 			executor.execute(commandLine);
 			fileOutputStream.flush();

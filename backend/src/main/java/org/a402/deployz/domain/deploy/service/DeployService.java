@@ -117,7 +117,7 @@ public class DeployService {
 		String buildCommand = DockerCommandGenerator.build(item, repositoryPath);
 		log.info("build Command: {}", buildCommand);
 		try {
-			CommandInterpreter.run(repositoryPath, logPath, "Build", buildCommand);
+			CommandInterpreter.run(logPath, "Build", buildCommand);
 			log.info("Docker Build Success");
 		} catch (Exception exception) {
 			log.info("Docker Build Failure");
@@ -126,7 +126,21 @@ public class DeployService {
 			return new ItemDeployResponse(status, "Docker Build 실패");
 		}
 
-		// 최종 build_history 저장 ("Success" | "Fail")
+		// Docker Run
+		String runCommand = DockerCommandGenerator.run(item);
+		log.info("run Command: {}", runCommand);
+		try {
+			CommandInterpreter.run(logPath, "Run", runCommand);
+			log.info("Docker Run Success");
+		} catch (Exception exception) {
+			log.info("Docker Run Failure");
+			status = FAIL;
+			modifyBuildHistory(buildHistory, status);
+			return new ItemDeployResponse(status, "Docker Run 실패");
+		}
+
+		// 최종 build_history 저장
+		status = SUCCESS;
 		modifyBuildHistory(buildHistory, status);
 
 		return new ItemDeployResponse(status, "배포 성공");
