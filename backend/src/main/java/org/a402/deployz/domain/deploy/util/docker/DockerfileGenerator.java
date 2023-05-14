@@ -55,7 +55,7 @@ public class DockerfileGenerator {
 			.append("\tlocation / {\n").append("\t\troot /app/dist;\n")
 			.append("\t\tindex index.html index.htm;\n")
 			.append("\t\ttry_files $uri $uri/ /index.html;\n")
-			.append("\t}").append("}");
+			.append("\t}\n").append("}");
 		log.info("nginx.conf: {}", nginx_sb.toString());
 		FileManager.writeFile(DockerfilePath, "nginx.conf", nginx_sb.toString());
 	}

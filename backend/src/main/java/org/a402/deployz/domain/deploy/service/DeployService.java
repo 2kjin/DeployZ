@@ -1,6 +1,7 @@
 package org.a402.deployz.domain.deploy.service;
 
 import org.a402.deployz.domain.deploy.common.CommandInterpreter;
+import org.a402.deployz.domain.deploy.common.FileManager;
 import org.a402.deployz.domain.deploy.util.docker.DockerCommandGenerator;
 import org.a402.deployz.domain.deploy.util.docker.DockerfileGenerator;
 import org.a402.deployz.domain.deploy.util.gitlab.GitAdapter;
@@ -21,11 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-//  | findOrder() | 조회 유형의 service 메서드 |
-//  | addOrder() | 등록 유형의 service 메서드 |
-//  | modifyOrder() | 변경 유형의 service 메서드 |
-//  | removeOrder() | 삭제 유형의 service 메서드 |
-//  | saveOrder() | 등록/수정/삭제 가 동시에 일어나는 유형의 service 메서드 |
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -89,7 +85,8 @@ public class DeployService {
 			} catch (Exception exception) {
 				log.info("Clone Failure");
 				status = FAIL;
-				modifyBuildHistory(buildHistory, status);
+				String message = FileManager.readFile(logPath, gitAction);
+				modifyBuildHistory(buildHistory, status, message);
 				return new ItemDeployResponse(status, "Git Clone 실패");
 			}
 		} else {
@@ -103,15 +100,14 @@ public class DeployService {
 			} catch (Exception exception) {
 				log.info("Pull Failure");
 				status = FAIL;
-				modifyBuildHistory(buildHistory, status);
+				String message = FileManager.readFile(logPath, gitAction);
+				modifyBuildHistory(buildHistory, status, message);
 				return new ItemDeployResponse(status, "Git Pull 실패");
 			}
 		}
 
 		// Dockerfile generate
-		if (gitAction.equals(CLONE)) {
-			DockerfileGenerator.checkDockerfileType(item, repositoryPath);
-		}
+		DockerfileGenerator.checkDockerfileType(item, repositoryPath);
 
 		// Docker build
 		String buildCommand = DockerCommandGenerator.build(item, repositoryPath);
@@ -122,7 +118,8 @@ public class DeployService {
 		} catch (Exception exception) {
 			log.info("Docker Build Failure");
 			status = FAIL;
-			modifyBuildHistory(buildHistory, status);
+			String message = FileManager.readFile(logPath, "Build");
+			modifyBuildHistory(buildHistory, status, message);
 			return new ItemDeployResponse(status, "Docker Build 실패");
 		}
 
@@ -135,13 +132,18 @@ public class DeployService {
 		} catch (Exception exception) {
 			log.info("Docker Run Failure");
 			status = FAIL;
-			modifyBuildHistory(buildHistory, status);
+			String message = FileManager.readFile(logPath, "Run");
+			modifyBuildHistory(buildHistory, status, message);
 			return new ItemDeployResponse(status, "Docker Run 실패");
 		}
 
 		// 최종 build_history 저장
 		status = SUCCESS;
-		modifyBuildHistory(buildHistory, status);
+		StringBuilder sb = new StringBuilder();
+		String message1 = FileManager.readFile(logPath, "Build");
+		String message2 = FileManager.readFile(logPath, "Run");
+		sb.append(message1).append("\n\n").append(message2);
+		modifyBuildHistory(buildHistory, status, sb.toString());
 
 		return new ItemDeployResponse(status, "배포 성공");
 	}
@@ -158,8 +160,8 @@ public class DeployService {
 	}
 
 	@Transactional(readOnly = true)
-	public void modifyBuildHistory(final BuildHistory buildHistory, final String status) {
-		buildHistory.updateStatus(status);
+	public void modifyBuildHistory(final BuildHistory buildHistory, final String status, final String message) {
+		buildHistory.updateStatus(status, message);
 	}
 
 }

@@ -40,8 +40,9 @@ public class BuildHistory {
 	@JoinColumn(name = "item_idx")
 	private Item item;
 
-	public void updateStatus(final String status) {
+	public void updateStatus(final String status, final String message) {
 		this.status = status;
+		this.message = message;
 		this.registerTime = LocalDateTime.now();
 	}
 
