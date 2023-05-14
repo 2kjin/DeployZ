@@ -109,6 +109,17 @@ public class DeployService {
 		// Dockerfile generate
 		DockerfileGenerator.checkDockerfileType(item, repositoryPath);
 
+		// Docker 컨테이너 중지, 이미지 삭제
+		String stopCommand = DockerCommandGenerator.stop(item.getName().toLowerCase());
+		log.info("stop Command: {}", stopCommand);
+		try {
+			CommandInterpreter.run(logPath, "Stop", stopCommand);
+			log.info("Docker Stop Success");
+		} catch (Exception exception) {
+			String message = FileManager.readFile(logPath, "Stop");
+			log.info(message);
+		}
+
 		// Docker build
 		String buildCommand = DockerCommandGenerator.build(item, repositoryPath);
 		log.info("build Command: {}", buildCommand);

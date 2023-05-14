@@ -26,8 +26,22 @@ public class DockerCommandGenerator {
 		} else if (item.getFrameworkType().equals(REACT.getName())) {
 			sb.append(":3000 ");
 		}
-		sb.append(item.getName().toLowerCase())
+		sb.append(item.getName().toLowerCase()).append(":latest");
+		return sb.toString();
+	}
+
+	public static String stop(final String containerName) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("docker stop ")
+			.append(containerName)
+			.append(" && ")
+			.append("docker rm ")
+			.append(containerName)
+			.append(" && ")
+			.append("docker rmi ")
+			.append(containerName)
 			.append(":latest");
 		return sb.toString();
 	}
+
 }
