@@ -16,7 +16,9 @@ import {
   RiNumber7,
   RiNumber8,
 } from "react-icons/ri";
-import Guide1 from "@/assets/guide2.png";
+import Guide1 from "@/assets/guide/guide_1.png";
+import Guide2 from "@/assets/guide/guide_2.png";
+
 
 export default function InfraGuideCompo() {
   return (
@@ -152,7 +154,7 @@ const timelineData = [
           · EC2 인스턴스에 Docker를 설치하고, 도커 그룹에 현재 사용자를 추가하여
           권한 문제를 해결합니다.
         </Text>
-        <Img alt="Guide1" src={Guide1}></Img>
+        <Img alt="Guide1" src={Guide2}></Img>
       </Contentdiv>
     ),
   },
