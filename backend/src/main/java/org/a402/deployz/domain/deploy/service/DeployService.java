@@ -111,9 +111,11 @@ public class DeployService {
 
 		// Docker 컨테이너 중지, 이미지 삭제
 		String stopCommand = DockerCommandGenerator.stop(item.getName().toLowerCase());
-		log.info("stop Command: {}", stopCommand);
+		String rmiCommand = DockerCommandGenerator.rmi(item.getName().toLowerCase());
+		log.info("stop Command: {}, rmi Command: {}", stopCommand, rmiCommand);
 		try {
 			CommandInterpreter.run(logPath, "Stop", stopCommand);
+			CommandInterpreter.run(logPath, "Stop", rmiCommand);
 			log.info("Docker Stop Success");
 		} catch (Exception exception) {
 			String message = FileManager.readFile(logPath, "Stop");

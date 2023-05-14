@@ -33,12 +33,15 @@ public class DockerCommandGenerator {
 	public static String stop(final String containerName) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("docker stop ")
-			.append(containerName)
-			.append(" && ")
-			.append("docker rmi ")
+			.append(containerName);
+		return sb.toString();
+	}
+
+	public static String rmi(final String containerName) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("docker rmi ")
 			.append(containerName)
 			.append(":latest");
 		return sb.toString();
 	}
-
 }
