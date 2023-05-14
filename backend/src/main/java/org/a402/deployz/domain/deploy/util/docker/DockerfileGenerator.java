@@ -35,19 +35,19 @@ public class DockerfileGenerator {
 		StringBuilder sb = new StringBuilder();
 		if (item.getBuildVersion().charAt(0) == 'g') {
 			// Gradle
-			sb.append("FROM ").append(item.getBuildVersion()).append("-jdk").append(item.getJavaVersion())
-				.append(" as build\n").append("COPY .").append(targetFolderPath).append(" .\n")
+			sb.append("FROM ").append("openjdk:").append(item.getJavaVersion()).append("-jdk")
+				.append(" as builder\n").append("COPY .").append(targetFolderPath).append(" .\n")
 				.append("RUN chmod +x ./gradlew\n").append("RUN ./gradlew clean build\n")
 				.append("FROM ").append(item.getBuildVersion()).append("-jdk").append(item.getJavaVersion())
-				.append("\nCOPY --from=build /build/libs/*.jar /app.jar\n")
+				.append("\nCOPY --from=builder /build/libs/*.jar /app.jar\n")
 				.append("ENTRYPOINT [\"java\", \"-jar\", \"-Duser.timezone=Asia/Seoul\", \"/app.jar\"]");
 		} else {
 			// Maven
-			sb.append("FROM ").append(item.getBuildVersion()).append("-jdk").append(item.getJavaVersion())
-				.append(" as build\n").append("COPY .").append(targetFolderPath).append(" .\n")
+			sb.append("FROM ").append("openjdk:").append(item.getJavaVersion()).append("-jdk")
+				.append(" as builder\n").append("COPY .").append(targetFolderPath).append(" .\n")
 				.append("RUN chmod +x ./mvnw\n").append("RUN ./mvnw clean package\n")
 				.append("FROM ").append(item.getBuildVersion()).append("-jdk").append(item.getJavaVersion())
-				.append("\nCOPY --from=build /target/*.jar /app.jar\n")
+				.append("\nCOPY --from=builder /target/*.jar /app.jar\n")
 				.append("ENTRYPOINT [\"java\", \"-jar\", \"-Duser.timezone=Asia/Seoul\", \"/app.jar\"]");
 		}
 		log.info(sb.toString());
