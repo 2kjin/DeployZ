@@ -98,7 +98,7 @@ const SButtonItem = styled.div`
 `;
 
 const SEmptyListBox = styled.div`
-  width: 169vh;
+  width: 84vw;
   height: 36vh;
   background-color: ${theme.colors.white};
   font-weight: ${theme.fontWeight.bold};
@@ -108,11 +108,11 @@ const SEmptyListBox = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 2.5rem;
+  padding: 2rem;
 `;
 
 const SListBox = styled.div`
-  width: 169vh;
+  width: 84vw;
   height: 36vh;
   background-color: ${theme.colors.white};
   border-radius: 1rem;
@@ -120,7 +120,7 @@ const SListBox = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  padding: 2.5rem;
+  padding: 2rem;
 `;
 
 const SItem = styled.div`
@@ -141,6 +141,6 @@ const SListTitleDiv = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 170vh;
+  width: 83vw;
   height: 6vh;
 `;

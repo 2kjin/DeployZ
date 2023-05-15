@@ -104,7 +104,7 @@ const SEmptyBuildContent = styled.div`
   background-color: ${theme.colors.white};
   border-radius: 0.5rem;
   height: 55vh;
-  width: 150vh;
+  width: 80vw;
 `;
 
 const SEmptyMessageContent = styled.div`
@@ -118,7 +118,7 @@ const SEmptyMessageContent = styled.div`
   background-color: ${theme.colors.white};
   border-radius: 0.2rem;
   height: 47vh;
-  width: 118vh;
+  width: 60vw;
 `;
 
 const SBuildListContainer = styled.div`
@@ -152,11 +152,11 @@ const SStatusP = styled.span`
 const SBuildMessageContent = styled.div`
   font-size: 2rem;
   padding: 1rem;
+  margin: 0 1rem;
   font-weight: ${theme.fontWeight.medium};
   color: ${theme.colors.primary};
-  border: 1px solid #d2d8df44;
-  background-color: ${theme.colors.white};
-  border-radius: 0.2rem;
+  background-color: ${theme.colors.container};
+  border-radius: 1rem;
   height: 40vh;
   overflow-x: hidden;
   word-break: break-all;

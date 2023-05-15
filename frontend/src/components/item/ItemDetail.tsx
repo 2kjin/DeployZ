@@ -76,7 +76,7 @@ export default function ItemDetail() {
               <Icon
                 icon="mdi:arrow-left-drop-circle-outline"
                 fontSize="55"
-                color="#F3F4F3"
+                color="#fff"
                 cursor="pointer"
                 onClick={handlePrevClick}
               />
@@ -84,18 +84,18 @@ export default function ItemDetail() {
                 <SFrameName>{itemDetail.itemName}</SFrameName>
                 <SFrameImg>
                   {itemDetail.frameworkType === "React" ? (
-                    <Icon icon="mdi:react" fontSize="130" color="#F3F4F3" />
+                    <Icon icon="mdi:react" fontSize="130" color="#fff" />
                   ) : itemDetail.frameworkType === "SpringBoot" ? (
                     <Icon
                       icon="simple-icons:springboot"
                       fontSize="130"
-                      color="#F3F4F3"
+                      color="#fff"
                     />
                   ) : (
                     <Icon
                       icon="tabler:brand-django"
                       fontSize="130"
-                      color="#F3F4F3"
+                      color="#fff"
                     />
                   )}
                 </SFrameImg>
@@ -103,7 +103,7 @@ export default function ItemDetail() {
               <Icon
                 icon="mdi:arrow-right-drop-circle-outline"
                 fontSize="55"
-                color="#F3F4F3"
+                color="#fff"
                 cursor="pointer"
                 onClick={handleNextClick}
               />
@@ -231,9 +231,8 @@ const SFrameMainDiv = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 150vh;
-  padding-bottom: 5em;
-  padding-top: 5em;
+  width: 80vw;
+  padding: 1em 0;
 `;
 
 const SFrameName = styled.span`
@@ -252,15 +251,15 @@ const SFrame = styled.div`
 `;
 
 const SWrap = styled.div`
-  height: 130vh;
-  background: linear-gradient(140deg, #151649 32.5%, #f3f4f3);
+  background: linear-gradient(145deg, #151649 30%, #f3f4f3);
+  height:100vh;
 `;
 
 const SDetailContainer = styled.div`
-  width: 150vh;
-  height: 70vh;
-  background-color: ${theme.colors.lightgray};
+  width: 80vw;
+  height: 65vh;
+  background-color: ${theme.colors.white};
   border-radius: 0.8rem;
-  border: 0.1rem solid ${theme.colors.darkgray};
+  /* border: 0.1rem solid ${theme.colors.darkgray}; */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 `;

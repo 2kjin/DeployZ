@@ -24,8 +24,6 @@ export default function InputSection2() {
   const itemName = itemList.map((item: IItem) => {
     return [item.branchName, item.secretToken];
   });
-  console.log(itemName);
-
   return (
     <Container>
       {/* <p className="subject">Git 정보 입력</p> */}
