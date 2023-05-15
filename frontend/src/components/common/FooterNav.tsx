@@ -215,5 +215,6 @@ const NavBtn = styled.div`
   word-break: nowrap;
   :hover {
     transform: scale(1.03);
+    transition: all 0.2s ease-out;
   }
 `;
