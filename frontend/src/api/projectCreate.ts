@@ -1,5 +1,15 @@
 import { gitlabInstance, instance } from "./api";
 
+/**
+ * @param password 유효성 체크하고싶은 비밀번호
+ * @returns {boolean}
+ * @comment 비밀번호 유효성 체크
+ */
+export const portValidCheck = (port: string) => {
+  const reg = /[^0-9]/g;
+  return reg.test(port);
+};
+
 // gitlab GET method by Project ID
 export const requestGitlabInfo = async (hostUrl: string, projectID: string) => {
   return gitlabInstance.get(`${hostUrl}/api/v4/projects/${projectID}`);

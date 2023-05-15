@@ -13,6 +13,7 @@ import {
 import { useRecoilState } from "recoil";
 import { itemListState } from "@/recoil/step";
 import {
+  portValidCheck,
   requestIsDuplicate,
   requestSecretToken,
   requestVersion,
@@ -92,7 +93,6 @@ export default function ItemBox({
 
   // 각각 아이템 체크
   const itemValidCheck = () => {
-    console.log(item);
     if (
       item.portNumber === "" ||
       item.branchName === "none" ||
@@ -102,10 +102,9 @@ export default function ItemBox({
       (item.frameworkType === "SpringBoot" && item.javaVersion === "none")
     ) {
       error(`${itemName}의 모든 값을 입력해주세요.`);
+    } else if (portValidCheck(item.portNumber)) {
+      error("포트번호는 숫자만 가능합니다.");
     } else {
-      // if (item.portNumber1 === item.portNumber2) {
-      //   error("두 포트 번호가 동일합니다.");
-      // } else
       handlePortValid(item.portNumber);
     }
   };
@@ -145,7 +144,6 @@ export default function ItemBox({
         data: { result },
       } = await requestSecretToken(value);
 
-      console.log(result);
       setItem((cur) => ({
         ...cur,
         secretToken: result,
