@@ -9,6 +9,10 @@ import Modal from "@mui/material/Modal";
 import WebhookGuideModal from "@components/Guide/WebhookGuideModal";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { styled as mstyled } from "@mui/material/styles";
+import { CopyToClipboard } from "react-copy-to-clipboard/src";
+import { info } from "@components/common/Toast/notify";
 
 export default function InputSection2() {
   const itemList = useRecoilValue<IItem[]>(itemListState);
@@ -85,6 +89,15 @@ export default function InputSection2() {
               <SecretSection key={idx}>
                 <SecretLeft># {item[0]}</SecretLeft>
                 <SecretRight>{item[1]}</SecretRight>
+                <CopyContainer>
+                  <CopyToClipboard
+                    className="Toram"
+                    text={item[1]}
+                    onCopy={() => info("복사되었습니다.")}
+                  >
+                    <CopyIcon />
+                  </CopyToClipboard>
+                </CopyContainer>
               </SecretSection>
             );
           })}
@@ -205,6 +218,10 @@ const SecretRight = styled.div`
   display: flex;
   align-items: center;
 `;
+const CopyContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -220,3 +237,13 @@ const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
     color: "#151649",
   },
 }));
+const CopyIcon = mstyled(ContentCopyIcon)({
+  marginLeft: "1rem",
+  color: `${theme.colors.primary}`,
+  "&:hover": {
+    color: `${theme.colors.secondary}`,
+    transition: "all .2s ease-out",
+    transform: "scale(1.3)",
+    cursor: "pointer",
+  },
+});
