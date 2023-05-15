@@ -17,10 +17,6 @@ import { styled as mstyled } from "@mui/material/styles";
 import { CopyToClipboard } from "react-copy-to-clipboard/src";
 import { info } from "@components/common/Toast/notify";
 
-type Props = {
-  handleClose: () => void;
-};
-
 export default function SSLGuideModal() {
   return (
     <>
