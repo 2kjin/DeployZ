@@ -3,9 +3,8 @@ package org.a402.deployz.domain.git.service;
 import java.util.Map;
 
 import org.a402.deployz.domain.git.exception.NotSupportedEventTypeException;
+import org.a402.deployz.domain.git.request.GitProjectRequest;
 import org.a402.deployz.domain.git.request.GitWebHookRequest;
-import org.a402.deployz.domain.item.entity.Item;
-import org.a402.deployz.domain.item.exception.ItemNotFoundException;
 import org.a402.deployz.domain.item.repository.ItemRepository;
 import org.a402.deployz.global.security.jwt.JwtTokenProvider;
 import org.springframework.stereotype.Service;
@@ -34,7 +33,6 @@ public class GitService {
 		final GitWebHookRequest gitWebHookRequest = parseBuildData(secretToken, requestParams);
 
 		log.info("GitWebHook UserAccount: {}", gitWebHookRequest.getAccount());
-		log.info("GitWebHook ItemIdx: {}", gitWebHookRequest.getItemIdx());
 
 		return gitWebHookRequest;
 	}
@@ -46,23 +44,28 @@ public class GitService {
 		final String userAccount = jwtTokenProvider.getUserAccount(secretToken);
 		log.info("webhook X-Gitlab-Token branchName: {}", branchName);
 
-		final Item item = itemRepository.findItemByBranchName(branchName).orElseThrow(ItemNotFoundException::new);
-
 		try {
 			final String eventName = removeExclamationMark(
 				objectMapper.writeValueAsString(requestParams.get(EVENT_NAME)));
 			log.info("webhook event type: {}", eventName);
 
+			final String projectObject = objectMapper.writeValueAsString(requestParams.get(PROJECT));
+			final GitProjectRequest gitProjectRequest = objectMapper.readValue(projectObject, GitProjectRequest.class);
+			final String projectId = gitProjectRequest.getId();
+
 			if (eventName.equals(PUSH)) {
-				return GitWebHookRequest.builder()
+				return GitWebHookRequest
+					.builder()
+					.projectId(projectId)
 					.account(userAccount)
-					.itemIdx(item.getIdx())
+					.branchName(branchName)
 					.build();
 			} else if (eventName.equals(MERGE_REQUEST)) {
 				return GitWebHookRequest
 					.builder()
+					.projectId(projectId)
 					.account(userAccount)
-					.itemIdx(item.getIdx())
+					.branchName(branchName)
 					.build();
 			} else {
 				throw new NotSupportedEventTypeException();
