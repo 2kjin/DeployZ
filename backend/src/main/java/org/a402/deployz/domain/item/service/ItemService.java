@@ -1,6 +1,7 @@
 package org.a402.deployz.domain.item.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,8 @@ import org.a402.deployz.domain.item.repository.ItemRepository;
 import org.a402.deployz.domain.item.response.ItemBuildHistoryResponse;
 import org.a402.deployz.domain.item.response.ItemListResponse;
 import org.a402.deployz.domain.project.entity.Project;
+import org.a402.deployz.domain.project.exception.ProjectNotFoundException;
+import org.a402.deployz.domain.project.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ItemService {
 	private final ItemRepository itemRepository;
 	private final BuildHistoryRepository buildHistoryRepository;
+	private final ProjectRepository projectRepository;
 
 	@Transactional
 	public void removeItem(long itemIdx) {
@@ -48,7 +52,7 @@ public class ItemService {
 	public List<ItemBuildHistoryResponse> findBuildHistories(Long itemIdx) {
 		final Item item = itemRepository.findItemByIdx(itemIdx).orElseThrow(ItemNotFoundException::new);
 
-		if (item.getItemHistories().size() > 0 && !item.isDeletedFlag()) {
+		if (item.getItemHistories().size() > 0) {
 			return item.getItemHistories()
 				.stream()
 				.sorted(Comparator.comparing(BuildHistory::getIdx).reversed())
@@ -90,38 +94,37 @@ public class ItemService {
 		return new ItemListResponse(item, nowState, projectName,lastRegisterTime.get("lastSuccessDate"),lastRegisterTime.get("lastFailureDate"));
 	}
 
-// @Transactional
-// public List<ItemListResponse> findItemListByProjectIdx(final Long projectIdx) {
-// Project project = projectRepository.findProjectByIdx(projectIdx).orElseThrow(ProjectNotFoundException::new);
-// List<Item> items = project.getItems();
-//
-// final List<ItemListResponse> result = new ArrayList<>();
-//
-// if (items.size() > 0){
-//    for (Item item : items) {
-//       String status = "";
+	@Transactional
+	public List<ItemListResponse> findItemListByProjectIdx(final Long projectIdx) {
+		Project project = projectRepository.findProjectByIdx(projectIdx).orElseThrow(ProjectNotFoundException::new);
+		List<Item> items = project.getItems();
 
+		final List<ItemListResponse> result = new ArrayList<>();
 
-// // 최근 성공시간이 최근 실패시간 보다 이후 -> SUCCESS
-// final LocalDateTime successDate = item.getLastSuccessDate();
-// final LocalDateTime failureDate = item.getLastFailureDate();
-//
-// if (successDate !=null && failureDate !=null ) {
-//    // failureDate가 더 이후: 음수값 반환 / successDate가 더 최근: 양수 반환
-//    Duration duration = Duration.between(failureDate, successDate);
-//
-//    // 초 단위 차이
-//    long diffInSeconds = duration.getSeconds();
-//
-//    if (diffInSeconds >= 0) {
-//       status = "SUCCESS";
-//    } else {
-//       status = "FAIL";
-//    }
-// }
-//          if (!item.isDeletedFlag()) {
-//             String projectName =findProjectName(item.getIdx());
-//             result.add(new ItemListResponse(item, status, projectName));
-//          }
-//       }
-   }
+		for (Item item : items) {
+			//delete 되지 않은 아이템
+			if (!item.isDeletedFlag()) {
+				String projectName = findProjectName(item.getIdx());
+
+				final List<BuildHistory> buildHistoryByItem = buildHistoryRepository.findBuildHistoryByItemOrderByRegisterTime(
+					item);
+				//아이템 상태 -> 빌드 히스토리에서 조회
+				String status = buildHistoryByItem.get(buildHistoryByItem.size()-1).getStatus();
+
+				//아이템 최근 성공 및 실패 시간 -> 빌드 히스토리에서 조회
+				HashMap<String, LocalDateTime> lastRegisterTime = new HashMap<>();
+				for (final BuildHistory buildHistory : buildHistoryByItem) {
+					// 최근 성공시간과 실패 시간 key(중복 불가)
+					if (lastRegisterTime.size() <= 2) {
+						if (buildHistory.getStatus().equals("SUCCESS")) {
+							lastRegisterTime.put("lastSuccessDate", buildHistory.getRegisterTime());
+						} else
+							lastRegisterTime.put("lastFailureDate", buildHistory.getRegisterTime());
+					}
+				}
+				result.add(new ItemListResponse(item, status, projectName, lastRegisterTime.get("lastSuccessDate"), lastRegisterTime.get("lastFailureDate")));
+			}
+		}
+		return result;
+	}
+}
