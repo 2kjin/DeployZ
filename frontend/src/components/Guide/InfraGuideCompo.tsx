@@ -25,7 +25,6 @@ import Guide6 from "@/assets/guide/guide_6.png";
 import Guide7 from "@/assets/guide/guide_7.png";
 import Guide8 from "@/assets/guide/guide_8.png";
 
-
 export default function InfraGuideCompo() {
   return (
     <ModalContainer>
@@ -45,9 +44,8 @@ export default function InfraGuideCompo() {
             icon={data.icon}
             contentStyle={{
               borderRadius: "1rem",
-              width: "42%",
             }}
-            style={{ margin: "1rem auto" }}
+            style={{ margin: "1rem 0" }}
           >
             <Title>{data.title}</Title>
             {data.content}
@@ -82,7 +80,7 @@ export default function InfraGuideCompo() {
 }
 
 const ModalContainer = styled.div`
-  height: 85vh;
+  height: 90vh;
   overflow: auto;
   ::-webkit-scrollbar {
     display: none;
@@ -107,8 +105,13 @@ const Text = styled.div`
   line-height: 180%;
 `;
 const Img = styled.img`
+  height: 40%;
+  width: 40%;
+`;
+const Img1 = styled.img`
   height: 35%;
   width: 35%;
+  padding: 0 2.2rem;
 `;
 const animatePath = keyframes`
   0% {
@@ -214,7 +217,7 @@ const timelineData = [
           · Nginx를 설치하고, 프론트엔드 및 백엔드 컨테이너에 대한 리버스 프록시
           설정을 추가합니다.
         </Text>
-        <Img alt="Guide1" src={Guide6}></Img>
+        <Img1 alt="Guide1" src={Guide6}></Img1>
       </Contentdiv>
     ),
   },

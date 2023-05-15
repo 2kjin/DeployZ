@@ -140,7 +140,7 @@ export default function FooterNav() {
         </NavBtn>
         <Modal open={open} onClose={handleClose}>
           <>
-            <InfraGuideModal handleClose={handleClose} />
+            <InfraGuideModal />
           </>
         </Modal>
       </Left>

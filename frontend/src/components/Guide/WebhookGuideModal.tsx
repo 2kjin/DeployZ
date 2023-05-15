@@ -144,8 +144,6 @@ export default function WebhookGuideModal() {
               icon={data.icon}
               contentStyle={{
                 borderRadius: "1rem",
-                width: "88%",
-                padding: "1rem",
               }}
               style={{ margin: "1rem 0" }}
             >
@@ -164,7 +162,7 @@ const ModalContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 53%;
+  width: 50%;
   height: 95%;
   border: none;
   padding: 0 1rem;
@@ -176,12 +174,6 @@ const ModalContainer = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
-`;
-const Icondiv = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: end;
-  position: sticky;
 `;
 const NumTitle = styled.div`
   display: flex;
@@ -220,7 +212,8 @@ const SImg1 = styled.img`
   padding: 1rem 0;
 `;
 const SImg2 = styled.img`
-  height: 16rem;
+  height: 18rem;
+  width: 100%;
   padding: 1rem 0;
 `;
 const SImg3 = styled.img`
