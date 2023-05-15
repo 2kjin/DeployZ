@@ -32,6 +32,13 @@ public enum GlobalErrorCode {
 	DEPLOY_NOT_FOUND(400, "P100", "해당하는 Item의 배포정보가 존재하지 않습니다.."),
 	NGINX_CONFIG_NOT_FOUND(400, "P100", "해당 NGINX 설정 정보가 존재하지 않습니다."),
 	DUPLICATE_PROJECT_ID(400, "P100", "이미 존재하는 프로젝트 ID 입니다."),
+
+	/*포트번호 관련 에러 코드*/
+	DUPLICATE_PORT_NUMBER (400, "P100", "해당 포트 번호는 존재합니다."),
+	INCONSISTENT_PORT_NUMBER(400, "P100", "해당 포트 번호는 올바른 형식이 아닙니다."),
+	OUT_OF_RANGE_PORT_NUM(400, "P100", "해당 포트 번호의 범위를 확인해주세요."),
+
+
 	/* 컨테이너 관련 에러 코드*/
 	ITEM_NOT_FOUND(400, "I100", "해당 컨테이너가 존재하지 않습니다."),
 	URL_INVALID_FORMAT(400, "G400", "잘못된 URL 형식입니다."),

@@ -1,10 +1,12 @@
 package org.a402.deployz.domain.project.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.a402.deployz.domain.project.exception.PortNumberDuplicatedException;
+import org.a402.deployz.domain.project.exception.PortNumberInconsistentException;
+import org.a402.deployz.domain.project.exception.PortNumberOutOfRangeException;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
 import org.a402.deployz.domain.project.response.ProjectResponse;
 import org.a402.deployz.domain.project.service.ProjectService;
@@ -102,10 +104,16 @@ public class ProjectController {
 	@ApiResponse(responseCode = "200", description = "포트 중복검사 조회 성공")
 	@Operation(description = "포드 번호 중복 검사 API", summary = "포드 번호 중복 검사 API")
 	@GetMapping("/container")
-	public BaseResponse<HashMap<String, String>> portCheckList(@RequestParam String port) {
-		HashMap<String, String> portNumCheck = projectService.findPortNumCheckList(port);
-
-		return new BaseResponse<>(portNumCheck);
+	public BaseResponse<?> portCheckList(@RequestParam String port) {
+		try {
+			projectService.findPortNumCheckList(port);
+			return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+		} catch (PortNumberInconsistentException e) {
+			return new BaseResponse<>(GlobalErrorCode.INCONSISTENT_PORT_NUMBER);
+		} catch (PortNumberOutOfRangeException e) {
+			return new BaseResponse<>(GlobalErrorCode.OUT_OF_RANGE_PORT_NUM);
+		} catch (PortNumberDuplicatedException e) {
+			return new BaseResponse<>(GlobalErrorCode.DUPLICATE_PORT_NUMBER);
+		}
 	}
-
 }

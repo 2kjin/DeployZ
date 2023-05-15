@@ -24,6 +24,9 @@ import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.NginxConfig;
 import org.a402.deployz.domain.project.entity.Project;
 import org.a402.deployz.domain.project.exception.DuplicateProjectIdException;
+import org.a402.deployz.domain.project.exception.PortNumberDuplicatedException;
+import org.a402.deployz.domain.project.exception.PortNumberInconsistentException;
+import org.a402.deployz.domain.project.exception.PortNumberOutOfRangeException;
 import org.a402.deployz.domain.project.exception.ProjectNotFoundException;
 import org.a402.deployz.domain.project.repository.GitConfigRepository;
 import org.a402.deployz.domain.project.repository.NginxConfigRepository;
@@ -133,29 +136,19 @@ public class ProjectService {
 	}
 
 	@Transactional
-	public HashMap<String, String> findPortNumCheckList(String port) {
-		HashMap<String, String> portCheck = new HashMap<>();
-
-		for (char c : port.toCharArray()) {
-			if (!Character.isDigit(c)) {
-				portCheck.put("port", "포트 번호는 숫자만 넣어주세요.");
-				return portCheck;
+	public void findPortNumCheckList(String port) {
+		for (char c : port.toCharArray()){
+			if (!Character.isDigit(c)){
+				throw new PortNumberInconsistentException();
 			}
 		}
-
 		int portByInt = Integer.parseInt(port);
-
-		if (portByInt < 0 || portByInt > 65535 || portByInt == 80 || portByInt == 8080 || portByInt == 443) {
-			portCheck.put("port", "포트 번호의 범위를 확인해주세요. (0~65535)");
-			return portCheck;
+		if (portByInt < 0 || portByInt > 65535 || portByInt ==80 || portByInt == 8080 || portByInt ==443 ) {
+			throw new PortNumberOutOfRangeException();
 		}
-		if (!itemRepository.existsByPortNumber((long)portByInt)) {
-			portCheck.put("port", "해당 포트 번호는 사용할 수 있습니다!");
-		} else {
-			portCheck.put("port", "중복된 포트 번호가 있습니다.");
+		if (itemRepository.existsByPortNumber((long)portByInt)){
+			throw new PortNumberDuplicatedException();
 		}
-
-		return portCheck;
 	}
 
 	@Transactional(readOnly = true)
