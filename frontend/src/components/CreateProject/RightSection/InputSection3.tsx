@@ -13,6 +13,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { styled as mstyled } from "@mui/material/styles";
 import { CopyToClipboard } from "react-copy-to-clipboard/src";
 import { info } from "@components/common/Toast/notify";
+import Imgpic from "@/assets/logo/logo2.png";
 
 export default function InputSection2() {
   const itemList = useRecoilValue<IItem[]>(itemListState);
@@ -64,25 +65,23 @@ export default function InputSection2() {
               />
             </CustomTooltip>
           </Label>
-          <SectionContainer>
-            <p>
-              자동 배포 기능을 사용하려면 레포지토리에 직접 Branch별로
-              <p /> Webhook을 연결해야해요.
-            </p>
-            <SectionGuide>
-              <p>방법을 잘 모르시겠다면,</p>
-              {"  "}
-              <GuildButton onClick={handleOpen}>
-                가이드 보러가기{" "}
-                <MouseIcon sx={{ fontSize: 18, marginLeft: 0.3 }} />
-              </GuildButton>
-              <Modal open={open} onClose={handleClose}>
-                <>
-                  <WebhookGuideModal />
-                </>
-              </Modal>
-            </SectionGuide>
-          </SectionContainer>
+          <p>
+            자동 배포 기능을 사용하려면 레포지토리에 직접 Branch별로 Webhook을
+            연결해야해요.
+          </p>
+          <SectionGuide>
+            <p>방법을 잘 모르시겠다면,</p>
+            {"  "}
+            <GuildButton onClick={handleOpen}>
+              가이드 보러가기{" "}
+              <MouseIcon sx={{ fontSize: 18, marginLeft: 0.3 }} />
+            </GuildButton>
+            <Modal open={open} onClose={handleClose}>
+              <>
+                <WebhookGuideModal />
+              </>
+            </Modal>
+          </SectionGuide>
         </Section>
         <Section>
           <Label>Secret Token</Label>
@@ -110,6 +109,9 @@ export default function InputSection2() {
             Secret Token은 따로 저장해 보관해야해요!
           </SecretLeft>
         </Section>
+        <ImgContainer>
+          <Subimg alt="Imgpic" src={Imgpic} />
+        </ImgContainer>
       </InputContainer>
     </Container>
   );
@@ -123,7 +125,6 @@ const Container = styled.div`
   border-radius: 1rem;
   padding: 2.5rem;
   color: ${theme.colors.primary};
-
   .subject {
     font-size: 3.7rem;
     margin-top: 0;
@@ -148,7 +149,6 @@ const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 3%;
 `;
 
 const Label = styled.h4`
@@ -232,7 +232,16 @@ const CopyContainer = styled.div`
   display: flex;
   align-items: center;
 `;
-
+const Subimg = styled.img`
+  height: 20vh;
+  width: 20vh;
+`;
+const ImgContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative; // 부모 요소를 relative로 설정
+`;
 const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({}) => ({

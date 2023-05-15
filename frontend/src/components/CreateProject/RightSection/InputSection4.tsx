@@ -154,20 +154,20 @@ export default function InputSection2() {
               />
             </CustomTooltip>
           </Label>
+          <p>보안을 위해 HTTPS를 사용하려면 SSL 인증서를 등록해야돼요!</p>
+          <SectionGuide>
+            <p>방법을 잘 모르시겠다면,</p>
+            <GuildButton onClick={handleOpen}>
+              가이드 보러가기
+              <MouseIcon sx={{ fontSize: 18, marginLeft: 0.3 }} />
+            </GuildButton>
+            <Modal open={open} onClose={handleClose}>
+              <>
+                <SSLGuideModal />
+              </>
+            </Modal>
+          </SectionGuide>
           <SectionContainer>
-            <p>보안을 위해 HTTPS를 사용하려면 SSL 인증서를 등록해야돼요!</p>
-            <SectionGuide>
-              <p>방법을 잘 모르시겠다면,</p>
-              <GuildButton onClick={handleOpen}>
-                가이드 보러가기
-                <MouseIcon sx={{ fontSize: 18, marginLeft: 0.3 }} />
-              </GuildButton>
-              <Modal open={open} onClose={handleClose}>
-                <>
-                  <SSLGuideModal />
-                </>
-              </Modal>
-            </SectionGuide>
             <InputContainer>
               <FormControl variant="standard">
                 <InputLabel
@@ -223,15 +223,13 @@ export default function InputSection2() {
             <Label>Proxy Path</Label>
             <AddBtn onClick={addProxy}>추가</AddBtn>
           </SectionCheck>
-          <SectionContainer>
-            {nginxConfig.proxyPathList.map((pathItem) => (
-              <Proxypass
-                key={pathItem.idx}
-                pathItem={pathItem}
-                deleteProxy={deleteProxy}
-              />
-            ))}
-          </SectionContainer>
+          {nginxConfig.proxyPathList.map((pathItem) => (
+            <Proxypass
+              key={pathItem.idx}
+              pathItem={pathItem}
+              deleteProxy={deleteProxy}
+            />
+          ))}
         </Section>
       </InputContainer>
     </Container>
@@ -241,7 +239,7 @@ const SectionContainer = styled.div`
   background-color: ${theme.colors.container};
   padding: 1rem;
   border-radius: 1rem;
-  margin: 2% 5% 2% 0;
+  margin: 2% 15% 2% 0;
 `;
 
 const RequiredMark = styled.strong`

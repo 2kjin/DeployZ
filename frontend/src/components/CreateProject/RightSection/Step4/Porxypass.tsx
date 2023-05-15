@@ -71,6 +71,10 @@ export default function Proxypass({
 
 const Container = styled.div`
   display: flex;
+  background-color: ${theme.colors.container};
+  padding: 1rem;
+  border-radius: 1rem;
+  margin: 2% 5% 2% 0;
 `;
 
 const LeftContainer = styled.div`
