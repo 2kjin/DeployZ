@@ -5,19 +5,12 @@ import lombok.Getter;
 
 @Getter
 public class GitWebHookRequest {
-	private String eventType;
-	private String gitHttpUrl;
-	private String repositoryName;
-	private String projectId;
-	private String branchName;
+	private Long itemIdx;
+	private String account;
 
 	@Builder
-	public GitWebHookRequest(final String eventType, final String gitHttpUrl, final String repositoryName,
-		final String projectId, final String branchName) {
-		this.eventType = eventType;
-		this.gitHttpUrl = gitHttpUrl;
-		this.repositoryName = repositoryName;
-		this.projectId = projectId;
-		this.branchName = branchName;
+	public GitWebHookRequest(final Long itemIdx, final String account) {
+		this.itemIdx = itemIdx;
+		this.account = account;
 	}
 }
