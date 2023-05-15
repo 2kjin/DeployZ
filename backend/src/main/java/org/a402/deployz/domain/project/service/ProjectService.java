@@ -24,7 +24,7 @@ import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.NginxConfig;
 import org.a402.deployz.domain.project.entity.Project;
 import org.a402.deployz.domain.project.exception.PortNumberDuplicatedException;
-import org.a402.deployz.domain.project.exception.PortNumberINConsistentException;
+import org.a402.deployz.domain.project.exception.PortNumberInconsistentException;
 import org.a402.deployz.domain.project.exception.PortNumberOutOfRangeException;
 import org.a402.deployz.domain.project.exception.ProjectNotFoundException;
 import org.a402.deployz.domain.project.repository.GitConfigRepository;
@@ -133,7 +133,7 @@ public class ProjectService {
 	public void findPortNumCheckList(String port) {
 		for (char c : port.toCharArray()){
 			if (!Character.isDigit(c)){
-				throw new PortNumberINConsistentException();
+				throw new PortNumberInconsistentException();
 			}
 		}
 		int portByInt = Integer.parseInt(port);
