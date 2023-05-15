@@ -4,6 +4,7 @@ import { theme } from "@/styles/theme";
 
 //import mui icons
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import StopIcon from "@mui/icons-material/Stop";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -12,32 +13,66 @@ import HourglassFullIcon from "@mui/icons-material/HourglassFull";
 import { projectDetailInfo } from "@/types/project";
 import { changeTime } from "@/api/projectApi";
 import { requestDeploy } from "@/api/itemApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { info, success } from "@components/common/Toast/notify";
+import { error } from "@components/common/Toast/notify";
 
 export default function ItemListElement({ item }: { item: projectDetailInfo }) {
   const navigate = useNavigate();
   const [buildStatus, setBuildStatus] = useState(item.status);
+  const [playButtonHover, setPlayButtonHover] = useState<boolean>(false);
+
+  const handlePlayButtonOn = () => {
+    setPlayButtonHover(true);
+  };
+
+  const handlePlayButtonOff = () => {
+    setPlayButtonHover(false);
+  };
 
   const handleItemClick = () => {
     navigate(`/item/detail/${item.idx}`);
   };
 
+  // 빌드 시작 버튼
   const sendReq = async () => {
     setBuildStatus("WAITING");
+    info(`${item.name}의 빌드가 시작되었습니다.`);
     try {
       const {
         data: {
           result: { status },
         },
       } = await requestDeploy(item.idx);
-      setBuildStatus(status);
-    } catch (err) {}
+
+      if (status === "SUCCESS") {
+        setBuildStatus(status);
+        success(`${item.name} 빌드 성공!`);
+      }
+
+      if (status === "FAIL") {
+        error(`${item.name}의 빌드가 실패했습니다. 빌드 로그를 확인하세요.`);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <SItemList>
       <SButtonItem onClick={() => sendReq()}>
-        <PlayArrowIcon style={PlayArrowIconStyle} />
+        {playButtonHover && (
+          <PlayArrowIcon
+            onMouseOut={handlePlayButtonOff}
+            style={PlayArrowIconStyle}
+          />
+        )}
+        {!playButtonHover && (
+          <PlayArrowOutlinedIcon
+            onMouseOver={handlePlayButtonOn}
+            style={PlayArrowIconStyle}
+          />
+        )}
       </SButtonItem>
       <SButtonItem>
         <StopIcon style={StopIconStyle} />
