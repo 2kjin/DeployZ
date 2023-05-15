@@ -23,6 +23,7 @@ import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.NginxConfig;
 import org.a402.deployz.domain.project.entity.Project;
+import org.a402.deployz.domain.project.exception.DuplicateProjectIdException;
 import org.a402.deployz.domain.project.exception.ProjectNotFoundException;
 import org.a402.deployz.domain.project.repository.GitConfigRepository;
 import org.a402.deployz.domain.project.repository.NginxConfigRepository;
@@ -59,7 +60,13 @@ public class ProjectService {
 			.orElseThrow(MemberNotFoundException::new);
 		final Project project = projectRepository.save(request.getProjectConfig().toEntity(member));
 
+		final Integer projectId = request.getProjectConfig().getProjectId();
+
 		// GitConfig 저장
+		if (gitConfigRepository.existsByProjectId(projectId)) {
+			throw new DuplicateProjectIdException();
+		}
+
 		final GitConfig gitConfig = gitConfigRepository.save(request.getProjectConfig().toGEntity(project));
 
 		// Item 저장
@@ -75,7 +82,6 @@ public class ProjectService {
 				.build();
 
 			gitTokenRepository.save(gitToken);
-
 		}
 
 		// NginxConfig 저장
@@ -130,8 +136,8 @@ public class ProjectService {
 	public HashMap<String, String> findPortNumCheckList(String port) {
 		HashMap<String, String> portCheck = new HashMap<>();
 
-		for (char c : port.toCharArray()){
-			if (!Character.isDigit(c)){
+		for (char c : port.toCharArray()) {
+			if (!Character.isDigit(c)) {
 				portCheck.put("port", "포트 번호는 숫자만 넣어주세요.");
 				return portCheck;
 			}
@@ -139,11 +145,11 @@ public class ProjectService {
 
 		int portByInt = Integer.parseInt(port);
 
-		if (portByInt < 0 || portByInt > 65535 || portByInt ==80 || portByInt == 8080 || portByInt ==443 ) {
-				portCheck.put("port", "포트 번호의 범위를 확인해주세요. (0~65535)");
-				return portCheck;
+		if (portByInt < 0 || portByInt > 65535 || portByInt == 80 || portByInt == 8080 || portByInt == 443) {
+			portCheck.put("port", "포트 번호의 범위를 확인해주세요. (0~65535)");
+			return portCheck;
 		}
-		if (!itemRepository.existsByPortNumber((long)portByInt)){
+		if (!itemRepository.existsByPortNumber((long)portByInt)) {
 			portCheck.put("port", "해당 포트 번호는 사용할 수 있습니다!");
 		} else {
 			portCheck.put("port", "중복된 포트 번호가 있습니다.");
