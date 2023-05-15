@@ -167,54 +167,56 @@ export default function InputSection2() {
               </>
             </Modal>
           </SectionGuide>
-          <InputContainer>
-            <FormControl variant="standard">
-              <InputLabel
-                shrink
-                sx={{
-                  fontSize: "2rem",
-                  color: "#151649",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                SSL Certificate<RequiredMark>*</RequiredMark>
-              </InputLabel>
-              <InputBox
-                widthnum={"30rem"}
-                fontnum={"1.2rem"}
-                spacingnum={3}
-                placeholder={` /etc/letsencrypt/live/${nginxConfig.domainUrl}/fullchain.pem`}
-                id="sslCertificate"
-                value={nginxConfig.sslCertificate}
-                onChange={handleItemData}
-              />
-            </FormControl>
-          </InputContainer>
-          <InputContainer>
-            <FormControl variant="standard">
-              <InputLabel
-                shrink
-                sx={{
-                  fontSize: "2rem",
-                  color: "#151649",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                SSL Certificate Key<RequiredMark>*</RequiredMark>
-              </InputLabel>
-              <InputBox
-                widthnum={"30rem"}
-                fontnum={"1.2rem"}
-                spacingnum={3}
-                placeholder={` /etc/letsencrypt/live/${nginxConfig.domainUrl}/privkey.pem`}
-                id="sslCertificateKey"
-                value={nginxConfig.sslCertificateKey}
-                onChange={handleItemData}
-              />
-            </FormControl>
-          </InputContainer>
+          <SectionContainer>
+            <InputContainer>
+              <FormControl variant="standard">
+                <InputLabel
+                  shrink
+                  sx={{
+                    fontSize: "2rem",
+                    color: "#151649",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  SSL Certificate<RequiredMark>*</RequiredMark>
+                </InputLabel>
+                <InputBox
+                  widthnum={"30rem"}
+                  fontnum={"1.2rem"}
+                  spacingnum={3}
+                  placeholder={` /etc/letsencrypt/live/${nginxConfig.domainUrl}/fullchain.pem`}
+                  id="sslCertificate"
+                  value={nginxConfig.sslCertificate}
+                  onChange={handleItemData}
+                />
+              </FormControl>
+            </InputContainer>
+            <InputContainer>
+              <FormControl variant="standard">
+                <InputLabel
+                  shrink
+                  sx={{
+                    fontSize: "2rem",
+                    color: "#151649",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  SSL Certificate Key<RequiredMark>*</RequiredMark>
+                </InputLabel>
+                <InputBox
+                  widthnum={"30rem"}
+                  fontnum={"1.2rem"}
+                  spacingnum={3}
+                  placeholder={` /etc/letsencrypt/live/${nginxConfig.domainUrl}/privkey.pem`}
+                  id="sslCertificateKey"
+                  value={nginxConfig.sslCertificateKey}
+                  onChange={handleItemData}
+                />
+              </FormControl>
+            </InputContainer>
+          </SectionContainer>
         </Section>
         <Section>
           <SectionCheck>
@@ -233,6 +235,12 @@ export default function InputSection2() {
     </Container>
   );
 }
+const SectionContainer = styled.div`
+  background-color: ${theme.colors.container};
+  padding: 1rem;
+  border-radius: 1rem;
+  margin: 2% 15% 2% 0;
+`;
 
 const RequiredMark = styled.strong`
   color: red;

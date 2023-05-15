@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import { useLocation, useNavigate } from "react-router-dom";
 import LogoPic from "@/assets/logo/logo.png";
+import LoginLogo from "@/assets/logo/logo2.png";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { requestLogout } from "@/api/auth";
@@ -42,9 +43,15 @@ export default function Header({ type }: { type: String }) {
         {isLogin && <NavStyle to="/project">Project List</NavStyle>}
         {isLogin && <NavStyle to="/infraguide">Infra Guide</NavStyle>}
         {isLogin ? (
-          <Loginbtn onClick={() => logout()}>LOGOUT</Loginbtn>
+          <Loginbtn onClick={() => logout()}>
+            <LoginImg alt="loginlogo" src={LoginLogo} />
+            LOGOUT
+          </Loginbtn>
         ) : (
-          <Loginbtn onClick={() => navigate("/login")}>LOGIN</Loginbtn>
+          <Loginbtn onClick={() => navigate("/login")}>
+            <LoginImg alt="loginlogo" src={LoginLogo} />
+            LOGIN
+          </Loginbtn>
         )}
       </div>
     </Container>
@@ -74,14 +81,13 @@ const NavStyle = styled(NavLink)`
   }
   &:hover {
     color: ${theme.colors.secondary};
-    filter: drop-shadow(0.6rem 0.6rem 0.3rem rgb(0 0 0 / 0.6));
+    transition: all 0.3s ease-out;
   }
   &.active {
-    filter: drop-shadow(0.6rem 0.6rem 0.3rem rgb(0 0 0 / 0.6));
     color: ${theme.colors.secondary};
     position: relative;
     bottom: 0.1rem;
-    border-bottom: 0.2rem solid ${theme.colors.secondary};
+    transform: scale(1.1);
   }
 `;
 const Logo = styled.img`
@@ -96,22 +102,23 @@ const Loginbtn = styled.a`
   align-items: center;
   background: none;
   color: ${theme.colors.secondary};
-  border: 0.3rem solid ${theme.colors.secondary};
-  border-radius: 2.5rem;
-  padding: 1.5vh;
+  border: 0.2rem solid ${theme.colors.secondary};
+  border-radius: 2rem;
+  padding: 1rem 1.5rem;
   margin: 1vh;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: ${theme.fontWeight.extrabold};
   text-decoration: none;
   :hover {
+    transform: scale(1.03);
+    transition: all 0.3s ease-out;
     background: ${theme.colors.secondary};
-    border-color: ${theme.colors.secondary};
+    /* border-color: ${theme.colors.secondary}; */
     color: ${theme.colors.white};
-    transition: all 0.4s ease-out;
     cursor: pointer;
   }
 `;
-const Gitlab = styled.img`
-  height: 3.5vh;
-  padding: 0 1rem 0 0;
+const LoginImg = styled.img`
+  height: 4vh;
+  padding: 0 0.5rem 0 0;
 `;

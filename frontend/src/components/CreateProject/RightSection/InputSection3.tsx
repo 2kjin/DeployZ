@@ -13,6 +13,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { styled as mstyled } from "@mui/material/styles";
 import { CopyToClipboard } from "react-copy-to-clipboard/src";
 import { info } from "@components/common/Toast/notify";
+import Imgpic from "@/assets/logo/logo2.png";
 
 export default function InputSection2() {
   const itemList = useRecoilValue<IItem[]>(itemListState);
@@ -84,28 +85,33 @@ export default function InputSection2() {
         </Section>
         <Section>
           <Label>Secret Token</Label>
-          {itemName.map((item, idx) => {
-            return (
-              <SecretSection key={idx}>
-                <SecretLeft># {item[0]}</SecretLeft>
-                <SecretRight>{item[1]}</SecretRight>
-                <CopyContainer>
-                  <CopyToClipboard
-                    className="Toram"
-                    text={item[1]}
-                    onCopy={() => info("복사되었습니다.")}
-                  >
-                    <CopyIcon />
-                  </CopyToClipboard>
-                </CopyContainer>
-              </SecretSection>
-            );
-          })}
+          <SectionContainer>
+            {itemName.map((item, idx) => {
+              return (
+                <SecretSection key={idx}>
+                  <SecretLeft># {item[0]}</SecretLeft>
+                  <SecretRight>{item[1]}</SecretRight>
+                  <CopyContainer>
+                    <CopyToClipboard
+                      className="Toram"
+                      text={item[1]}
+                      onCopy={() => info("복사되었습니다.")}
+                    >
+                      <CopyIcon />
+                    </CopyToClipboard>
+                  </CopyContainer>
+                </SecretSection>
+              );
+            })}
+          </SectionContainer>
           <SecretLeft className="alert">
             <SdCardAlertIcon sx={{ fontSize: "2.5rem" }} />
             Secret Token은 따로 저장해 보관해야해요!
           </SecretLeft>
         </Section>
+        <ImgContainer>
+          <Subimg alt="Imgpic" src={Imgpic} />
+        </ImgContainer>
       </InputContainer>
     </Container>
   );
@@ -119,7 +125,6 @@ const Container = styled.div`
   border-radius: 1rem;
   padding: 2.5rem;
   color: ${theme.colors.primary};
-
   .subject {
     font-size: 3.7rem;
     margin-top: 0;
@@ -133,12 +138,17 @@ const Container = styled.div`
   }
 `;
 
+const SectionContainer = styled.div`
+  background-color: ${theme.colors.container};
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-top: 2%;
+`;
+
 const InputContainer = styled.div`
-  width: 82%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 3%;
 `;
 
 const Label = styled.h4`
@@ -171,7 +181,7 @@ const GuildButton = styled.div`
 `;
 
 const Section = styled.div`
-  width: 42rem;
+  width: 45rem;
   margin-bottom: 5%;
 
   .alert {
@@ -222,7 +232,16 @@ const CopyContainer = styled.div`
   display: flex;
   align-items: center;
 `;
-
+const Subimg = styled.img`
+  height: 20vh;
+  width: 20vh;
+`;
+const ImgContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative; // 부모 요소를 relative로 설정
+`;
 const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({}) => ({

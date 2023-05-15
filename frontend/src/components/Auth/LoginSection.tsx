@@ -54,7 +54,6 @@ export default function LoginSection() {
         <CustomTextField
           autoComplete="current-password"
           color="primary"
-          focused
           hiddenLabel
           name="account"
           placeholder="example123"
@@ -67,7 +66,6 @@ export default function LoginSection() {
           autoComplete="current-password"
           color="primary"
           name="password"
-          focused
           hiddenLabel
           value={loginForm.password}
           onChange={handleLoginForm}
@@ -75,10 +73,16 @@ export default function LoginSection() {
         <LoginButton type="submit" value="Login" />
       </CustomForm>
       <TextBox>
-        <NavText>비밀번호를 잊으셨나요?</NavText>
-        <NavText onClick={() => navigate("/signup")}>
-          사용자 등록 하러가기
-        </NavText>
+        {/* <NavText>비밀번호를 잊으셨나요?</NavText> */}
+        <span
+          style={{
+            fontWeight: `${theme.fontWeight.normal}`,
+            fontSize: "1.3rem",
+          }}
+        >
+          사용자 등록 하셨나요?&nbsp;&nbsp;&nbsp;
+        </span>
+        <NavText onClick={() => navigate("/signup")}>등록하기</NavText>
       </TextBox>
     </Container>
   );
@@ -108,16 +112,15 @@ const CustomTextField = mstyled(TextField)({
 
 const NavText = styled.div`
   cursor: pointer;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 1.6rem;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
+
   font-weight: bold;
 
   :hover {
-    transform: scale(1.03);
+    transform: scale(1.1);
     transition: all 0.2s ease-out;
   }
 
@@ -129,7 +132,8 @@ const NavText = styled.div`
 const TextBox = styled.div`
   width: 40rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 
   @media screen and (max-width: 1600px) {
     width: 30rem;
