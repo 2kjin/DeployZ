@@ -27,3 +27,14 @@ deployz:
   rootPath: "/projects"
   logPath: "logs"
   configPath: "config"
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: ${BUCKET_NAME}
+      stack:
+        auto: false
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}

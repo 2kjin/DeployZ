@@ -21,6 +21,7 @@ public enum GlobalErrorCode {
 	TOKEN_EXPIRED(401, "G500", "토큰이 만료되었습니다."),
 	LOGIN_INFO_MISMATCH(401, "G600", "로그인 정보가 일치하지 않습니다."),
 	FILE_NOT_FOUND(400, "G400", "파일이 존재하지 않습니다."),
+	INVALID_DATA_TYPE(400, "S100", "지원하는 이미지의 데이터 타입이 아닙니다."),
 	/* 회원 관련 에러 코드 */
 	INVALID_TOKEN(400, "M400", "유효하지 않은 토큰입니다."),
 	MISMATCH_PASSWORD(400, "M400", "로그인 정보가 일치하지 않습니다."),
