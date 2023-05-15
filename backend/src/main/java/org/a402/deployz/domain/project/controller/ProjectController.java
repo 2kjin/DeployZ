@@ -102,10 +102,10 @@ public class ProjectController {
 	@ApiResponse(responseCode = "200", description = "포트 중복검사 조회 성공")
 	@Operation(description = "포드 번호 중복 검사 API", summary = "포드 번호 중복 검사 API")
 	@GetMapping("/container")
-	public BaseResponse<HashMap<String, String>> portCheckList(@RequestParam String port) {
-		HashMap<String, String> portNumCheck = projectService.findPortNumCheckList(port);
+	public BaseResponse<Void> portCheckList(@RequestParam String port) {
+		projectService.findPortNumCheckList(port);
 
-		return new BaseResponse<>(portNumCheck);
+		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 
 }
