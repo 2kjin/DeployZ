@@ -74,20 +74,19 @@ export default function ItemBox({
   };
 
   // api를 통한 포트번호 중복 체크
-  const handlePortValid = async (port1: string) => {
+  const handlePortValid = async (port: string) => {
     try {
       const {
-        data: { result },
-      } = await requestIsDuplicate(port1);
-      // console.log(result);
-      if (result.port1 === false || result.port2 === false) {
-        error("포트 번호가 중복됩니다.");
-      } else {
+        data: { status, message },
+      } = await requestIsDuplicate(port);
+      if (status === 200) {
         success("저장되었습니다.");
         saveInfo();
+      } else {
+        error(message);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      error("포트 번호의 범위를 확인해주세요.");
     }
   };
 
