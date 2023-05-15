@@ -2,6 +2,7 @@ package org.a402.deployz.domain.git.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,10 +14,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.a402.deployz.domain.project.entity.Project;
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.a402.deployz.domain.project.entity.Project;
 
 @Entity
 @Getter
@@ -36,6 +40,9 @@ public class GitConfig {
   private String gitAccessToken;
   @Column(name = "project_id", nullable = false)
   private int projectId;
+  @ColumnDefault("false")
+  @Column
+  private boolean deletedFlag;
   @OneToOne
   @JoinColumn(name = "project_idx")
   private Project project;
@@ -46,13 +53,14 @@ public class GitConfig {
 
   @Builder
   public GitConfig(final Long idx, final String hostUrl, final String repositoryUrl,
-      final String gitAccessToken, final int projectId, final Project project,
+      final String gitAccessToken, final int projectId, final boolean deletedFlag, final Project project,
       final List<GitToken> gitTokens, final List<GitHistory> gitHistories) {
     this.idx = idx;
     this.hostUrl = hostUrl;
     this.repositoryUrl = repositoryUrl;
     this.gitAccessToken = gitAccessToken;
     this.projectId = projectId;
+    this.deletedFlag = deletedFlag;
     this.project = project;
     this.gitTokens = gitTokens;
     this.gitHistories = gitHistories;

@@ -2,12 +2,13 @@ package org.a402.deployz.domain.deploy.service;
 
 import org.a402.deployz.domain.deploy.common.CommandInterpreter;
 import org.a402.deployz.domain.deploy.common.FileManager;
-import org.a402.deployz.domain.deploy.util.docker.DockerCommandGenerator;
-import org.a402.deployz.domain.deploy.util.docker.DockerfileGenerator;
-import org.a402.deployz.domain.deploy.util.gitlab.GitAdapter;
 import org.a402.deployz.domain.deploy.common.PathParser;
 import org.a402.deployz.domain.deploy.repository.BuildHistoryRepository;
 import org.a402.deployz.domain.deploy.response.ItemDeployResponse;
+import org.a402.deployz.domain.deploy.util.docker.DockerCommandGenerator;
+import org.a402.deployz.domain.deploy.util.docker.DockerfileGenerator;
+import org.a402.deployz.domain.deploy.util.gitlab.GitAdapter;
+import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.request.GitWebHookRequest;
 import org.a402.deployz.domain.item.entity.BuildHistory;
 import org.a402.deployz.domain.item.entity.Item;
@@ -17,6 +18,8 @@ import org.a402.deployz.domain.member.entity.Member;
 import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.Project;
+import org.a402.deployz.domain.project.exception.GitConfigNotFoundException;
+import org.a402.deployz.domain.project.repository.GitConfigRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +35,7 @@ public class DeployService {
 	private final MemberRepository memberRepository;
 	private final BuildHistoryRepository buildHistoryRepository;
 	private final ItemRepository itemRepository;
+	private final GitConfigRepository gitConfigRepository;
 	private final PathParser pathParser;
 	private final static String CLONE = "Clone";
 	private final static String PULL = "Pull";
@@ -171,12 +175,20 @@ public class DeployService {
 		// 회원 정보 조회
 		final Member member = memberRepository.findMemberByAccount(gitWebHookRequest.getAccount())
 			.orElseThrow(MemberNotFoundException::new);
-		// 아이템 조회
-		final Item item = itemRepository.findItemByIdx(gitWebHookRequest.getItemIdx()).orElseThrow(ItemNotFoundException::new);
-		// 프로젝트 조회
-		final Project project = item.getProject();
 
-		if (buildHistoryRepository.findBuildHistoryByItemIdx(gitWebHookRequest.getItemIdx()).size() > 0) {
+		final GitConfig gitConfig = gitConfigRepository.findGitConfigByProjectId(
+				Integer.parseInt(gitWebHookRequest.getProjectId()))
+			.orElseThrow(GitConfigNotFoundException::new);
+
+		final Project project = gitConfig.getProject();
+
+		System.out.println(project.getIdx());
+		System.out.println(gitWebHookRequest.getBranchName());
+
+		final Item item = itemRepository.findItemByProjectAndBranchName(project, gitWebHookRequest.getBranchName())
+			.orElseThrow(ItemNotFoundException::new);
+
+		if (buildHistoryRepository.findBuildHistoryByItemIdx(item.getIdx()).size() > 0) {
 			// 초기 상태가 아니면 Git Pull
 			gitAction = PULL;
 		}
