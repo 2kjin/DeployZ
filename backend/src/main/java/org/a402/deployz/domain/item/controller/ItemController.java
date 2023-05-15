@@ -46,14 +46,14 @@ public class ItemController {
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 
-	//@ApiResponse(responseCode = "200", description = "컨테이너 리스트 조회 성공")
-	//@Operation(description = "컨테이너 리스트 조회 API", summary = "컨테이너 리스트 조회 API")
-	//@GetMapping("/{projectIdx}")
-	//public BaseResponse<List<ItemListResponse>> findItemList(@Valid @PathVariable Long projectIdx) {
-		//final List<ItemListResponse> itemListResponses = itemService.findItemListByProjectIdx(projectIdx);
-
-		//return new BaseResponse<>(itemListResponses);
-	//}
+	// @ApiResponse(responseCode = "200", description = "컨테이너 리스트 조회 성공")
+	// @Operation(description = "컨테이너 리스트 조회 API", summary = "컨테이너 리스트 조회 API")
+	// @GetMapping("/{projectIdx}")
+	// public BaseResponse<List<ItemListResponse>> findItemList(@Valid @PathVariable Long projectIdx) {
+	// 	final List<ItemListResponse> itemListResponses = itemService.findItemListByProjectIdx(projectIdx);
+	//
+	// 	return new BaseResponse<>(itemListResponses);
+	// }
 
 	@ApiResponse(responseCode = "200", description = "컨테이너 상세 조회 성공")
 	@Operation(description = "컨테이너 상세 조회 API", summary = "컨테이너 상세 조회 API")
