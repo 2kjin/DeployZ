@@ -27,15 +27,14 @@ public class ItemListResponse {
 	@NotNull
 	private String projectName;
 
-	public ItemListResponse(Item item, String status, String projectName){
+	public ItemListResponse(Item item, String status, String projectName, LocalDateTime lastSuccessDate, LocalDateTime lastFailureDate){
 		this.idx=item.getIdx();
 		this.framworkType=item.getFrameworkType();
 		this.name=item.getName();
 		this.portNumber=item.getPortNumber();
-		this.lastSuccessDate=item.getLastSuccessDate();
-		this.lastFailureDate=item.getLastFailureDate();
+		this.lastSuccessDate=lastSuccessDate;
+		this.lastFailureDate=lastFailureDate;
 		this.status=status;
 		this.projectName=projectName;
 	}
-
 }
