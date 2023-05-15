@@ -13,6 +13,7 @@ import {
 import { useRecoilState } from "recoil";
 import { itemListState } from "@/recoil/step";
 import {
+  portValidCheck,
   requestIsDuplicate,
   requestSecretToken,
   requestVersion,
@@ -73,26 +74,24 @@ export default function ItemBox({
   };
 
   // api를 통한 포트번호 중복 체크
-  const handlePortValid = async (port1: string) => {
+  const handlePortValid = async (port: string) => {
     try {
       const {
-        data: { result },
-      } = await requestIsDuplicate(port1);
-      // console.log(result);
-      if (result.port1 === false || result.port2 === false) {
-        error("포트 번호가 중복됩니다.");
-      } else {
+        data: { status, message },
+      } = await requestIsDuplicate(port);
+      if (status === 200) {
         success("저장되었습니다.");
         saveInfo();
+      } else {
+        error(message);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      error("포트 번호의 범위를 확인해주세요.");
     }
   };
 
   // 각각 아이템 체크
   const itemValidCheck = () => {
-    console.log(item);
     if (
       item.portNumber === "" ||
       item.branchName === "none" ||
@@ -102,10 +101,9 @@ export default function ItemBox({
       (item.frameworkType === "SpringBoot" && item.javaVersion === "none")
     ) {
       error(`${itemName}의 모든 값을 입력해주세요.`);
+    } else if (portValidCheck(item.portNumber)) {
+      error("포트번호는 숫자만 가능합니다.");
     } else {
-      // if (item.portNumber1 === item.portNumber2) {
-      //   error("두 포트 번호가 동일합니다.");
-      // } else
       handlePortValid(item.portNumber);
     }
   };
@@ -145,7 +143,6 @@ export default function ItemBox({
         data: { result },
       } = await requestSecretToken(value);
 
-      console.log(result);
       setItem((cur) => ({
         ...cur,
         secretToken: result,
@@ -201,7 +198,9 @@ export default function ItemBox({
             />
           </CustomFormControl>
           <CustomFormControl variant="standard">
-            <CustomInputLabel shrink>Port Number 2</CustomInputLabel>
+            <CustomInputLabel shrink sx={{ color: "darkGrey" }}>
+              Port Number 2
+            </CustomInputLabel>
             <InputBox
               placeholder={`Available Soon...`}
               id="portNumber2"

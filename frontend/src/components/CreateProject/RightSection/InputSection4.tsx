@@ -109,7 +109,7 @@ export default function InputSection2() {
             widthnum={"70rem"}
             fontnum={"1.5rem"}
             spacingnum={4}
-            placeholder={`도메인 주소를 입력하세요. ex) k8a402.p.ssafy.io, deployz.co.kr`}
+            placeholder={`ex) deployz.co.kr`}
             id="domainUrl"
             value={nginxConfig.domainUrl}
             onChange={handleItemData}
@@ -184,7 +184,7 @@ export default function InputSection2() {
                 widthnum={"30rem"}
                 fontnum={"1.2rem"}
                 spacingnum={3}
-                placeholder={`SSL Certificate를 입력하세요.`}
+                placeholder={` /etc/letsencrypt/live/${nginxConfig.domainUrl}/fullchain.pem`}
                 id="sslCertificate"
                 value={nginxConfig.sslCertificate}
                 onChange={handleItemData}
@@ -208,7 +208,7 @@ export default function InputSection2() {
                 widthnum={"30rem"}
                 fontnum={"1.2rem"}
                 spacingnum={3}
-                placeholder={`SSL Certificate Key를 입력하세요.`}
+                placeholder={` /etc/letsencrypt/live/${nginxConfig.domainUrl}/privkey.pem`}
                 id="sslCertificateKey"
                 value={nginxConfig.sslCertificateKey}
                 onChange={handleItemData}

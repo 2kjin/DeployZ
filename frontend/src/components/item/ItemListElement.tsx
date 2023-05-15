@@ -107,7 +107,11 @@ const SButton = styled.button`
   font-size: 1.6rem;
   font-weight: ${theme.fontWeight.medium};
   cursor: pointer;
-  padding: 0.8rem 1.5rem;
+  padding: 0.8rem 1.2rem;
+  :hover {
+    transform: scale(1.03);
+    transition: all 0.2s ease-out;
+  }
 `;
 
 const SItemList = styled.div`
