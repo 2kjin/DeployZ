@@ -1,8 +1,7 @@
 //아이템 상세보기 type
 export interface itemDetailInfo {
   itemIdx: number;
-  portNumber1: number;
-  portNumber2: number;
+  portNumber: number;
   itemName: string;
   frameworkType: string;
   status: string;

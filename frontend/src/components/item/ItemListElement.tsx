@@ -34,10 +34,7 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
           <HighlightOffIcon style={HighlightOffIconStyle} />
         )}
       </SStatusItem>
-      <SPortItem>
-        {item.portNumber1}
-        {/* , {item.portNumber2} */}
-      </SPortItem>
+      <SPortItem>{item.portNumber}</SPortItem>
       <SSuccessItem>{changeTime(item.lastSuccessDate)}</SSuccessItem>
       <SFailItem>{changeTime(item.lastFailureDate)}</SFailItem>
       <SItem>

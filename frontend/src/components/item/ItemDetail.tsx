@@ -117,7 +117,7 @@ export default function ItemDetail() {
                 <SLastItem>최근 실패</SLastItem>
               </SNameDiv>
               <SDetailInfo>
-                <SItemValue>{itemDetail.portNumber1}</SItemValue>
+                <SItemValue>{itemDetail.portNumber}</SItemValue>
                 <SItemStatus>
                   {itemDetail.status === "SUCCESS" ? (
                     <CheckCircleOutlineIcon style={checkStyle} />
