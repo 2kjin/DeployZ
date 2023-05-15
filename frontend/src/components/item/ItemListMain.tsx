@@ -98,8 +98,8 @@ const SButtonItem = styled.div`
 `;
 
 const SEmptyListBox = styled.div`
-  width: 177vh;
-  height: 40vh;
+  width: 169vh;
+  height: 36vh;
   background-color: ${theme.colors.white};
   font-weight: ${theme.fontWeight.bold};
   font-size: 3.8rem;
@@ -108,19 +108,19 @@ const SEmptyListBox = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 1rem;
+  padding: 2.5rem;
 `;
 
 const SListBox = styled.div`
-  width: 177vh;
-  height: 40vh;
+  width: 169vh;
+  height: 36vh;
   background-color: ${theme.colors.white};
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  padding: 1rem;
+  padding: 2.5rem;
 `;
 
 const SItem = styled.div`
