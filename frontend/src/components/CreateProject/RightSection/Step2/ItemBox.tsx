@@ -199,7 +199,9 @@ export default function ItemBox({
             />
           </CustomFormControl>
           <CustomFormControl variant="standard">
-            <CustomInputLabel shrink>Port Number 2</CustomInputLabel>
+            <CustomInputLabel shrink sx={{ color: "darkGrey" }}>
+              Port Number 2
+            </CustomInputLabel>
             <InputBox
               placeholder={`Available Soon...`}
               id="portNumber2"
