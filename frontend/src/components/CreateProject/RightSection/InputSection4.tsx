@@ -154,85 +154,95 @@ export default function InputSection2() {
               />
             </CustomTooltip>
           </Label>
-          <p>보안을 위해 HTTPS를 사용하려면 SSL 인증서를 등록해야돼요!</p>
-          <SectionGuide>
-            <p>방법을 잘 모르시겠다면,</p>
-            <GuildButton onClick={handleOpen}>
-              가이드 보러가기
-              <MouseIcon sx={{ fontSize: 18, marginLeft: 0.3 }} />
-            </GuildButton>
-            <Modal open={open} onClose={handleClose}>
-              <>
-                <SSLGuideModal />
-              </>
-            </Modal>
-          </SectionGuide>
-          <InputContainer>
-            <FormControl variant="standard">
-              <InputLabel
-                shrink
-                sx={{
-                  fontSize: "2rem",
-                  color: "#151649",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                SSL Certificate<RequiredMark>*</RequiredMark>
-              </InputLabel>
-              <InputBox
-                widthnum={"30rem"}
-                fontnum={"1.2rem"}
-                spacingnum={3}
-                placeholder={` /etc/letsencrypt/live/${nginxConfig.domainUrl}/fullchain.pem`}
-                id="sslCertificate"
-                value={nginxConfig.sslCertificate}
-                onChange={handleItemData}
-              />
-            </FormControl>
-          </InputContainer>
-          <InputContainer>
-            <FormControl variant="standard">
-              <InputLabel
-                shrink
-                sx={{
-                  fontSize: "2rem",
-                  color: "#151649",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                SSL Certificate Key<RequiredMark>*</RequiredMark>
-              </InputLabel>
-              <InputBox
-                widthnum={"30rem"}
-                fontnum={"1.2rem"}
-                spacingnum={3}
-                placeholder={` /etc/letsencrypt/live/${nginxConfig.domainUrl}/privkey.pem`}
-                id="sslCertificateKey"
-                value={nginxConfig.sslCertificateKey}
-                onChange={handleItemData}
-              />
-            </FormControl>
-          </InputContainer>
+          <SectionContainer>
+            <p>보안을 위해 HTTPS를 사용하려면 SSL 인증서를 등록해야돼요!</p>
+            <SectionGuide>
+              <p>방법을 잘 모르시겠다면,</p>
+              <GuildButton onClick={handleOpen}>
+                가이드 보러가기
+                <MouseIcon sx={{ fontSize: 18, marginLeft: 0.3 }} />
+              </GuildButton>
+              <Modal open={open} onClose={handleClose}>
+                <>
+                  <SSLGuideModal />
+                </>
+              </Modal>
+            </SectionGuide>
+            <InputContainer>
+              <FormControl variant="standard">
+                <InputLabel
+                  shrink
+                  sx={{
+                    fontSize: "2rem",
+                    color: "#151649",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  SSL Certificate<RequiredMark>*</RequiredMark>
+                </InputLabel>
+                <InputBox
+                  widthnum={"30rem"}
+                  fontnum={"1.2rem"}
+                  spacingnum={3}
+                  placeholder={` /etc/letsencrypt/live/${nginxConfig.domainUrl}/fullchain.pem`}
+                  id="sslCertificate"
+                  value={nginxConfig.sslCertificate}
+                  onChange={handleItemData}
+                />
+              </FormControl>
+            </InputContainer>
+            <InputContainer>
+              <FormControl variant="standard">
+                <InputLabel
+                  shrink
+                  sx={{
+                    fontSize: "2rem",
+                    color: "#151649",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  SSL Certificate Key<RequiredMark>*</RequiredMark>
+                </InputLabel>
+                <InputBox
+                  widthnum={"30rem"}
+                  fontnum={"1.2rem"}
+                  spacingnum={3}
+                  placeholder={` /etc/letsencrypt/live/${nginxConfig.domainUrl}/privkey.pem`}
+                  id="sslCertificateKey"
+                  value={nginxConfig.sslCertificateKey}
+                  onChange={handleItemData}
+                />
+              </FormControl>
+            </InputContainer>
+          </SectionContainer>
         </Section>
         <Section>
           <SectionCheck>
             <Label>Proxy Path</Label>
             <AddBtn onClick={addProxy}>추가</AddBtn>
           </SectionCheck>
-          {nginxConfig.proxyPathList.map((pathItem) => (
-            <Proxypass
-              key={pathItem.idx}
-              pathItem={pathItem}
-              deleteProxy={deleteProxy}
-            />
-          ))}
+          <SectionContainer>
+            {nginxConfig.proxyPathList.map((pathItem) => (
+              <Proxypass
+                key={pathItem.idx}
+                pathItem={pathItem}
+                deleteProxy={deleteProxy}
+              />
+            ))}
+          </SectionContainer>
         </Section>
       </InputContainer>
     </Container>
   );
 }
+const SectionContainer = styled.div`
+  background-color: ${theme.colors.container};
+  padding: 1rem;
+  border-radius: 1rem;
+  margin: 2% 5% 2% 0;
+`;
 
 const RequiredMark = styled.strong`
   color: red;

@@ -64,43 +64,47 @@ export default function InputSection2() {
               />
             </CustomTooltip>
           </Label>
-          <p>
-            자동 배포 기능을 사용하려면 레포지토리에 직접 Branch별로 Webhook을
-            연결해야해요.
-          </p>
-          <SectionGuide>
-            <p>방법을 잘 모르시겠다면,</p>
-            {"  "}
-            <GuildButton onClick={handleOpen}>
-              가이드 보러가기{" "}
-              <MouseIcon sx={{ fontSize: 18, marginLeft: 0.3 }} />
-            </GuildButton>
-            <Modal open={open} onClose={handleClose}>
-              <>
-                <WebhookGuideModal />
-              </>
-            </Modal>
-          </SectionGuide>
+          <SectionContainer>
+            <p>
+              자동 배포 기능을 사용하려면 레포지토리에 직접 Branch별로
+              <p /> Webhook을 연결해야해요.
+            </p>
+            <SectionGuide>
+              <p>방법을 잘 모르시겠다면,</p>
+              {"  "}
+              <GuildButton onClick={handleOpen}>
+                가이드 보러가기{" "}
+                <MouseIcon sx={{ fontSize: 18, marginLeft: 0.3 }} />
+              </GuildButton>
+              <Modal open={open} onClose={handleClose}>
+                <>
+                  <WebhookGuideModal />
+                </>
+              </Modal>
+            </SectionGuide>
+          </SectionContainer>
         </Section>
         <Section>
           <Label>Secret Token</Label>
-          {itemName.map((item, idx) => {
-            return (
-              <SecretSection key={idx}>
-                <SecretLeft># {item[0]}</SecretLeft>
-                <SecretRight>{item[1]}</SecretRight>
-                <CopyContainer>
-                  <CopyToClipboard
-                    className="Toram"
-                    text={item[1]}
-                    onCopy={() => info("복사되었습니다.")}
-                  >
-                    <CopyIcon />
-                  </CopyToClipboard>
-                </CopyContainer>
-              </SecretSection>
-            );
-          })}
+          <SectionContainer>
+            {itemName.map((item, idx) => {
+              return (
+                <SecretSection key={idx}>
+                  <SecretLeft># {item[0]}</SecretLeft>
+                  <SecretRight>{item[1]}</SecretRight>
+                  <CopyContainer>
+                    <CopyToClipboard
+                      className="Toram"
+                      text={item[1]}
+                      onCopy={() => info("복사되었습니다.")}
+                    >
+                      <CopyIcon />
+                    </CopyToClipboard>
+                  </CopyContainer>
+                </SecretSection>
+              );
+            })}
+          </SectionContainer>
           <SecretLeft className="alert">
             <SdCardAlertIcon sx={{ fontSize: "2.5rem" }} />
             Secret Token은 따로 저장해 보관해야해요!
@@ -133,8 +137,14 @@ const Container = styled.div`
   }
 `;
 
+const SectionContainer = styled.div`
+  background-color: ${theme.colors.container};
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-top: 2%;
+`;
+
 const InputContainer = styled.div`
-  width: 82%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -171,7 +181,7 @@ const GuildButton = styled.div`
 `;
 
 const Section = styled.div`
-  width: 42rem;
+  width: 45rem;
   margin-bottom: 5%;
 
   .alert {

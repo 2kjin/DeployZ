@@ -54,7 +54,6 @@ export default function LoginSection() {
         <CustomTextField
           autoComplete="current-password"
           color="primary"
-          focused
           hiddenLabel
           name="account"
           placeholder="example123"
@@ -67,7 +66,6 @@ export default function LoginSection() {
           autoComplete="current-password"
           color="primary"
           name="password"
-          focused
           hiddenLabel
           value={loginForm.password}
           onChange={handleLoginForm}
@@ -75,9 +73,17 @@ export default function LoginSection() {
         <LoginButton type="submit" value="Login" />
       </CustomForm>
       <TextBox>
-        <NavText>비밀번호를 잊으셨나요?</NavText>
+        {/* <NavText>비밀번호를 잊으셨나요?</NavText> */}
         <NavText onClick={() => navigate("/signup")}>
-          사용자 등록 하러가기
+          <span
+            style={{
+              fontWeight: `${theme.fontWeight.normal}`,
+              fontSize: "1.3rem",
+            }}
+          >
+            사용자 등록 하셨나요?&nbsp;&nbsp;&nbsp;
+          </span>
+          등록 하러가기
         </NavText>
       </TextBox>
     </Container>
@@ -129,7 +135,7 @@ const NavText = styled.div`
 const TextBox = styled.div`
   width: 40rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 
   @media screen and (max-width: 1600px) {
     width: 30rem;

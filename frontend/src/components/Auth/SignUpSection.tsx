@@ -12,6 +12,7 @@ import {
 } from "@/api/auth";
 import { error, success } from "@components/common/Toast/notify";
 import { useNavigate } from "react-router-dom";
+import LoginLogo from "@/assets/logo/logo4.png";
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -120,13 +121,13 @@ export default function SignupPage() {
 
   return (
     <Container>
-      <SubjectText>사용자 등록</SubjectText>
+      <LoginImg alt="logo" src={LoginLogo} />
+      {/* <SubjectText>사용자 등록</SubjectText> */}
       <EmailCheckBox>
         <CustomTextField
           autoComplete="current-password"
           color="primary"
-          sx={{ width: 420 }}
-          focused
+          sx={{ width: 350 }}
           hiddenLabel
           name="account"
           placeholder="아이디를 입력하세요."
@@ -141,8 +142,8 @@ export default function SignupPage() {
         <CustomTextField
           autoComplete="current-password"
           color="primary"
-          focused
           name="serverKey"
+          sx={{ width: 220 }}
           placeholder="서버 인증키를 입력하세요."
           value={signUpForm.serverKey}
           onChange={handleSignUpForm}
@@ -155,9 +156,8 @@ export default function SignupPage() {
         hiddenLabel
         type="password"
         autoComplete="current-password"
-        sx={{ width: 420 }}
+        sx={{ width: 350 }}
         color="primary"
-        focused
         name="password"
         placeholder="비밀번호를 입력하세요."
         value={signUpForm.password}
@@ -174,19 +174,18 @@ export default function SignupPage() {
         type="password"
         value={passwordValid}
         autoComplete="current-password"
-        sx={{ width: 420 }}
+        sx={{ width: 350 }}
         color="primary"
-        focused
         onChange={handlePasswordValid}
         helperText={showValidHelperText ? "비밀번호와 일치하지 않습니다." : ""}
       />
-      <SignUpButton onClick={sendSignUpData}>등 록</SignUpButton>
+      <SignUpButton onClick={sendSignUpData}>사용자 등록</SignUpButton>
     </Container>
   );
 }
 
 const CustomTextField = mstyled(TextField)({
-  width: "70%",
+  width: "60%",
   height: "5rem",
   input: {
     fontSize: "1.6rem",
@@ -213,24 +212,32 @@ const CustomTextField = mstyled(TextField)({
 
 const Container = styled.div`
   width: 60rem;
-  height: 55rem;
-  border-radius: 0.5rem;
-  background-color: ${theme.colors.container};
+  height: 65rem;
   padding: 4rem 0;
+  border-radius: 1.5rem;
+  background-color: ${theme.colors.container};
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 
   @media screen and (max-width: 1600px) {
     width: 50rem;
-    height: 45rem;
+    height: 55rem;
     padding: 2rem 0;
 
     p {
       color: ${theme.colors.secondary};
       font-size: 2rem;
     }
+  }
+`;
+
+const LoginImg = styled.img`
+  height: 20rem;
+  margin: 0 auto;
+  @media screen and (max-width: 1600px) {
+    height: 15rem;
   }
 `;
 
@@ -242,9 +249,9 @@ const SubjectText = styled.div`
 `;
 
 const EmailCheckBox = styled.div`
-  width: 42rem;
   display: flex;
   justify-content: space-between;
+  width: 35rem;
 `;
 
 const ValidCheckButton = styled.div`
@@ -254,7 +261,7 @@ const ValidCheckButton = styled.div`
   align-items: center;
   width: 10rem;
   border-radius: 0.5rem;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   background-color: ${theme.colors.secondary};
   cursor: pointer;
 
@@ -265,12 +272,11 @@ const ValidCheckButton = styled.div`
 `;
 
 const SignUpButton = styled.div`
-  width: 42rem;
   color: white;
-  border-radius: 0.5rem;
+  border-radius: 3rem;
   text-align: center;
-  font-size: 2rem;
-  padding: 1rem 0;
+  font-size: 1.7rem;
+  padding: 1.5rem 3rem;
   background-color: ${theme.colors.secondary};
   cursor: pointer;
   :hover {
