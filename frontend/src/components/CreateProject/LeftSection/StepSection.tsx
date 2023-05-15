@@ -2,18 +2,47 @@ import styled from "styled-components";
 import StepItem from "@components/CreateProject/LeftSection/StepItem";
 import { useRecoilValue } from "recoil";
 import { stepState } from "@/recoil/step";
+import { theme } from "@/styles/theme";
 
 export default function StepSection() {
   const stepInfo = useRecoilValue<IStepItem[]>(stepState);
 
   return (
     <Container>
-      {stepInfo.map((info: IStepItem) => (
-        <StepItem key={info.number} item={info} />
+      {stepInfo.map((info: IStepItem, idx: number) => (
+        <>
+          <StepItem key={idx} item={info} />
+          {idx !== 3 && (
+            <LineContainer>
+              <LeftBox>
+                <StepLine status={info.status} />
+              </LeftBox>
+            </LineContainer>
+          )}
+        </>
       ))}
     </Container>
   );
 }
+
+const LineContainer = styled.div`
+  padding: 0 1.5rem;
+  flex: 2;
+  display: flex;
+`;
+
+const LeftBox = styled.div`
+  width: 6rem;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+const StepLine = styled.div<{ status: string }>`
+  width: 0.3rem;
+  background-color: ${(props) =>
+    props.status == "before" ? theme.colors.lightgray : theme.colors.secondary};
+`;
 
 const Container = styled.div`
   background-color: #fff;
