@@ -21,10 +21,15 @@ export default function ItemBuildList({
   useEffect(() => {
     if (selectedIdx !== null) {
       setSelectedItem(
-        itemHistoryLists.find((item) => item.idx === selectedIdx)
+        itemHistoryLists?.find((item) => item.idx === selectedIdx) || null
       );
     }
-  }, [selectedIdx]);
+  }, [selectedIdx, itemHistoryLists]);
+
+  //BUILD 가 NULL일때
+  if (!itemHistoryLists) {
+    return <SEmptyBuildContent>빌드 목록이 없습니다 📃</SEmptyBuildContent>;
+  }
 
   return (
     <SDetailBuild>
@@ -85,6 +90,19 @@ export default function ItemBuildList({
     </SDetailBuild>
   );
 }
+
+const SEmptyBuildContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: ${theme.fontWeight.bold};
+  color: ${theme.colors.primary};
+  background-color: ${theme.colors.white};
+  border-radius: 0.5rem;
+  height: 55vh;
+  width: 150vh;
+`;
 
 const SEmptyMessageContent = styled.div`
   display: flex;
