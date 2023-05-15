@@ -7,20 +7,36 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import HourglassFullIcon from "@mui/icons-material/HourglassFull";
 
 import { projectDetailInfo } from "@/types/project";
 import { changeTime } from "@/api/projectApi";
+import { requestDeploy } from "@/api/itemApi";
+import { useState } from "react";
 
 export default function ItemListElement({ item }: { item: projectDetailInfo }) {
   const navigate = useNavigate();
+  const [buildStatus, setBuildStatus] = useState(item.status);
 
   const handleItemClick = () => {
     navigate(`/item/detail/${item.idx}`);
   };
 
+  const sendReq = async () => {
+    setBuildStatus("WAITING");
+    try {
+      const {
+        data: {
+          result: { status },
+        },
+      } = await requestDeploy(item.idx);
+      setBuildStatus(status);
+    } catch (err) {}
+  };
+
   return (
     <SItemList>
-      <SButtonItem>
+      <SButtonItem onClick={() => sendReq()}>
         <PlayArrowIcon style={PlayArrowIconStyle} />
       </SButtonItem>
       <SButtonItem>
@@ -28,15 +44,22 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
       </SButtonItem>
       <SNameItem>{item.name}</SNameItem>
       <SStatusItem>
-        {item.status === "SUCCESS" ? (
+        {buildStatus === "" && "빌드전"}
+        {buildStatus === "SUCCESS" && (
           <CheckCircleOutlineIcon style={checkStyle} />
-        ) : (
+        )}
+        {buildStatus === "WAITING" && <HourglassFullIcon style={waitStyle} />}
+        {buildStatus === "FAIL" && (
           <HighlightOffIcon style={HighlightOffIconStyle} />
         )}
       </SStatusItem>
       <SPortItem>{item.portNumber}</SPortItem>
-      <SSuccessItem>{changeTime(item.lastSuccessDate)}</SSuccessItem>
-      <SFailItem>{changeTime(item.lastFailureDate)}</SFailItem>
+      <SSuccessItem>
+        {buildStatus === "" ? "빌드전" : changeTime(item.lastSuccessDate)}
+      </SSuccessItem>
+      <SFailItem>
+        {buildStatus === "" ? "빌드전" : changeTime(item.lastFailureDate)}
+      </SFailItem>
       <SItem>
         <SButton onClick={handleItemClick}>상세보기</SButton>
       </SItem>
@@ -97,6 +120,11 @@ const HighlightOffIconStyle = {
 const checkStyle = {
   fontSize: "4rem",
   color: theme.colors.checkgreen,
+};
+
+const waitStyle = {
+  fontSize: "4rem",
+  color: theme.colors.secondary,
 };
 
 const SButton = styled.button`

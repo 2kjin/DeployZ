@@ -16,6 +16,7 @@ export default function ItemBuildList({
 }) {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [selectedItem, setSelectedItem] = useState<itemHistory | null>(null);
+  const buildMessage: string[] = selectedItem?.consol.split("\n");
 
   //선택된 것이 없다면 item의idx와 같은selectedIdx를 찾기
   useEffect(() => {
@@ -80,7 +81,9 @@ export default function ItemBuildList({
                   {selectedItem && <SStatusP># {selectedItem.idx}</SStatusP>}
                 </SBuildName>
                 <SBuildMessageContent>
-                  {selectedItem ? selectedItem.consol : ""}
+                  {buildMessage.map((log, idx) => (
+                    <p key={idx}>{log}</p>
+                  ))}
                 </SBuildMessageContent>
               </div>
             )}
@@ -131,7 +134,7 @@ const SBuildItem = styled.div<{ selected: boolean }>`
   background-color: ${(props) => (props.selected ? "#FEA51D" : "")};
   color: ${(props) => (props.selected ? "#ffffff" : "black")};
   cursor: pointer;
-  padding: 0.1rem;
+  padding: 1rem;
 
   :hover {
     background-color: ${theme.colors.pending};
@@ -155,7 +158,8 @@ const SBuildMessageContent = styled.div`
   background-color: ${theme.colors.white};
   border-radius: 0.2rem;
   height: 40vh;
-  overflow-y: scroll;
+  overflow-x: hidden;
+  word-break: break-all;
 `;
 
 const SP = styled.p`

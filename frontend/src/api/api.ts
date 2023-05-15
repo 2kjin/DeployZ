@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getPersonalToken, requestLogout, requestReCreate } from "./auth";
+import { getPersonalToken } from "./auth";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_DOMAIN;
 // const MINSU = "http://70.12.247.126:8080/api";
@@ -9,6 +9,10 @@ export const instance = axios.create({
   // withCredentials: true,
   // baseURL: SERVER_URL,
   baseURL: SERVER_URL,
+});
+
+export const testInstance = axios.create({
+  baseURL: "http://k8a4021.p.ssafy.io:8888/api",
 });
 
 // JWT 토큰이 필요없는 instance
@@ -30,6 +34,19 @@ gitlabInstance.interceptors.request.use(async function (config) {
 
 // instance요청에 header에 토큰을 담는 interceptors
 instance.interceptors.request.use(
+  function (config) {
+    const accessToken = localStorage.getItem("accessToken");
+    // 요청 바로 직전
+    config.headers["Authorization"] = `Bearer ${accessToken}`;
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
+// instance요청에 header에 토큰을 담는 interceptors
+testInstance.interceptors.request.use(
   function (config) {
     const accessToken = localStorage.getItem("accessToken");
     // 요청 바로 직전

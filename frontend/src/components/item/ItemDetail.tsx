@@ -15,6 +15,7 @@ import { theme } from "@/styles/theme";
 import { Icon } from "@iconify/react";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import HourglassFullIcon from "@mui/icons-material/HourglassFull";
 
 //import components
 import Header from "@components/common/Header";
@@ -119,9 +120,16 @@ export default function ItemDetail() {
               <SDetailInfo>
                 <SItemValue>{itemDetail.portNumber}</SItemValue>
                 <SItemStatus>
-                  {itemDetail.status === "SUCCESS" ? (
+                  {itemDetail.status === "" && "빌드전"}
+
+                  {itemDetail.status === "SUCCESS" && (
                     <CheckCircleOutlineIcon style={checkStyle} />
-                  ) : (
+                  )}
+                  {itemDetail.status === "WAITING" && (
+                    <HourglassFullIcon style={waitStyle} />
+                  )}
+
+                  {itemDetail.status === "FAIL" && (
                     <HighlightOffIcon style={HighlightOffIconStyle} />
                   )}
                 </SItemStatus>
@@ -141,6 +149,11 @@ export default function ItemDetail() {
   );
 }
 
+const waitStyle = {
+  fontSize: "4rem",
+  color: theme.colors.secondary,
+};
+
 const SDiv = styled.div`
   display: flex;
   align-items: center;
@@ -154,7 +167,7 @@ const SNameDiv = styled.div`
 
 const SDetailInfo = styled.div`
   display: flex;
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   border-bottom: 2px solid ${theme.colors.darkgray};
   border-bottom-width: 0.2rem;
 `;
@@ -174,7 +187,10 @@ const SItemValue = styled.div`
   font-size: 1.9rem;
   font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.secondary};
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
 `;
 
 const SItemStatus = styled.div`
@@ -182,7 +198,10 @@ const SItemStatus = styled.div`
   font-size: 2rem;
   font-weight: ${theme.fontWeight.extraBold};
   color: ${theme.colors.primary};
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
 `;
 
 const SItem = styled.div`
