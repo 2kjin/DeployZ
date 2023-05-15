@@ -146,7 +146,7 @@ export default function InputSection1() {
             <CustomTooltip
               disableFocusListener
               arrow
-              placement="right"
+              placement="bottom"
               title={
                 <>
                   <img
