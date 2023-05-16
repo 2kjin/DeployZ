@@ -24,6 +24,7 @@ export default function InputSection2() {
   const itemName = itemList.map((item: IItem) => {
     return [item.branchName, item.secretToken];
   });
+  console.log(itemName);
 
   return (
     <Container>
@@ -181,7 +182,7 @@ const GuildButton = styled.div`
 `;
 
 const Section = styled.div`
-  width: 45rem;
+  width: 70%;
   margin-bottom: 5%;
 
   .alert {
@@ -212,7 +213,7 @@ const SecretSection = styled.div`
 `;
 
 const SecretLeft = styled.div`
-  flex: 3;
+  flex: 1;
   font-weight: bold;
   font-size: 1.7rem;
   padding: 1rem 0;
@@ -224,9 +225,12 @@ const SecretLeft = styled.div`
 const SecretRight = styled.div`
   font-size: 1.5rem;
   margin-left: 3%;
-  flex: 2;
+  flex: 3;
   display: flex;
   align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 const CopyContainer = styled.div`
   display: flex;

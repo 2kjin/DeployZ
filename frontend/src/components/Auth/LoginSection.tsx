@@ -56,7 +56,7 @@ export default function LoginSection() {
           color="primary"
           hiddenLabel
           name="account"
-          placeholder="example123"
+          placeholder="아이디를 입력하세요."
           value={loginForm.account}
           onChange={handleLoginForm}
         />
