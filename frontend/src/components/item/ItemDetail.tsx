@@ -76,7 +76,7 @@ export default function ItemDetail() {
               <Icon
                 icon="mdi:arrow-left-drop-circle-outline"
                 fontSize="55"
-                color="#F3F4F3"
+                color="#fff"
                 cursor="pointer"
                 onClick={handlePrevClick}
               />
@@ -84,18 +84,18 @@ export default function ItemDetail() {
                 <SFrameName>{itemDetail.itemName}</SFrameName>
                 <SFrameImg>
                   {itemDetail.frameworkType === "React" ? (
-                    <Icon icon="mdi:react" fontSize="130" color="#F3F4F3" />
+                    <Icon icon="mdi:react" fontSize="130" color="#fff" />
                   ) : itemDetail.frameworkType === "SpringBoot" ? (
                     <Icon
                       icon="simple-icons:springboot"
                       fontSize="130"
-                      color="#F3F4F3"
+                      color="#fff"
                     />
                   ) : (
                     <Icon
                       icon="tabler:brand-django"
                       fontSize="130"
-                      color="#F3F4F3"
+                      color="#fff"
                     />
                   )}
                 </SFrameImg>
@@ -103,7 +103,7 @@ export default function ItemDetail() {
               <Icon
                 icon="mdi:arrow-right-drop-circle-outline"
                 fontSize="55"
-                color="#F3F4F3"
+                color="#fff"
                 cursor="pointer"
                 onClick={handleNextClick}
               />
@@ -259,8 +259,7 @@ const SWrap = styled.div`
 const SDetailContainer = styled.div`
   width: 150vh;
   height: 70vh;
-  background-color: ${theme.colors.lightgray};
+  background-color: ${theme.colors.white};
   border-radius: 0.8rem;
-  border: 0.1rem solid ${theme.colors.darkgray};
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 `;

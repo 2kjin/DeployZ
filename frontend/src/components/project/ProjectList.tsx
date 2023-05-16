@@ -80,19 +80,18 @@ export default function ProjectList() {
 const Container = styled.div`
   display: flex;
   height: 43vh;
-  gap: 2.1rem;
+  gap: 4vw;
 `;
 
 const SEmptyDiv = styled.div`
-  width: 51vh;
+  width: 24vw;
   height: 36vh;
   background: ${theme.colors.white};
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 1rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  /* padding: 1rem 2rem; */
+  padding: .5vw 1vw;
+
 `;

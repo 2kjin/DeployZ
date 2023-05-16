@@ -183,11 +183,11 @@ const SItemList = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 170vh;
+  width: 83vw;
   height: 5.5vh;
   padding: 1rem;
   background: ${theme.colors.lightgray};
   overflow: hidden;
   border-radius: 1rem;
-  margin-bottom: 1.5em;
+  margin-bottom: 1.8em;
 `;

@@ -115,12 +115,11 @@ const SEmptyMessageContent = styled.div`
   font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.primary};
   border: 1px solid #d2d8df44;
-  background-color: ${theme.colors.white};
-  border-radius: 0.2rem;
-  height: 47vh;
+  background-color: ${theme.colors.container};
+  border-radius: 1rem;
+  height: 44vh;
   width: 118vh;
 `;
-
 const SBuildListContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -154,9 +153,8 @@ const SBuildMessageContent = styled.div`
   padding: 1rem;
   font-weight: ${theme.fontWeight.medium};
   color: ${theme.colors.primary};
-  border: 1px solid #d2d8df44;
-  background-color: ${theme.colors.white};
-  border-radius: 0.2rem;
+  background-color: ${theme.colors.container};
+  border-radius: 1rem;
   height: 40vh;
   overflow-x: hidden;
   word-break: break-all;

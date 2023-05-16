@@ -158,18 +158,18 @@ const SDesc = styled.div<{ isSelected: boolean }>`
 `;
 
 const SProjectList = styled.div<{ isSelected: boolean }>`
-  width: 51vh;
+  width: 24vw;
   height: 36vh;
   background: ${({ isSelected }) =>
     isSelected ? theme.colors.secondary : theme.colors.white};
   border-radius: 1rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  /* padding: 1rem 2rem; */
+  padding: .5vw 1vw;
   cursor: pointer;
   overflow: hidden;
-
+display:flex;
+flex-direction: column;
+justify-content:space-evenly;
   &:hover {
     transform: scale(1.02);
     transition: transform 0.3s ease-in-out;
