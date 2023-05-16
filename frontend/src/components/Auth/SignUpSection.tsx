@@ -50,22 +50,6 @@ export default function SignupPage() {
     console.log(showPasswordHelperText, showValidHelperText);
   };
 
-  // const checkIdDuplicate = async () => {
-  //   try {
-  //     const {
-  //       data: { result },
-  //     } = await requestCheckDuplicate(signUpForm.account);
-  //     if (result) {
-  //       success("사용할 수 있는 아이디입니다.");
-  //     } else {
-  //       error("이미 사용중인 아이디입니다.");
-  //     }
-  //     console.log(result);
-  //   } catch (err) {
-  //     error("API 오류");
-  //   }
-  // };
-
   const checkIdServerKey = async () => {
     try {
       const {
@@ -111,11 +95,11 @@ export default function SignupPage() {
         sendLoginData();
         navigate("/additional", { replace: true });
       } else {
-        error("메세지 띄우기");
+        error("이미 회원이 존재합니다.");
       }
       console.log(result);
     } catch (err) {
-      error("에러 메세지 핸들링");
+      error("관리자에게 문의하세요.");
     }
   };
 
