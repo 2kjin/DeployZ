@@ -69,7 +69,7 @@ public class ProjectService {
 		final Integer projectId = request.getProjectConfig().getProjectId();
 
 		// GitConfig 저장
-		if (gitConfigRepository.existsByProjectId(projectId)) {
+		if (gitConfigRepository.existsByProjectIdAndDeletedFlagIsFalse(projectId)) {
 			throw new DuplicateProjectIdException();
 		}
 
@@ -103,12 +103,12 @@ public class ProjectService {
 	@Transactional
 	public void removeProject(@Valid long projectIdx) {
 		try {
-			projectRepository.findProjectByIdx(projectIdx)
+			projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
 				.orElseThrow(ProjectNotFoundException::new)
 				.updateDeletedFlag();
 
 			//해당 projectIdx의 item들도 삭제
-			List<Item> items = projectRepository.findProjectByIdx(projectIdx)
+			List<Item> items = projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
 				.orElseThrow(ProjectNotFoundException::new).getItems();
 
 			for (Item item : items) {
@@ -149,14 +149,14 @@ public class ProjectService {
 		if (portByInt < 0 || portByInt > 65535 || portByInt == 80 || portByInt == 8080 || portByInt == 443) {
 			throw new PortNumberOutOfRangeException();
 		}
-		if (itemRepository.existsByPortNumber((long)portByInt)) {
+		if (itemRepository.existsByPortNumberAndDeletedFlagIsFalse((long)portByInt)) {
 			throw new PortNumberDuplicatedException();
 		}
 	}
 
 	@Transactional(readOnly = true)
 	public Project findProject(final long projectIdx) {
-		return projectRepository.findProjectByIdx(projectIdx)
+		return projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
 			.orElseThrow(ProjectNotFoundException::new);
 	}
 
@@ -164,7 +164,7 @@ public class ProjectService {
 	@Transactional(readOnly = true)
 	public List<ProjectResponse> findProjectList(final String account) {
 		final Member member = memberRepository.findMemberByAccount(account).orElseThrow(MemberNotFoundException::new);
-		List<Project> projects = projectRepository.findProjectsByMemberIdx(member.getIdx());
+		List<Project> projects = projectRepository.findProjectsByMemberIdxAndDeletedFlagIsFalse(member.getIdx());
 
 		final List<ProjectResponse> result = new ArrayList<>();
 
@@ -200,7 +200,7 @@ public class ProjectService {
 	public HashMap<String, Integer> findItemListByProjectIdx(Long projectIdx) {
 		HashMap<String, Integer> branches = new HashMap<>();
 
-		Project project = projectRepository.findProjectByIdx(projectIdx).orElseThrow(ProjectNotFoundException::new);
+		Project project = projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx).orElseThrow(ProjectNotFoundException::new);
 		List<Item> items = project.getItems();
 
 		if (items != null) {
