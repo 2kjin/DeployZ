@@ -146,7 +146,7 @@ public class ProjectService {
 			}
 		}
 		int portByInt = Integer.parseInt(port);
-		if (portByInt < 0 || portByInt > 65535 || portByInt == 80 || portByInt == 8080 || portByInt == 443) {
+		if (portByInt < 0 || portByInt > 65535 || portByInt == 80 || portByInt == 443) {
 			throw new PortNumberOutOfRangeException();
 		}
 		if (itemRepository.existsByPortNumber((long)portByInt)) {
