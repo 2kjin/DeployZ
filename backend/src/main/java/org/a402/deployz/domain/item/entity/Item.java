@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.a402.deployz.domain.deploy.entity.Deploy;
 import org.a402.deployz.domain.project.entity.Project;
 import org.hibernate.annotations.ColumnDefault;
 
