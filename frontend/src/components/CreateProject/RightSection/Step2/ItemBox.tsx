@@ -24,10 +24,10 @@ import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 export default function ItemBox({
-  itemName,
+  idx,
   branchList,
 }: {
-  itemName: string;
+  idx: number;
   branchList: string[];
 }) {
   const [itemList, setItemList] = useRecoilState<IItem[]>(itemListState);
@@ -36,8 +36,8 @@ export default function ItemBox({
 
   // FE, BE 별로 placeholder 결정해주는 함수
   const handlePlaceholder = (value: string) => {
-    if (itemName == "Front-end") return INPUTFORM[0][value];
-    if (itemName == "Back-end") return INPUTFORM[1][value];
+    if (idx === 0) return INPUTFORM[0][value];
+    if (idx === 1) return INPUTFORM[1][value];
     else return INPUTFORM[1][value];
   };
 
@@ -80,7 +80,7 @@ export default function ItemBox({
         data: { status, message },
       } = await requestIsDuplicate(port);
       if (status === 200) {
-        success("저장되었습니다.");
+        success(`${idx === 0 ? "Frontend" : "Backend"}가 저장되었습니다.`);
         saveInfo();
       } else {
         error(message);
@@ -93,6 +93,7 @@ export default function ItemBox({
   // 각각 아이템 체크
   const itemValidCheck = () => {
     if (
+      item.itemName === "" ||
       item.portNumber === "" ||
       item.branchName === "none" ||
       item.targetFolder === "" ||
@@ -100,7 +101,7 @@ export default function ItemBox({
       item.buildVersion === "none" ||
       (item.frameworkType === "SpringBoot" && item.javaVersion === "none")
     ) {
-      error(`${itemName}의 모든 값을 입력해주세요.`);
+      error(`${idx === 0 ? "Frontend" : "Backend"}의 모든 값을 입력해주세요.`);
     } else if (portValidCheck(item.portNumber)) {
       error("포트번호는 숫자만 가능합니다.");
     } else {
@@ -108,25 +109,36 @@ export default function ItemBox({
     }
   };
 
-  // itemName같으면 새로 추가하고 다르다면 뒤에 추가
   const saveInfo = async () => {
-    // recoil에 local state 저장
     setItemList((prev: IItem[]) => {
-      const index = prev.findIndex(
-        (prevItem) => prevItem.itemName === item.itemName
-      );
-      // 새로 추가
-      if (index === -1) {
-        return [...prev, item];
-      }
-      // 기존 수정
-      else {
-        const newArray = [...prev];
-        newArray[index] = item;
-        return newArray;
-      }
+      const newArray = [...prev];
+      newArray[idx] = item; // 해당 인덱스의 아이템 수정
+
+      return newArray;
     });
   };
+
+  // itemName같으면 새로 추가하고 다르다면 뒤에 추가
+  // const saveInfo = async () => {
+  //   // recoil에 local state 저장
+  //   setItemList((prev: IItem[]) => {
+  //     const index = prev.findIndex(
+  //       (prevItem) => prevItem.itemName === item.itemName
+  //     );
+  //     // 새로 추가
+  //     if (index === -1) {
+  //       return [...prev, item];
+  //     }
+  //     // 기존 수정
+  //     else {
+  //       const newArray = [...prev];
+  //       newArray[index] = item;
+  //       return newArray;
+  //     }
+  //   });
+
+  //   console.log(itemList);
+  // };
 
   // bulid type별 버전 api
   const getVersion = async (value: string) => {
@@ -154,8 +166,8 @@ export default function ItemBox({
 
   // recoil에 저장된 이미 사용자가 입력한 값을 띄워주기위한 set
   useEffect(() => {
-    itemList.map((item: IItem) => {
-      if (item.itemName === itemName) {
+    itemList.map((item: IItem, index: number) => {
+      if (index === idx) {
         setItem(item);
         if (item.frameworkType !== "none") {
           getVersion(item.frameworkType);
@@ -167,7 +179,11 @@ export default function ItemBox({
   return (
     <>
       <InputContainer>
-        <Subject>| {itemName}</Subject>
+        <Subject>
+          | {idx === 0 && "Front-end"}
+          {idx === 1 && "Back-end"}
+          {idx > 1 && "Custom"}
+        </Subject>
         <SaveBtn onClick={() => itemValidCheck()}>저장</SaveBtn>
       </InputContainer>
       <Container>
@@ -178,12 +194,12 @@ export default function ItemBox({
               Item Name <RequiredMark>*</RequiredMark>
             </CustomInputLabel>
             <InputBox
-              placeholder={`컨테이너 명을 입력세요. ex) ${handlePlaceholder(
+              placeholder={`아이템 명을 입력세요. ex) ${handlePlaceholder(
                 "ItemName"
               )}`}
               id="itemName"
               value={item.itemName}
-              // onChange={handleItemData}
+              onChange={handleItemData}
             />
           </CustomFormControl>
           <CustomFormControl variant="standard">

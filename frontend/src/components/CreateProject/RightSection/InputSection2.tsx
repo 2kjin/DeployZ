@@ -67,9 +67,9 @@ export default function InputSection2() {
 
   return (
     <Container>
-      {itemList.map((item: IItem, idx) => (
-        <ItemBox key={idx} itemName={item.itemName} branchList={branchList} />
-      ))}
+      {itemList.map((_, index: number) => (
+        <ItemBox key={index} idx={index} branchList={branchList} />
+      ))} 
     </Container>
   );
 }

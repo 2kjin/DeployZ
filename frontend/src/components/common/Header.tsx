@@ -44,12 +44,12 @@ export default function Header({ type }: { type: String }) {
         {isLogin && <NavStyle to="/infraguide">Infra Guide</NavStyle>}
         {isLogin ? (
           <Loginbtn onClick={() => logout()}>
-            <LoginImg alt="loginlogo" src={LoginLogo} />
+            {/* <LoginImg alt="loginlogo" src={LoginLogo} /> */}
             LOGOUT
           </Loginbtn>
         ) : (
           <Loginbtn onClick={() => navigate("/login")}>
-            <LoginImg alt="loginlogo" src={LoginLogo} />
+            {/* <LoginImg alt="loginlogo" src={LoginLogo} /> */}
             LOGIN
           </Loginbtn>
         )}
@@ -61,6 +61,7 @@ export default function Header({ type }: { type: String }) {
 const Container = styled.div<{ type: String }>`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   height: 7vh;
   padding: 0 1.5rem;
   background-color: ${(props) =>
@@ -91,7 +92,7 @@ const NavStyle = styled(NavLink)`
   }
 `;
 const Logo = styled.img`
-  padding: 0.5rem;
+  width: 10vw;
   :hover {
     cursor: pointer;
   }
@@ -104,8 +105,7 @@ const Loginbtn = styled.a`
   color: ${theme.colors.secondary};
   border: 0.2rem solid ${theme.colors.secondary};
   border-radius: 2rem;
-  padding: 1rem 1.5rem;
-  margin: 1vh;
+  padding: 0.7rem 1.8rem;
   font-size: 1.8rem;
   font-weight: ${theme.fontWeight.extrabold};
   text-decoration: none;
@@ -120,5 +120,5 @@ const Loginbtn = styled.a`
 `;
 const LoginImg = styled.img`
   height: 4vh;
-  padding: 0 0.5rem 0 0;
+  /* padding: 0 0.5rem 0 0; */
 `;
