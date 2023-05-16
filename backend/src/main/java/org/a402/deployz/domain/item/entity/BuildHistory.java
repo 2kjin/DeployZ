@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -33,6 +34,9 @@ public class BuildHistory {
 	private String status;
 	@Column(name = "message", columnDefinition = "LONGTEXT")
 	private String message;
+	@ColumnDefault("false")
+	@Column(name = "deleted_flag", nullable = false)
+	private boolean deletedFlag;
 	@CreationTimestamp
 	@Column(name = "register_Time")
 	private LocalDateTime registerTime = LocalDateTime.now();
@@ -47,11 +51,12 @@ public class BuildHistory {
 	}
 
 	@Builder
-	public BuildHistory(final Long idx, final String status, final String message, final LocalDateTime registerTime,
+	public BuildHistory(final Long idx, final String status, final String message, final boolean deletedFlag, final LocalDateTime registerTime,
 		final Item item) {
 		this.idx = idx;
 		this.status = status;
 		this.message = message;
+		this.deletedFlag = deletedFlag;
 		this.registerTime = registerTime;
 		this.item = item;
 	}
