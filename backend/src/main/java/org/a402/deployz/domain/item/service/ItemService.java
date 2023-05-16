@@ -108,8 +108,14 @@ public class ItemService {
 
 				final List<BuildHistory> buildHistoryByItem = buildHistoryRepository.findBuildHistoryByItemOrderByRegisterTime(
 					item);
+
 				//아이템 상태 -> 빌드 히스토리에서 조회
-				String status = buildHistoryByItem.get(buildHistoryByItem.size()-1).getStatus();
+				String status = null;
+				LocalDateTime lastSuccessDate = null;
+				LocalDateTime lastFailureDate = null;
+
+				if(buildHistoryByItem.size() > 0){
+				status = buildHistoryByItem.get(buildHistoryByItem.size()-1).getStatus();
 
 				//아이템 최근 성공 및 실패 시간 -> 빌드 히스토리에서 조회
 				HashMap<String, LocalDateTime> lastRegisterTime = new HashMap<>();
@@ -122,7 +128,10 @@ public class ItemService {
 							lastRegisterTime.put("lastFailureDate", buildHistory.getRegisterTime());
 					}
 				}
-				result.add(new ItemListResponse(item, status, projectName, lastRegisterTime.get("lastSuccessDate"), lastRegisterTime.get("lastFailureDate")));
+					lastSuccessDate = lastRegisterTime.get("lastSuccessDate");
+					lastFailureDate = lastRegisterTime.get("lastFailureDate");
+				}
+				result.add(new ItemListResponse(item, status, projectName, lastSuccessDate, lastFailureDate));
 			}
 		}
 		return result;
