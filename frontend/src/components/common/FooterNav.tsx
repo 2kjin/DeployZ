@@ -124,8 +124,7 @@ export default function FooterNav() {
           error("프로젝트 생성 오류");
         }
       } catch (e) {
-        console.log(e);
-        error("프로젝트 생성 오류");
+        error(e.response.data.message);
       }
     } else {
       error("모든 값을 입력하세요.");
