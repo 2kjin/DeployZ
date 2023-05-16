@@ -90,7 +90,7 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
       </SButtonItem>
       <SNameItem>{item.name}</SNameItem>
       <SStatusItem>
-        {buildStatus === "" && "빌드전"}
+        {buildStatus === null && "빌드전"}
         {buildStatus === "SUCCESS" && (
           <CheckCircleOutlineIcon style={checkStyle} />
         )}
@@ -103,10 +103,10 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
       </SStatusItem>
       <SPortItem>{item.portNumber}</SPortItem>
       <SSuccessItem>
-        {buildStatus === "" ? "빌드전" : changeTime(item.lastSuccessDate)}
+        {buildStatus === null ? "빌드전" : changeTime(item.lastSuccessDate)}
       </SSuccessItem>
       <SFailItem>
-        {buildStatus === "" ? "빌드전" : changeTime(item.lastFailureDate)}
+        {buildStatus === null ? "빌드전" : changeTime(item.lastFailureDate)}
       </SFailItem>
       <SItem>
         <SButton onClick={handleItemClick}>상세보기</SButton>
