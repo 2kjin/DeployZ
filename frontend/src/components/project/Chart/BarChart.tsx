@@ -24,12 +24,12 @@ export default function BarChart({ data, labels }: BarChartProps) {
               //항목별로 다르게 색을 지정해주기
               //위한 색 배열(미리 만들어놓고 색 다르게 보이게 함)
               backgroundColor: [
-                "#5A9A54",
-                "#DE4D4D",
-                "#264DD2",
                 "#FF6384",
                 "#36A2EB",
                 "#FFCE56",
+                "#5A9A54",
+                "#DE4D4D",
+                "#264DD2",
               ],
               borderWidth: 1,
               // 바의 크기를 조절하는 속성

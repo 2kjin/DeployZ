@@ -28,8 +28,7 @@ export default function VideoLanding() {
             너무 어려우셨나요?
           </Title>
           <Title>
-            {" "}
-            배포를 쉽게,{" "}
+            배포를 쉽게,
             <span style={{ fontWeight: `${theme.fontWeight.extrabold}` }}>
               &nbsp;DeployZ &nbsp;
             </span>
@@ -39,7 +38,7 @@ export default function VideoLanding() {
             onMouseEnter={onHover}
             onMouseLeave={onHover}
           >
-            Start{" "}
+            Start
             {hover ? (
               <ArrowForward sx={{ fontSize: "2rem" }} />
             ) : (

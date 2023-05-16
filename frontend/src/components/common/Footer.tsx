@@ -41,6 +41,7 @@ const Container = styled.div`
   align-items: center;
   background-color: ${theme.colors.container};
   padding: 5rem 0;
+  height: 25vh;
 `;
 
 const ContentDiv = styled.div`
