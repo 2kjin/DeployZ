@@ -42,7 +42,7 @@ public class DockerfileGenerator {
 			.append("RUN mkdir /app\n")
 			.append("WORKDIR /app\n")
 			.append("RUN mkdir ./dist\n")
-			.append("COPY --from=builder /dist ./dist\n")
+			.append("COPY --from=builder /build ./dist\n")
 			.append("RUN rm /etc/nginx/conf.d/default.conf\n")
 			.append("COPY ./nginx.conf /etc/nginx/conf.d\n")
 			.append("CMD [\"nginx\", \"-g\", \"daemon off;\"]");
@@ -51,7 +51,7 @@ public class DockerfileGenerator {
 
 		StringBuilder nginx_sb = new StringBuilder();
 		nginx_sb.append("server {\n")
-			.append("\tlisten ").append(item.getPortNumber()).append(";\n")
+			.append("\tlisten ").append("3000").append(";\n")
 			.append("\tlocation / {\n").append("\t\troot /app/dist;\n")
 			.append("\t\tindex index.html index.htm;\n")
 			.append("\t\ttry_files $uri $uri/ /index.html;\n")
