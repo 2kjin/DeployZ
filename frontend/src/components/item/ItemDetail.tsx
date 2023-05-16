@@ -231,8 +231,9 @@ const SFrameMainDiv = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 80vw;
-  padding: 1em 0;
+  width: 150vh;
+  padding-bottom: 5em;
+  padding-top: 5em;
 `;
 
 const SFrameName = styled.span`
@@ -251,15 +252,14 @@ const SFrame = styled.div`
 `;
 
 const SWrap = styled.div`
-  background: linear-gradient(145deg, #151649 30%, #f3f4f3);
-  height:100vh;
+  height: 130vh;
+  background: linear-gradient(140deg, #151649 32.5%, #f3f4f3);
 `;
 
 const SDetailContainer = styled.div`
-  width: 80vw;
-  height: 65vh;
+  width: 150vh;
+  height: 70vh;
   background-color: ${theme.colors.white};
   border-radius: 0.8rem;
-  /* border: 0.1rem solid ${theme.colors.darkgray}; */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 `;
