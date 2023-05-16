@@ -183,6 +183,10 @@ const SButton = styled.button`
   font-weight: ${theme.fontWeight.medium};
   cursor: pointer;
   padding: 0.8rem 1.2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
   :hover {
     transform: scale(1.03);
     transition: all 0.2s ease-out;
