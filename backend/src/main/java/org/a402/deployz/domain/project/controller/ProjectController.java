@@ -69,6 +69,7 @@ public class ProjectController {
 	@Operation(description = "프로젝트 삭제 API", summary = "프로젝트 삭제 API")
 	@DeleteMapping("/{projectIdx}")
 	public BaseResponse<Void> projectRemove(@Valid @PathVariable Long projectIdx) {
+		log.info("start remove project: {}", projectIdx);
 		projectService.removeProject(projectIdx);
 
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);

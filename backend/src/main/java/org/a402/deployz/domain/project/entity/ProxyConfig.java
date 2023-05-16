@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,14 +33,22 @@ public class ProxyConfig {
   private String pathUrl;
   @Column(name = "path_name", length = 50)
   private String pathName;
+  @ColumnDefault("false")
+  @Column(name = "deleted_flag", nullable = false)
+  private boolean deletedFlag;
+
+  public void updateDeletedFlag() {
+    this.deletedFlag = true;
+  }
 
   @Builder
   public ProxyConfig(final Long idx, final NginxConfig nginxConfig, final String pathUrl,
-      final String pathName) {
+      final String pathName, final boolean deletedFlag) {
     this.idx = idx;
     this.nginxConfig = nginxConfig;
     this.pathUrl = pathUrl;
     this.pathName = pathName;
+    this.deletedFlag = deletedFlag;
   }
 
 }

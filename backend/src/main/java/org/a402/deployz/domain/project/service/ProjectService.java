@@ -4,7 +4,6 @@ import static org.a402.deployz.domain.project.entity.enums.FrameworkType.*;
 import static org.a402.deployz.domain.project.entity.enums.ReactVersion.*;
 import static org.a402.deployz.domain.project.entity.enums.SpringBootVersion.*;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,9 +11,13 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.a402.deployz.domain.deploy.entity.Deploy;
+import org.a402.deployz.domain.deploy.repository.BuildHistoryRepository;
 import org.a402.deployz.domain.git.entity.GitConfig;
+import org.a402.deployz.domain.git.entity.GitHistory;
 import org.a402.deployz.domain.git.entity.GitToken;
 import org.a402.deployz.domain.git.repository.GitTokenRepository;
+import org.a402.deployz.domain.item.entity.BuildHistory;
 import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.item.repository.ItemRepository;
 import org.a402.deployz.domain.item.request.ItemConfigRequest;
@@ -23,6 +26,8 @@ import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.NginxConfig;
 import org.a402.deployz.domain.project.entity.Project;
+import org.a402.deployz.domain.project.entity.ProjectState;
+import org.a402.deployz.domain.project.entity.ProxyConfig;
 import org.a402.deployz.domain.project.exception.DuplicateProjectIdException;
 import org.a402.deployz.domain.project.exception.PortNumberDuplicatedException;
 import org.a402.deployz.domain.project.exception.PortNumberInconsistentException;
@@ -57,6 +62,7 @@ public class ProjectService {
 	private final GitTokenRepository gitTokenRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final BuildHistoryRepository buildHistoryRepository;
 
 	@Transactional
 	public void addProject(final TotalProjectConfigRequest request, final UserDetails userDetails) {
@@ -68,7 +74,7 @@ public class ProjectService {
 		final Integer projectId = request.getProjectConfig().getProjectId();
 
 		// GitConfig 저장
-		if (gitConfigRepository.existsByProjectId(projectId)) {
+		if (gitConfigRepository.existsByProjectIdAndDeletedFlagIsFalse(projectId)) {
 			throw new DuplicateProjectIdException();
 		}
 
@@ -102,16 +108,63 @@ public class ProjectService {
 	@Transactional
 	public void removeProject(@Valid long projectIdx) {
 		try {
-			projectRepository.findProjectByIdx(projectIdx)
-				.orElseThrow(ProjectNotFoundException::new)
-				.updateDeletedFlag();
+			// 프로젝트 삭제
+			final Project project = projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
+				.orElseThrow(ProjectNotFoundException::new);
 
-			//해당 projectIdx의 item들도 삭제
-			List<Item> items = projectRepository.findProjectByIdx(projectIdx)
+			final List<Item> items = projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
 				.orElseThrow(ProjectNotFoundException::new).getItems();
 
-			for (Item item : items) {
+			project.updateDeletedFlag();
+
+			final GitConfig gitConfig = project.getGitConfig();
+			gitConfig.updateDeletedFlag();
+
+			final List<GitHistory> gitHistories = gitConfig.getGitHistories();
+
+			for (GitHistory gitHistory : gitHistories) {
+				gitHistory.updateDeletedFlag();
+			}
+
+			final List<GitToken> gitTokens = gitConfig.getGitTokens();
+
+			for (GitToken gitToken : gitTokens) {
+				gitToken.updateDeletedFlag();
+			}
+
+			final List<ProjectState> projectStates = project.getProjectStates();
+
+			for (ProjectState projectState : projectStates) {
+				projectState.updateDeletedFlag();
+			}
+
+			final NginxConfig nginxConfig = project.getNginxConfig();
+			nginxConfig.updateDeletedFlag();
+
+			final List<ProxyConfig> proxyConfigs = nginxConfig.getProxyConfigs();
+
+			for (ProxyConfig proxyConfig : proxyConfigs) {
+				proxyConfig.updateDeletedFlag();
+			}
+
+			for (final Item item : items) {
+				//해당 projectIdx의 item들도 삭제
 				item.updateDeletedFlag();
+
+				final Long itemIdx = item.getIdx();
+				final List<BuildHistory> buildHistories = buildHistoryRepository.findBuildHistoryByItemIdxAndDeletedFlagIsFalse(
+					itemIdx);
+
+				// Item idx에 해당하는 빌드 기록 삭제
+				for (final BuildHistory buildHistory : buildHistories) {
+					buildHistory.updateDeletedFlag();
+				}
+
+				// Item idx에 해당하는 deploy 삭제
+				final List<Deploy> deploys = item.getDeploys();
+				for (Deploy deploy : deploys) {
+					deploy.updateDeletedFlag();
+				}
 			}
 
 		} catch (Exception e) {
@@ -145,17 +198,17 @@ public class ProjectService {
 			}
 		}
 		int portByInt = Integer.parseInt(port);
-		if (portByInt < 0 || portByInt > 65535 || portByInt == 80 || portByInt == 8080 || portByInt == 443) {
+		if (portByInt < 0 || portByInt > 65535 || portByInt == 80 || portByInt == 443) {
 			throw new PortNumberOutOfRangeException();
 		}
-		if (itemRepository.existsByPortNumber((long)portByInt)) {
+		if (itemRepository.existsByPortNumberAndDeletedFlagIsFalse((long)portByInt)) {
 			throw new PortNumberDuplicatedException();
 		}
 	}
 
 	@Transactional(readOnly = true)
 	public Project findProject(final long projectIdx) {
-		return projectRepository.findProjectByIdx(projectIdx)
+		return projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
 			.orElseThrow(ProjectNotFoundException::new);
 	}
 
@@ -163,53 +216,35 @@ public class ProjectService {
 	@Transactional(readOnly = true)
 	public List<ProjectResponse> findProjectList(final String account) {
 		final Member member = memberRepository.findMemberByAccount(account).orElseThrow(MemberNotFoundException::new);
-		List<Project> tmp;
+		List<Project> projects = projectRepository.findProjectsByMemberIdxAndDeletedFlagIsFalse(member.getIdx());
 
-		try {
-			tmp = projectRepository.findProjectsByMemberIdx(member.getIdx());
-		} catch (Exception e) {
-			log.error("Error finding projects for member with ID {}: {}", member.getIdx(), e.getMessage());
-			throw new RuntimeException("Failed to find projects for member", e);
-		}
-
-		long itemCnt;
 		final List<ProjectResponse> result = new ArrayList<>();
 
-		for (Project project : tmp) {
-			String status;
+		for (Project project : projects) {
+			String status = null;
+			LocalDateTime lastSuccessDate = null;
+			LocalDateTime lastFailureDate = null;
 
-			try {
-				//최근 성공시간이 최근 실패시간 보다 이후 -> SUCCESS
-				LocalDateTime successDate = project.getLastSuccessDate();
-				LocalDateTime failureDate = project.getLastFailureDate();
-
-				//failureDate가 더 이후: 음수값 반환 / successDate가 더 최근: 양수 반환
-				Duration duration = Duration.between(failureDate, successDate);
-				// 초 단위 차이
-				final long diffInSeconds = duration.getSeconds();
-				if (diffInSeconds >= 0)
-					status = "SUCCESS";
-
-				else
-					status = "FAIL";
-
-				//해당 프로젝트의 item 개수를 count
-				itemCnt = itemRepository.countItemsByProjectIdx(project.getIdx());
-
-			} catch (Exception e) {
-				log.error("Error processing project with ID {}: {}", project.getIdx(), e.getMessage());
-				status = "ERROR";
-				itemCnt = 0L;
+			if (buildHistoryRepository.lastStatue(project.getIdx()).size() > 0) {
+				List<String> statusList = buildHistoryRepository.lastStatue(project.getIdx());
+				status = statusList.get(0);
+			}
+			if (buildHistoryRepository.lastSuccessDate(project.getIdx()).size() > 0) {
+				List<LocalDateTime> lastSuccessDateList = buildHistoryRepository.lastSuccessDate(project.getIdx());
+				lastSuccessDate = lastSuccessDateList.get(0);
+			}
+			if (buildHistoryRepository.lastFailureDate(project.getIdx()).size() > 0) {
+				List<LocalDateTime> lastFailureDateList = buildHistoryRepository.lastFailureDate(project.getIdx());
+				lastFailureDate = lastFailureDateList.get(0);
 			}
 
 			//브랜치명-> HashMap으로 반환
 			HashMap<String, Integer> branches = findItemListByProjectIdx(project.getIdx());
 
 			if (!project.isDeletedFlag()) {
-				result.add(new ProjectResponse(project, status, itemCnt, branches));
+				result.add(new ProjectResponse(project, status, branches, lastSuccessDate, lastFailureDate));
 			}
 		}
-
 		return result;
 	}
 
@@ -217,7 +252,8 @@ public class ProjectService {
 	public HashMap<String, Integer> findItemListByProjectIdx(Long projectIdx) {
 		HashMap<String, Integer> branches = new HashMap<>();
 
-		Project project = projectRepository.findProjectByIdx(projectIdx).orElseThrow(ProjectNotFoundException::new);
+		Project project = projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
+			.orElseThrow(ProjectNotFoundException::new);
 		List<Item> items = project.getItems();
 
 		if (items != null) {
@@ -230,14 +266,6 @@ public class ProjectService {
 			}
 		}
 		return branches;
-	}
-
-	@Transactional
-	public void modifyProject(LocalDateTime mostLastSuccessTime, LocalDateTime mostLastFailureTime,
-		Project project) {
-		//프로젝트의 최근 성공시간과 최근 실패 시간 업데이트
-		project.updateLastDates(mostLastSuccessTime, mostLastFailureTime);
-		projectRepository.save(project);
 	}
 
 	public String createSecretToken(final String branchName, final String account) {

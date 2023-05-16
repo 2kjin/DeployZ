@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,16 +30,24 @@ public class GitToken {
   private String branchName;
   @Column(name = "secret_token", length = 200)
   private String secretToken;
+  @ColumnDefault("false")
+  @Column(name = "deleted_flag", nullable = false)
+  private boolean deletedFlag;
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "git_config_idx")
   private GitConfig gitConfig;
 
+  public void updateDeletedFlag() {
+    this.deletedFlag = true;
+  }
+
   @Builder
   public GitToken(final Long idx, final String branchName, final String secretToken,
-      final GitConfig gitConfig) {
+      final boolean deletedFlag, final GitConfig gitConfig) {
     this.idx = idx;
     this.branchName = branchName;
     this.secretToken = secretToken;
+    this.deletedFlag = deletedFlag;
     this.gitConfig = gitConfig;
   }
 

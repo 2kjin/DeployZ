@@ -1,4 +1,4 @@
-package org.a402.deployz.domain.item.entity;
+package org.a402.deployz.domain.deploy.entity;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.a402.deployz.domain.item.entity.Item;
+import org.hibernate.annotations.ColumnDefault;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -34,18 +37,26 @@ public class Deploy {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "item_idx")
 	private Item item;
+	@ColumnDefault("false")
+	@Column(name = "deleted_flag", nullable = false)
+	private boolean deletedFlag;
 
 	@Builder
 	public Deploy(final Long idx, final String status, final LocalDateTime registerTime,
-		final LocalDateTime lastUpdatedDate, final Item item) {
+		final LocalDateTime lastUpdatedDate, final Item item, final boolean deletedFlag) {
 		this.idx = idx;
 		this.status = status;
 		this.registerTime = registerTime;
 		this.lastUpdatedDate = lastUpdatedDate;
 		this.item = item;
+		this.deletedFlag = deletedFlag;
 	}
 
 	public void updateStatus(final String status) {
 		this.status = status;
+	}
+
+	public void updateDeletedFlag() {
+		this.deletedFlag = true;
 	}
 }
