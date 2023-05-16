@@ -8,19 +8,20 @@ import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import StopIcon from "@mui/icons-material/Stop";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import HourglassFullIcon from "@mui/icons-material/HourglassFull";
 
 import { projectDetailInfo } from "@/types/project";
 import { changeTime } from "@/api/projectApi";
 import { requestDeploy } from "@/api/itemApi";
-import { useEffect, useState } from "react";
-import { info, success } from "@components/common/Toast/notify";
+import { useState } from "react";
+import { info, success, warning } from "@components/common/Toast/notify";
 import { error } from "@components/common/Toast/notify";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function ItemListElement({ item }: { item: projectDetailInfo }) {
   const navigate = useNavigate();
   const [buildStatus, setBuildStatus] = useState(item.status);
   const [playButtonHover, setPlayButtonHover] = useState<boolean>(false);
+  const [delayStatus, SetdelayStatus] = useState<boolean>(true);
 
   const handlePlayButtonOn = () => {
     setPlayButtonHover(true);
@@ -36,25 +37,32 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
 
   // 빌드 시작 버튼
   const sendReq = async () => {
-    setBuildStatus("WAITING");
-    info(`${item.name}의 빌드가 시작되었습니다.`);
-    try {
-      const {
-        data: {
-          result: { status },
-        },
-      } = await requestDeploy(item.idx);
+    if (delayStatus) {
+      setBuildStatus("WAITING");
+      SetdelayStatus(false);
+      info(`${item.name}의 빌드가 시작되었습니다.`);
+      try {
+        const {
+          data: {
+            result: { status },
+          },
+        } = await requestDeploy(item.idx);
 
-      if (status === "SUCCESS") {
-        setBuildStatus(status);
-        success(`${item.name} 빌드 성공!`);
-      }
+        if (status === "SUCCESS") {
+          setBuildStatus(status);
+          success(`${item.name} 빌드 성공!`);
+        }
 
-      if (status === "FAIL") {
-        error(`${item.name}의 빌드가 실패했습니다. 빌드 로그를 확인하세요.`);
+        if (status === "FAIL") {
+          setBuildStatus(status);
+          error(`${item.name}의 빌드가 실패했습니다. 빌드 로그를 확인하세요.`);
+        }
+        SetdelayStatus(true);
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
+    } else {
+      error("아직 빌드 진행중입니다.");
     }
   };
 
@@ -75,7 +83,10 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
         )}
       </SButtonItem>
       <SButtonItem>
-        <StopIcon style={StopIconStyle} />
+        <StopIcon
+          style={StopIconStyle}
+          onClick={() => warning("추후 업데이트 예정")}
+        />
       </SButtonItem>
       <SNameItem>{item.name}</SNameItem>
       <SStatusItem>
@@ -83,7 +94,9 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
         {buildStatus === "SUCCESS" && (
           <CheckCircleOutlineIcon style={checkStyle} />
         )}
-        {buildStatus === "WAITING" && <HourglassFullIcon style={waitStyle} />}
+        {buildStatus === "WAITING" && (
+          <CircularProgress size={33} style={waitStyle} />
+        )}
         {buildStatus === "FAIL" && (
           <HighlightOffIcon style={HighlightOffIconStyle} />
         )}
@@ -158,7 +171,6 @@ const checkStyle = {
 };
 
 const waitStyle = {
-  fontSize: "4rem",
   color: theme.colors.secondary,
 };
 
