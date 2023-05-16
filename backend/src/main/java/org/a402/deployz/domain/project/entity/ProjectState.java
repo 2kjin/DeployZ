@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,18 +35,22 @@ public class ProjectState {
 	private LocalDateTime lastFailureDate;
 	@Column(name = "step", length = 20)
 	private String step;
+	@ColumnDefault("false")
+	@Column(name = "deleted_flag", nullable = false)
+	private boolean deletedFlag;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "project_idx")
 	private Project project;
 
 	@Builder
 	public ProjectState(final Long idx, final String status, final LocalDateTime registerTime,
-		final LocalDateTime lastFailureDate, final String step, final Project project) {
+		final LocalDateTime lastFailureDate, final String step, final boolean deletedFlag, final Project project) {
 		this.idx = idx;
 		this.status = status;
 		this.registerTime = registerTime;
 		this.lastFailureDate = lastFailureDate;
 		this.step = step;
+		this.deletedFlag = deletedFlag;
 		this.project = project;
 	}
 
