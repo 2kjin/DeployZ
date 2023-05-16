@@ -12,9 +12,6 @@ import org.a402.deployz.domain.project.response.ProjectResponse;
 import org.a402.deployz.domain.project.service.ProjectService;
 import org.a402.deployz.global.common.BaseResponse;
 import org.a402.deployz.global.error.GlobalErrorCode;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -61,10 +58,11 @@ public class ProjectController {
 	@ApiResponse(responseCode = "200", description = "시크릿 토큰 생성 성공")
 	@Operation(description = "시크릿 토큰 생성 API", summary = "시크릿 토큰 생성 API")
 	@GetMapping("/git/secret-token")
-	public BaseResponse<String> secretTokenCreate(@RequestParam String branchName) {
-		String randomStr = RandomStringUtils.randomAlphanumeric(30);
+	public BaseResponse<String> secretTokenCreate(@RequestParam String branchName,
+		@AuthenticationPrincipal UserDetails userDetails) {
+		final String secretToken = projectService.createSecretToken(branchName, userDetails.getUsername());
 
-		return new BaseResponse<>(randomStr);
+		return new BaseResponse<>(secretToken);
 	}
 
 	@ApiResponse(responseCode = "200", description = "프로젝트 삭제 성공")

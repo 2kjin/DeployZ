@@ -23,6 +23,7 @@ import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.NginxConfig;
 import org.a402.deployz.domain.project.entity.Project;
+import org.a402.deployz.domain.project.exception.DuplicateProjectIdException;
 import org.a402.deployz.domain.project.exception.PortNumberDuplicatedException;
 import org.a402.deployz.domain.project.exception.PortNumberInconsistentException;
 import org.a402.deployz.domain.project.exception.PortNumberOutOfRangeException;
@@ -34,6 +35,7 @@ import org.a402.deployz.domain.project.repository.ProxyConfigRepository;
 import org.a402.deployz.domain.project.request.NginxConfigRequest;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
 import org.a402.deployz.domain.project.response.ProjectResponse;
+import org.a402.deployz.global.security.jwt.JwtTokenProvider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,6 +56,7 @@ public class ProjectService {
 	private final ItemRepository itemRepository;
 	private final GitTokenRepository gitTokenRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	@Transactional
 	public void addProject(final TotalProjectConfigRequest request, final UserDetails userDetails) {
@@ -62,7 +65,13 @@ public class ProjectService {
 			.orElseThrow(MemberNotFoundException::new);
 		final Project project = projectRepository.save(request.getProjectConfig().toEntity(member));
 
+		final Integer projectId = request.getProjectConfig().getProjectId();
+
 		// GitConfig 저장
+		if (gitConfigRepository.existsByProjectId(projectId)) {
+			throw new DuplicateProjectIdException();
+		}
+
 		final GitConfig gitConfig = gitConfigRepository.save(request.getProjectConfig().toGEntity(project));
 
 		// Item 저장
@@ -78,7 +87,6 @@ public class ProjectService {
 				.build();
 
 			gitTokenRepository.save(gitToken);
-
 		}
 
 		// NginxConfig 저장
@@ -131,16 +139,16 @@ public class ProjectService {
 
 	@Transactional
 	public void findPortNumCheckList(String port) {
-		for (char c : port.toCharArray()){
-			if (!Character.isDigit(c)){
+		for (char c : port.toCharArray()) {
+			if (!Character.isDigit(c)) {
 				throw new PortNumberInconsistentException();
 			}
 		}
 		int portByInt = Integer.parseInt(port);
-		if (portByInt < 0 || portByInt > 65535 || portByInt ==80 || portByInt == 8080 || portByInt ==443 ) {
+		if (portByInt < 0 || portByInt > 65535 || portByInt == 80 || portByInt == 8080 || portByInt == 443) {
 			throw new PortNumberOutOfRangeException();
 		}
-		if (itemRepository.existsByPortNumber((long)portByInt)){
+		if (itemRepository.existsByPortNumber((long)portByInt)) {
 			throw new PortNumberDuplicatedException();
 		}
 	}
@@ -232,4 +240,9 @@ public class ProjectService {
 		projectRepository.save(project);
 	}
 
+	public String createSecretToken(final String branchName, final String account) {
+		final Member member = memberRepository.findMemberByAccount(account).orElseThrow(MemberNotFoundException::new);
+
+		return jwtTokenProvider.createSecretToken(member, branchName);
+	}
 }
