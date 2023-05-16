@@ -56,7 +56,7 @@ public class DeployService {
 		// 프로젝트 조회
 		final Project project = item.getProject();
 
-		if (buildHistoryRepository.findBuildHistoryByItemIdx(itemIdx).size() > 0) {
+		if (buildHistoryRepository.findBuildHistoryByItemIdxAndDeletedFlagIsFalse(itemIdx).size() > 0) {
 			// 초기 상태가 아니면 Git Pull
 			gitAction = PULL;
 		}
@@ -192,7 +192,7 @@ public class DeployService {
 		final Item item = itemRepository.findItemByProjectAndBranchNameAndDeletedFlagIsFalse(project, gitWebHookRequest.getBranchName())
 			.orElseThrow(ItemNotFoundException::new);
 
-		if (buildHistoryRepository.findBuildHistoryByItemIdx(item.getIdx()).size() > 0) {
+		if (buildHistoryRepository.findBuildHistoryByItemIdxAndDeletedFlagIsFalse(item.getIdx()).size() > 0) {
 			// 초기 상태가 아니면 Git Pull
 			gitAction = PULL;
 		}

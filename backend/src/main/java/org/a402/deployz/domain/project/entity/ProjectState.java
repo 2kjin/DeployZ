@@ -42,6 +42,10 @@ public class ProjectState {
 	@JoinColumn(name = "project_idx")
 	private Project project;
 
+	public void updateDeletedFlag() {
+		this.deletedFlag = true;
+	}
+
 	@Builder
 	public ProjectState(final Long idx, final String status, final LocalDateTime registerTime,
 		final LocalDateTime lastFailureDate, final String step, final boolean deletedFlag, final Project project) {

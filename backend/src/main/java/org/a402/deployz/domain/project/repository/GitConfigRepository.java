@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GitConfigRepository extends JpaRepository<GitConfig, Long> {
-	Optional<GitConfig> findGitConfigByProjectId(final int projectId);
-	Boolean existsByProjectId(final int projectId);
+	Optional<GitConfig> findGitConfigByProjectIdAndDeletedFlagIsFalse(final int projectId);
+	Boolean existsByProjectIdAndDeletedFlagIsFalse(final int projectId);
 }

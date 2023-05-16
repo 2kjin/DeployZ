@@ -51,6 +51,10 @@ public class GitConfig {
   @OneToMany(mappedBy = "gitConfig", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   private List<GitHistory> gitHistories = new ArrayList<>();
 
+  public void updateDeletedFlag() {
+    this.deletedFlag = true;
+  }
+
   @Builder
   public GitConfig(final Long idx, final String hostUrl, final String repositoryUrl,
       final String gitAccessToken, final int projectId, final boolean deletedFlag, final Project project,

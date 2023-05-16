@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-	Optional<Project> findProjectByIdx(long projectIdx);
-	List<Project> findProjectsByMemberIdx(long memberIdx);
+	Optional<Project> findProjectByIdxAndDeletedFlagIsFalse(final long projectIdx);
+	List<Project> findProjectsByMemberIdxAndDeletedFlagIsFalse(final long memberIdx);
 }

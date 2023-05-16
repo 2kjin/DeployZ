@@ -11,10 +11,13 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.a402.deployz.domain.deploy.entity.Deploy;
 import org.a402.deployz.domain.deploy.repository.BuildHistoryRepository;
 import org.a402.deployz.domain.git.entity.GitConfig;
+import org.a402.deployz.domain.git.entity.GitHistory;
 import org.a402.deployz.domain.git.entity.GitToken;
 import org.a402.deployz.domain.git.repository.GitTokenRepository;
+import org.a402.deployz.domain.item.entity.BuildHistory;
 import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.item.repository.ItemRepository;
 import org.a402.deployz.domain.item.request.ItemConfigRequest;
@@ -23,6 +26,8 @@ import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.NginxConfig;
 import org.a402.deployz.domain.project.entity.Project;
+import org.a402.deployz.domain.project.entity.ProjectState;
+import org.a402.deployz.domain.project.entity.ProxyConfig;
 import org.a402.deployz.domain.project.exception.DuplicateProjectIdException;
 import org.a402.deployz.domain.project.exception.PortNumberDuplicatedException;
 import org.a402.deployz.domain.project.exception.PortNumberInconsistentException;
@@ -103,16 +108,63 @@ public class ProjectService {
 	@Transactional
 	public void removeProject(@Valid long projectIdx) {
 		try {
-			projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
-				.orElseThrow(ProjectNotFoundException::new)
-				.updateDeletedFlag();
+			// 프로젝트 삭제
+			final Project project = projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
+				.orElseThrow(ProjectNotFoundException::new);
 
-			//해당 projectIdx의 item들도 삭제
-			List<Item> items = projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
+			final List<Item> items = projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
 				.orElseThrow(ProjectNotFoundException::new).getItems();
 
-			for (Item item : items) {
+			project.updateDeletedFlag();
+
+			final GitConfig gitConfig = project.getGitConfig();
+			gitConfig.updateDeletedFlag();
+
+			final List<GitHistory> gitHistories = gitConfig.getGitHistories();
+
+			for (GitHistory gitHistory : gitHistories) {
+				gitHistory.updateDeletedFlag();
+			}
+
+			final List<GitToken> gitTokens = gitConfig.getGitTokens();
+
+			for (GitToken gitToken : gitTokens) {
+				gitToken.updateDeletedFlag();
+			}
+
+			final List<ProjectState> projectStates = project.getProjectStates();
+
+			for (ProjectState projectState : projectStates) {
+				projectState.updateDeletedFlag();
+			}
+
+			final NginxConfig nginxConfig = project.getNginxConfig();
+			nginxConfig.updateDeletedFlag();
+
+			final List<ProxyConfig> proxyConfigs = nginxConfig.getProxyConfigs();
+
+			for (ProxyConfig proxyConfig : proxyConfigs) {
+				proxyConfig.updateDeletedFlag();
+			}
+
+			for (final Item item : items) {
+				//해당 projectIdx의 item들도 삭제
 				item.updateDeletedFlag();
+
+				final Long itemIdx = item.getIdx();
+				final List<BuildHistory> buildHistories = buildHistoryRepository.findBuildHistoryByItemIdxAndDeletedFlagIsFalse(
+					itemIdx);
+
+				// Item idx에 해당하는 빌드 기록 삭제
+				for (final BuildHistory buildHistory : buildHistories) {
+					buildHistory.updateDeletedFlag();
+				}
+
+				// Item idx에 해당하는 deploy 삭제
+				final List<Deploy> deploys = item.getDeploys();
+				for (Deploy deploy : deploys) {
+					deploy.updateDeletedFlag();
+				}
 			}
 
 		} catch (Exception e) {
@@ -169,19 +221,19 @@ public class ProjectService {
 		final List<ProjectResponse> result = new ArrayList<>();
 
 		for (Project project : projects) {
-			String status =null;
+			String status = null;
 			LocalDateTime lastSuccessDate = null;
 			LocalDateTime lastFailureDate = null;
 
-			if (buildHistoryRepository.lastStatue(project.getIdx()).size() > 0){
+			if (buildHistoryRepository.lastStatue(project.getIdx()).size() > 0) {
 				List<String> statusList = buildHistoryRepository.lastStatue(project.getIdx());
-				 status= statusList.get(0);
+				status = statusList.get(0);
 			}
-			if (buildHistoryRepository.lastSuccessDate(project.getIdx()).size() > 0){
+			if (buildHistoryRepository.lastSuccessDate(project.getIdx()).size() > 0) {
 				List<LocalDateTime> lastSuccessDateList = buildHistoryRepository.lastSuccessDate(project.getIdx());
 				lastSuccessDate = lastSuccessDateList.get(0);
 			}
-			if (buildHistoryRepository.lastFailureDate(project.getIdx()).size() > 0){
+			if (buildHistoryRepository.lastFailureDate(project.getIdx()).size() > 0) {
 				List<LocalDateTime> lastFailureDateList = buildHistoryRepository.lastFailureDate(project.getIdx());
 				lastFailureDate = lastFailureDateList.get(0);
 			}
@@ -200,7 +252,8 @@ public class ProjectService {
 	public HashMap<String, Integer> findItemListByProjectIdx(Long projectIdx) {
 		HashMap<String, Integer> branches = new HashMap<>();
 
-		Project project = projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx).orElseThrow(ProjectNotFoundException::new);
+		Project project = projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
+			.orElseThrow(ProjectNotFoundException::new);
 		List<Item> items = project.getItems();
 
 		if (items != null) {

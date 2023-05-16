@@ -75,7 +75,7 @@ public class ItemService {
 		Item item = itemRepository.findItemByIdxAndDeletedFlagIsFalse(itemIdx)
 			.orElseThrow(ItemNotFoundException::new);
 
-		final List<BuildHistory> buildHistoryByItem = buildHistoryRepository.findBuildHistoryByItemOrderByRegisterTime(
+		final List<BuildHistory> buildHistoryByItem = buildHistoryRepository.findBuildHistoryByItemAndDeletedFlagIsFalseOrderByRegisterTime(
 			item);
 		HashMap<String, LocalDateTime> lastRegisterTime = new HashMap<>();
 
@@ -103,7 +103,7 @@ public class ItemService {
 		for (Item item : items) {
 			final String projectName = project.getProjectName();
 
-			final List<BuildHistory> buildHistoryByItem = buildHistoryRepository.findBuildHistoryByItemOrderByRegisterTime(
+			final List<BuildHistory> buildHistoryByItem = buildHistoryRepository.findBuildHistoryByItemAndDeletedFlagIsFalseOrderByRegisterTime(
 				item);
 
 			//아이템 상태 -> 빌드 히스토리에서 조회

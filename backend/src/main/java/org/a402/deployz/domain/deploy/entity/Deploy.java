@@ -55,4 +55,8 @@ public class Deploy {
 	public void updateStatus(final String status) {
 		this.status = status;
 	}
+
+	public void updateDeletedFlag() {
+		this.deletedFlag = true;
+	}
 }

@@ -37,6 +37,10 @@ public class ProxyConfig {
   @Column(name = "deleted_flag", nullable = false)
   private boolean deletedFlag;
 
+  public void updateDeletedFlag() {
+    this.deletedFlag = true;
+  }
+
   @Builder
   public ProxyConfig(final Long idx, final NginxConfig nginxConfig, final String pathUrl,
       final String pathName, final boolean deletedFlag) {

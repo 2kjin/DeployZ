@@ -37,6 +37,10 @@ public class GitToken {
   @JoinColumn(name = "git_config_idx")
   private GitConfig gitConfig;
 
+  public void updateDeletedFlag() {
+    this.deletedFlag = true;
+  }
+
   @Builder
   public GitToken(final Long idx, final String branchName, final String secretToken,
       final boolean deletedFlag, final GitConfig gitConfig) {

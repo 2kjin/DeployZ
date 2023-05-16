@@ -40,6 +40,10 @@ public class GitHistory {
 	@JoinColumn(name = "git_config_idx")
 	private GitConfig gitConfig;
 
+	public void updateDeletedFlag() {
+		this.deletedFlag = true;
+	}
+
 	@Builder
 	public GitHistory(final Long idx, final String message, final LocalDateTime eventDate, final String branchName,
 		final boolean deletedFlag, final GitConfig gitConfig) {

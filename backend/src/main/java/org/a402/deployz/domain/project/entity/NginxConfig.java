@@ -45,6 +45,10 @@ public class NginxConfig {
     @Column(name = "deleted_flag", nullable = false)
     private boolean deletedFlag;
 
+    public void updateDeletedFlag() {
+        this.deletedFlag = true;
+    }
+
     @Builder
     public NginxConfig(final Long idx, final Project project, final List<ProxyConfig> proxyConfigs,
                    final String domain, final String sslCertificate, final String sslCertificateKey,

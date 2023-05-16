@@ -51,7 +51,8 @@ public class BuildHistory {
 	}
 
 	@Builder
-	public BuildHistory(final Long idx, final String status, final String message, final boolean deletedFlag, final LocalDateTime registerTime,
+	public BuildHistory(final Long idx, final String status, final String message, final boolean deletedFlag,
+		final LocalDateTime registerTime,
 		final Item item) {
 		this.idx = idx;
 		this.status = status;
@@ -59,6 +60,10 @@ public class BuildHistory {
 		this.deletedFlag = deletedFlag;
 		this.registerTime = registerTime;
 		this.item = item;
+	}
+
+	public void updateDeletedFlag() {
+		this.deletedFlag = true;
 	}
 
 }
