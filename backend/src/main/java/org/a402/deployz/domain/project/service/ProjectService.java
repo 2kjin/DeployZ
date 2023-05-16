@@ -12,9 +12,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.a402.deployz.domain.deploy.repository.BuildHistoryRepository;
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
 import org.a402.deployz.domain.git.repository.GitTokenRepository;
+import org.a402.deployz.domain.item.entity.BuildHistory;
 import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.item.repository.ItemRepository;
 import org.a402.deployz.domain.item.request.ItemConfigRequest;
@@ -57,6 +59,7 @@ public class ProjectService {
 	private final GitTokenRepository gitTokenRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final BuildHistoryRepository buildHistoryRepository;
 
 	@Transactional
 	public void addProject(final TotalProjectConfigRequest request, final UserDetails userDetails) {
@@ -163,53 +166,22 @@ public class ProjectService {
 	@Transactional(readOnly = true)
 	public List<ProjectResponse> findProjectList(final String account) {
 		final Member member = memberRepository.findMemberByAccount(account).orElseThrow(MemberNotFoundException::new);
-		List<Project> tmp;
+		List<Project> projects = projectRepository.findProjectsByMemberIdx(member.getIdx());
 
-		try {
-			tmp = projectRepository.findProjectsByMemberIdx(member.getIdx());
-		} catch (Exception e) {
-			log.error("Error finding projects for member with ID {}: {}", member.getIdx(), e.getMessage());
-			throw new RuntimeException("Failed to find projects for member", e);
-		}
-
-		long itemCnt;
 		final List<ProjectResponse> result = new ArrayList<>();
 
-		for (Project project : tmp) {
-			String status;
-
-			try {
-				//최근 성공시간이 최근 실패시간 보다 이후 -> SUCCESS
-				LocalDateTime successDate = project.getLastSuccessDate();
-				LocalDateTime failureDate = project.getLastFailureDate();
-
-				//failureDate가 더 이후: 음수값 반환 / successDate가 더 최근: 양수 반환
-				Duration duration = Duration.between(failureDate, successDate);
-				// 초 단위 차이
-				final long diffInSeconds = duration.getSeconds();
-				if (diffInSeconds >= 0)
-					status = "SUCCESS";
-
-				else
-					status = "FAIL";
-
-				//해당 프로젝트의 item 개수를 count
-				itemCnt = itemRepository.countItemsByProjectIdx(project.getIdx());
-
-			} catch (Exception e) {
-				log.error("Error processing project with ID {}: {}", project.getIdx(), e.getMessage());
-				status = "ERROR";
-				itemCnt = 0L;
-			}
+		for (Project project : projects) {
+			List<String> statusList = buildHistoryRepository.lastStatue(project.getIdx());
+			List<LocalDateTime> lastSuccessDateList = buildHistoryRepository.lastSuccessDate(project.getIdx());
+			List<LocalDateTime> lastFailureDateList = buildHistoryRepository.lastFailureDate(project.getIdx());
 
 			//브랜치명-> HashMap으로 반환
 			HashMap<String, Integer> branches = findItemListByProjectIdx(project.getIdx());
 
 			if (!project.isDeletedFlag()) {
-				result.add(new ProjectResponse(project, status, itemCnt, branches));
+				result.add(new ProjectResponse(project, statusList.get(0), branches, lastSuccessDateList.get(0), lastFailureDateList.get(0)));
 			}
 		}
-
 		return result;
 	}
 

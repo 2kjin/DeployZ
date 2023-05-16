@@ -24,18 +24,15 @@ public class ProjectResponse {
 	private LocalDateTime lastSuccessDate;
 	private LocalDateTime lastFailureDate;
 	private String status;
-	private Long itemCnt;
 	private HashMap<String, Integer>branches;
 
 
-	public ProjectResponse (Project project, String status, Long itemCnt, HashMap<String, Integer> branches) {
+	public ProjectResponse (Project project, String status, HashMap<String, Integer> branches, LocalDateTime lastSuccessDate, LocalDateTime lastFailureDate) {
 		this.idx = project.getIdx();
-		this.memberIdx= project.getMember().getIdx();
 		this.projectName=project.getProjectName();
-		this.lastSuccessDate=project.getLastSuccessDate();
-		this.lastFailureDate=project.getLastFailureDate();
+		this.lastSuccessDate = lastSuccessDate;
+		this.lastFailureDate = lastFailureDate;
 		this.status=status;
-		this.itemCnt=itemCnt;
 		this.branches=branches;
 		this.description=project.getDescription();
 	}
