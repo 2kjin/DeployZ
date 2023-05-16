@@ -38,11 +38,6 @@ public class ItemService {
 			.updateDeletedFlag();
 	}
 
-	@Transactional(readOnly = true)
-	public List<Item> getItemList(final Project project) {
-		return project.getItems();
-	}
-
 	@Transactional
 	public List<ItemBuildHistoryResponse> findBuildHistories(Long itemIdx) {
 		final Item item = itemRepository.findItemByIdxAndDeletedFlagIsFalse(itemIdx)

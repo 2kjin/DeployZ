@@ -268,14 +268,6 @@ public class ProjectService {
 		return branches;
 	}
 
-	@Transactional
-	public void modifyProject(LocalDateTime mostLastSuccessTime, LocalDateTime mostLastFailureTime,
-		Project project) {
-		//프로젝트의 최근 성공시간과 최근 실패 시간 업데이트
-		project.updateLastDates(mostLastSuccessTime, mostLastFailureTime);
-		projectRepository.save(project);
-	}
-
 	public String createSecretToken(final String branchName, final String account) {
 		final Member member = memberRepository.findMemberByAccount(account).orElseThrow(MemberNotFoundException::new);
 

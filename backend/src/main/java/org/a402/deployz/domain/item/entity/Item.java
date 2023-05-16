@@ -1,6 +1,5 @@
 package org.a402.deployz.domain.item.entity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -47,10 +46,6 @@ public class Item {
 	private String buildVersion;
 	@Column(name = "java_version", length = 10)
 	private String javaVersion;
-	@Column(name = "last_success_date")
-	private LocalDateTime lastSuccessDate;
-	@Column(name = "last_failure_date")
-	private LocalDateTime lastFailureDate;
 	@Column(name = "deleted_flag")
 	@ColumnDefault("false")
 	private boolean deletedFlag;
@@ -66,8 +61,7 @@ public class Item {
 	public Item(final Long idx, final String name, final Long portNumber,
 		final String branchName, final String targetFolderPath,
 		final String frameworkType, final String buildVersion, final String javaVersion,
-		final LocalDateTime lastSuccessDate,
-		final LocalDateTime lastFailureDate, final boolean deletedFlag, final Project project,
+		final boolean deletedFlag, final Project project,
 		final List<BuildHistory> itemHistories,
 
 		final List<Deploy> deploys) {
@@ -78,8 +72,6 @@ public class Item {
 		this.frameworkType = frameworkType;
 		this.buildVersion = buildVersion;
 		this.javaVersion = javaVersion;
-		this.lastSuccessDate = lastSuccessDate;
-		this.lastFailureDate = lastFailureDate;
 		this.deletedFlag = deletedFlag;
 		this.project = project;
 		this.itemHistories = itemHistories;

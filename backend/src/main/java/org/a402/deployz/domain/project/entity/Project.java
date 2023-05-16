@@ -46,10 +46,6 @@ public class Project {
 	private boolean deletedFlag;
 	@Column(name = "project_name", length = 50)
 	private String projectName;
-	@Column(name = "last_success_date")
-	private LocalDateTime lastSuccessDate;
-	@Column(name = "last_failure_date")
-	private LocalDateTime lastFailureDate;
 	@Column(name = "description", length = 100)
 	private String description;
 	@Column(name = "image_path", length = 100)
@@ -77,18 +73,11 @@ public class Project {
 		this.member = member;
 		this.deletedFlag = deletedFlag;
 		this.projectName = projectName;
-		this.lastSuccessDate = lastSuccessDate;
-		this.lastFailureDate = lastFailureDate;
 		this.description = description;
 		this.imagePath = imagePath;
 		this.items = items;
 		this.projectStates = projectStates;
 		this.gitConfig = gitConfig;
 		this.nginxConfig = nginxConfig;
-	}
-
-	public void updateLastDates(final LocalDateTime mostLastSuccessTime, final LocalDateTime mostLastFailureTime) {
-		this.lastFailureDate = mostLastFailureTime;
-		this.lastSuccessDate = mostLastSuccessTime;
 	}
 }
