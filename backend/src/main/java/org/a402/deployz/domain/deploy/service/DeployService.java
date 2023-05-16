@@ -52,11 +52,11 @@ public class DeployService {
 		final Member member = memberRepository.findMemberByAccount(userDetails.getUsername())
 			.orElseThrow(MemberNotFoundException::new);
 		// 아이템 조회
-		final Item item = itemRepository.findItemByIdx(itemIdx).orElseThrow(ItemNotFoundException::new);
+		final Item item = itemRepository.findItemByIdxAndDeletedFlagIsFalse(itemIdx).orElseThrow(ItemNotFoundException::new);
 		// 프로젝트 조회
 		final Project project = item.getProject();
 
-		if (buildHistoryRepository.findBuildHistoryByItemIdx(itemIdx).size() > 0) {
+		if (buildHistoryRepository.findBuildHistoryByItemIdxAndDeletedFlagIsFalse(itemIdx).size() > 0) {
 			// 초기 상태가 아니면 Git Pull
 			gitAction = PULL;
 		}
@@ -176,19 +176,23 @@ public class DeployService {
 		final Member member = memberRepository.findMemberByAccount(gitWebHookRequest.getAccount())
 			.orElseThrow(MemberNotFoundException::new);
 
-		final GitConfig gitConfig = gitConfigRepository.findGitConfigByProjectId(
+		System.out.println("member: "+member.getAccount());
+
+		final GitConfig gitConfig = gitConfigRepository.findGitConfigByProjectIdAndDeletedFlagIsFalse(
 				Integer.parseInt(gitWebHookRequest.getProjectId()))
 			.orElseThrow(GitConfigNotFoundException::new);
+
+		System.out.println("gitconfig: "+gitConfig.getProject().getProjectName());
 
 		final Project project = gitConfig.getProject();
 
 		System.out.println(project.getIdx());
 		System.out.println(gitWebHookRequest.getBranchName());
 
-		final Item item = itemRepository.findItemByProjectAndBranchName(project, gitWebHookRequest.getBranchName())
+		final Item item = itemRepository.findItemByProjectAndBranchNameAndDeletedFlagIsFalse(project, gitWebHookRequest.getBranchName())
 			.orElseThrow(ItemNotFoundException::new);
 
-		if (buildHistoryRepository.findBuildHistoryByItemIdx(item.getIdx()).size() > 0) {
+		if (buildHistoryRepository.findBuildHistoryByItemIdxAndDeletedFlagIsFalse(item.getIdx()).size() > 0) {
 			// 초기 상태가 아니면 Git Pull
 			gitAction = PULL;
 		}

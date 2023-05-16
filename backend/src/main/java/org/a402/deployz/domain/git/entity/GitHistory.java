@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,17 +33,25 @@ public class GitHistory {
 	private LocalDateTime eventDate;
 	@Column(name = "branch_name", length = 50)
 	private String branchName;
+	@ColumnDefault("false")
+	@Column(name = "deleted_flag", nullable = false)
+	private boolean deletedFlag;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "git_config_idx")
 	private GitConfig gitConfig;
 
+	public void updateDeletedFlag() {
+		this.deletedFlag = true;
+	}
+
 	@Builder
 	public GitHistory(final Long idx, final String message, final LocalDateTime eventDate, final String branchName,
-		final GitConfig gitConfig) {
+		final boolean deletedFlag, final GitConfig gitConfig) {
 		this.idx = idx;
 		this.message = message;
 		this.eventDate = eventDate;
 		this.branchName = branchName;
+		this.deletedFlag = deletedFlag;
 		this.gitConfig = gitConfig;
 	}
 

@@ -9,8 +9,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
-	Optional<Item> findItemByProjectAndBranchName(final Project project, final String branchName);
-	boolean existsByPortNumber(Long port);
-	Optional<Item> findItemByIdx(Long itemIdx);
+	Optional<Item> findItemByProjectAndBranchNameAndDeletedFlagIsFalse(final Project project, final String branchName);
+
+	boolean existsByPortNumberAndDeletedFlagIsFalse(final Long port);
+
+	Optional<Item> findItemByIdxAndDeletedFlagIsFalse(final Long itemIdx);
 
 }

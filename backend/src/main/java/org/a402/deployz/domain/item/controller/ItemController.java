@@ -40,7 +40,7 @@ public class ItemController {
 	@ApiResponse(responseCode = "200", description = "컨테이너 삭제 성공")
 	@Operation(description = "컨테이너 삭제 API", summary = "컨테이너 삭제 API")
 	@DeleteMapping("/{itemIdx}")
-	public BaseResponse<Void> ItemRemove(@Valid @PathVariable Long itemIdx) {
+	public BaseResponse<Void> removeItem(@Valid @PathVariable Long itemIdx) {
 		itemService.removeItem(itemIdx);
 
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
