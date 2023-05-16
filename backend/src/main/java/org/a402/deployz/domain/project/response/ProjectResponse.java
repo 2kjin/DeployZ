@@ -15,8 +15,6 @@ public class ProjectResponse {
 	@NotNull
 	private Long idx;
 	@NotNull
-	private Long memberIdx;
-	@NotNull
 	private String description;
 	@NotNull
 	private String projectName;

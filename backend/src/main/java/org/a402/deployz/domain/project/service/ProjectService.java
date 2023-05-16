@@ -4,7 +4,6 @@ import static org.a402.deployz.domain.project.entity.enums.FrameworkType.*;
 import static org.a402.deployz.domain.project.entity.enums.ReactVersion.*;
 import static org.a402.deployz.domain.project.entity.enums.SpringBootVersion.*;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +15,6 @@ import org.a402.deployz.domain.deploy.repository.BuildHistoryRepository;
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitToken;
 import org.a402.deployz.domain.git.repository.GitTokenRepository;
-import org.a402.deployz.domain.item.entity.BuildHistory;
 import org.a402.deployz.domain.item.entity.Item;
 import org.a402.deployz.domain.item.repository.ItemRepository;
 import org.a402.deployz.domain.item.request.ItemConfigRequest;
@@ -171,15 +169,28 @@ public class ProjectService {
 		final List<ProjectResponse> result = new ArrayList<>();
 
 		for (Project project : projects) {
-			List<String> statusList = buildHistoryRepository.lastStatue(project.getIdx());
-			List<LocalDateTime> lastSuccessDateList = buildHistoryRepository.lastSuccessDate(project.getIdx());
-			List<LocalDateTime> lastFailureDateList = buildHistoryRepository.lastFailureDate(project.getIdx());
+			String status =null;
+			LocalDateTime lastSuccessDate = null;
+			LocalDateTime lastFailureDate = null;
+
+			if (buildHistoryRepository.lastStatue(project.getIdx()).size() > 0){
+				List<String> statusList = buildHistoryRepository.lastStatue(project.getIdx());
+				 status= statusList.get(0);
+			}
+			if (buildHistoryRepository.lastSuccessDate(project.getIdx()).size() > 0){
+				List<LocalDateTime> lastSuccessDateList = buildHistoryRepository.lastSuccessDate(project.getIdx());
+				lastSuccessDate = lastSuccessDateList.get(0);
+			}
+			if (buildHistoryRepository.lastFailureDate(project.getIdx()).size() > 0){
+				List<LocalDateTime> lastFailureDateList = buildHistoryRepository.lastFailureDate(project.getIdx());
+				lastFailureDate = lastFailureDateList.get(0);
+			}
 
 			//브랜치명-> HashMap으로 반환
 			HashMap<String, Integer> branches = findItemListByProjectIdx(project.getIdx());
 
 			if (!project.isDeletedFlag()) {
-				result.add(new ProjectResponse(project, statusList.get(0), branches, lastSuccessDateList.get(0), lastFailureDateList.get(0)));
+				result.add(new ProjectResponse(project, status, branches, lastSuccessDate, lastFailureDate));
 			}
 		}
 		return result;
