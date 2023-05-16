@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 import org.a402.deployz.domain.deploy.entity.Deploy;
 import org.a402.deployz.domain.deploy.repository.BuildHistoryRepository;
+import org.a402.deployz.domain.deploy.service.DeployService;
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.entity.GitHistory;
 import org.a402.deployz.domain.git.entity.GitToken;
@@ -63,6 +64,7 @@ public class ProjectService {
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final BuildHistoryRepository buildHistoryRepository;
+	private final DeployService deployService;
 
 	@Transactional
 	public void addProject(final TotalProjectConfigRequest request, final UserDetails userDetails) {
@@ -80,9 +82,13 @@ public class ProjectService {
 
 		final GitConfig gitConfig = gitConfigRepository.save(request.getProjectConfig().toGEntity(project));
 
+		Long portNumber = 3000L;
 		// Item 저장
 		for (int i = 0; i < request.getItemList().size(); i++) {
 			final ItemConfigRequest itemConfigRequest = request.getItemList().get(i);
+			if (itemConfigRequest.getFrameworkType().equals("React")) {
+				portNumber = itemConfigRequest.getPortNumber();
+			}
 			itemRepository.save(itemConfigRequest.toEntity(project));
 
 			// GitToken 저장
@@ -103,6 +109,8 @@ public class ProjectService {
 		for (int i = 0; i < nginxConfigRequest.getProxyPathList().size(); i++) {
 			proxyConfigRepository.save(nginxConfigRequest.getProxyPathList().get(i).toEntity(nginxConfig));
 		}
+		
+		deployService.nginxConfig(nginxConfigRequest, portNumber);
 	}
 
 	@Transactional

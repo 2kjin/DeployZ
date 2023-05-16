@@ -120,4 +120,22 @@ public class CommandInterpreter {
 		log.info("runPath Done");
 	}
 
+	public static void removeRun(final String command) {
+		log.info("command run Start : {}", command);
+		final DefaultExecutor executor = new DefaultExecutor();
+
+		try  {
+			final CommandLine commandLine = CommandLine.parse(command);
+			executor.setExitValues(new int[] {0});
+			executor.execute(commandLine);
+
+			log.info("run Success");
+		} catch (IOException ioException) {
+			log.info("run Failure");
+			throw new RuntimeException(ioException);
+		}
+
+		log.info("run Done");
+	}
+
 }

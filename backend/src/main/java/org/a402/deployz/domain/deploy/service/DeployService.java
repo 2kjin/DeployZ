@@ -7,6 +7,7 @@ import org.a402.deployz.domain.deploy.repository.BuildHistoryRepository;
 import org.a402.deployz.domain.deploy.response.ItemDeployResponse;
 import org.a402.deployz.domain.deploy.util.docker.DockerCommandGenerator;
 import org.a402.deployz.domain.deploy.util.docker.DockerfileGenerator;
+import org.a402.deployz.domain.deploy.util.docker.NginxConfigGenerator;
 import org.a402.deployz.domain.deploy.util.gitlab.GitAdapter;
 import org.a402.deployz.domain.git.entity.GitConfig;
 import org.a402.deployz.domain.git.request.GitWebHookRequest;
@@ -20,6 +21,7 @@ import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.project.entity.Project;
 import org.a402.deployz.domain.project.exception.GitConfigNotFoundException;
 import org.a402.deployz.domain.project.repository.GitConfigRepository;
+import org.a402.deployz.domain.project.request.NginxConfigRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +44,15 @@ public class DeployService {
 	private final static String WAITING = "WAITING";
 	private final static String SUCCESS = "SUCCESS";
 	private final static String FAIL = "FAIL";
+
+	@Transactional
+	public void nginxConfig(final NginxConfigRequest nginxConfigRequest, final Long portNumber) {
+		// /etc/nginx/sites-available/default 삭제
+		String command = "rm /etc/nginx/sites-available/default";
+		CommandInterpreter.removeRun(command);
+		// /etc/nginx/sites-available/default 작성
+		NginxConfigGenerator.nginxConfigFile(nginxConfigRequest, portNumber);
+	}
 
 	@Transactional
 	public ItemDeployResponse itemDeploy(final Long itemIdx, final UserDetails userDetails) {
