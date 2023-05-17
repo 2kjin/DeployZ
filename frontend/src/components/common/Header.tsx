@@ -92,7 +92,7 @@ const NavStyle = styled(NavLink)`
   }
 `;
 const Logo = styled.img`
-  width: 10vw;
+  width: 15rem;
   :hover {
     cursor: pointer;
   }
