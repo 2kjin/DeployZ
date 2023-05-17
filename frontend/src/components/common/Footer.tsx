@@ -15,7 +15,7 @@ export default function Footer() {
         <div>
           <Title>기능</Title>
           <Content>CI/CD 파이프라인 구축</Content>
-          <Content>무중단 배포</Content>
+          <Content>자동 배포</Content>
           <Content>복잡한 절차 간소화</Content>
         </div>
         <div>
