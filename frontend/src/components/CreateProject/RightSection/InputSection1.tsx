@@ -244,7 +244,7 @@ export default function InputSection1() {
                 <b>생성 일자</b> : {timeTransfrom(repoInfo.createdAt)}
               </p>
               <p>
-                <b>마지막 활동 일자</b> :{" "}
+                <b>마지막 활동 일자</b> :
                 {timeTransfrom(repoInfo.lastActivityAt)}
               </p>
             </ProjectContainer>
