@@ -18,7 +18,7 @@ export const projectDelete = async (projectIdx: number) => {
 
 //최근 빌드 시간 구하기
 export const changeTime = (value: string) => {
-  if (value === "" || value === null) return `0days 0hr`;
+  if (value === "" || value === null) return `이력 없음`;
   // 문자열에서 Date 객체 생성
   const ts = new Date(value);
   const today = new Date();
@@ -40,5 +40,24 @@ export const changeTime = (value: string) => {
   const tsHour = korTs.getHours();
   const todayHour = korToday.getHours();
 
-  return `${todayDate - tsDate}days ${todayHour - tsHour}hr`;
+  const tsMin = korTs.getMinutes();
+  const todayMin = korToday.getMinutes();
+
+  const tsSec = korTs.getSeconds();
+  const todaySec = korToday.getSeconds();
+
+  const leftDays = todayDate - tsDate;
+  const leftHours = todayHour - tsHour;
+  const leftMins = todayMin - tsMin;
+  const leftSecs = todaySec - tsSec;
+
+  if (leftDays > 0) {
+    return `${leftDays}days ${leftHours}hr ${leftMins}min ${leftSecs}sec`;
+  } else if (leftHours > 0) {
+    return `${leftHours}hr ${leftMins}min ${leftSecs}sec`;
+  } else if (leftMins > 0) {
+    return `${leftMins}min ${leftSecs}sec`;
+  } else if (leftSecs > 0) {
+    return `${leftSecs}sec`;
+  }
 };
