@@ -84,12 +84,12 @@ export default function ItemDetail() {
                 <SFrameName>{itemDetail.itemName}</SFrameName>
                 <SFrameImg>
                   {itemDetail.frameworkType === "React" ? (
-                    <Icon icon="mdi:react" fontSize="130" color="#fff" />
+                    <Icon icon="mdi:react" fontSize="130" color="#5ED7F2" />
                   ) : itemDetail.frameworkType === "SpringBoot" ? (
                     <Icon
                       icon="simple-icons:springboot"
                       fontSize="130"
-                      color="#fff"
+                      color="#6EBF49"
                     />
                   ) : (
                     <Icon
