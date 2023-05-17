@@ -35,7 +35,7 @@ export default function IntroPage() {
 
       if (deltaY > 0) {
         // 스크롤 내릴 때
-        if (0 <= scrollTop + 0.1 && scrollTop + 0.1 < pageHeight) {
+        if (scrollTop >= 0 && scrollTop < pageHeight) {
           //현재 1페이지
           console.log("현재 1페이지, down");
           introScrollRef.current.scrollTo({
@@ -44,7 +44,7 @@ export default function IntroPage() {
             behavior: "smooth",
           });
           setScrollIndex(2);
-        } else if (pageHeight <= scrollTop + 0.1  && scrollTop + 0.1 < pageHeight * 2) {
+        } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
           //현재 2페이지
           console.log("현재 2페이지, down");
           console.log(scrollIndex);
@@ -54,7 +54,7 @@ export default function IntroPage() {
             behavior: "smooth",
           });
           setScrollIndex(3);
-        } else if (pageHeight * 2 <= scrollTop + 0.1 && scrollTop + 0.1 < pageHeight * 3) {
+        } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 3) {
           // 현재 3페이지
           console.log("현재 3페이지, down");
           console.log(scrollIndex);
@@ -67,7 +67,7 @@ export default function IntroPage() {
         }
       } else if (deltaY < 0) {
         // 스크롤 올릴 때
-        if (pageHeight <= scrollTop + 0.1 && scrollTop + 0.1 < pageHeight * 2) {
+        if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
           //현재 2페이지
           console.log("현재 2페이지, up");
           introScrollRef.current.scrollTo({
@@ -76,7 +76,7 @@ export default function IntroPage() {
             behavior: "smooth",
           });
           setScrollIndex(1);
-        } else if (pageHeight * 2 <= scrollTop + 0.1 && scrollTop + 0.1 < pageHeight * 3) {
+        } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 3) {
           // 현재 3페이지
           console.log("현재 3페이지, up");
           introScrollRef.current.scrollTo({
@@ -85,7 +85,7 @@ export default function IntroPage() {
             behavior: "smooth",
           });
           setScrollIndex(2);
-        } else if (pageHeight * 3 <= scrollTop + 0.1  && scrollTop + 0.1 < pageHeight * 4) {
+        } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 4) {
           // 현재 4페이지
           console.log("현재 4페이지, up");
           introScrollRef.current.scrollTo({
