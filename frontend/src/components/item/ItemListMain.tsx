@@ -87,14 +87,14 @@ const SStatusItem = styled.div`
 `;
 
 const SNameItem = styled.div`
-  flex: 2;
+  flex: 1.5;
   font-size: 2rem;
   font-weight: ${theme.fontWeight.extraBold};
   color: ${theme.colors.primary};
 `;
 
 const SButtonItem = styled.div`
-  flex: 0.8;
+  flex: 0.6;
 `;
 
 const SEmptyListBox = styled.div`
@@ -121,6 +121,7 @@ const SListBox = styled.div`
   justify-content: start;
   align-items: center;
   padding: 2rem;
+  padding-top: 0;
 `;
 
 const SItem = styled.div`
@@ -143,4 +144,5 @@ const SListTitleDiv = styled.div`
   text-align: center;
   width: 83vw;
   height: 6vh;
+  margin: 1rem 0;
 `;
