@@ -68,18 +68,14 @@ export default function ItemListElement({ item }: { item: projectDetailInfo }) {
 
   return (
     <SItemList>
-      <SButtonItem onClick={() => sendReq()}>
-        {playButtonHover && (
-          <PlayArrowIcon
-            onMouseOut={handlePlayButtonOff}
-            style={PlayArrowIconStyle}
-          />
-        )}
+      <SButtonItem
+        onMouseOver={handlePlayButtonOn}
+        onMouseOut={handlePlayButtonOff}
+        onClick={() => sendReq()}
+      >
+        {playButtonHover && <PlayArrowIcon style={PlayArrowIconStyle} />}
         {!playButtonHover && (
-          <PlayArrowOutlinedIcon
-            onMouseOver={handlePlayButtonOn}
-            style={PlayArrowIconStyle}
-          />
+          <PlayArrowOutlinedIcon style={PlayArrowIconStyle} />
         )}
       </SButtonItem>
       <SButtonItem>
@@ -136,12 +132,12 @@ const SStatusItem = styled.div`
 `;
 
 const SNameItem = styled.div`
-  flex: 2;
+  flex: 1.5;
   font-size: 1.8rem;
 `;
 
 const SButtonItem = styled.div`
-  flex: 0.8;
+  flex: 0.6;
 `;
 
 const SItem = styled.div`

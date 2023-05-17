@@ -134,10 +134,14 @@ export default function ItemDetail() {
                   )}
                 </SItemStatus>
                 <SItemValue>
-                  {changeTime(itemDetail.lastSuccessDate)}
+                  {itemDetail.lastSuccessDate === null
+                    ? "이력없음"
+                    : changeTime(itemDetail.lastSuccessDate)}
                 </SItemValue>
                 <SItemValue>
-                  {changeTime(itemDetail.lastFailureDate)}
+                  {itemDetail.lastFailureDate === null
+                    ? "이력없음"
+                    : changeTime(itemDetail.lastFailureDate)}
                 </SItemValue>
               </SDetailInfo>
               <ItemBuildList itemHistoryLists={itemDetail.buildHistories} />

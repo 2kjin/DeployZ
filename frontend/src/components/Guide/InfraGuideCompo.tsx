@@ -140,6 +140,18 @@ const Svg = styled.svg`
   }
 `;
 
+const imgArr: string[] = [
+  "",
+  "https://deployz-s3.s3.amazonaws.com/3th_assets/guide/guide_1.png",
+  "https://deployz-s3.s3.amazonaws.com/3th_assets/guide/guide_2.png",
+  "https://deployz-s3.s3.amazonaws.com/3th_assets/guide/guide_3.png",
+  "https://deployz-s3.s3.amazonaws.com/3th_assets/guide/guide_4.png",
+  "https://deployz-s3.s3.amazonaws.com/3th_assets/guide/guide_5.png",
+  "https://deployz-s3.s3.amazonaws.com/3th_assets/guide/guide_6.png",
+  "https://deployz-s3.s3.amazonaws.com/3th_assets/guide/guide_7.png",
+  "https://deployz-s3.s3.amazonaws.com/3th_assets/guide/guide_8.png",
+];
+
 const timelineData = [
   {
     icon: <RiNumber1 />,
@@ -150,7 +162,7 @@ const timelineData = [
           · AWS에서 적절한 AMI와 인스턴스 유형을 선택하여 EC2 인스턴스를
           생성하고, 보안 그룹 및 SSH 키를 설정합니다.
         </Text>
-        <Img alt="Guide1" src={Guide1}></Img>
+        <Img alt="Guide1" src={imgArr[1]}></Img>
       </Contentdiv>
     ),
   },
@@ -163,7 +175,7 @@ const timelineData = [
           · EC2 인스턴스에 Docker를 설치하고, 도커 그룹에 현재 사용자를 추가하여
           권한 문제를 해결합니다.
         </Text>
-        <Img alt="Guide1" src={Guide2}></Img>
+        <Img alt="Guide1" src={imgArr[2]}></Img>
       </Contentdiv>
     ),
   },
@@ -178,7 +190,7 @@ const timelineData = [
           <br />· Docker Compose를 사용하여 프론트엔드와 백엔드 컨테이너를
           생성하고 연결합니다.
         </Text>
-        <Img alt="Guide1" src={Guide3}></Img>
+        <Img alt="Guide1" src={imgArr[3]}></Img>
       </Contentdiv>
     ),
   },
@@ -191,7 +203,7 @@ const timelineData = [
           · EC2 인스턴스에 CI/CD 툴을 설치하고, CI/CD 툴에 맞는 플러그인 및
           권한을 설정합니다.
         </Text>
-        <Img alt="Guide1" src={Guide4}></Img>
+        <Img alt="Guide1" src={imgArr[4]}></Img>
       </Contentdiv>
     ),
   },
@@ -204,7 +216,7 @@ const timelineData = [
           · 설치한 CI/CD 툴에 프로젝트를 가져와서 빌드, 테스트, 배포 과정을
           자동화하는 CI/CD 파이프라인을 구축합니다.
         </Text>
-        <Img alt="Guide1" src={Guide5}></Img>
+        <Img alt="Guide1" src={imgArr[5]}></Img>
       </Contentdiv>
     ),
   },
@@ -217,7 +229,7 @@ const timelineData = [
           · Nginx를 설치하고, 프론트엔드 및 백엔드 컨테이너에 대한 리버스 프록시
           설정을 추가합니다.
         </Text>
-        <Img1 alt="Guide1" src={Guide6}></Img1>
+        <Img1 alt="Guide1" src={imgArr[6]}></Img1>
       </Contentdiv>
     ),
   },
@@ -230,7 +242,7 @@ const timelineData = [
           · 블루-그린 배포 또는 카나리 배포와 같은 무중단 배포 전략을 선택하고,
           Jenkins 파이프라인 및 Nginx 설정에 적용합니다.
         </Text>
-        <Img alt="Guide1" src={Guide7}></Img>
+        <Img alt="Guide1" src={imgArr[7]}></Img>
       </Contentdiv>
     ),
   },
@@ -243,7 +255,7 @@ const timelineData = [
           · 애플리케이션의 정상 작동 여부를 확인하고, 로그 및 모니터링 도구를
           사용하여 애플리케이션의 성능 및 안정성을 관리합니다.
         </Text>
-        <Img alt="Guide1" src={Guide8}></Img>
+        <Img alt="Guide1" src={imgArr[8]}></Img>
       </Contentdiv>
     ),
   },
