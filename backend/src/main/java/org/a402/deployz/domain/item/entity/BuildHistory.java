@@ -1,6 +1,8 @@
 package org.a402.deployz.domain.item.entity;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,7 +49,7 @@ public class BuildHistory {
 	public void updateStatus(final String status, final String message) {
 		this.status = status;
 		this.message = message;
-		this.registerTime = LocalDateTime.now();
+		this.registerTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
 	}
 
 	@Builder
