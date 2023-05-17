@@ -6,8 +6,6 @@ import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRigh
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import { useState } from "react";
 
-import Modal from "@mui/material/Modal";
-
 export default function VideoLanding() {
   const navigate = useNavigate();
   const [hover, setHover] = useState(false);
