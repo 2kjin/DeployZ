@@ -46,7 +46,7 @@ export default function WebhookGuideModal() {
     },
     {
       icon: <RiNumber2 />,
-      title: "2. 배포할 도메인 입력",
+      title: "2.Deployz가 실행되고 있는 도메인(포트 포함) 입력",
       content: (
         <Contentdiv>
           <FormControl variant="standard">
@@ -54,15 +54,15 @@ export default function WebhookGuideModal() {
               widthnum={"30rem"}
               fontnum={"1.3rem"}
               spacingnum={4}
-              placeholder={`ex) deployz.co.kr`}
+              placeholder={`ex) k8a402.p.ssafy.io:8784`}
               onChange={handleInputChange}
             />
           </FormControl>
           <ColorContainer>
-            https://{Inputdata}/git/webhook
+            http://{Inputdata}/git/webhook
             <CopyToClipboard
               className="Toram"
-              text={`https://${Inputdata}/git/webhook`}
+              text={`http://${Inputdata}/git/webhook`}
               onCopy={() => info("복사되었습니다.")}
             >
               <CopyIcon />
