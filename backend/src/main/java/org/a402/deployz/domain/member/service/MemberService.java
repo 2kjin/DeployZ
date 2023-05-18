@@ -4,12 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
 
 import org.a402.deployz.domain.member.entity.Member;
+import org.a402.deployz.domain.member.exception.AlreadyMemberRegisterException;
 import org.a402.deployz.domain.member.exception.MemberNotFoundException;
 import org.a402.deployz.domain.member.exception.PasswordMismatchException;
 import org.a402.deployz.domain.member.exception.PersonalTokenNotFountException;
+import org.a402.deployz.domain.member.exception.ServerKeyMismatchException;
 import org.a402.deployz.domain.member.repository.MemberRepository;
 import org.a402.deployz.domain.member.request.MemberLoginRequest;
 import org.a402.deployz.domain.member.request.ReCreateTokenRequest;
@@ -103,20 +104,18 @@ public class MemberService {
 
 	@Transactional
 	public Boolean signup(final SignUpRequest signUpRequest) {
-		final List<Member> allMembers = memberRepository.findAll();
-
-		if (allMembers.size() > 0) {
-			return false;
+		if (checkAccount(signUpRequest)) {
+			throw new AlreadyMemberRegisterException();
 		}
 
-		if (checkAccount(signUpRequest) && checkServerKey(signUpRequest)) {
-			final Member save = memberRepository.save(signUpRequest.toEntity());
-			save.encodePassword(passwordEncoder);
-
-			return true;
+		if (!checkServerKey(signUpRequest)) {
+			throw new ServerKeyMismatchException();
 		}
 
-		return false;
+		final Member save = memberRepository.save(signUpRequest.toEntity());
+		save.encodePassword(passwordEncoder);
+
+		return true;
 	}
 
 	private static boolean checkServerKey(final SignUpRequest signUpRequest) {
@@ -124,7 +123,7 @@ public class MemberService {
 	}
 
 	private boolean checkAccount(final SignUpRequest signUpRequest) {
-		return memberRepository.findMemberByAccount(signUpRequest.getAccount()).isEmpty();
+		return memberRepository.findAll().size() > 0;
 	}
 
 	@Transactional(readOnly = true)
