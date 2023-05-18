@@ -20,12 +20,12 @@ export const requestLogout = async () => {
 
 // 로그인
 export const requestLogin = async (data: ILoginForm) => {
-  return await noValidInstance.post(`/member/login`, data);
+  return await noValidInstance.post(`/api/member/login`, data);
 };
 
 // 회원가입
 export const requestSignUp = async (data: ISignUpForm) => {
-  return await noValidInstance.post(`/member/signup`, data);
+  return await noValidInstance.post(`/api/member/signup`, data);
 };
 
 // 아이디 중복 검사 => 미사용
@@ -37,7 +37,7 @@ export const requestCheckDuplicate = async (account: string) => {
 
 // 서버키 유효 검사
 export const requestCheckServerKey = async (serverkey: string) => {
-  return await noValidInstance.post(`/member/validateServerKey`, {
+  return await noValidInstance.post(`/api/member/validateServerKey`, {
     serverKey: serverkey,
   });
 };
@@ -47,14 +47,14 @@ export const requestPersonalToken = async (
   personalAccessToken: IPersoanlToken
 ) => {
   return await instance.post(
-    `/member/personalAccessToken`,
+    `/api/member/personalAccessToken`,
     personalAccessToken
   );
 };
 
 // private-token 요청
 export const getPersonalToken = async () => {
-  return await instance.get(`/member/personalAccessToken`);
+  return await instance.get(`/api/member/personalAccessToken`);
 };
 
 // accessToken 재발급
