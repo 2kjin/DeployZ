@@ -1,4 +1,3 @@
-import axios from "axios";
 import { instance } from "./api";
 
 //빌드 시간 변경하기
@@ -31,9 +30,9 @@ export const changeBuildTime = (value: string) => {
 
 //아이템 상세 정보 보여주는 api -> itemDetail
 export const fetchItemDetail = async (containerIdx: number) => {
-  return instance.get(`/item/detail/${containerIdx}`);
+  return instance.get(`/api/item/detail/${containerIdx}`);
 };
 
 export const requestDeploy = async (itemIdx: number) => {
-  return instance.post(`/deploy/${itemIdx}`);
+  return instance.post(`/api/deploy/${itemIdx}`);
 };

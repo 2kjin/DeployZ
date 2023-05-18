@@ -27,20 +27,20 @@ export const requestGitlabBranch = async (
 
 // framework 빌드 버전 조회
 export const requestVersion = async (framework: string) => {
-  return instance.get(`/project/buildVersion/${framework}`);
+  return instance.get(`/api/project/buildVersion/${framework}`);
 };
 
 // 프로젝트 생성
 export const requestCreateProject = async (projectInfo: IProject) => {
-  return instance.post(`/project`, projectInfo);
+  return instance.post(`/api/project`, projectInfo);
 };
 
 // 포트 중복 검사
 export const requestIsDuplicate = async (num1: string) => {
-  return instance.get(`/project/container?port=${num1}`);
+  return instance.get(`/api/project/container?port=${num1}`);
 };
 
 // 시크릿 토큰 생성
 export const requestSecretToken = async (branchName: String) => {
-  return instance.get(`project/git/secret-token?branchName=${branchName}`);
+  return instance.get(`/api/project/git/secret-token?branchName=${branchName}`);
 };

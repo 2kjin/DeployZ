@@ -2,18 +2,18 @@ import { instance } from "./api";
 
 //사용자의 프로젝트 리스트를 보여주는 api
 export const fetchProjectList = async () => {
-  return instance.get(`/project`);
+  return instance.get(`/api/project`);
 };
 
 //하나의 프로젝트에 대한 상세 정보 api->
 //프로젝트 클릭 시 아이템 리스트 렌더링
 export const fetchProjectDetail = async (projectIdx: number) => {
-  return instance.get(`/item/${projectIdx}`);
+  return instance.get(`/api/item/${projectIdx}`);
 };
 
 //프로젝트 삭제 api
 export const projectDelete = async (projectIdx: number) => {
-  return instance.delete(`/project/${projectIdx}`);
+  return instance.delete(`/api/project/${projectIdx}`);
 };
 
 //최근 빌드 시간 구하기

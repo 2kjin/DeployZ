@@ -8,7 +8,7 @@ const SERVER_URL = import.meta.env.VITE_SERVER_DOMAIN;
 export const instance = axios.create({
   // withCredentials: true,
   // baseURL: SERVER_URL,
-  baseURL: SERVER_URL,
+  // baseURL: SERVER_URL,
 });
 
 // export const testInstance = axios.create({
@@ -17,7 +17,7 @@ export const instance = axios.create({
 
 // JWT 토큰이 필요없는 instance
 export const noValidInstance = axios.create({
-  baseURL: SERVER_URL,
+  // baseURL: SERVER_URL,
 });
 
 // gitlab instance
