@@ -15,12 +15,12 @@ export default function Intro1Compo({
   useEffect(() => {
     // camera
     const camera = new THREE.PerspectiveCamera(
-      70,
-      size.current.clientWidth / size.current.clientHeight,
-      0.1,
-      1000
+      10, // 시야각
+      size.current.clientWidth / size.current.clientHeight, // 비율
+      0.1, // 카메라가 렌더링하는 공간에서의 가까운 클리핑 평면의 거리
+      1000 // 카메라가 렌더링하는 공간에서의 먼 클리핑 평면의 거리
     );
-    camera.position.z = 100;
+    camera.position.z = 500;
 
     // scene
     const scene = new THREE.Scene();
@@ -36,11 +36,12 @@ export default function Intro1Compo({
     controls.target.set(0, 0.5, 0); // 카메라의 시선
     controls.update(); // 카메라 변화 업데이트
 
-    // 조명
-    const ambienttLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.4);
+    // 기본 조명
+    const ambienttLight = new THREE.HemisphereLight(0xffffff, 3);
     scene.add(ambienttLight);
 
-    const light1 = new THREE.DirectionalLight(0x9d9dfb, 1);
+    // 하이라이트 조명
+    const light1 = new THREE.DirectionalLight(0xe1e6f7, 1);
     light1.position.set(9, 28, 5);
     light1.rotation.set(30, -9, 307);
     light1.scale.set(0.9, 0.9, 0.9);
@@ -119,7 +120,7 @@ export default function Intro1Compo({
 
         // 로드된 모델의 위치, 크기, 회전 설정
         model.position.set(0, 0, 0);
-        model.scale.set(7, 7, 7);
+        model.scale.set(8.5, 8.5, 8.5);
         model.rotation.set(0.6, 1, 0);
 
         const bbox = new THREE.Box3().setFromObject(model);
@@ -169,4 +170,5 @@ const Container = styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  margin-bottom: 1rem;
 `;

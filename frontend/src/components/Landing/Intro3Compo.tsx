@@ -15,12 +15,12 @@ export default function Intro3Compo({
   useEffect(() => {
     // camera
     const camera = new THREE.PerspectiveCamera(
-      70,
-      size.current.clientWidth / size.current.clientHeight,
-      0.1,
-      1000
+      10, // 시야각
+      size.current.clientWidth / size.current.clientHeight, // 비율
+      0.1, // 카메라가 렌더링하는 공간에서의 가까운 클리핑 평면의 거리
+      1000 // 카메라가 렌더링하는 공간에서의 먼 클리핑 평면의 거리
     );
-    camera.position.z = 100;
+    camera.position.z = 500;
 
     // scene
     const scene = new THREE.Scene();
@@ -36,21 +36,26 @@ export default function Intro3Compo({
     controls.target.set(0, 0, 0); // 카메라의 시선
     controls.update(); // 카메라 변화 업데이트
 
-    const light1 = new THREE.DirectionalLight(0x6566ff, 0.5);
+    // 기본 조명
+    const ambienttLight = new THREE.HemisphereLight(0xffffff, 10);
+    scene.add(ambienttLight);
+
+    // 하이라이트 조명
+    const light1 = new THREE.DirectionalLight(0xe1e6f7, 1);
     light1.position.set(24, 41, 8);
     light1.rotation.set(24, -5, 529);
     light1.scale.set(0.5, 0.5, 0.5);
 
     scene.add(light1);
 
-    const light2 = new THREE.DirectionalLight(0x6566ff, 0.5);
+    const light2 = new THREE.DirectionalLight(0xe1e6f7, 1);
     light2.position.set(13, 37, 9);
     light2.rotation.set(24, -5, 546);
     light2.scale.set(1, 1, 1);
 
     scene.add(light2);
 
-    const light3 = new THREE.DirectionalLight(0x9cb3ff, 0.7);
+    const light3 = new THREE.DirectionalLight(0xe1e6f7, 1);
     light3.position.set(18, 29, 7);
     light3.rotation.set(30, -9, 790);
     light3.scale.set(1, 1, 1);
@@ -101,7 +106,7 @@ export default function Intro3Compo({
 
         // 로드된 모델의 위치, 크기, 회전 설정
         model.position.set(0, 0, 0);
-        model.scale.set(7, 7, 7);
+        model.scale.set(9, 9, 9);
         model.rotation.set(0.3, 0, 0);
 
         const bbox = new THREE.Box3().setFromObject(model);
