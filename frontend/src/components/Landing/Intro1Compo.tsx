@@ -15,12 +15,12 @@ export default function Intro1Compo({
   useEffect(() => {
     // camera
     const camera = new THREE.PerspectiveCamera(
-      70,
-      size.current.clientWidth / size.current.clientHeight,
-      0.1,
-      1000
+      10, // 시야각
+      size.current.clientWidth / size.current.clientHeight, // 비율
+      0.1, // 카메라가 렌더링하는 공간에서의 가까운 클리핑 평면의 거리
+      1000 // 카메라가 렌더링하는 공간에서의 먼 클리핑 평면의 거리
     );
-    camera.position.z = 100;
+    camera.position.z = 600;
 
     // scene
     const scene = new THREE.Scene();
@@ -36,71 +36,46 @@ export default function Intro1Compo({
     controls.target.set(0, 0.5, 0); // 카메라의 시선
     controls.update(); // 카메라 변화 업데이트
 
-    // 조명
-    const ambienttLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.4);
+    // color = materialColor * light.color * light.intensity;
+    // 자연광 조명
+    const ambienttLight = new THREE.HemisphereLight(0xffffff, 1);
     scene.add(ambienttLight);
 
-    const light1 = new THREE.DirectionalLight(0x9d9dfb, 1);
-    light1.position.set(9, 28, 5);
-    light1.rotation.set(30, -9, 307);
-    light1.scale.set(0.9, 0.9, 0.9);
-    // 그림자 생성 및 설정
-    light1.castShadow = true;
-    light1.shadow.mapSize.width = 1024 * 10; // 그림자 맵의 너비
-    light1.shadow.mapSize.height = 1024 * 10; // 그림자 맵의 높이
-    light1.shadow.radius = 4; // 그림자의 흐림 정도
-    light1.shadow.bias = -0.001; // 그림자 편향
-    // 그림자 맵이 투영되는 영역 설정
-    light1.shadow.camera.left = -10; // 좌측 경계면
-    light1.shadow.camera.right = 10; // 우측 경계면
-    light1.shadow.camera.top = 10; // 상단 경계면
-    light1.shadow.camera.bottom = -10; // 하단 경계면
-    light1.shadow.camera.near = 0.1; // 가까운 경계면
-    light1.shadow.camera.far = 50; // 먼 경계면
+    // 직사광,태양 조명
+    const light1 = new THREE.DirectionalLight(0xffffff, 1);
+    light1.position.set(16, 25, 4);
+    light1.target.position.set(0, 0, 0);
 
     scene.add(light1);
+    scene.add(light1.target);
 
-    const light2 = new THREE.DirectionalLight(0x9d9dfb, 0.3);
-    light2.position.set(17, 34, 6);
-    light2.rotation.set(33, -5, 145);
-    light2.scale.set(0.8, 0.8, 0.8);
+    const light2 = new THREE.DirectionalLight(0xffffff, 1);
+    light2.position.set(-4, 4, 8);
+    light2.target.position.set(0, 0, 0);
 
     scene.add(light2);
+    scene.add(light2.target);
 
-    const light3 = new THREE.DirectionalLight(0xebf3ff, 0.7);
-    light3.position.set(14, 38, 4);
-    light3.rotation.set(-5, 0, 492);
-    light3.scale.set(0.8, 0.8, 0.8);
+    const light3 = new THREE.DirectionalLight(0xffffff, 1);
+    light3.position.set(-40, 4, 8);
+    light3.target.position.set(0, 0, 0);
 
     scene.add(light3);
+    scene.add(light3.target);
 
-    const light4 = new THREE.DirectionalLight(0xebf3ff, 0.7);
-    light4.position.set(10, 34, 5);
-    light4.rotation.set(19, 0, 235);
-    light4.scale.set(0.7, 0.7, 0.7);
-
-    scene.add(light4);
-
-    const light5 = new THREE.DirectionalLight(0xebf3ff, 1);
-    light5.position.set(19, 37, 4);
-    light5.rotation.set(-23, 15, 78);
-    light5.scale.set(0.6, 0.6, 0.6);
-
-    scene.add(light5);
-
-    const sun1 = new THREE.DirectionalLight(0xfff, 1);
-    sun1.position.set(33, 23, 6);
-    sun1.rotation.set(19, 36, -131);
-    sun1.scale.set(1, 1, 1);
+    const sun1 = new THREE.DirectionalLight(0xffffff, 1);
+    sun1.position.set(79, -19, 49);
+    sun1.target.position.set(0, 0, 0);
 
     scene.add(sun1);
+    scene.add(sun1.target);
 
-    const sun2 = new THREE.DirectionalLight(0xebf3ff, 1);
-    sun2.position.set(33, 23, 6);
-    sun2.rotation.set(20, 35, -129);
-    sun2.scale.set(1, 1, 1);
+    const sun2 = new THREE.DirectionalLight(0xffffff, 3);
+    sun2.position.set(79, -19, 49);
+    sun2.target.position.set(0, 0, 0);
 
     scene.add(sun2);
+    scene.add(sun2.target);
 
     // glTF 파일에서 압축된 데이터를 디코딩
     const dracoLoader = new DRACOLoader();
@@ -119,7 +94,7 @@ export default function Intro1Compo({
 
         // 로드된 모델의 위치, 크기, 회전 설정
         model.position.set(0, 0, 0);
-        model.scale.set(7, 7, 7);
+        model.scale.set(8.5, 8.5, 8.5);
         model.rotation.set(0.6, 1, 0);
 
         const bbox = new THREE.Box3().setFromObject(model);
@@ -169,4 +144,5 @@ const Container = styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  margin-bottom: 1rem;
 `;

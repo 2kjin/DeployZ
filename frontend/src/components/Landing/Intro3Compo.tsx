@@ -15,12 +15,12 @@ export default function Intro3Compo({
   useEffect(() => {
     // camera
     const camera = new THREE.PerspectiveCamera(
-      70,
-      size.current.clientWidth / size.current.clientHeight,
-      0.1,
-      1000
+      10, // 시야각
+      size.current.clientWidth / size.current.clientHeight, // 비율
+      0.1, // 카메라가 렌더링하는 공간에서의 가까운 클리핑 평면의 거리
+      1000 // 카메라가 렌더링하는 공간에서의 먼 클리핑 평면의 거리
     );
-    camera.position.z = 100;
+    camera.position.z = 500;
 
     // scene
     const scene = new THREE.Scene();
@@ -36,53 +36,32 @@ export default function Intro3Compo({
     controls.target.set(0, 0, 0); // 카메라의 시선
     controls.update(); // 카메라 변화 업데이트
 
-    const light1 = new THREE.DirectionalLight(0x6566ff, 0.5);
+    // color = materialColor * light.color * light.intensity;
+    // 자연광 조명
+    const ambienttLight = new THREE.HemisphereLight(0xffffff, 1);
+    scene.add(ambienttLight);
+
+    // 직사광,태양 조명
+    const light1 = new THREE.DirectionalLight(0xffffff, 1);
     light1.position.set(24, 41, 8);
-    light1.rotation.set(24, -5, 529);
-    light1.scale.set(0.5, 0.5, 0.5);
+    light1.target.position.set(0, 0, 0);
 
     scene.add(light1);
+    scene.add(light1.target);
 
-    const light2 = new THREE.DirectionalLight(0x6566ff, 0.5);
-    light2.position.set(13, 37, 9);
-    light2.rotation.set(24, -5, 546);
-    light2.scale.set(1, 1, 1);
-
-    scene.add(light2);
-
-    const light3 = new THREE.DirectionalLight(0x9cb3ff, 0.7);
-    light3.position.set(18, 29, 7);
-    light3.rotation.set(30, -9, 790);
-    light3.scale.set(1, 1, 1);
-    // 그림자 생성 및 설정
-    light1.castShadow = true;
-    light1.shadow.mapSize.width = 1024 * 10; // 그림자 맵의 너비
-    light1.shadow.mapSize.height = 1024 * 10; // 그림자 맵의 높이
-    light1.shadow.radius = 4; // 그림자의 흐림 정도
-    light1.shadow.bias = -0.001; // 그림자 편향
-    // 그림자 맵이 투영되는 영역 설정
-    light1.shadow.camera.left = -10; // 좌측 경계면
-    light1.shadow.camera.right = 10; // 우측 경계면
-    light1.shadow.camera.top = 10; // 상단 경계면
-    light1.shadow.camera.bottom = -10; // 하단 경계면
-    light1.shadow.camera.near = 0.1; // 가까운 경계면
-    light1.shadow.camera.far = 50; // 먼 경계면
-
-    scene.add(light3);
-
-    const sun1 = new THREE.DirectionalLight(0xfff, 3);
+    const sun1 = new THREE.DirectionalLight(0xfff, 1);
     sun1.position.set(79, -19, 49);
-    sun1.rotation.set(19, 36, -131);
-    sun1.scale.set(1, 1, 1);
+    sun1.target.position.set(0, 0, 0);
 
     scene.add(sun1);
+    scene.add(sun1.target);
 
-    const sun2 = new THREE.DirectionalLight(0xebf3ff, 3);
+    const sun2 = new THREE.DirectionalLight(0xffffff, 3);
     sun2.position.set(79, -19, 49);
-    sun2.rotation.set(20, 35, -129);
-    sun2.scale.set(1, 1, 1);
+    sun2.target.position.set(0, 0, 0);
 
     scene.add(sun2);
+    scene.add(sun2.target);
 
     // glTF 파일에서 압축된 데이터를 디코딩
     const dracoLoader = new DRACOLoader();
@@ -101,7 +80,7 @@ export default function Intro3Compo({
 
         // 로드된 모델의 위치, 크기, 회전 설정
         model.position.set(0, 0, 0);
-        model.scale.set(7, 7, 7);
+        model.scale.set(9, 9, 9);
         model.rotation.set(0.3, 0, 0);
 
         const bbox = new THREE.Box3().setFromObject(model);
