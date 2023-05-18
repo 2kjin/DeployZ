@@ -18,7 +18,7 @@ export default function SignupPage() {
   const navigate = useNavigate();
   const [signUpForm, setSignUpForm] = useState<ISignUpForm>(INIT_SIGNGUP_DATA);
   const [passwordValid, setPasswordValid] = useState("");
-  const [showPasswordHelperText, setShowPasswordHelperText] = useState(false);
+  // const [showPasswordHelperText, setShowPasswordHelperText] = useState(false);
   const [showValidHelperText, setShowValidHelperText] = useState(false);
 
   const handleSignUpForm = (e: React.SyntheticEvent) => {
@@ -26,10 +26,10 @@ export default function SignupPage() {
     const name = target.name as string;
     const value = target.value as string;
 
-    if (name === "password") {
-      if (passwordValidCheck(value)) setShowPasswordHelperText(false);
-      else setShowPasswordHelperText(true);
-    }
+    // if (name === "password") {
+    //   if (passwordValidCheck(value)) setShowPasswordHelperText(false);
+    //   else setShowPasswordHelperText(true);
+    // }
 
     setSignUpForm((cur) => ({
       ...cur,
@@ -47,7 +47,6 @@ export default function SignupPage() {
       setShowValidHelperText(false);
     }
     setPasswordValid(value);
-    console.log(showPasswordHelperText, showValidHelperText);
   };
 
   const checkIdServerKey = async () => {
@@ -106,7 +105,6 @@ export default function SignupPage() {
   return (
     <Container>
       <LoginImg alt="logo" src={LoginLogo} />
-      {/* <SubjectText>사용자 등록</SubjectText> */}
       <EmailCheckBox>
         <CustomTextField
           autoComplete="current-password"
@@ -146,11 +144,11 @@ export default function SignupPage() {
         placeholder="비밀번호를 입력하세요."
         value={signUpForm.password}
         onChange={handleSignUpForm}
-        helperText={
-          showPasswordHelperText
-            ? "비밀번호는 영문자, 숫자, 특수문자를 모두 구성하여 8~16자로 입력하세요."
-            : ""
-        }
+        // helperText={
+        //   showPasswordHelperText
+        //     ? "비밀번호는 영문자, 숫자, 특수문자를 모두 구성하여 8~16자로 입력하세요."
+        //     : ""
+        // }
       />
       <CustomTextField
         placeholder="비밀번호 확인을 입력하세요."
