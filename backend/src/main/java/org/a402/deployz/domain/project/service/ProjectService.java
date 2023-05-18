@@ -239,15 +239,21 @@ public class ProjectService {
 				}
 			}
 
-			String projectStatus = "SUCCESS";
+			String projectStatus;
 
-			for (final BuildInformationVO buildInformationVO : itemBuildStatus) {
-				if ("SUCCESS".equals(buildInformationVO.getStatus())) {
-					continue;
+			if (itemBuildStatus.size() == 0) {
+				projectStatus = null;
+			} else {
+				projectStatus = "SUCCESS";
+
+				for (final BuildInformationVO buildInformationVO : itemBuildStatus) {
+					if ("SUCCESS".equals(buildInformationVO.getStatus())) {
+						continue;
+					}
+
+					projectStatus = "FAIL";
+					break;
 				}
-
-				projectStatus = "FAIL";
-				break;
 			}
 
 			final List<LocalDateTime> lastSuccessDates = buildHistoryRepository.lastSuccessDate(project.getIdx());
