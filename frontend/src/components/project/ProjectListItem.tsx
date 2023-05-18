@@ -70,11 +70,13 @@ export default function ProjectListItem({
       <STitleDiv>
         <STitleDiv>
           <STitle isSelected={isSelected}>{project.projectName}</STitle>
-          {project.status === "SUCCESS" ? (
+          {project.status === "SUCCESS" && (
             <CheckCircleOutlineIcon style={checkStyle} />
-          ) : (
-            <HighlightOffIcon style={HighlightOffIconStyle} />
           )}
+          {project.status === "FAIL" ||
+            (project.status === null && (
+              <HighlightOffIcon style={HighlightOffIconStyle} />
+            ))}
         </STitleDiv>
         <div
           onMouseOver={handleDeleteButtonOn}
