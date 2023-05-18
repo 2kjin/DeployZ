@@ -73,10 +73,9 @@ export default function ProjectListItem({
           {project.status === "SUCCESS" && (
             <CheckCircleOutlineIcon style={checkStyle} />
           )}
-          {project.status === "FAIL" ||
-            (project.status === null && (
-              <HighlightOffIcon style={HighlightOffIconStyle} />
-            ))}
+          {(project.status === "FAIL" || project.status === null) && (
+            <HighlightOffIcon style={HighlightOffIconStyle} />
+          )}
         </STitleDiv>
         <div
           onMouseOver={handleDeleteButtonOn}
