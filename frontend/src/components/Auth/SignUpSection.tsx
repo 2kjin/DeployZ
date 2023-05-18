@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { styled as mstyled } from "@mui/material/styles";
 import { theme } from "@/styles/theme";
 import { TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ISignUpForm } from "@/types/auth";
 import {
   passwordValidCheck,
@@ -20,6 +20,23 @@ export default function SignupPage() {
   const [passwordValid, setPasswordValid] = useState("");
   // const [showPasswordHelperText, setShowPasswordHelperText] = useState(false);
   const [showValidHelperText, setShowValidHelperText] = useState(false);
+
+  useEffect(() => {
+    checkIsValid();
+  }, [signUpForm]);
+
+  const checkIsValid = () => {
+    if (
+      signUpForm.account === "" ||
+      signUpForm.serverKey === "" ||
+      signUpForm.password === "" ||
+      passwordValid === ""
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
 
   const handleSignUpForm = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
@@ -85,20 +102,21 @@ export default function SignupPage() {
   };
 
   const sendSignUpData = async () => {
-    try {
-      const {
-        data: { result },
-      } = await requestSignUp(signUpForm);
-      if (result) {
-        success("회원가입완료!");
-        sendLoginData();
-        navigate("/additional", { replace: true });
-      } else {
-        error("이미 회원이 존재합니다.");
+    if (checkIsValid()) {
+      try {
+        const {
+          data: { result },
+        } = await requestSignUp(signUpForm);
+        if (result) {
+          success("회원가입완료!");
+          sendLoginData();
+          navigate("/additional", { replace: true });
+        }
+      } catch (err) {
+        error(err.response.data.message);
       }
-      console.log(result);
-    } catch (err) {
-      error("관리자에게 문의하세요.");
+    } else {
+      error("모든 값을 입력하세요.");
     }
   };
 
