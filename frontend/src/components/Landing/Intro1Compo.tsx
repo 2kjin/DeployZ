@@ -49,7 +49,7 @@ export default function Intro1Compo({
     scene.add(light1);
     scene.add(light1.target);
 
-    const light2 = new THREE.DirectionalLight(0xffffff, 1);
+    const light2 = new THREE.DirectionalLight(0xffffff, 0.7);
     light2.position.set(-4, 4, 8);
     light2.target.position.set(0, 0, 0);
 
@@ -70,7 +70,7 @@ export default function Intro1Compo({
     scene.add(sun1);
     scene.add(sun1.target);
 
-    const sun2 = new THREE.DirectionalLight(0xffffff, 3);
+    const sun2 = new THREE.DirectionalLight(0xffffff, 2);
     sun2.position.set(79, -19, 49);
     sun2.target.position.set(0, 0, 0);
 

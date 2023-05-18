@@ -40,7 +40,7 @@ export const stepState = atom<IStepItem[]>({
 const defaultProjectConfig: IProjectConfig = {
   hostUrl: "https://lab.ssafy.com/",
   repositoryUrl: "",
-  projectId: "319668",
+  projectId: "",
   projectName: "",
   description: "",
   imageUrl: "not yet",
