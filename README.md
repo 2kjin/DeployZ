@@ -12,7 +12,7 @@
 - Git 컨벤션은 [Git-Convention](./docs/GitConvention.md)을 참고해주세요.
 
 ## Jira Convention
-- Jira 컨벤션은 [Jira-Convention](./docs/JiraConvention.md.md)을 참고해주세요.
+- Jira 컨벤션은 [Jira-Convention](./docs/JiraConvention.md)을 참고해주세요.
 
 ## 오픈소스 참여하기
 - Deployz는 오픈소스이며 모든 개발자들이 프로젝트에 Contribution 하는 것을 환영합니다. Contribution 방법은 [Contribution-Guide](./docs/ContributionGuide.md)를 참고해 주세요.
