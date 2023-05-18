@@ -40,6 +40,7 @@ import org.a402.deployz.domain.project.repository.ProxyConfigRepository;
 import org.a402.deployz.domain.project.request.NginxConfigRequest;
 import org.a402.deployz.domain.project.request.TotalProjectConfigRequest;
 import org.a402.deployz.domain.project.response.ProjectResponse;
+import org.a402.deployz.domain.project.vo.BuildInformationVO;
 import org.a402.deployz.global.security.jwt.JwtTokenProvider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -216,55 +217,77 @@ public class ProjectService {
 	@Transactional(readOnly = true)
 	public List<ProjectResponse> findProjectList(final String account) {
 		final Member member = memberRepository.findMemberByAccount(account).orElseThrow(MemberNotFoundException::new);
-		List<Project> projects = projectRepository.findProjectsByMemberIdxAndDeletedFlagIsFalse(member.getIdx());
+		final List<Project> projects = projectRepository.findProjectsByMemberIdxAndDeletedFlagIsFalse(member.getIdx());
 
 		final List<ProjectResponse> result = new ArrayList<>();
 
 		for (Project project : projects) {
-			String status = null;
+			final List<Item> items = project.getItems();
+			final List<BuildInformationVO> itemBuildStatus = new ArrayList<>();
+
+			for (final Item item : items) {
+				// 하나의 item에 대한 가장 최근의 빌드 내역.
+				final List<BuildHistory> buildHistories = buildHistoryRepository.findBuildHistoriesByItemAndDeletedFlagIsFalseOrderByRegisterTimeDesc(
+					item);
+
+				if (buildHistories.size() > 0) {
+					final BuildHistory buildHistory = buildHistories.get(0);
+
+					// 가장 최근의 status를 저장.
+					itemBuildStatus.add(
+						new BuildInformationVO(buildHistory.getStatus(), buildHistory.getRegisterTime()));
+				}
+			}
+
+			String projectStatus = "SUCCESS";
+
+			for (final BuildInformationVO buildInformationVO : itemBuildStatus) {
+				if ("SUCCESS".equals(buildInformationVO.getStatus())) {
+					continue;
+				}
+
+				projectStatus = "FAIL";
+				break;
+			}
+
+			final List<LocalDateTime> lastSuccessDates = buildHistoryRepository.lastSuccessDate(project.getIdx());
+			final List<LocalDateTime> lastFailureDates = buildHistoryRepository.lastFailureDate(project.getIdx());
 			LocalDateTime lastSuccessDate = null;
 			LocalDateTime lastFailureDate = null;
 
-			if (buildHistoryRepository.lastStatue(project.getIdx()).size() > 0) {
-				List<String> statusList = buildHistoryRepository.lastStatue(project.getIdx());
-				status = statusList.get(0);
+			if (lastSuccessDates.size() > 0) {
+				lastSuccessDate = lastSuccessDates.get(0);
 			}
-			if (buildHistoryRepository.lastSuccessDate(project.getIdx()).size() > 0) {
-				List<LocalDateTime> lastSuccessDateList = buildHistoryRepository.lastSuccessDate(project.getIdx());
-				lastSuccessDate = lastSuccessDateList.get(0);
-			}
-			if (buildHistoryRepository.lastFailureDate(project.getIdx()).size() > 0) {
-				List<LocalDateTime> lastFailureDateList = buildHistoryRepository.lastFailureDate(project.getIdx());
-				lastFailureDate = lastFailureDateList.get(0);
+
+			if (lastFailureDates.size() > 0) {
+				lastFailureDate = lastFailureDates.get(0);
 			}
 
 			//브랜치명-> HashMap으로 반환
-			HashMap<String, Integer> branches = findItemListByProjectIdx(project.getIdx());
-
-			if (!project.isDeletedFlag()) {
-				result.add(new ProjectResponse(project, status, branches, lastSuccessDate, lastFailureDate));
-			}
+			final HashMap<String, Integer> branches = findItemListByProjectIdx(project.getIdx());
+			result.add(new ProjectResponse(project, projectStatus, branches, lastSuccessDate, lastFailureDate));
 		}
+
 		return result;
 	}
 
 	@Transactional
 	public HashMap<String, Integer> findItemListByProjectIdx(Long projectIdx) {
-		HashMap<String, Integer> branches = new HashMap<>();
+		final HashMap<String, Integer> branches = new HashMap<>();
 
-		Project project = projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
+		final Project project = projectRepository.findProjectByIdxAndDeletedFlagIsFalse(projectIdx)
 			.orElseThrow(ProjectNotFoundException::new);
-		List<Item> items = project.getItems();
+		final List<Item> items = project.getItems();
 
 		if (items != null) {
-
 			for (Item item : items) {
-				String branchName = item.getBranchName();
-				Integer branchBuildCnt = item.getItemHistories().size();
+				final String branchName = item.getBranchName();
+				final Integer branchBuildCnt = item.getItemHistories().size();
 
 				branches.put(branchName, branchBuildCnt);
 			}
 		}
+
 		return branches;
 	}
 

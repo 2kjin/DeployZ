@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BuildHistoryRepository extends JpaRepository<BuildHistory, Long> {
 	List<BuildHistory> findBuildHistoryByItemIdxAndDeletedFlagIsFalse(final long itemIdx);
-	List<BuildHistory> findBuildHistoryByItemAndDeletedFlagIsFalseOrderByRegisterTime(final Item item);
+	List<BuildHistory> findBuildHistoriesByItemAndDeletedFlagIsFalseOrderByRegisterTime(final Item item);
+	List<BuildHistory> findBuildHistoriesByItemAndDeletedFlagIsFalseOrderByRegisterTimeDesc(final Item item);
 
 	@Query(value = "select a.registerTime\n"
 		+ "from BuildHistory a \n"
@@ -33,5 +34,5 @@ public interface BuildHistoryRepository extends JpaRepository<BuildHistory, Long
 		+ "\tjoin Item b on a.item.idx=b.idx\n"
 		+ "where b.project.idx= :projectIdx \n"
 		+ "order by a.registerTime DESC\n")
-	List<String> lastStatue( Long projectIdx);
+	List<String> lastStatue(final Long projectIdx);
 }
