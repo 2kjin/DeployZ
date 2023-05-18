@@ -22,6 +22,7 @@ public enum SpringBootVersion {
 
     GRADLE8_1_1("gradle:8.1.1"),
     GRADLE8_1("gradle:8.1"),
+    GRADLE8_0_2("gradle:8.0.2"),
     GRADLE8_0_1("gradle:8.0.1"),
     GRADLE8_0("gradle:8.0"),
     GRADLE7_6("gradle:7.6"),
