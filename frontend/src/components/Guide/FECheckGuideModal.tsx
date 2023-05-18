@@ -99,15 +99,15 @@ const timelineData = [
           <p>ex) 도메인: k8a402.p.ssafy.io </p>
           <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;백엔드 포트: 8080</p>
           <p>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-{">"}{" "}
-            https://k8a402.p.ssafy.io:8080{" "}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-{">"}
+            https://k8a402.p.ssafy.io:8080
           </p>
           <p>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( 프록시 패스를 설정했을
-            경우,{" "}
+            경우,
           </p>
           <p>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;프록시 패스: /api -{">"}{" "}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;프록시 패스: /api -{">"}
             https://k8a402.p.ssafy.io:8080/api )
           </p>
         </ColorContainer>

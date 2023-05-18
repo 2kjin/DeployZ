@@ -12,7 +12,7 @@ import {
   RiNumber4,
   RiNumber5,
 } from "react-icons/ri";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import ContentCopyIcon from "@mui/icons-material/FileCopyRounded";
 import { styled as mstyled } from "@mui/material/styles";
 import { CopyToClipboard } from "react-copy-to-clipboard/src";
 import { info } from "@components/common/Toast/notify";
@@ -101,9 +101,13 @@ const ColorContainer = styled.div`
   background-color: ${theme.colors.lightgray};
   font-weight: ${theme.fontWeight.semibold};
   font-size: 1.5rem;
-  padding: 1rem;
+  padding: 1rem 1.8rem;
   border-radius: 1rem;
-  margin-top: 1rem;
+  margin: 1rem 0;
+  width: 100%;
+  box-shadow: 0 0.1rem 0.2rem ${theme.colors.darkgray};
+  display: flex;
+  justify-content: space-between;
 `;
 const Ex = styled.div`
   font-size: 1.2rem;
@@ -120,16 +124,16 @@ const timelineData = [
     title: "1. Nginx 중지",
     content: (
       <Contentdiv>
-        <CopyToClipboard
-          className="Toram"
-          text="sudo systemctl stop nginx"
-          onCopy={() => info("복사되었습니다.")}
-        >
-          <ColorContainer>
-            <text>sudo systemctl stop nginx</text>
+        <ColorContainer>
+          <text>sudo systemctl stop nginx</text>
+          <CopyToClipboard
+            className="Toram"
+            text="sudo systemctl stop nginx"
+            onCopy={() => info("복사되었습니다.")}
+          >
             <CopyIcon />
-          </ColorContainer>
-        </CopyToClipboard>
+          </CopyToClipboard>
+        </ColorContainer>
       </Contentdiv>
     ),
   },
@@ -138,26 +142,26 @@ const timelineData = [
     title: "2. Let’s Encrypt 설치",
     content: (
       <Contentdiv>
-        <CopyToClipboard
-          className="Toram"
-          text="sudo apt-get update"
-          onCopy={() => info("복사되었습니다.")}
-        >
-          <ColorContainer>
-            <text>sudo apt-get update</text>
+        <ColorContainer>
+          <text>sudo apt-get update</text>
+          <CopyToClipboard
+            className="Toram"
+            text="sudo apt-get update"
+            onCopy={() => info("복사되었습니다.")}
+          >
             <CopyIcon />
-          </ColorContainer>
-        </CopyToClipboard>
-        <CopyToClipboard
-          className="Toram"
-          text="sudo apt-get install letsencrypt -y"
-          onCopy={() => info("복사되었습니다.")}
-        >
-          <ColorContainer>
-            <text>sudo apt-get install letsencrypt -y</text>
+          </CopyToClipboard>
+        </ColorContainer>
+        <ColorContainer>
+          <text>sudo apt-get install letsencrypt -y</text>
+          <CopyToClipboard
+            className="Toram"
+            text="sudo apt-get install letsencrypt -y"
+            onCopy={() => info("복사되었습니다.")}
+          >
             <CopyIcon />
-          </ColorContainer>
-        </CopyToClipboard>
+          </CopyToClipboard>
+        </ColorContainer>
       </Contentdiv>
     ),
   },
@@ -166,19 +170,18 @@ const timelineData = [
     title: "3. 인증서 적용",
     content: (
       <Contentdiv>
-        <CopyToClipboard
-          className="Toram"
-          text="sudo letsencrypt certonly --standalone -d"
-          onCopy={() => info("복사되었습니다.")}
-        >
-          <ColorContainer>
-            <text>
-              sudo letsencrypt certonly --standalone -d [발급받을 도메인]
-            </text>
-
+        <ColorContainer>
+          <text>
+            sudo letsencrypt certonly --standalone -d [발급받을 도메인]
+          </text>
+          <CopyToClipboard
+            className="Toram"
+            text="sudo letsencrypt certonly --standalone -d "
+            onCopy={() => info("복사되었습니다.")}
+          >
             <CopyIcon />
-          </ColorContainer>
-        </CopyToClipboard>
+          </CopyToClipboard>
+        </ColorContainer>
         <Ex>ex) sudo letsencrypt certonly —standalone -d j8a402.p.ssafy.io</Ex>
         <NumSub>
           3-1. 이메일 입력(선택)
@@ -195,26 +198,26 @@ const timelineData = [
     title: "4. 발급 경로 확인",
     content: (
       <Contentdiv>
-        <CopyToClipboard
-          className="Toram"
-          text="sudo su root"
-          onCopy={() => info("복사되었습니다.")}
-        >
-          <ColorContainer>
-            <text>sudo su root</text>
+        <ColorContainer>
+          <text>sudo su root</text>
+          <CopyToClipboard
+            className="Toram"
+            text="sudo su root"
+            onCopy={() => info("복사되었습니다.")}
+          >
             <CopyIcon />
-          </ColorContainer>
-        </CopyToClipboard>
-        <CopyToClipboard
-          className="Toram"
-          text="cd /etc/letsencrypt/live/"
-          onCopy={() => info("복사되었습니다.")}
-        >
-          <ColorContainer>
-            <text>cd /etc/letsencrypt/live/[발급받을 도메인]</text>
+          </CopyToClipboard>
+        </ColorContainer>
+        <ColorContainer>
+          <text>cd /etc/letsencrypt/live/[발급받을 도메인]</text>
+          <CopyToClipboard
+            className="Toram"
+            text="cd /etc/letsencrypt/live/"
+            onCopy={() => info("복사되었습니다.")}
+          >
             <CopyIcon />
-          </ColorContainer>
-        </CopyToClipboard>
+          </CopyToClipboard>
+        </ColorContainer>
         <Ex>
           • cert.pem : 도메인 인증서
           <br />
@@ -231,16 +234,16 @@ const timelineData = [
     title: "5. Nginx 재시작",
     content: (
       <Contentdiv>
-        <CopyToClipboard
-          className="Toram"
-          text="sudo systemctl restart nginx"
-          onCopy={() => info("복사되었습니다.")}
-        >
-          <ColorContainer>
-            <text>sudo systemctl restart nginx</text>
+        <ColorContainer>
+          <text>sudo systemctl restart nginx</text>
+          <CopyToClipboard
+            className="Toram"
+            text="sudo systemctl restart nginx"
+            onCopy={() => info("복사되었습니다.")}
+          >
             <CopyIcon />
-          </ColorContainer>
-        </CopyToClipboard>
+          </CopyToClipboard>
+        </ColorContainer>
       </Contentdiv>
     ),
   },

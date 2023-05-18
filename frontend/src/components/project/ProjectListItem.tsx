@@ -10,6 +10,7 @@ import { theme } from "@/styles/theme";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 //import components and api
 import { projectListInfo } from "@/types/project";
@@ -27,6 +28,15 @@ export default function ProjectListItem({
 }) {
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const setProjectIdx = useSetRecoilState(projectIdxState);
+  const [deleteButtonHover, setDeleteButtonHover] = useState<boolean>(false);
+
+  const handleDeleteButtonOn = () => {
+    setDeleteButtonHover(true);
+  };
+
+  const handleDeleteButtonOff = () => {
+    setDeleteButtonHover(false);
+  };
 
   const handleDeleteClick = async () => {
     const confirmed = window.confirm("정말로 삭제하시겠습니까?");
@@ -58,16 +68,28 @@ export default function ProjectListItem({
   return (
     <SProjectList isSelected={isSelected} onClick={handleProjectClick}>
       <STitleDiv>
-        <STitle isSelected={isSelected}>{project.projectName}</STitle>
-        {project.status === "SUCCESS" ? (
-          <CheckCircleOutlineIcon style={checkStyle} />
-        ) : (
-          <HighlightOffIcon style={HighlightOffIconStyle} />
-        )}
-        <DeleteOutlineIcon
-          style={DeleteOutlineIconStyle}
-          onClick={handleDeleteClick}
-        />
+        <STitleDiv>
+          <STitle isSelected={isSelected}>{project.projectName}</STitle>
+          {project.status === "SUCCESS" ? (
+            <CheckCircleOutlineIcon style={checkStyle} />
+          ) : (
+            <HighlightOffIcon style={HighlightOffIconStyle} />
+          )}
+        </STitleDiv>
+        <div
+          onMouseOver={handleDeleteButtonOn}
+          onMouseOut={handleDeleteButtonOff}
+        >
+          {deleteButtonHover && (
+            <DeleteForeverIcon
+              style={DeleteOutlineIconStyle}
+              onClick={handleDeleteClick}
+            />
+          )}
+          {!deleteButtonHover && (
+            <DeleteOutlineIcon style={DeleteOutlineIconStyle} />
+          )}
+        </div>
       </STitleDiv>
       <SDesc isSelected={isSelected}>{project.description}</SDesc>
       <SChartDiv>
@@ -119,13 +141,13 @@ const SChartDiv = styled.div`
 
 const STitleDiv = styled.div`
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 1rem;
 `;
 
 const STitle = styled.div<{ isSelected: boolean }>`
-  font-size: 3rem;
+  font-size: 2.8rem;
   font-weight: ${theme.fontWeight.bold};
   color: ${({ isSelected }) =>
     isSelected ? theme.colors.white : theme.colors.primary};
@@ -164,12 +186,12 @@ const SProjectList = styled.div<{ isSelected: boolean }>`
     isSelected ? theme.colors.secondary : theme.colors.white};
   border-radius: 1rem;
   /* padding: 1rem 2rem; */
-  padding: .5vw 1vw;
+  padding: 0.5vw 1vw;
   cursor: pointer;
   overflow: hidden;
-display:flex;
-flex-direction: column;
-justify-content:space-evenly;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   &:hover {
     transform: scale(1.02);
     transition: transform 0.3s ease-in-out;

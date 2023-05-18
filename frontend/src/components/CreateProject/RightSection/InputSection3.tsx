@@ -9,11 +9,10 @@ import Modal from "@mui/material/Modal";
 import WebhookGuideModal from "@components/Guide/WebhookGuideModal";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import ContentCopyIcon from "@mui/icons-material/FileCopyRounded";
 import { styled as mstyled } from "@mui/material/styles";
 import { CopyToClipboard } from "react-copy-to-clipboard/src";
 import { info } from "@components/common/Toast/notify";
-import Imgpic from "@/assets/logo/logo2.png";
 
 export default function InputSection2() {
   const itemList = useRecoilValue<IItem[]>(itemListState);
@@ -70,9 +69,8 @@ export default function InputSection2() {
           </p>
           <SectionGuide>
             <p>방법을 잘 모르시겠다면,</p>
-            {"  "}
             <GuildButton onClick={handleOpen}>
-              가이드 보러가기{" "}
+              가이드 보러가기
               <MouseIcon sx={{ fontSize: 18, marginLeft: 0.3 }} />
             </GuildButton>
             <Modal open={open} onClose={handleClose}>
@@ -108,9 +106,6 @@ export default function InputSection2() {
             Secret Token은 따로 저장해 보관해야해요!
           </SecretLeft>
         </Section>
-        <ImgContainer>
-          <Subimg alt="Imgpic" src={Imgpic} />
-        </ImgContainer>
       </InputContainer>
     </Container>
   );
@@ -234,16 +229,7 @@ const CopyContainer = styled.div`
   display: flex;
   align-items: center;
 `;
-const Subimg = styled.img`
-  height: 20vh;
-  width: 20vh;
-`;
-const ImgContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative; // 부모 요소를 relative로 설정
-`;
+
 const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({}) => ({

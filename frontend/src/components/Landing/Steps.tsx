@@ -27,7 +27,7 @@ export default function Steps({ scrollIndex }: { scrollIndex: number }) {
 
           <div className="step-container">
             <Title className={scrollIndex === 2 ? "active" : ""}>
-              무중단 배포
+              자동 배포
             </Title>
             <Step className={scrollIndex === 2 ? "active" : ""} />
           </div>
@@ -38,11 +38,11 @@ export default function Steps({ scrollIndex }: { scrollIndex: number }) {
               </Content>
               <br />
               <Content className={scrollIndex === 2 ? "active" : ""}>
-                자동으로 해주는 무중단 배포
+                자동화 해주는 복잡한 설정을
               </Content>
               <br />
               <Content className={scrollIndex === 2 ? "active" : ""}>
-                복잡한 설정대신 저희가 도와드립니다.
+                저희가 도와드립니다.
               </Content>
             </div>
             <Line />

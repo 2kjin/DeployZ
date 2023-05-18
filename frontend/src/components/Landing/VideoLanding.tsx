@@ -6,8 +6,6 @@ import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRigh
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import { useState } from "react";
 
-import Modal from "@mui/material/Modal";
-
 export default function VideoLanding() {
   const navigate = useNavigate();
   const [hover, setHover] = useState(false);
@@ -28,8 +26,7 @@ export default function VideoLanding() {
             너무 어려우셨나요?
           </Title>
           <Title>
-            {" "}
-            배포를 쉽게,{" "}
+            배포를 쉽게,
             <span style={{ fontWeight: `${theme.fontWeight.extrabold}` }}>
               &nbsp;DeployZ &nbsp;
             </span>
@@ -39,7 +36,7 @@ export default function VideoLanding() {
             onMouseEnter={onHover}
             onMouseLeave={onHover}
           >
-            Start{" "}
+            Start
             {hover ? (
               <ArrowForward sx={{ fontSize: "2rem" }} />
             ) : (

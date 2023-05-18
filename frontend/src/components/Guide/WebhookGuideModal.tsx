@@ -19,7 +19,7 @@ import webhook3 from "@/assets/guide/webhook3.png";
 import webhook4 from "@/assets/guide/webhook4.png";
 import webhook5 from "@/assets/guide/webhook5.png";
 
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import ContentCopyIcon from "@mui/icons-material/FileCopyRounded";
 import { alpha, styled as mstyled } from "@mui/material/styles";
 import { CopyToClipboard } from "react-copy-to-clipboard/src";
 import { info } from "@components/common/Toast/notify";
@@ -58,16 +58,16 @@ export default function WebhookGuideModal() {
               onChange={handleInputChange}
             />
           </FormControl>
-          <CopyToClipboard
-            className="Toram"
-            text={`https://${Inputdata}/git/webhook`}
-            onCopy={() => info("복사되었습니다.")}
-          >
-            <ColorContainer>
-              <text>https://{Inputdata}/git/webhook</text>
+          <ColorContainer>
+            https://{Inputdata}/git/webhook
+            <CopyToClipboard
+              className="Toram"
+              text={`https://${Inputdata}/git/webhook`}
+              onCopy={() => info("복사되었습니다.")}
+            >
               <CopyIcon />
-            </ColorContainer>
-          </CopyToClipboard>
+            </CopyToClipboard>
+          </ColorContainer>
           <SImg2 src={webhook2} />
         </Contentdiv>
       ),
@@ -193,9 +193,12 @@ const ColorContainer = styled.div`
   background-color: ${theme.colors.lightgray};
   font-weight: ${theme.fontWeight.semibold};
   font-size: 1.5rem;
-  padding: 1rem;
+  padding: 1rem 1.8rem;
   border-radius: 1rem;
-  margin-top: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 0.1rem 0.2rem ${theme.colors.darkgray};
+  display: flex;
+  justify-content: space-between;
 `;
 const CopyIcon = mstyled(ContentCopyIcon)({
   marginLeft: "1rem",
@@ -259,90 +262,3 @@ const InputBox = mstyled(InputBase)<{
     },
   })
 );
-// const timelineData = [
-//   {
-//     icon: <RiNumber1 />,
-//     title: "1. GitLab에서 Setting → Webhooks 접속",
-//     content: (
-//       <Contentdiv>
-//         <SImg1 src={webhook1} />
-//       </Contentdiv>
-//     ),
-//   },
-//   {
-//     icon: <RiNumber2 />,
-//     title: "2. URL 입력",
-//     content: (
-//       <Contentdiv>
-//         <FormControl variant="standard">
-//           <InputBox
-//             widthnum={"40rem"}
-//             fontnum={"1.8rem"}
-//             spacingnum={4}
-//             placeholder={`ex) RIiCysmWxzLKJyETfaqf`}
-//             onChange={handleInputChange}
-//           />
-//         </FormControl>
-//         <CopyToClipboard
-//           className="Toram"
-//           text="sudo systemctl stop nginx"
-//           onCopy={() => info("복사되었습니다.")}
-//         >
-//           <ColorContainer>
-//             <text>[사용할 도메인 주소]/git/webhook</text>
-//             <CopyIcon />
-//           </ColorContainer>
-//         </CopyToClipboard>
-//         <SImg2 src={webhook2} />
-//       </Contentdiv>
-//     ),
-//   },
-//   {
-//     icon: <RiNumber3 />,
-//     title: "3. Secret Token 입력",
-//     content: (
-//       <Contentdiv>
-//         <ColorContainer>
-//           화면에서 발급된 Secret Token을 복사해서 넣어주세요!
-//         </ColorContainer>
-//         <SImg2 src={webhook3} />
-//       </Contentdiv>
-//     ),
-//   },
-//   {
-//     icon: <RiNumber4 />,
-//     title: "4. Push events 체크",
-//     content: (
-//       <Contentdiv>
-//         <ColorContainer>
-//           Push events 체크 후, Target branch를 입력해주세요.
-//         </ColorContainer>
-//         <SImg3 src={webhook4} />
-//       </Contentdiv>
-//     ),
-//   },
-//   {
-//     icon: <RiNumber5 />,
-//     title: "5. Webhooks 등록",
-//     content: (
-//       <Contentdiv>
-//         <ColorContainer>
-//           이벤트 발생 시점과 함께 Webhook이 등록돼요
-//         </ColorContainer>
-//         <SImg4 src={webhook5} />
-//       </Contentdiv>
-//     ),
-//   },
-//   {
-//     icon: <RiNumber6 />,
-//     title: "6. 이벤트 발생 및 Webhook 호출",
-//     content: (
-//       <Contentdiv>
-//         <ColorContainer>
-//           해당 branch에 Push events가 발생하면 자동으로 감지해 배포가
-//           진행됩니다.
-//         </ColorContainer>
-//       </Contentdiv>
-//     ),
-//   },
-// ];

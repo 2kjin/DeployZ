@@ -52,7 +52,8 @@ public class DeployService {
 		final Member member = memberRepository.findMemberByAccount(userDetails.getUsername())
 			.orElseThrow(MemberNotFoundException::new);
 		// 아이템 조회
-		final Item item = itemRepository.findItemByIdxAndDeletedFlagIsFalse(itemIdx).orElseThrow(ItemNotFoundException::new);
+		final Item item = itemRepository.findItemByIdxAndDeletedFlagIsFalse(itemIdx)
+			.orElseThrow(ItemNotFoundException::new);
 		// 프로젝트 조회
 		final Project project = item.getProject();
 
@@ -92,6 +93,7 @@ public class DeployService {
 				status = FAIL;
 				String message = FileManager.readFile(logPath, gitAction);
 				modifyBuildHistory(buildHistory, status, message);
+
 				return new ItemDeployResponse(status, "Git Clone 실패");
 			}
 		} else {
@@ -99,6 +101,7 @@ public class DeployService {
 			log.info("GitPull Start");
 			final String pullCommand = GitAdapter.getPullCommand(item.getBranchName());
 			log.info("Pull Command: {}", pullCommand);
+
 			try {
 				CommandInterpreter.runDestinationPath(repositoryPath, logPath, gitAction, pullCommand);
 				log.info("Pull Success");
@@ -107,17 +110,18 @@ public class DeployService {
 				status = FAIL;
 				String message = FileManager.readFile(logPath, gitAction);
 				modifyBuildHistory(buildHistory, status, message);
+
 				return new ItemDeployResponse(status, "Git Pull 실패");
 			}
 		}
 
 		// Dockerfile generate
 		DockerfileGenerator.checkDockerfileType(item, repositoryPath);
-
 		// Docker 컨테이너 중지, 이미지 삭제
 		String stopCommand = DockerCommandGenerator.stop(item.getName().toLowerCase());
 		String rmiCommand = DockerCommandGenerator.rmi(item.getName().toLowerCase());
 		log.info("stop Command: {}, rmi Command: {}", stopCommand, rmiCommand);
+
 		try {
 			CommandInterpreter.run(logPath, "Stop", stopCommand);
 			CommandInterpreter.run(logPath, "Stop", rmiCommand);
@@ -130,6 +134,7 @@ public class DeployService {
 		// Docker build
 		String buildCommand = DockerCommandGenerator.build(item, repositoryPath);
 		log.info("build Command: {}", buildCommand);
+
 		try {
 			CommandInterpreter.run(logPath, "Build", buildCommand);
 			log.info("Docker Build Success");
@@ -138,12 +143,14 @@ public class DeployService {
 			status = FAIL;
 			String message = FileManager.readFile(logPath, "Build");
 			modifyBuildHistory(buildHistory, status, message);
+
 			return new ItemDeployResponse(status, "Docker Build 실패");
 		}
 
 		// Docker Run
 		String runCommand = DockerCommandGenerator.run(item);
 		log.info("run Command: {}", runCommand);
+
 		try {
 			CommandInterpreter.run(logPath, "Run", runCommand);
 			log.info("Docker Run Success");
@@ -152,6 +159,7 @@ public class DeployService {
 			status = FAIL;
 			String message = FileManager.readFile(logPath, "Run");
 			modifyBuildHistory(buildHistory, status, message);
+
 			return new ItemDeployResponse(status, "Docker Run 실패");
 		}
 
@@ -176,21 +184,14 @@ public class DeployService {
 		final Member member = memberRepository.findMemberByAccount(gitWebHookRequest.getAccount())
 			.orElseThrow(MemberNotFoundException::new);
 
-		System.out.println("member: "+member.getAccount());
-
 		final GitConfig gitConfig = gitConfigRepository.findGitConfigByProjectIdAndDeletedFlagIsFalse(
 				Integer.parseInt(gitWebHookRequest.getProjectId()))
 			.orElseThrow(GitConfigNotFoundException::new);
 
-		System.out.println("gitconfig: "+gitConfig.getProject().getProjectName());
-
 		final Project project = gitConfig.getProject();
 
-		System.out.println(project.getIdx());
-		System.out.println(gitWebHookRequest.getBranchName());
-
-		final Item item = itemRepository.findItemByProjectAndBranchNameAndDeletedFlagIsFalse(project, gitWebHookRequest.getBranchName())
-			.orElseThrow(ItemNotFoundException::new);
+		final Item item = itemRepository.findItemByProjectAndBranchNameAndDeletedFlagIsFalse(project,
+			gitWebHookRequest.getBranchName()).orElseThrow(ItemNotFoundException::new);
 
 		if (buildHistoryRepository.findBuildHistoryByItemIdxAndDeletedFlagIsFalse(item.getIdx()).size() > 0) {
 			// 초기 상태가 아니면 Git Pull
@@ -211,8 +212,7 @@ public class DeployService {
 
 		final String repositoryUrl = project.getGitConfig().getRepositoryUrl();
 		final String repositoryName = GitAdapter.parseUrl(repositoryUrl).get(3).split("\\.")[0];
-		final String repositoryPath = pathParser.getRepositoryPath(project.getProjectName(), item.getName(),
-			repositoryName).toString();
+		final String repositoryPath = pathParser.getRepositoryPath(project.getProjectName(), item.getName(), repositoryName).toString();
 		log.info("repositoryPath: {}", repositoryPath);
 
 		if (gitAction.equals(CLONE)) {
@@ -220,6 +220,7 @@ public class DeployService {
 			log.info("GitClone Start");
 			final String cloneCommand = GitAdapter.getCloneCommand(item, member.getPersonalAccessToken());
 			log.info("Clone Command: {}", cloneCommand);
+
 			try {
 				CommandInterpreter.runDestinationPath(projectPath, itemPath, logPath, gitAction, cloneCommand);
 				log.info("Clone Success");
@@ -235,6 +236,7 @@ public class DeployService {
 			log.info("GitPull Start");
 			final String pullCommand = GitAdapter.getPullCommand(item.getBranchName());
 			log.info("Pull Command: {}", pullCommand);
+
 			try {
 				CommandInterpreter.runDestinationPath(repositoryPath, logPath, gitAction, pullCommand);
 				log.info("Pull Success");
@@ -243,6 +245,7 @@ public class DeployService {
 				status = FAIL;
 				String message = FileManager.readFile(logPath, gitAction);
 				modifyBuildHistory(buildHistory, status, message);
+
 				return new ItemDeployResponse(status, "Git Pull 실패");
 			}
 		}
@@ -254,6 +257,7 @@ public class DeployService {
 		String stopCommand = DockerCommandGenerator.stop(item.getName().toLowerCase());
 		String rmiCommand = DockerCommandGenerator.rmi(item.getName().toLowerCase());
 		log.info("stop Command: {}, rmi Command: {}", stopCommand, rmiCommand);
+
 		try {
 			CommandInterpreter.run(logPath, "Stop", stopCommand);
 			CommandInterpreter.run(logPath, "Stop", rmiCommand);
@@ -266,6 +270,7 @@ public class DeployService {
 		// Docker build
 		String buildCommand = DockerCommandGenerator.build(item, repositoryPath);
 		log.info("build Command: {}", buildCommand);
+
 		try {
 			CommandInterpreter.run(logPath, "Build", buildCommand);
 			log.info("Docker Build Success");
@@ -274,12 +279,14 @@ public class DeployService {
 			status = FAIL;
 			String message = FileManager.readFile(logPath, "Build");
 			modifyBuildHistory(buildHistory, status, message);
+
 			return new ItemDeployResponse(status, "Docker Build 실패");
 		}
 
 		// Docker Run
 		String runCommand = DockerCommandGenerator.run(item);
 		log.info("run Command: {}", runCommand);
+
 		try {
 			CommandInterpreter.run(logPath, "Run", runCommand);
 			log.info("Docker Run Success");
@@ -288,6 +295,7 @@ public class DeployService {
 			status = FAIL;
 			String message = FileManager.readFile(logPath, "Run");
 			modifyBuildHistory(buildHistory, status, message);
+
 			return new ItemDeployResponse(status, "Docker Run 실패");
 		}
 
