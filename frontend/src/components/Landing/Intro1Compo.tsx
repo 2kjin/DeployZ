@@ -35,6 +35,7 @@ export default function Intro1Compo({
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set(0, 0.5, 0); // 카메라의 시선
     controls.update(); // 카메라 변화 업데이트
+    controls.enableZoom = false; // 줌인/줌아웃 기능 비활성화
 
     // color = materialColor * light.color * light.intensity;
     // 자연광 조명

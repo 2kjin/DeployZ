@@ -10,6 +10,7 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
+import ModeIcon from "@mui/icons-material/Mode";
 import { useRecoilState } from "recoil";
 import { itemListState } from "@/recoil/step";
 import {
@@ -184,7 +185,13 @@ export default function ItemBox({
           {idx === 1 && "Back-end"}
           {idx > 1 && "Custom"}
         </Subject>
-        <SaveBtn onClick={() => itemValidCheck()}>저장</SaveBtn>
+        <SubjectLeft>
+          <Desc>
+            <ModeIcon sx={{ fontSize: "1.3rem" }} />
+            &nbsp;정보 입력 후 저장 필수 *
+          </Desc>
+          <SaveBtn onClick={() => itemValidCheck()}>저장</SaveBtn>
+        </SubjectLeft>
       </InputContainer>
       <Container>
         {/* 첫번째 줄 */}
@@ -452,19 +459,29 @@ const Subject = styled.p`
   margin-bottom: 0.7%;
   font-size: 2.5rem;
 `;
-
 const SaveBtn = styled.div`
-  width: 5rem;
-  background-color: ${theme.colors.secondary};
+  width: 10rem;
+  background-size: 300% 100%;
+  background-image: linear-gradient(
+    to right,
+    #eb3941,
+    #f15e64,
+    #f7186a,
+    #fbb03b
+  );
+  box-shadow: 0 3px 5px rgba(242, 97, 103, 0.75);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.4rem;
-  border-radius: 0.5rem;
+  border-radius: 3rem;
   cursor: pointer;
+  transition: all 0.4s ease-in-out;
   :hover {
     transform: scale(1.03);
+    transition: all 0.4s ease-in-out;
+    background-position: 100% 0;
   }
 `;
 
@@ -472,6 +489,17 @@ const InputContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 2%;
+`;
+const Desc = styled.div`
+  font-size: 1.3rem;
+  color: ${theme.colors.error};
+  display: flex;
+  align-items: end;
+  margin: 0 1rem;
+`;
+const SubjectLeft = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (

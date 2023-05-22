@@ -35,6 +35,7 @@ export default function Intro2Compo({
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set(0, 0.5, 0); // 카메라의 시선
     controls.update(); // 카메라 변화 업데이트
+    controls.enableZoom = false; // 줌인/줌아웃 기능 비활성화
 
     // color = materialColor * light.color * light.intensity;
     // 자연광 조명
@@ -55,7 +56,7 @@ export default function Intro2Compo({
     scene.add(light1);
     scene.add(light1.target);
 
-    const sun1 = new THREE.DirectionalLight(0xffffff, 1);
+    const sun1 = new THREE.DirectionalLight(0xfff, 1.5);
     sun1.position.set(79, -19, 49);
     sun1.target.position.set(0, 0, 0);
 
@@ -108,6 +109,8 @@ export default function Intro2Compo({
         mixer.clipAction(gltf.animations[7]).play();
         mixer.clipAction(gltf.animations[8]).play();
         mixer.clipAction(gltf.animations[9]).play();
+        mixer.clipAction(gltf.animations[10]).play();
+        mixer.clipAction(gltf.animations[11]).play();
 
         animate();
       },
