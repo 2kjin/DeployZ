@@ -56,7 +56,7 @@ export default function Intro2Compo({
     scene.add(light1);
     scene.add(light1.target);
 
-    const sun1 = new THREE.DirectionalLight(0xffffff, 1);
+    const sun1 = new THREE.DirectionalLight(0xfff, 1.5);
     sun1.position.set(79, -19, 49);
     sun1.target.position.set(0, 0, 0);
 
@@ -109,6 +109,8 @@ export default function Intro2Compo({
         mixer.clipAction(gltf.animations[7]).play();
         mixer.clipAction(gltf.animations[8]).play();
         mixer.clipAction(gltf.animations[9]).play();
+        mixer.clipAction(gltf.animations[10]).play();
+        mixer.clipAction(gltf.animations[11]).play();
 
         animate();
       },

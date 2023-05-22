@@ -110,6 +110,7 @@ export default function Intro3Compo({
         mixer.clipAction(gltf.animations[14]).play();
         mixer.clipAction(gltf.animations[15]).play();
         mixer.clipAction(gltf.animations[16]).play();
+        mixer.clipAction(gltf.animations[17]).play();
 
         animate();
       },
