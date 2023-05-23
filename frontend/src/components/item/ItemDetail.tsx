@@ -34,16 +34,19 @@ export default function ItemDetail() {
 
   const handlePrevClick = () => {
     const prevIdx = containerIdx - 1;
-    if (prevIdx > 0) {
+    if (prevIdx > initialContainerIdx) {
       navigate(`/item/detail/${prevIdx}`);
     }
   };
 
   const itemCount = useRecoilValue(itemCountState);
 
+  console.log(itemCount);
+
   const handleNextClick = () => {
+    const limitIdx = initialContainerIdx + itemCount;
     const nextIdx = containerIdx + 1;
-    if (nextIdx <= itemCount) {
+    if (nextIdx < limitIdx) {
       navigate(`/item/detail/${nextIdx}`);
     }
   };
