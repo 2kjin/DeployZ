@@ -100,7 +100,7 @@ const timelineData = [
           <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;백엔드 포트: 8080</p>
           <p>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-{">"}
-            https://k8a402.p.ssafy.io:8080
+            http://k8a402.p.ssafy.io:8080
           </p>
           <p>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( 프록시 패스를 설정했을
@@ -108,7 +108,7 @@ const timelineData = [
           </p>
           <p>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;프록시 패스: /api -{">"}
-            https://k8a402.p.ssafy.io:8080/api )
+            http://k8a402.p.ssafy.io:8080/api )
           </p>
         </ColorContainer>
         <h1>Example Image</h1>
