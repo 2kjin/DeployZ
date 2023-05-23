@@ -461,27 +461,19 @@ const Subject = styled.p`
 `;
 const SaveBtn = styled.div`
   width: 10rem;
-  background-size: 300% 100%;
-  background-image: linear-gradient(
-    to right,
-    #eb3941,
-    #f15e64,
-    #f7186a,
-    #fbb03b
-  );
-  box-shadow: 0 3px 5px rgba(242, 97, 103, 0.75);
+  background-color: ${theme.colors.error};
+  font-weight: ${theme.fontWeight.semibold};
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.4rem;
+  font-size: 1.55rem;
   border-radius: 3rem;
   cursor: pointer;
   transition: all 0.4s ease-in-out;
   :hover {
     transform: scale(1.03);
     transition: all 0.4s ease-in-out;
-    background-position: 100% 0;
   }
 `;
 
